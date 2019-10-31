@@ -406,3 +406,39 @@ button.icon {
     // background: rgba(0,0,0,.6) url('../assets/images/tips.png') no-repeat 92% 0;
     background-size: 78%;
 }
+
+/* 大按钮 */
+.page-button {
+    padding: 3rem 1.5rem 0;
+}
+.next-button {
+    height: 4.5rem;
+    width: 100%;
+    color: #fff;
+    line-height: 4.5rem;
+    font-size: 1.6rem;
+    text-align: center;
+    outline: none;
+    border: none;
+    border-radius: 3rem;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    background: linear-gradient(to right,$lightThemeColor,$themeColor);
+}
+
+/* input中的小按钮 */
+.page-verify {
+    position: absolute;
+    bottom: 0.7rem;
+    right: 1.5rem;
+    height: 2.9rem;
+    width: 8.6rem;
+    max-width: 30%;
+    line-height: 3rem;
+    color: #fff;
+    font-size: 1.2rem;
+    text-align: center;
+    border: 0;
+    border-radius: 2rem;
+    -webkit-tap-highlight-color:rgba(0,0,0,0);
+    background: linear-gradient(to right,$lightThemeColor,$themeColor);
+}

@@ -1,0 +1,71 @@
+@import './global.scss';
+
+.van-overlay {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.van-popup {
+    width: 80%;
+    border-radius: 5px;
+    background: transparent;
+    .pop-wrap {
+        height: 38rem;
+        border-radius: 5px;
+        background: #fff;
+    }
+    .close-wrap {
+        text-align: center;
+        margin-top: 1.66rem;
+        img {
+            height: 3.33rem;
+            width: 3.33rem;
+        }
+    }
+}
+
+/* van-button */
+.van-button--disabled {
+    background: $disabledBg;
+    opacity: 1;
+}
+
+/* van-cell-group */
+.van-cell-group {
+    height: 5.5rem;
+    position: relative;
+    .van-cell-group-input {
+        height: 4rem;
+        width: 100%;
+        position: absolute;
+        top: 1.5rem;
+        border: none;
+        background-color: #fff;
+        color: $normalColor;
+        font-size: 1.6rem;
+        .van-field__control {
+            height: 4rem !important;
+            line-height: 4rem;  
+        }
+        &:focus { 
+            border-bottom: 2px solid $themeColor;
+        }
+        &::-webkit-input-placeholder {       /* Internet Explorer 10+ */
+            color: $lightColor !important; 
+        }
+    }
+    .van-cell-group-inputTitle {
+        position: absolute;
+        top: 0.5rem;
+        font-style: normal;
+    }
+    .van-icon-close {
+        right: 0;
+        top: 1.5rem;
+        position: absolute;
+        line-height: 4rem;
+        color: $lightColor;
+    }
+    .verify-input-code {
+        right: 10.1rem;
+    }
+}

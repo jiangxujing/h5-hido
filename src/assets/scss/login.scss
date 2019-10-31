@@ -1,1 +1,26 @@
 @import './index.scss';
+.login {
+    .page-protocol {
+        font-size: 1.2rem;
+        color: $normalColor;
+        text-align: center;
+        letter-spacing: -1px;
+    }
+    .protocol-a {
+        font-size: 1.2rem;
+        color: $themeColor;
+        text-decoration:underline;
+        line-height: 3.2rem;
+        display: inline-block;
+    }
+}
+
+.page-field {
+    position: relative;
+    padding-top: 1rem;
+    .page-part {
+        padding: 0 1.5rem;
+        background: #fff;
+    }
+}
+

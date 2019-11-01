@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import login from '@/pages/Login'
 import productDetail from '@/pages/ProductDetail'
+import orderDetail from '@/pages/OrderDetail'
 
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
@@ -22,6 +23,10 @@ export default new Router({
             path: '/productDetail',
             component: productDetail,
             name:'productDetail'
+        },{
+        	 path: '/orderDetail',
+            component: orderDetail,
+            name:'orderDetail'
         }
     ]
 })

@@ -1,62 +1,91 @@
 <template>
 	<div class="orderDetail">
-		<div class="receipt-address">
-			<!--<div style="padding:1.5rem">
-				<img class="add" src="../assets/images/add.png" />
-				<span>收货信息</span>
-				<img class="arrow" src="../assets/images/arrow.png" />
-			</div>-->
-			<div style="padding:1.5rem">
-				<div>
-					<span>张三 18739473644</span>
+		<div v-show="orderDetailShow">
+			<div class="receipt-address">
+				<div style="padding:1.5rem" v-if="hasNoAdress">
+					<img class="add" src="../assets/images/add.png" />
+					<span>收货信息</span>
 					<img class="arrow" src="../assets/images/arrow.png" />
 				</div>
-				<div class="adress adress1">
-					上海市 上海市浦东新区
-				</div>
-				<div class="adress adress2">
-					银山路183号5号楼102室（新桥创业园）
+				<div style="padding:1.5rem" v-else>
+					<div>
+						<span>张三 18739473644</span>
+						<img class="arrow" src="../assets/images/arrow.png" />
+					</div>
+					<div class="adress adress1">
+						上海市 上海市浦东新区
+					</div>
+					<div class="adress adress2">
+						银山路183号5号楼102室（新桥创业园）
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="gift-package">
-			<div style="overflow:hidden">
-				<img class="libao" src="../assets/images/libao.png" />
+			<div class="gift-package">
 				<div style="overflow:hidden">
-					<div style="float:left">
-						<div class="package-price">
-							<div class="van-multi-ellipsis--l2" style="color:#1A2833;font-size:1.5rem">
-								399大礼包399大礼包399
-							</div>
-							<div>
-								<span style="font-size:1.4rem;color:#8A9399">修复面膜*10</span>
+					<img class="libao" src="../assets/images/libao.png" />
+					<div style="overflow:hidden">
+						<div style="float:left">
+							<div class="package-price">
+								<div class="van-multi-ellipsis--l2" style="color:#1A2833;font-size:1.5rem">
+									399大礼包399大礼包399
+								</div>
+								<div>
+									<span style="font-size:1.4rem;color:#8A9399">修复面膜*10</span>
+								</div>
 							</div>
 						</div>
+						<div class="buynumber">x1</div>
 					</div>
-					<div class="buynumber">x1</div>
+					<div style="overflow:hidden;padding-left:1.2rem">
+						<span style="font-size:1.4rem;color:#8A9399;float:left">无针水光针*1</span>
+						<span style="color:#FF7B31;font-size:1.6rem;float:right">￥399</span>
+					</div>
 				</div>
-				<div style="overflow:hidden;padding-left:1.2rem">
-					<span style="font-size:1.4rem;color:#8A9399;float:left">无针水光针*1</span>
-					<span style="color:#FF7B31;font-size:1.6rem;float:right">￥399</span>
+			</div>
+			<div class="recommend">
+				<span>推荐人手机号</span>
+				<input type="text" placeholder="请输入推荐人手机号" />
+			</div>
+			<div class="submitTxt">
+				<div style="padding:2.2rem 1.5rem;">
+					<span style="color:#1A2833;font-size:1.6rem;">订单金额：</span>
+					<span style="color:#FF7B31;font-size:1.8rem;">￥399</span>
+					<button class="submit-gray">提交</button>
+					<!--<button class="submit-active">提交</button>-->
 				</div>
 			</div>
 		</div>
-		<div class="recommend">
-			<span>推荐人手机号</span>
-			<input type="text" placeholder="请输入推荐人手机号" />
-		</div>
-		<div class="submitTxt">
-			<div style="padding:2.2rem 1.5rem;">
-				<span style="color:#1A2833;font-size:1.6rem;">订单金额：</span>
-				<span style="color:#FF7B31;font-size:1.8rem;">￥399</span>
-				<button class="submit-gray">提交</button>
-				<!--<button class="submit-active">提交</button>-->
-			</div>
+		<div v-show="orderStatusShow" class="order-status">
+			<img src="../assets/images/order-success.png" />
+			<div class="sucess-txt" style="padding-top:3rem;">您的订单已提交成功</div>
+			<div class="sucess-txt" style="padding-top:1.1rem;">会为您尽快安排发货</div>
+			<div style="#8A9399;font-size:1.4rem;padding-top:2rem;">3s后自动跳转回购买界面</div>
 		</div>
 	</div>
 </template>
 
 <script>
+	export default {
+		name: 'orderDetail',
+		data() {
+			return {
+				hasNoAdress: false,
+				orderDetailShow: false,
+				orderStatusShow: true
+			}
+		},
+		methods: {
+
+		},
+		mounted() {
+			if(this.orderStatusShow == false) {
+				setTimeout(() => {
+					this.$router.push("/productDetail")
+				}, 3000)
+			}
+
+		},
+	}
 </script>
 
 <style lang="scss">
@@ -66,18 +95,18 @@
 		background: #F5F5F5;
 		.receipt-address {
 			width: 100%;
-			height:auto;
+			height: auto;
 			background: #fff;
 			margin-top: 1rem;
-			.adress{
-				color:#8A9399;
-				font-size:1.4rem;
+			.adress {
+				color: #8A9399;
+				font-size: 1.4rem;
 			}
-			.adress1{
-				padding-top:1.2rem;
+			.adress1 {
+				padding-top: 1.2rem;
 			}
-			.adress2{
-				padding-top:0.8rem;
+			.adress2 {
+				padding-top: 0.8rem;
 			}
 			.add {
 				width: 1.8rem;
@@ -156,16 +185,30 @@
 				outline: none;
 				border: none;
 				border-radius: 15px;
-				 background:linear-gradient(132deg,#FFAF82 0%,#FF7B31 100%);
+				background: linear-gradient(132deg, #FFAF82 0%, #FF7B31 100%);
 				width: 8.2rem;
 				height: 3rem;
-				float:right;
+				float: right;
 			}
 			.submit-gray {
-				opacity:0.5;
+				opacity: 0.5;
 			}
-			.submit-active {
-              
+			.submit-active {}
+		}
+		.order-status {
+			width: 100%;
+			height: 100%;
+			background: #fff;
+			text-align: center;
+			img {
+				width: 6.6rem;
+				padding-top: 9.5rem;
+			}
+			.sucess-txt {
+				font-size: 1.8rem;
+				font-weight: 600;
+				color: rgba(26, 40, 51, 1);
+				line-height: 18px;
 			}
 		}
 	}

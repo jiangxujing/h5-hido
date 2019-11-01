@@ -79,6 +79,19 @@
 </template>
 
 <script>
+	export default {
+		name: 'productDetail',
+		data() {
+			return {
+				hasNoAdress:false
+			}
+		},
+		methods: {
+			
+		},
+		mounted() {
+		},
+	}
 </script>
 
 <style lang="scss">

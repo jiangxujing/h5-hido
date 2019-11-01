@@ -5,11 +5,11 @@
 				<img class="detail-img" src="../assets/images/detai-img.jpg" />
 				<div class="tips">
 					<div class="header-tips">
-						<img src="../assets/images/gou.jpg" />
+						<img src="../assets/images/gou.png"/>
 						<span>随时退</span>
 					</div>
 					<div class="header-tips tips-guoqi">
-						<img src="../assets/images/gou.jpg" />
+						<img src="../assets/images/gou.png"/>
 						<span>过期退</span>
 					</div>
 					<div class="buy-count">131人购买</div>
@@ -105,6 +105,11 @@
 					font-size: 1.2rem;
 					.header-tips {
 						float: left;
+						img{
+							vertical-align: middle;
+							margin-top:-3px;
+							width:7px;
+						}
 					}
 					.tips-guoqi {
 						margin-left: 1.5rem;

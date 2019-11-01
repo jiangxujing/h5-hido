@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import login from '@/pages/Login'
-import setting from '@/pages/Setting'
+import productDetail from '@/pages/ProductDetail'
 
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
@@ -19,9 +19,9 @@ export default new Router({
             component: login,
             name:'login'
         }, {
-            path: '/setting',
-            component: setting,
-            name:'setting'
+            path: '/productDetail',
+            component: productDetail,
+            name:'productDetail'
         }
     ]
 })

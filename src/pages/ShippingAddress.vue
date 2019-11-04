@@ -35,7 +35,8 @@
 			<van-field class="big" type="text" v-model="detailAddress" placeholder="详细地址：如道路；门牌号；小区等" @input="checkEmpty" clearable/>
 		</van-cell-group>
 		<div class="save">
-			<button class="savebtn" :class="{'gray':gray}">保存</button>
+			<button class="savebtn gray" v-if="gray">保存</button>
+			<button class="savebtn" v-else @click="saveAddress">保存</button>
 		</div>
 	</div>
 </template>
@@ -66,12 +67,18 @@
 			}
 		},
 		methods: {
+			saveAddress(){
+				this.$router.push("/orderDetail")
+			},
 			checkEmpty() {
 				if(this.username && this.phone && this.detailAddress && this.province && this.city && this.county) {
 					this.gray = false
 				} else {
 					this.gray = true
 				}
+				sessionStorage.setItem('username',this.username)
+				sessionStorage.setItem('phone',this.phone)
+				sessionStorage.setItem('detailAddress',this.detailAddress)
 			},
 			showPopup() {
 				this.show = true;
@@ -101,6 +108,7 @@
 					});
 					this.$set(i, "active", true);
 					this.province = i.name
+						sessionStorage.setItem('province',this.province)
 				//				let req = {
 				//					code: this.country
 				//				}
@@ -124,6 +132,9 @@
 					});
 					this.$set(i, "active", true);
 					this.city = i.name
+									sessionStorage.setItem('city',this.city)
+				
+
 				this.district = ''
 				let req = {
 					code: this.city
@@ -163,6 +174,7 @@
 					});
 					this.$set(i, "active", true);
 					this.county = i.name
+					sessionStorage.setItem('county',this.county)
 					console.log(this.county)
 				this.show = false
 				console.log(this.username)

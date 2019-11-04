@@ -1,22 +1,22 @@
 <template>
 	<div class="orderDetail">
-		<div v-show="orderDetailShow">
+		<div v-if="orderDetailShow">
 			<div class="receipt-address">
-				<div style="padding:1.5rem" v-if="hasNoAdress">
+				<div style="padding:1.5rem" v-if="hasNoAdress" @click="setAddress">
 					<img class="add" src="../assets/images/add.png" />
 					<span>收货信息</span>
 					<img class="arrow" src="../assets/images/arrow.png" />
 				</div>
 				<div style="padding:1.5rem" v-else>
 					<div>
-						<span>张三 18739473644</span>
+						<span>{{username}}{{phone}}</span>
 						<img class="arrow" src="../assets/images/arrow.png" />
 					</div>
 					<div class="adress adress1">
-						上海市 上海市浦东新区
+						{{province}}/{{city}}/{{county}}
 					</div>
 					<div class="adress adress2">
-						银山路183号5号楼102室（新桥创业园）
+						{{detailAddress}}
 					</div>
 				</div>
 			</div>
@@ -45,23 +45,23 @@
 			<div class="recommend">
 				<!--<input type="text" placeholder="请输入推荐人手机号" />-->
 				<van-cell-group>
-					<van-field v-model="phone" label="推荐人手机号" placeholder="请输入推荐人手机号" clearable type='number' maxlength='11'/>
+					<van-field v-model="recommendPhone" label="推荐人手机号" placeholder="请输入推荐人手机号" clearable type='number' maxlength='11' @input="checkTel"/>
 				</van-cell-group>
 			</div>
 			<div class="submitTxt">
 				<div style="padding:2.2rem 1.5rem;">
 					<span style="color:#1A2833;font-size:1.6rem;">订单金额：</span>
 					<span style="color:#FF7B31;font-size:1.8rem;">￥399</span>
-					<button class="submit-gray">提交</button>
-					<!--<button class="submit-active">提交</button>-->
+					<button class="submit-gray" v-if="gray">提交</button>
+					<button class="submit-active" v-else @click="submitOrder">提交</button>
 				</div>
 			</div>
 		</div>
-		<div v-show="orderStatusShow" class="order-status">
+		<div v-else class="order-status">
 			<img src="../assets/images/order-success.png" />
 			<div class="sucess-txt" style="padding-top:3rem;">您的订单已提交成功</div>
 			<div class="sucess-txt" style="padding-top:1.1rem;">会为您尽快安排发货</div>
-			<div style="#8A9399;font-size:1.4rem;padding-top:2rem;">3s后自动跳转回购买界面</div>
+			<div style="#8A9399;font-size:1.4rem;padding-top:2rem;">{{second}}s后自动跳转回购买界面</div>
 		</div>
 	</div>
 </template>
@@ -73,17 +73,50 @@
 			return {
 				hasNoAdress: true,
 				orderDetailShow: true,
-				orderStatusShow: false,
-				phone:''
+				recommendPhone: '',
+				province:'',
+				city:'',
+				county:'',
+				username: '',
+				phone: '',
+				detailAddress: '',
+				gray:true,
+				second:3
 			}
 		},
 		methods: {
-
+			setAddress(){
+				this.$router.push("/shippingAddress")
+			},
+			checkTel(){
+				if(this.username && this.phone && this.province && this.city && this.county  && this.detailAddress && this.recommendPhone){
+					this.gray = false
+				}
+			},
+			submitOrder(){
+				this.orderDetailShow = false
+				let interval = setInterval(()=>{
+					this.second--
+					if(this.second <=0){
+						clearInterval(interval)
+					}
+				},1000)
+				setTimeout(() => {
+				this.$router.push("/productDetail")
+			}, 3000)
+			}
 		},
 		mounted() {
-//				setTimeout(() => {
-//					this.$router.push("/productDetail")
-//				}, 3000)
+			this.province = sessionStorage.getItem('province')
+			this.county = sessionStorage.getItem('county')
+			this.city = sessionStorage.getItem('city')
+			this.username = sessionStorage.getItem('username')
+			this.phone = sessionStorage.getItem('phone')
+			this.detailAddress = sessionStorage.getItem('detailAddress')
+			if(this.province && this.city && this.county && this.username && this.phone && this.detailAddress) {
+				this.hasNoAdress = false
+			}
+			
 
 		},
 	}

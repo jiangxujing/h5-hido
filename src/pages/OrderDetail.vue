@@ -169,12 +169,6 @@
 				border-radius: 3px;
 				float: left;
 			}
-			.libao {
-				width: 52px;
-				height: 52px;
-				border-radius: 3px;
-				float: left;
-			}
 			.buynumber {
 				color: #1A2833;
 				font-size: 1.5rem;

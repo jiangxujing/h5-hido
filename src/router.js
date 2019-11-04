@@ -4,6 +4,8 @@ import login from '@/pages/Login'
 import productDetail from '@/pages/ProductDetail'
 import orderDetail from '@/pages/OrderDetail'
 import shippingAddress from '@/pages/ShippingAddress'
+import giftPackage from '@/pages/GiftPackage'
+import giftPackageDetail from '@/pages/GiftPackageDetail'
 
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
@@ -32,6 +34,15 @@ export default new Router({
         	path: '/shippingAddress',
             component: shippingAddress,
             name:'shippingAddress'
+        },{
+        	path: '/giftPackage',
+            component: giftPackage,
+            name:'giftPackage'
+        },{
+        	path: '/giftPackageDetail',
+            component: giftPackageDetail,
+            name:'giftPackageDetail'
+        	
         }
     ]
 })

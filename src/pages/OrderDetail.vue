@@ -43,8 +43,10 @@
 				</div>
 			</div>
 			<div class="recommend">
-				<span>推荐人手机号</span>
-				<input type="text" placeholder="请输入推荐人手机号" />
+				<!--<input type="text" placeholder="请输入推荐人手机号" />-->
+				<van-cell-group>
+					<van-field v-model="phone" label="推荐人手机号" placeholder="请输入推荐人手机号" clearable type='number' maxlength='11'/>
+				</van-cell-group>
 			</div>
 			<div class="submitTxt">
 				<div style="padding:2.2rem 1.5rem;">
@@ -69,26 +71,26 @@
 		name: 'orderDetail',
 		data() {
 			return {
-				hasNoAdress: false,
-				orderDetailShow: false,
-				orderStatusShow: true
+				hasNoAdress: true,
+				orderDetailShow: true,
+				orderStatusShow: false,
+				phone:''
 			}
 		},
 		methods: {
 
 		},
 		mounted() {
-			if(this.orderStatusShow == false) {
-				setTimeout(() => {
-					this.$router.push("/productDetail")
-				}, 3000)
-			}
+//				setTimeout(() => {
+//					this.$router.push("/productDetail")
+//				}, 3000)
 
 		},
 	}
 </script>
 
 <style lang="scss">
+	@import '../assets/scss/common.scss';
 	.orderDetail {
 		width: 100%;
 		height: 100%;
@@ -157,21 +159,7 @@
 			}
 		}
 		.recommend {
-			width: 100%;
-			height: 6rem;
-			background: #fff;
 			margin-top: 1rem;
-			span {
-				color: #1A2833;
-				font-size: 1.5rem;
-				line-height: 6rem;
-				padding-left: 1.5rem;
-			}
-			input {
-				border: none;
-				font-size: 1.5rem;
-				padding-left: 2.5rem;
-			}
 		}
 		.submitTxt {
 			width: 100%;

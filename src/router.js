@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import login from '@/pages/Login'
 import productDetail from '@/pages/ProductDetail'
 import orderDetail from '@/pages/OrderDetail'
+import shippingAddress from '@/pages/ShippingAddress'
 
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
@@ -27,6 +28,10 @@ export default new Router({
         	 path: '/orderDetail',
             component: orderDetail,
             name:'orderDetail'
+        },{
+        	path: '/shippingAddress',
+            component: shippingAddress,
+            name:'shippingAddress'
         }
     ]
 })

@@ -264,9 +264,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-    @import '../assets/scss/index.scss';
+<style lang="scss">
     @import '../assets/scss/vant.scss';
+    
     .add-bank-card {
         padding-top: 1rem;
         .page-protocol {

@@ -6,7 +6,7 @@ import api from './common/api.js'
 import utils from './common/utils.js'
 import 'vant/lib/button/style'
 
-import { Field, Button, Toast, Popup, Cell, CellGroup, Icon } from 'vant'
+import { Field, Button, Toast, Popup, Cell, CellGroup, Icon, Checkbox, CheckboxGroup } from 'vant'
 
 Vue.component(Toast.name, Toast)
 Vue.component(Popup.name, Popup)
@@ -15,7 +15,9 @@ Vue.component(Button.name, Button)
 Vue.component(Cell.name, Cell)
 Vue.component(CellGroup.name, CellGroup)
 Vue.component(Icon.name, Icon)
-Vue.use(Toast, Popup, Field, Button, Icon)
+Vue.component(Checkbox.name, Checkbox)
+Vue.component(CheckboxGroup.name, CheckboxGroup)
+Vue.use(Toast, Popup, Field, Button, Icon, Checkbox, CheckboxGroup)
 
 // 将工具方法绑定到全局
 Vue.prototype.$utils = utils

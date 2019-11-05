@@ -10,7 +10,7 @@
                         placeholder="请输入手机号"
                         v-model="mobile"
                         maxlength="11"
-                        @focus="mobileFocus=true"
+                        @focus="mobileFocus = true"
                         @blur="setTimeout('mobileFocus')"/>
                     <i class="van-cell-group-inputTitle" v-if="mobile">手机号</i>
                     <van-icon v-if="mobile && mobileFocus" name="close" @click="mobile=''"/>
@@ -21,24 +21,24 @@
                     placeholder="请输入验证码"
                     type="tel"
                     v-model="verifyCode"
-                    maxlength="6"
+                    maxlength="4"
                     @focus="verifyCodeFocus=true"
                     @blur="setTimeout('verifyCodeFocus')"/>
                     <i class="van-cell-group-inputTitle" v-if="verifyCode">验证码</i>
                     <van-icon class="verify-input-code" v-if="verifyCode && verifyCodeFocus" name="close"  @click="verifyCode = ''"/>
                 </van-cell-group>
-                <van-button id="getVerifyCode" class="page-verify" @click="getVerify">{{ verifyTitle }}</van-button>
+                <van-button id="getVerifyCode" class="page-verify" @click="getVerify" :disabled="verifyBtn">{{ verifyTitle }}</van-button>
             </div>
         </div>
         <div class="page-button">
-            <van-button class="next-button" @click="toNext" :disabled="nextBtn">下一步</van-button>
+            <van-button class="next-button" @click="toNext" :disabled="nextBtn">登 录</van-button>
         </div>
         <div class="page-protocol">
-            <span class="protocol-title">点击登录即表示我已阅读并同意 </span>
-            <span class="protocol-title protocol-a" @click="popupVisible=true"> 注册协议</span>
+            <span class="protocol-title">登录即表示我已阅读并同意 HIDO 的 </span>
+            <span class="protocol-title protocol-a" @click="popupVisible=true">&nbsp;用户注册协议</span>
         </div>
         
-        <van-popup v-model="popupVisible">
+        <van-popup class="van-popup-protocol" v-model="popupVisible">
             <div class="pop-content">
                 <div class="pop-wrap"></div>
                 <div class="close-wrap" @click="popupVisible=false"><img src="../assets/images/pop_close.png" /></div>
@@ -70,26 +70,36 @@ export default {
         }
     },
     mounted () {
-        this.nextBtn = this.verifyCode ? false : true
         this.verifyTitle = '获取验证码'
     },
     computed: {
         // 监听页面数据
         watchData: function () {
-            this.verifyBtn = this.mobile && (this.verifyTitle === '获取验证码' || this.verifyTitle === '重新发送') ? false : true
-            // 下一步按钮
+            // 限制手机号输入格式
+            let mobile = this.mobile.replace(/\D/g,'')
+            if (/^1/.test(mobile)) {
+                this.mobile = mobile
+            } else {
+                this.mobile = ''
+                clearInterval(this.clock)
+                this.verifyBtn = false
+                this.verifyTitle = '获取验证码'
+            }      
+            // 按钮监听
+            this.verifyBtn = this.verifyTitle === '获取验证码' || this.verifyTitle === '重新发送' ? false : true
             this.nextBtn = this.verifyCode && (this.verifyCode.length === 4) && (this.mobile === this.checkedMobile) ? false : true
             if (this.mobile && this.mobile !== this.checkedMobile) {
                 clearInterval(this.clock)
                 this.verifyBtn = false
                 this.verifyTitle = '获取验证码'
-            }
+            }   
         }
     },
     methods: {
         // ipnut 清除
         setTimeout (type) {
             let _this = this
+            type == 'mobileFocus' ? (clearInterval(this.clock), this.verifyBtn = false, this.verifyTitle = '获取验证码') : ''
             setTimeout(() => { this[type] = false}, 100)
         },
         // 获取验证码
@@ -116,6 +126,12 @@ export default {
                 //         this.verifyBtn = false
                 //     }
                 // })
+                this.verifyCode = ''
+                this.checkedMobile = this.mobile
+                this.serialNo = '99655245420'
+                this.loginVerify = 59
+                this.verifyTitle = this.loginVerify + ' S'
+                this.clock = setInterval(this.doLoop, 1000)
             }
         },
         // 验证码倒计时
@@ -131,7 +147,7 @@ export default {
                 this.loginVerify = 59
             }
         },
-        // 下一步
+        // 登录
         toNext () {
             if (!(/^\d+$/).test(this.verifyCode)) {
                 Toast('验证码是4位数字', '提示')
@@ -156,6 +172,12 @@ export default {
                 //         }
                 //     }
                 // })
+                Toast('重来！！')
+                clearInterval(this.clock)
+                this.verifyCode = ''
+                this.checkedMobile = ''
+                this.verifyBtn = false
+                this.verifyTitle = '获取验证码'
             }
         }
     }
@@ -163,5 +185,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    @import '../assets/scss/login.scss';
+    @import '../assets/scss/index.scss';
+    .login {
+        padding-top: 1rem;
+    }
 </style>

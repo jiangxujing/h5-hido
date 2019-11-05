@@ -6,6 +6,7 @@ import orderDetail from '@/pages/OrderDetail'
 import shippingAddress from '@/pages/ShippingAddress'
 import giftPackage from '@/pages/GiftPackage'
 import giftPackageDetail from '@/pages/GiftPackageDetail'
+import commonProblem from '@/pages/CommonProblem'
 
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
@@ -42,7 +43,10 @@ export default new Router({
         	path: '/giftPackageDetail',
             component: giftPackageDetail,
             name:'giftPackageDetail'
-        	
+        },{
+        	path: '/commonProblem',
+            component: commonProblem,
+            name:'commonProblem'
         }
     ]
 })

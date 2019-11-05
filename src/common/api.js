@@ -97,7 +97,39 @@ const setupWebViewJavascriptBridge = (callback) => {
     } else {
     }
 }
-
+export const getWechat = (title,desc,linkUrl,imgUrl) => {
+	   wx.checkJsApi({
+        jsApiList: ['onMenuShareAppMessage','onMenuShareTimeline'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+        success: function(res) {
+            console.log(res);
+        }
+    });
+    wx.ready(function() {
+        wx.onMenuShareAppMessage({
+        title: title,
+        desc:desc,
+        link: linkUrl,
+        imgUrl: imgUrl,
+        trigger: function(res) {},
+        success: function(res) {},
+        cancel: function(res) {},
+        fail: function(res) {}
+        });
+        wx.onMenuShareTimeline({
+        title: title,
+        desc:desc,
+        link: linkUrl,
+        imgUrl: imgUrl,
+        trigger: function(res) {},
+        success: function(res) {},
+        cancel: function(res) {},
+        fail: function(res) {}
+        });
+    });
+    wx.error(function(res){
+    //alert("配置項過期！");
+    });
+}
 /**
  * 一般post请求
  * url： 请求地址
@@ -186,6 +218,7 @@ const post = (url, data, noLoading, noToken) => {
 // 返回在vue模板中的调用接口
 export default {
     getUrl,
+    getWechat,
     post,
     setupWebViewJavascriptBridge,
     cancel: () => {

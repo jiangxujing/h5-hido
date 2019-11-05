@@ -5,11 +5,11 @@
 				<img class="detail-img" src="../assets/images/detai-img.jpg" />
 				<div class="tips">
 					<div class="header-tips">
-						<img src="../assets/images/gou.png"/>
+						<img src="../assets/images/gou.png" />
 						<span>随时退</span>
 					</div>
 					<div class="header-tips tips-guoqi">
-						<img src="../assets/images/gou.png"/>
+						<img src="../assets/images/gou.png" />
 						<span>过期退</span>
 					</div>
 					<div class="buy-count">131人购买</div>
@@ -27,7 +27,7 @@
 					</div>
 					<div class="package-r">
 						<span>12次</span>
-						<span>|</span>
+						<span style="color:#8A9399;">|</span>
 						<span>￥219</span>
 					</div>
 				</div>
@@ -35,8 +35,8 @@
 				<div class="merber-package-price">
 					<div class="package-price-left">会员礼包价</div>
 					<div class="package-price-right">
-						<span>原价￥1,200</span>
-						<span style="color:#FF7B31">￥399</span>
+						<span style="text-decoration:line-through;">原价￥1,200</span>
+						<span style="color:#FF7B31;font-size:1.4rem;font-weight:600;">￥399</span>
 					</div>
 				</div>
 			</div>
@@ -57,39 +57,132 @@
 							<img class="libao" src="../assets/images/libao.png" />
 							<div class="package-price">
 								<div style="color:#FF7B31">
-									<span style="font-size:2.1rem;">￥390</span>
+									<span style="font-size:1.6rem;">￥<span style="font-size:2.1rem;font-weight: bold;">390</span></span>
 									<span style="font-size:1.4rem;">会员礼包</span>
 								</div>
-								<div style="color:#8A9399;font-size:1.7rem">原价￥12，000</div>
+								<div style="color:#8A9399;font-size:1.7rem;font-weight: 400;">原价￥12，000</div>
 							</div>
 						</div>
 						<div class="buynumber">131人购买</div>
 					</div>
 					<div>
 						<div class="description">水光针12次体验套餐*12</div>
-						<div class="share">
+						<div class="share" @click="getShare">
 							<button>立即分享</button>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="buy">￥399成为代理</div>
+			<div class="buy" @click="getBuy">￥399成为代理</div>
+		</div>
+		<div class="shareWraper" v-show='shareWrapperShow' @click='shareWrapperShow=false'>
+			<div class="share-content">
+				<div class="title"><span style="font-size:2rem">-</span>&nbsp;分享至&nbsp;<span style="font-size:2rem">-</span></div>
+				<div class="weixin-friend">
+					<div class="weixin" @click="shareWeixin">
+						<img src="../assets/images/weixin.png" />
+						<div>微信</div>
+					</div>
+					<div class="friend" @click="shareFriend">
+						<img src="../assets/images/friend.png" />
+						<div>朋友圈</div>
+					</div>
+				</div>
+			</div>
+			<button class="cancleBtn" @click="cancleBtn">取消</button>
 		</div>
 	</div>
 </template>
 
 <script>
+	import api from '../common/api.js'
+	import _utils from '../common/utils.js'
 	export default {
 		name: 'productDetail',
 		data() {
 			return {
-				hasNoAdress:false
+				hasNoAdress: false,
+				shareWrapperShow: false
 			}
 		},
 		methods: {
-			
+			cancleBtn(){
+				this.shareWrapperShow = false
+			},
+			getShare() {
+				this.shareWrapperShow = true
+
+			},
+			shareWeixin() {
+				api.setupWebViewJavascriptBridge(function(bridge) {
+					let params = {
+						shareUrl: _this.url,
+						title: '商品详情',
+						shareContent: _this.productDetail.name,
+						sharePic: api.imgUrl + _this.pictureUrlList[0],
+						sharePlatform: WechatSession
+					}
+					bridge.callHandler('callShareOnly', params, (data) => {
+						console.log(data)
+					})
+				})
+			},
+			shareFriend() {
+				api.setupWebViewJavascriptBridge(function(bridge) {
+					let params = {
+						shareUrl: _this.url,
+						title: '商品详情',
+						shareContent: _this.productDetail.name,
+						sharePic: api.imgUrl + _this.pictureUrlList[0],
+						sharePlatform: WechatTimeline
+					}
+					bridge.callHandler('callShareOnly', params, (data) => {
+						console.log(data)
+					})
+				})
+			},
+			getBuy() {
+				if(!_utils.getCookie('accessToken')) {
+					api.setupWebViewJavascriptBridge(function(bridge) {
+						bridge.callHandler('callLogin', {}, (data) => {
+							console.log(data)
+							_utils.setCookie('accessToken', data.content.accessToken, 1)
+
+						})
+					})
+				} else {
+					this.$router.push("/orderDetail")
+				}
+			},
+			getWechat() {
+				let linkUrl = location.href.split('#')[0]
+				let reqUrl = {
+					url: encodeURIComponent(linkUrl)
+				}
+				let imgUrl = this.imageUrl
+				let imgurl = location.origin + this.prefixUrl + imgUrl
+				api.get(api.getUrl('getWechat'), reqUrl).then(res => {
+					if(res.code == '0000') {
+						var timestamp = res.content.timestamp;
+						var nonceStr = res.content.nonceStr;
+						var signature = res.content.signature;
+						var appId = res.content.appid
+						wx.config({
+							debug: false, // 开fff启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+							appId: appId,
+							timestamp: timestamp, // 必填，生成签名的时间戳
+							nonceStr: nonceStr, // 必填，生成签名的随机串
+							signature: signature, // 必填，签名，见附录1
+							jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+						});
+						api.getWechat(this.content.title, this.content.content, linkUrl, imgurl)
+					}
+				})
+			},
+
 		},
 		mounted() {
+
 		},
 	}
 </script>
@@ -118,10 +211,10 @@
 					font-size: 1.2rem;
 					.header-tips {
 						float: left;
-						img{
+						img {
 							vertical-align: middle;
-							margin-top:-3px;
-							width:7px;
+							margin-top: -3px;
+							width: 7px;
 						}
 					}
 					.tips-guoqi {
@@ -214,7 +307,7 @@
 			text-align: left;
 			.other-packages {
 				width: 92%;
-				margin:0 auto;
+				margin: 0 auto;
 				height: auto;
 				border: 1px solid #EAEAEA;
 				border-radius: 5px;
@@ -227,45 +320,105 @@
 				border-radius: 3px;
 				float: left;
 			}
-			.buynumber{
-				color:#8A9399;
-				font-size:1.7rem;
-				float:right;
+			.buynumber {
+				color: #8A9399;
+				font-size: 1.7rem;
+				float: right;
 			}
 			.package-price {
 				float: left;
-				padding-left:1.2rem;
+				padding-left: 1.2rem;
 			}
 			.description {
 				float: left;
-				font-size:1.2rem;
-				color:#475966;
-				margin-top:1.7rem;
+				font-size: 1.2rem;
+				color: #475966;
+				margin-top: 1.7rem;
+				font-weight: 400;
 			}
 			.share {
 				float: right;
-				button{
-					width:82px;
-					height:30px;
-					background:linear-gradient(132deg,rgba(255,175,130,1) 0%,rgba(255,123,49,1) 100%);
-					border-radius:15px;
-					color:#fff;
+				button {
+					width: 82px;
+					height: 30px;
+					background: linear-gradient(132deg, rgba(255, 175, 130, 1) 0%, rgba(255, 123, 49, 1) 100%);
+					border-radius: 15px;
+					color: #fff;
 					outline: none;
-					border:none;
+					border: none;
+					font-size: 1.4rem;
+					font-weight: 600;
 				}
 			}
-			.buy{
-				margin:0 auto;
-				margin-top:1.6rem;
+			.buy {
+				margin: 0 auto;
+				margin-top: 1.6rem;
 				text-align: center;
-				width:92%;
-				height:46px;
-				background:linear-gradient(132deg,rgba(255,175,130,1) 0%,rgba(255,123,49,1) 100%);
-				border-radius:29px;
-				font-size:1.8rem;
-				font-weight:600;
-				color:#fff;
-				line-height:46px;
+				width: 92%;
+				height: 46px;
+				background: linear-gradient(132deg, rgba(255, 175, 130, 1) 0%, rgba(255, 123, 49, 1) 100%);
+				border-radius: 29px;
+				font-size: 1.8rem;
+				font-weight: 600;
+				color: #fff;
+				line-height: 46px;
+			}
+		}
+		.shareWraper {
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, .6);
+			text-align: center;
+			.share-content {
+				width: 96%;
+				margin: 0 auto;
+				position: fixed;
+				bottom: 8.8rem;
+				left: 50%;
+				margin-left: -48%;
+				background: #fff;
+				border-radius: 1.4rem;
+				.title {
+					color: #1A2833;
+					font-size: 1.6rem;
+					padding-top: 2rem;
+					font-weight: 600;
+				}
+				.weixin-friend {
+					display: flex;
+					width:60%;
+					margin:0 auto;
+					.weixin,
+					.friend {
+						flex: 1;
+						img {
+							width: 5rem;
+							margin-top: 3.9rem;
+						}
+						div {
+							color: #1A2833;
+							font-size: 1rem;
+							margin-top: 1.5rem;
+							padding-bottom: 3.8rem;
+						}
+					}
+				}
+			}
+			.cancleBtn {
+				width: 96%;
+				position: fixed;
+				left: 50%;
+				bottom: 2.4rem;
+				border-radius: 1.4rem;
+				background: #fff;
+				height: 5.6rem;
+				border: none;
+				outline: none;
+				font-size: 1.8rem;
+				margin-left: -48%;
 			}
 		}
 	}

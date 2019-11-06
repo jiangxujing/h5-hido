@@ -32,14 +32,13 @@
                 type="number"
                 label="预留手机号"
                 placeholder="请输入预留手机号"
-                @input="(value) => {mobile = /^1/.test(value) ? value : ''}"
                 @clear="clearVerifyCode" />
             <van-cell-group>
                 <van-field
                     v-model="verifyCode"
                     center
                     clearable
-                    maxlength="4"
+                    maxlength="6"
                     type="number"
                     label="验证码"
                     placeholder="请输入验证码">

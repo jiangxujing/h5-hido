@@ -10,21 +10,21 @@
                 label="银行卡号"
                 placeholder="请输入银行卡号"
                 @input="(value) => {bankNo = value.replace(/\D/g,'').replace(/....(?!$)/g,'$& ')}"
-                @clear="clearVerifyCode"/>
+                @clear="clearVerifyCode" />
             <van-field
                 v-model="name"
                 clearable
                 maxlength="20"
                 label="本人姓名"
                 placeholder="请输入本人姓名"
-                @clear="clearVerifyCode"/>
+                @clear="clearVerifyCode" />
             <van-field
                 v-model="idCardNo"
                 clearable
                 maxlength="18"
                 label="身份证号"
                 placeholder="请输入身份证号"
-                @clear="clearVerifyCode"/>
+                @clear="clearVerifyCode" />
             <van-field
                 v-model="mobile"
                 clearable
@@ -33,7 +33,7 @@
                 label="预留手机号"
                 placeholder="请输入预留手机号"
                 @input="(value) => {mobile = /^1/.test(value) ? value : ''}"
-                @clear="clearVerifyCode"/>
+                @clear="clearVerifyCode" />
             <van-cell-group>
                 <van-field
                     v-model="verifyCode"
@@ -53,11 +53,9 @@
                 <span class="protocol-title protocol-a" @click="popupVisible=true">《银行卡快捷支付协议》</span>
             </van-checkbox>
         </div>
-
         <div class="page-button">
             <van-button class="next-button" @click="toNext" :disabled="nextBtn">提 交</van-button>
         </div>
-
         <van-popup class="van-popup-protocol" v-model="popupVisible">
             <div class="pop-content">
                 <div class="pop-wrap"></div>
@@ -118,7 +116,7 @@ export default {
         watchData: function () {
             this.verifyBtn = this.verifyTitle === '获取验证码' || this.verifyTitle === '重新发送' ? false : true
             // 下一步按钮
-            this.nextBtn = this.checked && this.serialNo && this.verifyCode && (this.verifyCode.length >= 4) ? false : true
+            this.nextBtn = this.serialNo && this.verifyCode && (this.verifyCode.length >= 4) ? false : true
             if (
                 this.bankNo && this.bankNo !== this.checkedBankNo ||
                 this.name && this.name !== this.checkedName ||
@@ -168,6 +166,9 @@ export default {
                 return false
             } else if (!mobileReg.test(this.mobile)) {
                 Toast('手机号码有误')
+                return false
+            } else if (!this.checked) {
+                Toast('请先阅读并同意相关协议')
                 return false
             } else {
                 return true

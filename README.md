@@ -1,4 +1,4 @@
-# h5-hido
+# hido-h5
 
 基于`vue2`, `vant`的单页面应用
 

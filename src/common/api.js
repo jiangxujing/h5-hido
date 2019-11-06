@@ -8,7 +8,7 @@ import Loading from '../components/Loading/loading.js'
 let CancelToken = axios.CancelToken
 let cancel
 
-const prefix = '/h5-hido'
+const prefix = '/hido-h5'
 
 let toolType = null
 if (getQueryString('toolType')) {

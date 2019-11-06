@@ -1,5 +1,5 @@
 {
-  "name": "h5-hido",
+  "name": "hido-h5",
   "version": "1.0.0",
   "description": "A report system, based on Vuejs and vant",
   "author": "xujing.jiang and huanzhen.xu",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@git.immd.cn:hido/h5-hido.git"
+    "url": "http://bfgit.immd.cn/fronted/hido_h5.git"
   },
   "dependencies": {
     "ajv": "^6.10.2",

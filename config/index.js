@@ -10,7 +10,7 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/h5-hido/**': {
+      '/hido-h5/**': {
         target: 'http://99.48.66.106:8083', // sit
         secure: false,
         changeOrigin: false,

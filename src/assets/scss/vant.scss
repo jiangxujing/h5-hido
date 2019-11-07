@@ -38,7 +38,7 @@
         height: 4rem;
         width: 100%;
         position: absolute;
-        top: 1.5rem;
+        top: 2rem;
         border: none;
         background-color: #fff;
         color: $normalColor;
@@ -109,7 +109,12 @@
         right: 1.5rem;
         border-bottom: 1px solid $borderColor;
     }
-}  
+}
+
+/* van-button */
+.van-button:active::before {
+    opacity: 0;
+}
 
 /* van-checkbox */
 .van-checkbox {

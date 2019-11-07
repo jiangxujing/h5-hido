@@ -21,7 +21,7 @@
                     placeholder="请输入验证码"
                     type="tel"
                     v-model="verifyCode"
-                    maxlength="4"
+                    maxlength="6"
                     @focus="verifyCodeFocus=true"
                     @blur="setTimeout('verifyCodeFocus')"/>
                     <i class="van-cell-group-inputTitle" v-if="verifyCode">验证码</i>
@@ -34,8 +34,8 @@
             <van-button class="next-button" @click="toNext" :disabled="nextBtn">登 录</van-button>
         </div>
         <div class="page-protocol">
-            <span class="protocol-title">登录即表示我已阅读并同意 HIDO 的 </span>
-            <span class="protocol-title protocol-a" @click="popupVisible=true">&nbsp;用户注册协议</span>
+            <span class="protocol-title">登录即表示我已阅读并同意</span>
+            <span class="protocol-title protocol-a" @click="popupVisible=true">&nbsp;注册协议</span><span style="color:#FF7B31;">、</span><span class="protocol-title protocol-a" @click="popupVisible=true">隐私策略</span>
         </div>
         
         <van-popup class="van-popup-protocol" v-model="popupVisible">
@@ -74,17 +74,7 @@ export default {
     },
     computed: {
         // 监听页面数据
-        watchData: function () {
-            // 限制手机号输入格式
-            let mobile = this.mobile.replace(/\D/g,'')
-            if (/^1/.test(mobile)) {
-                this.mobile = mobile
-            } else {
-                this.mobile = ''
-                clearInterval(this.clock)
-                this.verifyBtn = false
-                this.verifyTitle = '获取验证码'
-            }      
+        watchData: function () {  
             // 按钮监听
             this.verifyBtn = this.verifyTitle === '获取验证码' || this.verifyTitle === '重新发送' ? false : true
             this.nextBtn = this.verifyCode && (this.verifyCode.length === 4) && (this.mobile === this.checkedMobile) ? false : true
@@ -104,7 +94,7 @@ export default {
         },
         // 获取验证码
         getVerify () {
-            const mobileReg = /^((17[0-9])|(14[0-9])|(13[0-9])|(15[0-9])|(18[0-9])|166|198|199)+\d{8}$/
+            const mobileReg = /^((13[0-9])|(14[0-9])|(15[0-9])|(17[0-9])|(18[0-9])|166|198|199)+\d{8}$/
             if (!this.mobile) {
                 Toast('请输入手机号')
             } else if (!mobileReg.test(this.mobile)) {
@@ -186,8 +176,19 @@ export default {
 
 <style lang="scss">
     @import '../assets/scss/vant.scss';
-    
     .login {
         padding-top: 1rem;
+        .page-protocol {
+            position: fixed;
+            width: 100%;
+            bottom: 2.5rem;
+            text-align: center;
+            font-size: 1rem;
+            color: #8A9399;
+            .protocol-a {
+                font-size: 1rem;
+                line-height: 3rem;
+            }
+        }
     }
 </style>

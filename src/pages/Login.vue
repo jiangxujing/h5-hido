@@ -10,24 +10,24 @@
                         class="van-cell-group-input"
                         type="tel"
                         placeholder="请输入手机号"
-                        v-model="mobile"
+                        v-model="phone"
                         maxlength="11"
-                        @focus="mobileFocus = true"
+                        @focus="() => {phone = phone.replace(/\D/g,''), mobileFocus = true}"
                         @blur="setTimeout('mobileFocus')"/>
-                    <i class="van-cell-group-inputTitle" v-if="mobile">手机号</i>
-                    <van-icon class="verify-input-code" v-if="mobile && mobileFocus" name="close" @click="mobile=''"/>
+                    <i class="van-cell-group-inputTitle" v-if="phone">手机号</i>
+                    <van-icon class="verify-input-code" v-if="phone && mobileFocus" name="close" @click="phone=''"/>
                 </van-cell-group>
                 <van-cell-group>
                     <input
                     class="van-cell-group-input"
                     placeholder="请输入验证码"
                     type="tel"
-                    v-model="verifyCode"
+                    v-model="verificationCode"
                     maxlength="6"
-                    @focus="verifyCodeFocus=true"
+                    @focus="() => {phone = phone.replace(/\D/g,''), verifyCodeFocus = true}"
                     @blur="setTimeout('verifyCodeFocus')"/>
-                    <i class="van-cell-group-inputTitle" v-if="verifyCode">验证码</i>
-                    <van-icon v-if="verifyCode && verifyCodeFocus" name="close"  @click="verifyCode = ''"/>
+                    <i class="van-cell-group-inputTitle" v-if="verificationCode">验证码</i>
+                    <van-icon v-if="verificationCode && verifyCodeFocus" name="close"  @click="verificationCode = ''"/>
                 </van-cell-group>
                 <van-button class="page-verify" @click="getVerify" :disabled="verifyBtn">{{ verifyTitle }}</van-button>
             </div>
@@ -62,9 +62,9 @@ export default {
             clock: '',
             verifyBtn: false,
             nextBtn: true,
-            checkedMobile: '',
-            mobile: '',
-            verifyCode: '',
+            checkedPhone: '',
+            phone: '',
+            verificationCode: '',
             serialNo: '',
             popupVisible: false,
             mobileFocus: false,
@@ -79,37 +79,50 @@ export default {
         watchData: function () {  
             // 按钮监听
             this.verifyBtn = this.verifyTitle === '获取验证码' || this.verifyTitle === '重新发送' ? false : true
-            this.nextBtn = this.verifyCode && (this.verifyCode.length === 4) && (this.mobile === this.checkedMobile) ? false : true
-            if (this.mobile && this.mobile !== this.checkedMobile) {
+            this.nextBtn = this.verificationCode && (this.verificationCode.length === 4) && (this.phone === this.checkedPhone) ? false : true
+            if (this.phone && this.phone !== this.checkedPhone) {
                 clearInterval(this.clock)
                 this.verifyBtn = false
                 this.verifyTitle = '获取验证码'
             }   
         }
     },
+    computed: {
+        // 监听页面数据
+        watchData: function () {  
+            // 按钮监听
+            this.verifyBtn = this.verifyTitle === '获取验证码' || this.verifyTitle === '重新发送' ? false : true
+            this.nextBtn = this.verificationCode && (this.verificationCode.length === 4) && (this.phone === this.checkedPhone) ? false : true
+            if (this.phone && this.phone !== this.checkedPhone) {
+                clearInterval(this.clock)
+                this.verifyBtn = false
+                this.verifyTitle = '获取验证码'
+            }
+        }
+    },
     methods: {
         // ipnut 清除
         setTimeout (type) {
             let _this = this
-            type == 'mobileFocus' && this.mobile !== this.checkedMobile ? (clearInterval(this.clock), this.verifyBtn = false, this.verifyTitle = '获取验证码') : ''
+            type == 'mobileFocus' && this.phone !== this.checkedPhone ? (clearInterval(this.clock), this.verifyBtn = false, this.verifyTitle = '获取验证码') : ''
             setTimeout(() => { this[type] = false}, 100)
         },
         // 获取验证码
         getVerify () {
             const mobileReg = /^((13[0-9])|(14[0-9])|(15[0-9])|(17[0-9])|(18[0-9])|166|198|199)+\d{8}$/
-            if (!this.mobile) {
+            if (!this.phone) {
                 Toast('请输入手机号')
-            } else if (!mobileReg.test(this.mobile)) {
+            } else if (!mobileReg.test(this.phone)) {
                 Toast('手机号码格式有误')
             } else {
                 let datas = {
-                    mobile: this.mobile
+                    phone: this.phone
                 }
                 this.verifyBtn = true
-                // api.post(api.getUrl(''), datas).then(resp => {
+                // api.post(api.getUrl('common-sendMobileCode'), datas).then(resp => {
                 //     if (resp.code === '0000') {
-                //         this.verifyCode = ''
-                //         this.checkedMobile = this.mobile
+                //         this.verificationCode = ''
+                //         this.checkedPhone = this.phone
                 //         this.serialNo = resp.content
                 //         this.loginVerify = 59
                 //         this.verifyTitle = this.loginVerify + ' S'
@@ -118,8 +131,8 @@ export default {
                 //         this.verifyBtn = false
                 //     }
                 // })
-                this.verifyCode = ''
-                this.checkedMobile = this.mobile
+                this.verificationCode = ''
+                this.checkedPhone = this.phone
                 this.serialNo = '99655245420'
                 this.loginVerify = 59
                 this.verifyTitle = this.loginVerify + ' S'
@@ -141,22 +154,22 @@ export default {
         },
         // 登录
         toNext () {
-            if (!(/^\d+$/).test(this.verifyCode)) {
+            if (!(/^\d+$/).test(this.verificationCode)) {
                 Toast('验证码是4位数字', '提示')
-            } else if (this.mobile !== this.checkedMobile) {
+            } else if (this.phone !== this.checkedPhone) {
                 Toast('请重新获取验证码', '提示')
             } else {
                 let datas = {
-                    mobile: this.mobile,
-                    verifyCode: this.verifyCode,
+                    mobilePhone: this.phone,
+                    verificationCode: this.verificationCode,
                     serialNo: this.serialNo,
                     key: this.key || null
                 }
                 this.nextBtn = true
-                // api.post(api.getUrl(''), datas).then(resp => {
+                // api.post(api.getUrl('common-validatePhoneCode'), datas).then(resp => {
                 //     clearInterval(this.clock)
-                //     this.verifyCode = ''
-                //     this.checkedMobile = ''
+                //     this.verificationCode = ''
+                //     this.checkedPhone = ''
                 //     this.verifyBtn = false
                 //     this.verifyTitle = '获取验证码'
                 //     if (resp.code === '0000') {
@@ -166,8 +179,8 @@ export default {
                 // })
                 Toast('重来！！')
                 clearInterval(this.clock)
-                this.verifyCode = ''
-                this.checkedMobile = ''
+                this.verificationCode = ''
+                this.checkedPhone = ''
                 this.verifyBtn = false
                 this.verifyTitle = '获取验证码'
             }
@@ -177,7 +190,6 @@ export default {
 </script>
 
 <style lang="scss">
-    @import '../assets/scss/global.scss';
     @import '../assets/scss/vant.scss';
     .login {
         padding-top: 3rem;

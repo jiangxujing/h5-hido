@@ -1,9 +1,33 @@
     .van-cell {
         padding: 18px 15px;
     }
+    
     .van-cell__title {
         flex: 0.5
     }
+    
     .van-cell__value {
         flex: 1
     }
+    
+    .borderStyle {
+        height: 1px;
+        background: #EAEAEA;
+        margin: 0 auto;
+        margin-top: 2rem;
+    }
+    .buy-now {
+            width: 70%;
+            height: 4.5rem;
+            background: -webkit-linear-gradient(318deg, #ffaf82 0%, #ff7b31 100%);
+            background: -o-linear-gradient(318deg, #ffaf82 0%, #ff7b31 100%);
+            background: linear-gradient(132deg, #ffaf82 0%, #ff7b31 100%);
+            border-radius: 23px;
+            color: #fff;
+            font-size: 1.7rem;
+            font-weight: 500;
+            position: fixed;
+            bottom: 7rem;
+            left: 50%;
+            margin-left: -35%;
+        }

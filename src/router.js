@@ -8,7 +8,8 @@ import giftPackage from '@/pages/GiftPackage'
 import giftPackageDetail from '@/pages/GiftPackageDetail'
 import commonProblem from '@/pages/CommonProblem'
 import addBankCard from '@/pages/AddBankCard'
-
+import paymentMethod from '@/pages/PaymentMethod'
+import balanceWithdrawal from '@/pages/BalanceWithdrawal'
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
     return originalPush.call(this, location).catch(err => err)
@@ -18,8 +19,7 @@ Vue.use(Router)
 
 export default new Router({
     mode: 'history', 
-    base:'/hido-h5/', //ä¸ºäº†é…ç½®äº§çº¿æ‰¾ä¸åˆ°é™æ€æ–‡ä»¶æ·»åŠ 
-    routes: [
+    base:'/hido-h5/', //ÎªÁËÅäÖÃ²úÏßÕÒ²»µ½¾²Ì¬ÎÄ¼şÌí¼Ó    routes: [
         {
             path: '/login',
             component: login,
@@ -52,6 +52,15 @@ export default new Router({
         	path: '/addBankCard',
             component: addBankCard,
             name:'addBankCard'
+        },{
+        	path: '/paymentMethod',
+            component: paymentMethod,
+            name:'paymentMethod'
+        },{
+        	path: '/balanceWithdrawal',
+            component: balanceWithdrawal,
+            name:'balanceWithdrawal'
+        	
         }
     ]
 })

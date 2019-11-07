@@ -63,6 +63,15 @@
 			<div class="sucess-txt" style="padding-top:1.1rem;">会为您尽快安排发货</div>
 			<div style="#8A9399;font-size:1.4rem;padding-top:2rem;">{{second}}s后自动跳转回购买界面</div>
 		</div>
+		<div class="orderWrapper" v-if="dropOutShow">
+			<div class="order-content">
+				<div class="title">提示</div>
+				<div style="color:#353535;font-size:1.5rem;">是否确认取消订单</div>
+				<div class="borderStyle"></div>
+				<button class="canle" @click="dropOutShow=false">取消</button>
+				<button class="confirm" @click="goBack">确认</button>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -81,7 +90,8 @@
 				phone: '',
 				detailAddress: '',
 				gray:true,
-				second:3
+				second:3,
+				dropOutShow:false
 			}
 		},
 		methods: {
@@ -94,17 +104,21 @@
 				}
 			},
 			submitOrder(){
-				this.orderDetailShow = false
-				let interval = setInterval(()=>{
-					this.second--
-					if(this.second <=0){
-						clearInterval(interval)
-					}
-				},1000)
-				setTimeout(() => {
-				this.$router.push("/productDetail")
-			}, 3000)
-			}
+				this.$router.push("/paymentMethod")
+//				this.orderDetailShow = false
+//				let interval = setInterval(()=>{
+//					this.second--
+//					if(this.second <=0){
+//						clearInterval(interval)
+//					}
+//				},1000)
+//				setTimeout(() => {
+//				this.$router.push("/productDetail")
+//			}, 3000)
+		},
+		goBack(){
+			this.$router.push("/productDetail")
+		}
 		},
 		mounted() {
 			this.province = sessionStorage.getItem('province')
@@ -116,7 +130,19 @@
 			if(this.province && this.city && this.county && this.username && this.phone && this.detailAddress) {
 				this.hasNoAdress = false
 			}
-			
+				let _this = this		
+            pushHistory();  
+            window.addEventListener("popstate", function(e) {  
+                //此处已经捕获返回事件，可以写自己的跳转代码  
+                _this.dropOutShow = true  
+            }, false);  
+            function pushHistory() {  
+                var state = {  
+                    title : "title",  
+                    url : "#"  
+                };  
+                window.history.pushState(state, "title", "#");  
+            }  
 
 		},
 	}
@@ -128,6 +154,51 @@
 		width: 100%;
 		height: 100%;
 		background: #F5F5F5;
+		.orderWrapper{
+			width:100%;
+			height:100%;
+			background:rgba(0,0,0,0.6);
+			position:fixed;
+			left:0;
+			top:0;
+			.order-content{
+				width:72%;
+				margin:50% auto 0;
+				height:auto;
+				background: #fff;
+				border-radius:1.4rem;
+				text-align:center;
+				.title{
+					color:#4B464D;
+					padding:2rem 0;
+					font-weight:500;
+					font-size:1.7rem;
+				}
+				.borderStyle{
+					width:100%d;
+					height:1px;
+					background: #E0E0E0;
+					margin-top:2rem;
+				}
+				button{
+					border:none;
+					background: none;
+					font-size:1.6rem;
+					width:100%;
+					height:4.5rem;
+					line-height:4.5rem;
+					font-weight:400;
+				}
+				.canle{
+					width:49%;
+					border-right:1px solid #E0E0E0;
+				}
+				.confirm{
+					width:49%;
+					color:#FF7B31;
+				}
+			}
+		}
 		.receipt-address {
 			width: 100%;
 			height: auto;

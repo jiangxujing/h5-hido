@@ -35,7 +35,7 @@
 				<div class="merber-package-price">
 					<div class="package-price-left">会员礼包价</div>
 					<div class="package-price-right">
-						<span style="text-decoration:line-through;">原价￥1,200</span>
+						<span style="text-decoration:line-through;">原价￥<span>{{orginPrice}}</span></span>
 						<span style="color:#FF7B31;font-size:1.4rem;font-weight:600;">￥399</span>
 					</div>
 				</div>
@@ -60,7 +60,7 @@
 									<span style="font-size:1.6rem;">￥<span style="font-size:2.1rem;font-weight: bold;">390</span></span>
 									<span style="font-size:1.4rem;">会员礼包</span>
 								</div>
-								<div style="color:#8A9399;font-size:1.7rem;font-weight: 400;">原价￥12，000</div>
+								<div style="color:#8A9399;font-size:1.7rem;font-weight: 400;">原价￥<span>{{orginPrice}}</span></div>
 							</div>
 						</div>
 						<div class="buynumber">131人购买</div>
@@ -102,7 +102,8 @@
 		data() {
 			return {
 				hasNoAdress: false,
-				shareWrapperShow: false
+				shareWrapperShow: false,
+				orginPrice:_utils.formatMoney(39999999.11,2)
 			}
 		},
 		methods: {
@@ -143,6 +144,7 @@
 			},
 			getBuy() {
 				if(!_utils.getCookie('accessToken')) {
+					this.$router.push("/orderDetail")
 					api.setupWebViewJavascriptBridge(function(bridge) {
 						bridge.callHandler('callLogin', {}, (data) => {
 							console.log(data)

@@ -1,6 +1,8 @@
 <template>
     <div class="main-content login">
         <div class="watchData">{{watchData}}</div>
+        <h2 class="login-h2">您好！</h2>
+        <h3 class="login-h3">欢迎来到HIDO</h3>
         <div class="page-field">
             <div class="page-part">
                 <van-cell-group>
@@ -13,7 +15,7 @@
                         @focus="mobileFocus = true"
                         @blur="setTimeout('mobileFocus')"/>
                     <i class="van-cell-group-inputTitle" v-if="mobile">手机号</i>
-                    <van-icon v-if="mobile && mobileFocus" name="close" @click="mobile=''"/>
+                    <van-icon class="verify-input-code" v-if="mobile && mobileFocus" name="close" @click="mobile=''"/>
                 </van-cell-group>
                 <van-cell-group>
                     <input
@@ -25,9 +27,9 @@
                     @focus="verifyCodeFocus=true"
                     @blur="setTimeout('verifyCodeFocus')"/>
                     <i class="van-cell-group-inputTitle" v-if="verifyCode">验证码</i>
-                    <van-icon class="verify-input-code" v-if="verifyCode && verifyCodeFocus" name="close"  @click="verifyCode = ''"/>
+                    <van-icon v-if="verifyCode && verifyCodeFocus" name="close"  @click="verifyCode = ''"/>
                 </van-cell-group>
-                <van-button id="getVerifyCode" class="page-verify" @click="getVerify" :disabled="verifyBtn">{{ verifyTitle }}</van-button>
+                <van-button class="page-verify" @click="getVerify" :disabled="verifyBtn">{{ verifyTitle }}</van-button>
             </div>
         </div>
         <div class="page-button">
@@ -35,7 +37,7 @@
         </div>
         <div class="page-protocol">
             <span class="protocol-title">登录即表示我已阅读并同意</span>
-            <span class="protocol-title protocol-a" @click="popupVisible=true">&nbsp;注册协议</span><span style="color:#FF7B31;">、</span><span class="protocol-title protocol-a" @click="popupVisible=true">隐私策略</span>
+            <span class="protocol-title protocol-a" @click="popupVisible=true">注册协议</span><span style="color:$themeColor;">、</span><span class="protocol-title protocol-a" @click="popupVisible=true">隐私策略</span>
         </div>
         
         <van-popup class="van-popup-protocol" v-model="popupVisible">
@@ -89,7 +91,7 @@ export default {
         // ipnut 清除
         setTimeout (type) {
             let _this = this
-            type == 'mobileFocus' ? (clearInterval(this.clock), this.verifyBtn = false, this.verifyTitle = '获取验证码') : ''
+            type == 'mobileFocus' && this.mobile !== this.checkedMobile ? (clearInterval(this.clock), this.verifyBtn = false, this.verifyTitle = '获取验证码') : ''
             setTimeout(() => { this[type] = false}, 100)
         },
         // 获取验证码
@@ -175,20 +177,94 @@ export default {
 </script>
 
 <style lang="scss">
+    @import '../assets/scss/global.scss';
     @import '../assets/scss/vant.scss';
     .login {
-        padding-top: 1rem;
+        padding-top: 3rem;
+        height: 100%;
+        background: #fff;
+        .login-h2 {
+            margin-left: 2.5rem;
+            color: $darkColor;
+            font-size: 2.8rem;
+            line-height: 2.8rem;
+        }
+        .login-h3 {
+            color: $darkColor;
+            font-size: 2.8rem;
+            margin: 1.2rem 0 1rem 2.5rem;
+            line-height: 2.8rem;
+        }
         .page-protocol {
             position: fixed;
             width: 100%;
             bottom: 2.5rem;
             text-align: center;
             font-size: 1rem;
-            color: #8A9399;
+            color: $lightColor;
             .protocol-a {
                 font-size: 1rem;
                 line-height: 3rem;
             }
+        }
+        .van-hairline--top-bottom::after, .van-hairline-unset--top-bottom::after {
+            border-width: 0;
+            border-bottom: 1px solid $borderColor;
+        }
+        .van-cell-group {
+            height: 7rem;
+            .van-cell-group-input {
+                height: 4.3rem;
+                line-height: 3.8rem;
+                font-size: 1.6rem;
+                top: 2.7rem;
+            }
+            .van-cell-group-inputTitle {
+                position: absolute;
+                top: 0.5rem;
+                font-style: normal;
+                line-height: 1;
+                top: 1.6rem;
+                color: $lightColor;
+            }
+            .van-icon-close {
+                right: 0;
+                top: 2.7rem;
+                position: absolute;
+                line-height: 4rem;
+                color: $lightColor;
+            }
+            .verify-input-code {
+                right: 10.1rem;
+            }
+        }
+        .page-part {
+            padding: 0 2.5rem;
+        }
+        .page-verify {
+            position: absolute;
+            right: 2.5rem;
+            top: 3.8rem;
+            width: 9rem;
+            height: 1.6rem;
+            line-height: 1;
+            font-size: 1.6rem;
+            border-radius: 0;
+            border: none;
+            border-left: 1px solid $normalColor;
+            color: $themeColor;
+            padding: 0 0 0 1rem;
+        }
+        input::-webkit-input-placeholder {
+            font-size: 1.6rem;
+            color: $lightColor;
+        }
+        .page-button {
+            padding: 6rem 2.5rem 5.5rem;
+        }
+        .page-verify.van-button--disabled {
+            color: $lightColor;
+            background: #fff;
         }
     }
 </style>

@@ -1,4 +1,5 @@
 {
-    "token-parse": "/hido-h5/token/parse"
+    "common-sendMobileCode": "/v2/common/sendMobileCode",
+    "common-validatePhoneCode": "/v2/common/validatePhoneCode"
 
 }

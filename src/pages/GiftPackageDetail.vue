@@ -2,15 +2,15 @@
 	<div class="gift-package-detail">
 		<div class="gift-package">
 			<div style="overflow:hidden">
-				<img class="libao" src="../assets/images/libao.png" />
+				<img class="libao" :src="giftDetail.imgurl" />
 				<div style="overflow:hidden;padding-right: 1.5rem;">
 					<div style="float:left">
 						<div class="package-price">
 							<div class="van-multi-ellipsis--l2" style="color:#1A2833;font-size:1.5rem">
-								399大礼包399大礼包39999大礼包399大礼包39999大礼包399大礼包39999大礼包399大礼包39999大礼包399大礼包39999大礼包399大礼包39999大礼包399大礼包399
+								{{giftDetail.packageName}}
 							</div>
 							<div class="price">
-								￥399
+								￥{{giftDetail.oderAmount}}
 							</div>
 						</div>
 					</div>
@@ -22,19 +22,20 @@
 			<div class="borderStyle"></div>
 			<div class="project">
 				<div class="project-content">
-					<div class="project-name">无针水光针</div>
+					<div class="project-name">{{giftDetail.virtualGoods.goodsDesc}}</div>
 					<div class="project-num">
 						<span>可用：</span>
-						<span>1/5</span>
+						<span>{{giftDetail.virtualGoods.goodsCount}}</span>
 					</div>
 				</div>
 				<div class="voucher-number-list">
-					<div class="voucher-content" v-for="(item,index) in voucherList" :key="index">
+					<div class="voucher-content" v-for="(item,index) in giftDetail.virtualGoods.writeOff" :key="index">
 						<div class="voucher-number" :class="item.status == '未使用'?'active-number':''">
 							<span>券号：</span>
-							<span>{{item.number}}</span>
+							<span>{{item.consumerCode}}</span>
 						</div>
-						<div class="voucher-status" :class="item.status == '未使用'?'active-status':''">{{item.status}}</div>
+						<div class="voucher-status" :class="!item.writeOffTime ?'active-status':''">{{item.status}}</div>
+						<div class="voucher-status" style="padding-right:1.3rem">{{item.writeOffTime}}</div>
 					</div>
 				</div>
 			</div>
@@ -42,7 +43,7 @@
 		<div class="delivery-goods">
 			<div class="goods-staus">
 				<div>配送商品</div>
-				<div>已发货</div>
+				<div>{{status}}</div>
 			</div>
 			<div class="borderStyle"></div>
 			<div class="goods-title">
@@ -51,23 +52,23 @@
 			<div class="good-user-detail">
 				<div class="good-user">
 					<div>收件人</div>
-					<div>王静</div>
+					<div>{{giftDetail.receiverName}}</div>
 				</div>
 				<div class="good-user">
 					<div>电话</div>
-					<div>11111111</div>
+					<div>{{giftDetail.receiverPhone}}</div>
 				</div>
 				<div class="good-user">
 					<div>收货地址</div>
-					<div style="line-height: 2rem;">上海市浦东新区银山路183号5号楼102室 鑫桥创意产业园</div>
+					<div style="line-height: 2rem;">{{giftDetail.area}}{{giftDetail.address}}</div>
 				</div>
 				<div class="borderStyle" style="margin-top:1.4rem"></div>
 				<div class="logistics">
 					<div>
 						<span>中通快递:</span>
-						<span>{{logisticsNo}}</span>
+						<span>{{giftDetail.logisticsNo}}</span>
 					</div>
-					<div class="copy tag-read" :data-clipboard-text="logisticsNo" @click="copy">复制</div>
+					<div class="copy tag-read" :data-clipboard-text="giftDetail.logisticsNo" @click="copy">复制</div>
 				</div>
 			</div>
 		</div>
@@ -77,15 +78,15 @@
 			<div class="good-user-detail" style="background: #fff;">
 				<div class="good-user order-d">
 					<div>订单编号：</div>
-					<div>1111111111</div>
+					<div>{{giftDetail.orderNo}}</div>
 				</div>
 				<div class="good-user order-d">
 					<div>创建时间：</div>
-					<div>2019-10-23 09：00：00</div>
+					<div>{{giftDetail.createTime}}</div>
 				</div>
 				<div class="good-user order-d">
 					<div>付款时间：</div>
-					<div>2019-10-23 09：00：00</div>
+					<div>{{giftDetail.orderTime}}</div>
 				</div>
 				<div class="good-user order-d">
 					<div>支付方式：</div>
@@ -97,8 +98,9 @@
 </template>
 
 <script>
-	import Clipboard from 'clipboard';  
-	import { Toast} from 'vant'
+	import Clipboard from 'clipboard';
+	import { Toast } from 'vant'
+	import api from '../common/api.js'
 	export default {
 		name: 'productDetail',
 		data() {
@@ -116,30 +118,96 @@
 					number: '2019897937463',
 					status: '已使用'
 				}],
-				logisticsNo:32109210119
+				status: '',
+				giftDetail: {
+					"address": "测试内容n7hi",
+					"area": "测试内容tt61",
+					"createTime": "测试内容0u1h",
+					"oderAmount": 34844,
+					"orderNo": "测试内容d314",
+					"orderTime": "测试内容57o1",
+					"packageCode": "测试内容lyz3",
+					"packageName": "测试内容6rqv",
+					"payType": "测试内容y3ua",
+					"receiverName": "测试内容8q73",
+					"receiverPhone": "测试内容1b56",
+					"imgurl": require('../assets/images/libao.png'),
+					"logisticsNo": 32109210119,
+					"shipGoods": [{
+						"goodsCount": 46472,
+						"goodsDesc": "测试内容mr5r"
+					}],
+					"status": 7,
+					"virtualGoods": {
+						"goodsCount": 15252,
+						"goodsDesc": "测试内容5alx",
+						"writeOff": [{
+							"consumerCode": "122222222222",
+							"writeOffTime": "2019-10-11"
+						},{
+							"consumerCode": "333333333",
+							"writeOffTime": ""
+						}]
+					}
+				},
+
 			}
 		},
 		methods: {
-			copy(){
-				    var clipboard = new Clipboard('.tag-read')  
-          clipboard.on('success', e => {  
-             Toast('复制成功')//这里你如果引入了elementui的提示就可以用，没有就注释即可
-                  // 释放内存  
-                  clipboard.destroy()  
-                })  
-                clipboard.on('error', e => {  
-                  // 不支持复制  
-                  console.log('该浏览器不支持自动复制')  
-                  // 释放内存  
-                  clipboard.destroy()  
-                })  
+			copy() {
+				var clipboard = new Clipboard('.tag-read')
+				clipboard.on('success', e => {
+					Toast('复制成功') //这里你如果引入了elementui的提示就可以用，没有就注释即可
+					// 释放内存  
+					clipboard.destroy()
+				})
+				clipboard.on('error', e => {
+					// 不支持复制  
+					console.log('该浏览器不支持自动复制')
+					// 释放内存  
+					clipboard.destroy()
+				})
+			},
+			getPackageOrder(orderNo) {
+				let req = {
+					orderNo: orderNo
+				}
+				api.post(api.getUrl('queryPackageOrderDetail'), req).then(res => {
+					if(res.code == '0000') {
+						this.giftDetail = res.content;
+						if(this.giftDetail.status == 1) {
+							this.status = '待支付'
+						} else if(this.giftDetail.status == 3) {
+							this.status = '待发货'
+						} else if(this.giftDetail.status == 7) {
+							this.status = '已发货'
+						}
+					}
+				}).catch((e) => {
+					this.giftDetail = res.content;
+
+				})
 			}
 		},
 		mounted() {
-			function execCopy(event,thisDiv){
-	            event.clipboardData.setData("text/plain", thisDiv.textContent);
-	            alert(event.clipboardData.getData("text"));
+			let orderNo = this.$route.query.orderNo
+			console.log(orderNo)
+			//this.getPackageOrder(orderNo)
+			if(this.giftDetail.status == 1) {
+				this.status = '待支付'
+			} else if(this.giftDetail.status == 3) {
+				this.status = '待发货'
+			} else if(this.giftDetail.status == 7) {
+				this.status = '已发货'
 			}
+			
+			this.giftDetail.virtualGoods.writeOff.forEach((i) => {
+						if(i.writeOffTime){
+							this.$set(i, "status", '已使用');
+						}else{
+							this.$set(i, "status", '未使用');
+						}
+					});
 		},
 	}
 </script>
@@ -234,6 +302,7 @@
 						.voucher-status {
 							float: right;
 							color: #8A9399;
+							font-size:1.3rem;
 						}
 					}
 				}
@@ -284,8 +353,8 @@
 					width: 70%;
 				}
 			}
-			.order-d{
-				div:last-child{
+			.order-d {
+				div:last-child {
 					float: left;
 				}
 			}
@@ -299,23 +368,23 @@
 				}
 			}
 		}
-		.order-detail{
-			width:100%;
-			height:auto;
+		.order-detail {
+			width: 100%;
+			height: auto;
 			background: #fff;
-			.order-title{
-				color:#8A9399;
-				font-size:1.5rem;
-				padding:1.8rem 1.5rem;
+			.order-title {
+				color: #8A9399;
+				font-size: 1.5rem;
+				padding: 1.8rem 1.5rem;
 			}
 		}
-		.copy{
-			color:#FF7B31;
+		.copy {
+			color: #FF7B31;
 		}
-		#logisticsId{
+		#logisticsId {
 			border: none;
-    background: none;
-    height: 1.7rem;
+			background: none;
+			height: 1.7rem;
 		}
 	}
 </style>

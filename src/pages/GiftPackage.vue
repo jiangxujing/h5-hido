@@ -1,29 +1,28 @@
 <template>
 	<div>
-			<div class="gift-package">
+			<div class="gift-package" v-for = "(p,index) in packageList" :key="index" @click="goToGiftDetail(p.orderNo)">
 				<div class="time-status">
-					<div class="time">2019/10/15 13:38:38</div>
+					<div class="time">{{p.orderTime}}</div>
 					<div class="status">已发货</div>
 				</div>
 				<div class="borderStyle"></div>
 				<div style="overflow:hidden">
-					<img class="libao" src="../assets/images/libao.png" />
+					<img class="libao" :src="p.imgurl" />
 					<div style="overflow:hidden;padding-right: 1.5rem;">
 						<div style="float:left">
 							<div class="package-price">
 								<div class="van-multi-ellipsis--l2" style="color:#1A2833;font-size:1.5rem">
-									399大礼包399大礼包399
+									{{p.packageName}}
 								</div>
 								<div>
 									<span style="font-size:1.4rem;color:#8A9399">修复面膜*10</span>
 								</div>
 							</div>
 						</div>
-						<div class="buynumber">x1</div>
 					</div>
 					<div style="overflow:hidden;padding-left:1.2rem">
 						<span style="font-size:1.4rem;color:#8A9399;float:left">无针水光针*1</span>
-						<span style="color:#FF7B31;font-size:1.6rem;float:right;padding-right: 1.5rem;">￥399</span>
+						<span style="color:#1A2833;font-weight:bold;font-size:1.6rem;float:right;padding-right: 1.5rem;">￥<span>{{p.oderAmount}}</span></span>
 					</div>
 				</div>
 			</div>
@@ -31,14 +30,39 @@
 </template>
 
 <script>
+	import api from '../common/api.js'
 	export default {
 		name: 'giftPackage',
 		data() {
 			return {
-				
+				packageList:[{
+					orderTime:'2019/10/15',
+					packageName:'399大礼包',
+					imgurl: require('../assets/images/libao.png'),
+					oderAmount:'399',
+					orderNo:1
+				},{
+					orderTime:'2019/10/15',
+					packageName:'399大礼包',
+					imgurl: require('../assets/images/libao.png'),
+					oderAmount:'399',
+					orderNo:2
+				}],
+				orderTime:'',
+				packageName:''
 			}
 		},
 		methods: {
+			getGiftList(){
+				  api.post(api.getUrl('queryPurchasedPackageList'), {}).then(res => {
+                       if (res.code == '0000') {
+                       		this.packageList = res.content.packageList
+                       }
+                   })
+			},
+			goToGiftDetail(orderNo){
+				this.$router.push("/giftPackageDetail?orderNo="+orderNo)
+			}
 			
 		},
 		mounted() {
@@ -79,11 +103,6 @@
 				height: 52px;
 				border-radius: 3px;
 				float: left;
-			}
-			.buynumber {
-				color: #1A2833;
-				font-size: 1.5rem;
-				float: right;
 			}
 			.package-price {
 				float: left;

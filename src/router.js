@@ -10,6 +10,8 @@ import commonProblem from '@/pages/CommonProblem'
 import addBankCard from '@/pages/AddBankCard'
 import paymentMethod from '@/pages/PaymentMethod'
 import balanceWithdrawal from '@/pages/BalanceWithdrawal'
+import myTeam from '@/pages/MyTeam'
+import accountBalance from '@/pages/AccountBalance'
 
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
@@ -62,7 +64,14 @@ export default new Router({
         	path: '/balanceWithdrawal',
             component: balanceWithdrawal,
             name:'balanceWithdrawal'
-        	
+        },{
+        	path: '/myTeam',
+            component: myTeam,
+            name:'myTeam'
+        },{
+        	path: '/accountBalance',
+            component: accountBalance,
+            name:'accountBalance'	
         }
     ]
 })

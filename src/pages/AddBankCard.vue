@@ -108,6 +108,7 @@ export default {
         }
     },
     mounted () {
+        document.title = '添加银行卡'
         this.verifyTitle = '获取验证码'
     },
     computed: {

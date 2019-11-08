@@ -1,0 +1,179 @@
+<template>
+    <!-- 账单 -->
+    <div class="main-content account-balance">
+        <van-dropdown-menu class="account-balance-type" active-color="#FF7B31">
+            <van-dropdown-item v-model="type" :options="typeList" />
+        </van-dropdown-menu>
+        <van-list v-model="loading" :finished="finished"  finished-text="没有更多了" @load="onLoad">
+            <van-cell v-for="(item, index) in beillList" :key="index">
+                <div class="bill-item">
+                    <div class="bill-item-left">
+                        <div class="bill-item-title">{{item.title}}</div>
+                        <div class="bill-item-time">{{item.time}}</div>
+                    </div>
+                    <div class="bill-item-right">
+                        <div :class="!item.status ? 'bill-item-amount theme-color' : 'bill-item-amount'">{{item.amount}}</div>
+                        <div class="bill-item-status">{{item.status}}</div>
+                    </div>
+                </div>
+            </van-cell>
+        </van-list>
+    </div>
+</template>
+
+<script>
+import { Toast, DropdownMenu, DropdownItem } from 'vant'
+import { formatMoney } from '../common/utils.js'
+import api from '../common/api.js'
+
+export default {
+    name: 'account-balance',
+    data () {
+        return {
+            type: 0,
+            typeList: [{
+                value: 0,
+                text: '全部账单'
+            }, {
+                value: 1,
+                text: '奖励金收益'
+            }, {
+                value: 2,
+                text: '奖励金提取'
+            }],
+            pageNo: 0,
+            pageSize: 10,
+            beillList: [],
+            loading: false,
+            finished: false,
+            total: 0
+        }
+    },
+    mounted () {
+        document.title = '账单'
+        this.getBill()
+    },
+    computed: {
+
+    },
+    methods: {
+        // 获取账单
+        getBill () {
+            let datas = {
+                type: this.type,
+                pageNo: this.pageNo,
+                pageSize: this.pageSize
+            }
+            // api.post(api.getUrl('agent-queryBills'), datas).then(res => {
+            //     if (!!res && res.code === 0) {
+            //         if (!!res.content && res.content.length > 0) {
+            //             this.total = res.total
+            //             res.content.forEach(item => {
+            //                 let data = item
+            //                 data.amount = formatMoney(item.amount, 1)
+            //                 this.beillList.push(data)
+            //             })
+            //             this.loading = false
+            //             if ((this.pageNo + 1)* this.pageSize >= this.total) {
+            //                 this.finished = true
+            //             }
+            //         } else {
+            //             this.finished = true
+            //         }
+            //     }
+            // })
+            const content = [{
+                amount: 10000,
+                amountType: 1,
+                status: '奖励金获取失败',
+                time: '2019-11-11 09:00',
+                title: '奖励金提取-建设银行(9989)'
+            }, {
+                amount: 110000,
+                amountType: 1,
+                status: '',
+                time: '2019-11-11 09:00',
+                title: '奖励金提取-建设银行(9989)'
+            }, {
+                amount: 10000,
+                amountType: 1,
+                status: '奖励金获取失败',
+                time: '2019-11-11 09:00',
+                title: '奖励金提取-建设银行(9989)'
+            }, {
+                amount: 10,
+                amountType: 1,
+                status: '奖励金获取失败',
+                time: '2019-11-11 09:00',
+                title: '奖励金提取-建设银行(9989)'
+            }, {
+                amount: 100000,
+                amountType: 1,
+                status: '奖励金获取失败',
+                time: '2019-11-11 09:00',
+                title: '奖励金提取-建设银行(9989)'
+            }, {
+                amount: 10000,
+                amountType: 1,
+                status: '奖励金获取失败',
+                time: '2019-11-11 09:00',
+                title: '奖励金提取-建设银行(9989)'
+            }, {
+                amount: 10000,
+                amountType: 1,
+                status: '奖励金获取失败',
+                time: '2019-11-11 09:00',
+                title: '奖励金提取-建设银行(9989)'
+            }]
+            content.forEach(item => {
+                let data = item
+                data.amount = formatMoney(item.amount, 1)
+                this.beillList.push(data)
+            })
+            this.loading = false
+        },
+        onLoad() {
+            this.pageNo += 1
+            this.getBill()
+            if ((this.pageNo + 1)* this.pageSize >= this.total) {
+                this.finished = true
+            }
+        }
+    }
+}
+</script>
+
+<style lang="scss">
+    @import '../assets/scss/vant.scss';
+    .account-balance {
+        .account-balance-type {
+            margin-bottom: 1rem;
+        }
+        .bill-item {
+            display: flex;
+            flex-direction: row;
+            line-height: 1;
+            font-size: 1.2rem;
+            color: #1A2833;
+        }
+        .bill-item-right {
+            flex: auto;
+            text-align: right;
+        }
+        .bill-item-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.1rem;
+        }
+        .bill-item-time {
+            color: #8A9399;
+        }
+        .bill-item-amount {
+            font-size: 1.8rem;
+            margin-bottom: .8rem;
+            font-weight: 600;
+        }
+        .bill-item-status {
+            color: #FF0000;
+        }
+    }
+</style>

@@ -132,7 +132,7 @@
 					});
 					this.$set(i, "active", true);
 					this.city = i.name
-									sessionStorage.setItem('city',this.city)
+					sessionStorage.setItem('city',this.city)
 				
 
 				this.district = ''

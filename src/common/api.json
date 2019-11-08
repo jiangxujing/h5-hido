@@ -1,5 +1,7 @@
 {
     "common-sendMobileCode": "/v2/common/sendMobileCode",
-    "common-validatePhoneCode": "/v2/common/validatePhoneCode"
+    "common-validatePhoneCode": "/v2/common/validatePhoneCode",
+    "queryPurchasedPackageList":"/mall/queryPurchasedPackage",
+    "queryPackageOrderDetail":"/mall/queryPackageOrder"
 
 }

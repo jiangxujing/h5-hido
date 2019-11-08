@@ -76,6 +76,7 @@
 </template>
 
 <script>
+	import api from '../common/api.js'
 	export default {
 		name: 'orderDetail',
 		data() {
@@ -121,6 +122,11 @@
 		}
 		},
 		mounted() {
+			api.setupWebViewJavascriptBridge(function(bridge) {
+					bridge.callHandler('invokeBackPress', {}, (data) => {
+						console.log(data)
+					})
+				})
 			this.province = sessionStorage.getItem('province')
 			this.county = sessionStorage.getItem('county')
 			this.city = sessionStorage.getItem('city')

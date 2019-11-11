@@ -2,7 +2,7 @@
 	<div class="product-detail">
 		<div class="content1">
 			<div class="content1-header">
-				<img class="detail-img" src="../assets/images/detai-img.jpg" />
+				<img class="detail-img" :src="productDetail.headPicture" />
 				<div class="tips">
 					<div class="header-tips">
 						<img src="../assets/images/gou.png" />
@@ -12,7 +12,7 @@
 						<img src="../assets/images/gou.png" />
 						<span>过期退</span>
 					</div>
-					<div class="buy-count">131人购买</div>
+					<div class="buy-count">{{productDetail.buynum}}人购买</div>
 				</div>
 			</div>
 		</div>
@@ -23,10 +23,10 @@
 				<div class="package">
 					<div class="package-l">
 						<img src="../assets/images/double.png" />
-						<span>大气泡</span>
+						<span>{{productDetail.name}}</span>
 					</div>
 					<div class="package-r">
-						<span>12次</span>
+						<span>{{productDetail.num}}次</span>
 						<span style="color:#8A9399;">|</span>
 						<span>￥219</span>
 					</div>
@@ -35,7 +35,7 @@
 				<div class="merber-package-price">
 					<div class="package-price-left">会员礼包价</div>
 					<div class="package-price-right">
-						<span style="text-decoration:line-through;">原价￥<span>{{orginPrice}}</span></span>
+						<span style="text-decoration:line-through;">原价￥<span>{{productDetail.originalPrice}}</span></span>
 						<span style="color:#FF7B31;font-size:1.4rem;font-weight:600;">￥399</span>
 					</div>
 				</div>
@@ -60,7 +60,7 @@
 									<span style="font-size:1.6rem;">￥<span style="font-size:2.1rem;font-weight: bold;">390</span></span>
 									<span style="font-size:1.4rem;">会员礼包</span>
 								</div>
-								<div style="color:#8A9399;font-size:1.7rem;font-weight: 400;">原价￥<span>{{orginPrice}}</span></div>
+								<div style="color:#8A9399;font-size:1.7rem;font-weight: 400;">原价￥<span>{{productDetail.originalPrice}}</span></div>
 							</div>
 						</div>
 						<div class="buynumber">131人购买</div>
@@ -103,11 +103,21 @@
 			return {
 				hasNoAdress: false,
 				shareWrapperShow: false,
-				orginPrice:_utils.formatMoney(39999999.11,2)
+				orginPrice: _utils.formatMoney(39999999.11, 2),
+				productDetail: {
+						"detailPicture": 1,
+						"headPicture": require('../assets/images/detai-img.jpg'),
+						"listPicture": 1,
+						"name": '大气泡',
+						"num":12,
+						"originalPrice": 11111,
+						"salesPrice": 1,
+						"buynum":131
+				}
 			}
 		},
 		methods: {
-			cancleBtn(){
+			cancleBtn() {
 				this.shareWrapperShow = false
 			},
 			getShare() {
@@ -391,8 +401,8 @@
 				}
 				.weixin-friend {
 					display: flex;
-					width:60%;
-					margin:0 auto;
+					width: 60%;
+					margin: 0 auto;
 					.weixin,
 					.friend {
 						flex: 1;

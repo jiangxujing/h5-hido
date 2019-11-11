@@ -112,3 +112,19 @@
         line-height: 1.14em;
     }
 }
+
+/* van-dropdown-menu */ 
+.van-dropdown-menu {
+    height: 5rem;
+    .van-dropdown-menu__title {
+        color: #1A2833;
+    }
+}
+.van-dropdown-menu__item:active {
+    opacity: 1;
+}
+
+/* van-cell */
+.van-cell {
+    padding: 2rem 1.5rem;
+}

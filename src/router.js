@@ -21,8 +21,6 @@ Router.prototype.push = function push(location) {
 Vue.use(Router)
 
 export default new Router({
-    mode: 'history', 
-    base:'/h5-hido/', //为了配置产线找不到静态文件添加
     routes: [
         {
             path: '/login',

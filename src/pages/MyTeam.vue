@@ -1,30 +1,45 @@
 <template>
     <!-- 我的团队 -->
     <div class="main-content my-team">
-        <!-- <div v-for="(item, index) in myTeam" :key="index">
-            <div class="team-item">
-                <div class="team-first"></div>
-                <div class="team-second">
-                    <van-collapse v-model="activeNames">
-                        <van-collapse-item v-for="(child,idx) in item.list" :key="idx" :title="child.secondAgentPhone" :name="idx">
-                            <div>child.secondAgentPhone</div>
-                            <div>child.secondAgentAmount</div>
-                        </van-collapse-item>
-                    </van-collapse>
+        <div v-for="(item, index) in myTeam" :key="index" class="team-item">
+            <div class="team-first">
+                <div class="team-first-photo">
+                    <img :src="item.firstAgentPhoto" alt="" v-if="item.firstAgentPhoto">
+                    <span v-else></span>
                 </div>
+                <h5>{{item.firstAgentPhone}}</h5>
+                <h5>{{item.firstAgentAmount}}</h5>
             </div>
+            <van-collapse v-model="item.activeNames">
+                <van-collapse-item :name="idx" v-for="(child, idx) in item.list" :key="idx">
+                    <div slot="title">
+                        <!-- <div></div> -->
+                        <span>二级代理</span>
+                        <span>{{item.secondAgentNo + '人'}}</span>
+                    </div>
+                    <div>
+                        <div v-for="(second, i) in item.list[0]" :key="i">
+                            <span>{{second.secondAgentPhone}}</span>
+                            <span>{{second.secondAgentAmount}}</span>
+                        </div>
+                    </div>
+                </van-collapse-item>
+            </van-collapse>
         </div>
-        <van-collapse v-model="activeNames">
-            <van-collapse-item v-for="(item,idx) in myTeam" :key="idx" :title="item.secondAgentPhone" :name="idx">
-                <div>item.secondAgentPhone</div>
-                <div>item.secondAgentAmount</div>
-            </van-collapse-item>
-        </van-collapse> -->
 
         <!-- <van-collapse v-model="activeNames">
-            <van-collapse-item title="标题1" name="1">内容</van-collapse-item>
-            <van-collapse-item title="标题2" name="2">内容</van-collapse-item>
-            <van-collapse-item title="标题3" name="3" disabled>内容</van-collapse-item>
+            <van-collapse-item :name="index" v-for="(item, index) in myTeam" :key="index">
+                <div slot="value">
+                    <div>{{item.firstAgentPhone}}</div>
+                    <div>{{item.firstAgentAmount}}</div>
+                </div>
+                <div>
+                    <div v-for="(child, idx) in item.list" :key="idx">
+                        <span>{{child.secondAgentPhone}}</span>
+                        <span>{{child.secondAgentAmount}}</span>
+                    </div>
+                </div>
+            </van-collapse-item>
         </van-collapse> -->
     </div>
 </template>
@@ -106,9 +121,11 @@ export default {
                     firstAgentPhone: item.firstAgentPhone,
                     firstAgentPhoto: item.firstAgentPhoto,
                     secondAgentNo: item.secondAgentNo,
-                    firstAgentAmount: formatMoney(item.firstAgentAmount, 1)
+                    firstAgentAmount: formatMoney(item.firstAgentAmount, 1),
+                    activeNames: [],
+                    list: []
                 }
-                itemObj.list = item.list.map(child => {
+                itemObj.list[0] = item.list.map(child => {
                     let childObj = {
                         secondAgentPhone: child.secondAgentPhone,
                         secondAgentPhoto: child.secondAgentPhoto,
@@ -126,6 +143,14 @@ export default {
 <style lang="scss">
     @import '../assets/scss/vant.scss';
     .my-team {
-
+        padding-top: 1rem;
+        .team-item {
+            background: #fff;
+        }
+        .team-first-photo {
+            width: 3.1rem;
+            height: 3.1rem;
+            padding: 1.2rem 1rem 0 1.5rem;
+        }
     }
 </style>

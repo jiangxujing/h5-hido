@@ -2,7 +2,7 @@
     <!-- 账单 -->
     <div class="main-content account-balance">
         <van-dropdown-menu class="account-balance-type" active-color="#FF7B31">
-            <van-dropdown-item v-model="type" :options="typeList" />
+            <van-dropdown-item v-model="type" :options="typeList" @change="setType"/>
         </van-dropdown-menu>
         <van-list v-model="loading" :finished="finished"  finished-text="没有更多了" @load="onLoad">
             <van-cell v-for="(item, index) in beillList" :key="index">
@@ -57,6 +57,11 @@ export default {
 
     },
     methods: {
+        // 更改类型
+        setType () {
+            this.pageNo = 0
+            this.getBill()
+        },
         // 获取账单
         getBill () {
             let datas = {
@@ -132,6 +137,7 @@ export default {
             })
             this.loading = false
         },
+        // 上拉加载
         onLoad() {
             this.pageNo += 1
             this.getBill()
@@ -154,7 +160,7 @@ export default {
             flex-direction: row;
             line-height: 1;
             font-size: 1.2rem;
-            color: #1A2833;
+            color: $darkColor;
         }
         .bill-item-right {
             flex: auto;
@@ -165,7 +171,7 @@ export default {
             margin-bottom: 1.1rem;
         }
         .bill-item-time {
-            color: #8A9399;
+            color: $lightColor;
         }
         .bill-item-amount {
             font-size: 1.8rem;
@@ -173,7 +179,7 @@ export default {
             font-weight: 600;
         }
         .bill-item-status {
-            color: #FF0000;
+            color: $darkThemeColor;
         }
     }
 </style>

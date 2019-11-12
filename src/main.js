@@ -6,7 +6,7 @@ import api from './common/api.js'
 import utils from './common/utils.js'
 import 'vant/lib/button/style'
 
-import { Field, Button, Toast, Popup, Cell, CellGroup, Icon, Checkbox, CheckboxGroup, DropdownMenu, DropdownItem, List } from 'vant'
+import { Field, Button, Toast, Popup, Cell, CellGroup, Icon, Checkbox, CheckboxGroup, DropdownMenu, DropdownItem, List, Collapse, CollapseItem } from 'vant'
 
 Vue.component(Toast.name, Toast)
 Vue.component(Popup.name, Popup)
@@ -20,7 +20,9 @@ Vue.component(CheckboxGroup.name, CheckboxGroup)
 Vue.component(DropdownMenu.name, DropdownMenu)
 Vue.component(DropdownItem.name, DropdownItem)
 Vue.component(List.name, List)
-Vue.use(Toast, Popup, Field, Button, Icon, Checkbox, CheckboxGroup, DropdownMenu, DropdownItem, List)
+Vue.component(Collapse.name, Collapse)
+Vue.component(CollapseItem.name, CollapseItem)
+Vue.use(Toast, Popup, Field, Button, Icon, Checkbox, CheckboxGroup, DropdownMenu, DropdownItem, List, Collapse, CollapseItem)
 
 // 将工具方法绑定到全局
 Vue.prototype.$utils = utils

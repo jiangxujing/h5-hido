@@ -2,7 +2,7 @@ import axios from 'axios'
 import _ from 'lodash'
 import ApiList from './api.json'
 import { Toast } from 'vant'
-import { getQueryString } from './utils.js'
+import { getQueryString, getCookie } from './utils.js'
 import Loading from '../components/Loading/loading.js'
 
 let CancelToken = axios.CancelToken
@@ -182,7 +182,7 @@ const post = (url, data, noLoading, noToken) => {
             cancel = c
         })
     }
-    headers.accessToken = sessionStorage.getItem('accessToken')
+    headers.accessToken = getCookie('accessToken')
     !noToken ? axiosHead.headers = headers : ''
 
     return axios(axiosHead).then(function(resp) {

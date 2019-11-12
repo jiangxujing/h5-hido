@@ -51,6 +51,7 @@
 
 <script>
 import { Toast, Field, Button, Popup } from 'vant'
+import { setCookie } from '../common/utils.js'
 import api from '../common/api.js'
 
 export default {
@@ -73,19 +74,6 @@ export default {
     },
     mounted () {
         this.verifyTitle = '获取验证码'
-    },
-    computed: {
-        // 监听页面数据
-        watchData: function () {  
-            // 按钮监听
-            this.verifyBtn = this.verifyTitle === '获取验证码' || this.verifyTitle === '重新发送' ? false : true
-            this.nextBtn = this.verificationCode && (this.verificationCode.length >= 4) && (this.phone === this.checkedPhone) ? false : true
-            if (this.phone && this.phone !== this.checkedPhone) {
-                clearInterval(this.clock)
-                this.verifyBtn = false
-                this.verifyTitle = '获取验证码'
-            }   
-        }
     },
     computed: {
         // 监听页面数据
@@ -167,7 +155,7 @@ export default {
                         this.checkedPhone = ''
                         this.verifyBtn = false
                         this.verifyTitle = '获取验证码'
-                        sessionStorage.setItem('accessToken', res.accessToken)
+                        setCookie('accessToken', res.accessToken, 7)
                         this.$router.go(-1) // 哪来回哪去
                     }
                 })

@@ -301,6 +301,7 @@ export const dateFormatter = (datetime, fmt, fix) => {
  **/
 export const setCookie = (name, value, day) => {
 	let exp = new Date()
+	day = day || 1
 	exp.setTime(exp.getTime() + day * 60 * 60 * 1000 * 24)
 	document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString()
 }

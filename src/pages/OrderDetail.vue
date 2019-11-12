@@ -77,6 +77,7 @@
 
 <script>
 	import api from '../common/api.js'
+	import _utils from '../common/utils.js'
 	export default {
 		name: 'orderDetail',
 		data() {
@@ -96,6 +97,28 @@
 			}
 		},
 		methods: {
+			 getCode () { // 非静默授权，第一次有弹框
+            const code = _utils.getQueryString('code') // 截取路径中的code，如果没有就去微信授权，如果已经获取到了就直接传code给后台获取openId
+            //const local = window.location.href
+            const local = "https://www.moutechs.com/"
+           
+            if (code == null || code === '') {
+                window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxeca1482bdae31559' + '&redirect_uri=' + encodeURIComponent(local) + '&response_type=code&scope=snsapi_base&state=1#wechat_redirect'
+            } else {
+                this.getOpenId(code) //把code传给后台获取用户信息
+            }
+        },
+        getOpenId (code) { // 通过code获取 openId等用户信息，/api/user/wechat/login 为后台接口
+            let _this = this
+            this.$http.post('/api/user/wechat/login', {code: code}).then((res) => {
+                let datas = res.data
+                if (datas.code === 0 ) {
+                    console.log('成功')
+                }
+            }).catch((error) => {
+                console.log(error)
+            })
+        },
 			setAddress(){
 				this.$router.push("/shippingAddress")
 			},
@@ -122,6 +145,7 @@
 		}
 		},
 		mounted() {
+			//this.getCode()
 			api.setupWebViewJavascriptBridge(function(bridge) {
 					bridge.callHandler('invokeBackPress', {}, (data) => {
 						console.log(data)

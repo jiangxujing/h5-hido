@@ -3,44 +3,32 @@
     <div class="main-content my-team">
         <div v-for="(item, index) in myTeam" :key="index" class="team-item">
             <div class="team-first">
-                <div class="team-first-photo">
-                    <img :src="item.firstAgentPhoto" alt="" v-if="item.firstAgentPhoto">
-                    <span v-else></span>
+                <img class="first-img" :src="item.firstAgentPhoto" v-if="item.firstAgentPhoto" />
+                <span class="first-img-bg" v-else></span>
+                <div class="first-content">
+                    <div class="first-phone">{{item.firstAgentPhone}}</div>
+                    <div class="first-amount">{{'￥' + item.firstAgentAmount}}</div>
                 </div>
-                <h5>{{item.firstAgentPhone}}</h5>
-                <h5>{{item.firstAgentAmount}}</h5>
             </div>
             <van-collapse v-model="item.activeNames">
-                <van-collapse-item :name="idx" v-for="(child, idx) in item.list" :key="idx">
-                    <div slot="title">
-                        <!-- <div></div> -->
+                <van-collapse-item :name="idx" v-for="(child, idx) in item.list" :key="idx" class="team-second">
+                    <div slot="title" class="second-no">
                         <span>二级代理</span>
-                        <span>{{item.secondAgentNo + '人'}}</span>
+                        <span class="second-no-right fl-r">{{item.secondAgentNo + '人'}}</span>
                     </div>
                     <div>
-                        <div v-for="(second, i) in item.list[0]" :key="i">
-                            <span>{{second.secondAgentPhone}}</span>
-                            <span>{{second.secondAgentAmount}}</span>
+                        <div v-for="(second, i) in item.list[0]" :key="i" class="second-child">
+                            <img class="second-img" :src="second.secondAgentPhoto" v-if="second.secondAgentPhoto" />
+                            <span class="second-img-bg" v-else></span>
+                            <div class="second-content">
+                                <span class="second-phone">{{second.secondAgentPhone}}</span>
+                                <span class="second-amount fl-r">{{'￥' + second.secondAgentAmount}}</span>
+                            </div>
                         </div>
                     </div>
                 </van-collapse-item>
             </van-collapse>
         </div>
-
-        <!-- <van-collapse v-model="activeNames">
-            <van-collapse-item :name="index" v-for="(item, index) in myTeam" :key="index">
-                <div slot="value">
-                    <div>{{item.firstAgentPhone}}</div>
-                    <div>{{item.firstAgentAmount}}</div>
-                </div>
-                <div>
-                    <div v-for="(child, idx) in item.list" :key="idx">
-                        <span>{{child.secondAgentPhone}}</span>
-                        <span>{{child.secondAgentAmount}}</span>
-                    </div>
-                </div>
-            </van-collapse-item>
-        </van-collapse> -->
     </div>
 </template>
 
@@ -53,10 +41,7 @@ export default {
     name: 'my-team',
     data () {
         return {
-            activeNames: ['1'],
-            pageNo: 0,
-            pageSize: 10,
-            total: 0,
+            activeNames: ['0'],
             myTeam: []
         }
     },
@@ -146,11 +131,72 @@ export default {
         padding-top: 1rem;
         .team-item {
             background: #fff;
+            padding: 1.2rem 1rem 0;
+            margin-bottom: 1rem;
         }
-        .team-first-photo {
+        .team-first, .second-child {
+            display: flex;
+        }
+        .second-child {
+            padding: .6rem 0;
+        }
+        .first-img, .first-img-bg, .second-img, .second-img-bg {
             width: 3.1rem;
             height: 3.1rem;
-            padding: 1.2rem 1rem 0 1.5rem;
+            border-radius: 50%;
+        }
+        .second-img, .second-img-bg {
+            width: 2.4rem;
+            height: 2.4rem;
+        }
+        .first-img-bg, .second-img-bg {
+            display: inline-block;
+            background: $bgColor;
+        }
+        .first-content, .second-content {
+            flex: 1;
+            -webkit-box-flex: 1;
+            flex-direction: row;
+            overflow: hidden;
+            margin-left: 1rem;
+            line-height: 1;
+            font-size: 1.6rem;
+            color: $darkColor;
+        }
+        .second-content {
+            font-size: 1.4rem;
+            line-height: 2.4rem;
+            margin-left: .8rem;
+            color: #2B3842;
+        }
+        .second-amount {
+            color: $themeColor;
+            font-weight: 500;
+        }
+        .first-amount {
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: $themeColor;
+            margin: 1.1rem 0 1.4rem;
+        }
+        .team-second .van-collapse-item__content {
+            background: #FAFAFA;
+            margin-bottom: 1.2rem;
+            margin-bottom: 1.2rem;
+            padding: .6rem 1.2rem;
+            border-radius: 3px;
+        }
+        .second-no {
+            height: 2.4rem;
+            line-height: 2.4rem;
+            font-size: 1.5rem;
+            color: #2B3842;
+        }
+        .second-no-right {
+            font-weight: 600;
+        }
+        .van-cell--clickable:active {
+            background: #fff;
         }
     }
 </style>

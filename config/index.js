@@ -10,13 +10,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/hido-h5/**': {
-        target: 'http://99.48.66.106:8083', // sit
+      '/hidoCode/**': {
+        target: 'http://192.168.199.66:8080',
         secure: false,
         changeOrigin: false,
       },
-      '/wechat/**': {
-        target: 'http://www.moutechs.com', // pro-wechat
+      '/user/**': {
+        target: 'http://192.168.199.60:8080',
         secure: false,
         changeOrigin: false,
       }

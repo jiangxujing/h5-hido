@@ -12,8 +12,8 @@
                         <div class="bill-item-time">{{item.time}}</div>
                     </div>
                     <div class="bill-item-right">
-                        <div :class="!item.status ? 'bill-item-amount theme-color' : 'bill-item-amount'">{{item.amount}}</div>
-                        <div class="bill-item-status">{{item.status}}</div>
+                        <div :class="item.isPlus ? 'bill-item-amount theme-color' : 'bill-item-amount'">{{item.amountShow}}</div>
+                        <!-- <div class="bill-item-status">{{item.status}}</div> -->
                     </div>
                 </div>
             </van-cell>
@@ -88,7 +88,7 @@ export default {
             //     }
             // })
             const content = [{
-                amount: 10000,
+                amount: -0,
                 amountType: 1,
                 status: '奖励金获取失败',
                 time: '2019-11-11 09:00',
@@ -100,7 +100,7 @@ export default {
                 time: '2019-11-11 09:00',
                 title: '奖励金提取-建设银行(9989)'
             }, {
-                amount: 10000,
+                amount: 0,
                 amountType: 1,
                 status: '奖励金获取失败',
                 time: '2019-11-11 09:00',
@@ -112,13 +112,13 @@ export default {
                 time: '2019-11-11 09:00',
                 title: '奖励金提取-建设银行(9989)'
             }, {
-                amount: 100000,
+                amount: -100000,
                 amountType: 1,
                 status: '奖励金获取失败',
                 time: '2019-11-11 09:00',
                 title: '奖励金提取-建设银行(9989)'
             }, {
-                amount: 10000,
+                amount: -10000,
                 amountType: 1,
                 status: '奖励金获取失败',
                 time: '2019-11-11 09:00',
@@ -132,7 +132,9 @@ export default {
             }]
             content.forEach(item => {
                 let data = item
-                data.amount = formatMoney(item.amount, 1)
+                data.isPlus = item.amount > 0 ? true : false
+                data.amount = formatMoney(Math.abs(item.amount), 1)
+                data.amountShow = item.amount > 0 ? '+' + data.amount : (item.amount == 0 ? data.amount : '-' + data.amount)
                 this.beillList.push(data)
             })
             this.loading = false
@@ -180,6 +182,9 @@ export default {
         }
         .bill-item-status {
             color: $darkThemeColor;
+        }
+        .van-cell {
+            padding: 2rem 1.5rem;
         }
     }
 </style>

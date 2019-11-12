@@ -49,18 +49,19 @@
         <div class="page-protocol">
             <van-checkbox v-model="checked" checked-color="#FF7B31">
                 <span class="protocol-title">点击提交即表示我已阅读并同意</span>
-                <span class="protocol-title protocol-a" @click="popupVisible=true">《银行卡快捷支付协议》</span>
+                <!-- <span class="protocol-title protocol-a" @click="popupVisible=true">《银行卡快捷支付协议》</span>  -->
+                <span class="protocol-title protocol-a" @click="openPage('https://www.baidu.com')">《银行卡快捷支付协议》</span>
             </van-checkbox>
         </div>
         <div class="page-button">
             <van-button class="next-button" @click="toNext" :disabled="nextBtn">提 交</van-button>
         </div>
-        <van-popup class="van-popup-protocol" v-model="popupVisible">
+        <!-- <van-popup class="van-popup-protocol" v-model="popupVisible">
             <div class="pop-content">
                 <div class="pop-wrap"></div>
                 <div class="close-wrap" @click="popupVisible=false"><img src="../assets/images/pop_close.png" /></div>
             </div>
-        </van-popup>
+        </van-popup> -->
     </div>            
 </template>
 
@@ -130,6 +131,9 @@ export default {
         }
     },
     methods: {
+        openPage (url) {
+            window.location.href = url
+        },
         // 清空四要素 都需重新获取验证码
         clearVerifyCode () {
             clearInterval(this.clock)

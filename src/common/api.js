@@ -2,13 +2,14 @@ import axios from 'axios'
 import _ from 'lodash'
 import ApiList from './api.json'
 import { Toast } from 'vant'
-import { getQueryString } from './utils.js'
+import { getQueryString, getCookie } from './utils.js'
 import Loading from '../components/Loading/loading.js'
 
 let CancelToken = axios.CancelToken
 let cancel
 
-const prefix = '/hido-h5'
+const prefix = '/hidoCode'
+const userPrefix = '/user'
 
 let toolType = null
 if (getQueryString('toolType')) {
@@ -50,11 +51,12 @@ const _parseJSON = str => {
     return (new Function('', 'return ' + str))()
 }
 
-const getUrl = key => {
+const getUrl = (key, type) => {
     if (typeof ApiList[key] === 'undefined' || ApiList[key] === '') {
         return ''
     }
-    return prefix + ApiList[key]
+    let url = type && type == 'user' ? userPrefix + ApiList[key] : prefix + ApiList[key]
+    return url
 }
 
 
@@ -99,7 +101,7 @@ const setupWebViewJavascriptBridge = (callback) => {
 }
 export const getWechat = (title,desc,linkUrl,imgUrl) => {
 	   wx.checkJsApi({
-        jsApiList: ['onMenuShareAppMessage','onMenuShareTimeline'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+        jsApiList: ['onMenuShareAppMessage','onMenuShareTimeline'], // 需要检测的JS接口列表
         success: function(res) {
             console.log(res);
         }
@@ -160,7 +162,7 @@ const post = (url, data, noLoading, noToken) => {
             headers[k] = sessionStorage.getItem(k)
         }
     }
-
+    
     let _data = _.assign({}, data)
     _.forEach(_data, (val, key) => {
         ['timeout'].indexOf(key) === -1 ? postData[key] = val : ''
@@ -180,6 +182,7 @@ const post = (url, data, noLoading, noToken) => {
             cancel = c
         })
     }
+    headers.accessToken = getCookie('accessToken')
     !noToken ? axiosHead.headers = headers : ''
 
     return axios(axiosHead).then(function(resp) {

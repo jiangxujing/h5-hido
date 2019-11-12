@@ -37,20 +37,22 @@
         </div>
         <div class="page-protocol">
             <span class="protocol-title">登录即表示我已阅读并同意</span>
-            <span class="protocol-title protocol-a" @click="popupVisible=true">注册协议</span><span style="color:$themeColor;">、</span><span class="protocol-title protocol-a" @click="popupVisible=true">隐私策略</span>
+            <!-- <span class="protocol-title protocol-a" @click="popupVisible=true">注册协议<span style="color:$themeColor;">、</span><span class="protocol-title protocol-a" @click="popupVisible=true">隐私策略</span> -->
+            <span class="protocol-title protocol-a" @click="openPage('https://www.baidu.com')">注册协议</span><span style="color:$themeColor;">、</span><span class="protocol-title protocol-a" @click="openPage('https://www.baidu.com')">隐私策略</span>
         </div>
         
-        <van-popup class="van-popup-protocol" v-model="popupVisible">
+        <!-- <van-popup class="van-popup-protocol" v-model="popupVisible">
             <div class="pop-content">
                 <div class="pop-wrap"></div>
                 <div class="close-wrap" @click="popupVisible=false"><img src="../assets/images/pop_close.png" /></div>
             </div>
-        </van-popup>
+        </van-popup> -->
 	</div>
 </template>
 
 <script>
 import { Toast, Field, Button, Popup } from 'vant'
+import { setCookie } from '../common/utils.js'
 import api from '../common/api.js'
 
 export default {
@@ -79,20 +81,7 @@ export default {
         watchData: function () {  
             // 按钮监听
             this.verifyBtn = this.verifyTitle === '获取验证码' || this.verifyTitle === '重新发送' ? false : true
-            this.nextBtn = this.verificationCode && (this.verificationCode.length === 4) && (this.phone === this.checkedPhone) ? false : true
-            if (this.phone && this.phone !== this.checkedPhone) {
-                clearInterval(this.clock)
-                this.verifyBtn = false
-                this.verifyTitle = '获取验证码'
-            }   
-        }
-    },
-    computed: {
-        // 监听页面数据
-        watchData: function () {  
-            // 按钮监听
-            this.verifyBtn = this.verifyTitle === '获取验证码' || this.verifyTitle === '重新发送' ? false : true
-            this.nextBtn = this.verificationCode && (this.verificationCode.length === 4) && (this.phone === this.checkedPhone) ? false : true
+            this.nextBtn = this.verificationCode && (this.verificationCode.length >= 4) && (this.phone === this.checkedPhone) ? false : true
             if (this.phone && this.phone !== this.checkedPhone) {
                 clearInterval(this.clock)
                 this.verifyBtn = false
@@ -101,6 +90,9 @@ export default {
         }
     },
     methods: {
+        openPage(url) {
+            window.location.href = url
+        },
         // ipnut 清除
         setTimeout (type) {
             let _this = this
@@ -119,24 +111,18 @@ export default {
                     phone: this.phone
                 }
                 this.verifyBtn = true
-                // api.post(api.getUrl('common-sendMobileCode'), datas).then(resp => {
-                //     if (resp.code === '0000') {
-                //         this.verificationCode = ''
-                //         this.checkedPhone = this.phone
-                //         this.serialNo = resp.content
-                //         this.loginVerify = 59
-                //         this.verifyTitle = this.loginVerify + ' S'
-                //         this.clock = setInterval(this.doLoop, 1000)
-                //     } else {
-                //         this.verifyBtn = false
-                //     }
-                // })
-                this.verificationCode = ''
-                this.checkedPhone = this.phone
-                this.serialNo = '99655245420'
-                this.loginVerify = 59
-                this.verifyTitle = this.loginVerify + ' S'
-                this.clock = setInterval(this.doLoop, 1000)
+                api.post(api.getUrl('common-sendMobileCode', 'user'), datas).then(res => {
+                    if (!!res && res.code === 0) {
+                        this.verificationCode = ''
+                        this.checkedPhone = this.phone
+                        this.serialNo = res.content
+                        this.loginVerify = 59
+                        this.verifyTitle = this.loginVerify + ' S'
+                        this.clock = setInterval(this.doLoop, 1000)
+                    } else {
+                        this.verifyBtn = false
+                    }
+                })
             }
         },
         // 验证码倒计时
@@ -166,23 +152,17 @@ export default {
                     key: this.key || null
                 }
                 this.nextBtn = true
-                // api.post(api.getUrl('common-validatePhoneCode'), datas).then(resp => {
-                //     clearInterval(this.clock)
-                //     this.verificationCode = ''
-                //     this.checkedPhone = ''
-                //     this.verifyBtn = false
-                //     this.verifyTitle = '获取验证码'
-                //     if (resp.code === '0000') {
-                //         if (!!resp.content) {
-                //         }
-                //     }
-                // })
-                Toast('重来！！')
-                clearInterval(this.clock)
-                this.verificationCode = ''
-                this.checkedPhone = ''
-                this.verifyBtn = false
-                this.verifyTitle = '获取验证码'
+                api.post(api.getUrl('common-validatePhoneCode', 'user'), datas).then(res => {
+                    if (!!res && res.code === 0) {
+                        clearInterval(this.clock)
+                        this.verificationCode = ''
+                        this.checkedPhone = ''
+                        this.verifyBtn = false
+                        this.verifyTitle = '获取验证码'
+                        setCookie('accessToken', res.accessToken, 7)
+                        this.$router.go(-1) // 哪来回哪去
+                    }
+                })
             }
         }
     }
@@ -230,6 +210,24 @@ export default {
                 line-height: 3.8rem;
                 font-size: 1.6rem;
                 top: 2.7rem;
+                // height: 4rem;
+                width: 100%;
+                position: absolute;
+                // top: 2rem;
+                border: none;
+                background-color: #fff;
+                color: $normalColor;
+                font-size: 1.5rem;
+                .van-field__control {
+                    height: 4rem !important;
+                    line-height: 4rem;  
+                }
+                &:focus { 
+                    border-bottom: 2px solid $themeColor;
+                }
+                &::-webkit-input-placeholder {       /* Internet Explorer 10+ */
+                    color: $lightColor !important; 
+                }
             }
             .van-cell-group-inputTitle {
                 position: absolute;

@@ -30,32 +30,6 @@
     opacity: 1;
 }
 
-/* van-cell-group */
-.van-cell-group {
-    height: 6rem;
-    position: relative;
-    .van-cell-group-input {
-        height: 4rem;
-        width: 100%;
-        position: absolute;
-        top: 2rem;
-        border: none;
-        background-color: #fff;
-        color: $normalColor;
-        font-size: 1.5rem;
-        .van-field__control {
-            height: 4rem !important;
-            line-height: 4rem;  
-        }
-        &:focus { 
-            border-bottom: 2px solid $themeColor;
-        }
-        &::-webkit-input-placeholder {       /* Internet Explorer 10+ */
-            color: $lightColor !important; 
-        }
-    }
-}
-
 /* van-field */
 .van-field {
     color: $darkColor;
@@ -69,6 +43,9 @@
         width: 35%;
         min-width: 9rem;
         max-width: 13rem;
+    }
+    .van-field__control {
+        height: 6rem;
     }
     .van-field-btn {
         width: 8.6rem;
@@ -122,9 +99,4 @@
 }
 .van-dropdown-menu__item:active {
     opacity: 1;
-}
-
-/* van-cell */
-.van-cell {
-    padding: 2rem 1.5rem;
 }

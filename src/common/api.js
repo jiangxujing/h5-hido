@@ -10,6 +10,7 @@ let cancel
 
 const prefix = '/hidoCode'
 const userPrefix = '/user'
+const weixinPrefix = '/sns'
 
 let toolType = null
 if (getQueryString('toolType')) {
@@ -58,8 +59,36 @@ const getUrl = (key, type) => {
     let url = type && type == 'user' ? userPrefix + ApiList[key] : prefix + ApiList[key]
     return url
 }
-
-
+const getWeixinUrl = (key,type) => {
+	if (typeof ApiList[key] === 'undefined' || ApiList[key] === '') {
+        return ''
+    }
+    let url = weixinPrefix + ApiList[key]
+    return url
+}
+const get = (url, params) =>{
+  if (params) {
+    params = filterNull(params)
+  }
+  return axios({
+    method: 'get',
+    url: url,
+    params: params,
+    withCredentials: false
+  })
+   .then(function(resp) {
+        if (resp.status >= 200 && resp.status < 300) {
+            let respData = resp.data
+            respData['code'] = ~~(respData['code'])
+            return Promise.resolve(respData)
+        }
+        return Promise.reject(new Error(resp.status))
+    }).catch(function(err) {
+        console.log(err)
+//      Toast('网络异常，请稍后再试', '提示')
+        return Promise.reject(new Error(err))
+    })
+}
 // 注册 app 交互方法
 const setupWebViewJavascriptBridge = (callback) => {
     if (toolType === '5') {
@@ -221,6 +250,8 @@ const post = (url, data, noLoading, noToken) => {
 // 返回在vue模板中的调用接口
 export default {
     getUrl,
+    getWeixinUrl,
+    get,
     getWechat,
     post,
     setupWebViewJavascriptBridge,

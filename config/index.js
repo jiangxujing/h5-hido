@@ -19,7 +19,12 @@ module.exports = {
         target: 'http://192.168.199.60:8080',
         secure: false,
         changeOrigin: false,
-      }
+      },
+       '/sns/**': {
+        target: 'https://api.weixin.qq.com', // 你接口的域名uat
+        secure: false,
+        changeOrigin: false,
+      }, 
     },
 
     // Various Dev Server settings

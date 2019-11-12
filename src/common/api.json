@@ -2,6 +2,7 @@
     "common-sendMobileCode": "/v2/common/sendMobileCode",
     "common-validatePhoneCode": "/v2/common/validatePhoneCode",
     "queryPurchasedPackageList":"/mall/queryPurchasedPackage",
-    "queryPackageOrderDetail":"/mall/queryPackageOrder"
+    "queryPackageOrderDetail":"/mall/queryPackageOrder",
+    "oauth2":"/oauth2/access_token"
 
 }

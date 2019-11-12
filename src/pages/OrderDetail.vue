@@ -105,19 +105,26 @@
             if (code == null || code === '') {
                 window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc20260737b4c8770' + '&redirect_uri=' + encodeURIComponent(local) + '&response_type=code&scope=snsapi_base&state=1#wechat_redirect'
             } else {
+            	console.log(code)
                 this.getOpenId(code) //把code传给后台获取用户信息
             }
         },
         getOpenId (code) { // 通过code获取 openId等用户信息，/api/user/wechat/login 为后台接口
             let _this = this
-            this.$http.post('/api/user/wechat/login', {code: code}).then((res) => {
-                let datas = res.data
-                if (datas.code === 0 ) {
-                    console.log('成功')
-                }
-            }).catch((error) => {
-                console.log(error)
-            })
+            let req = {
+					code: code,
+					appid:'wxc20260737b4c8770',
+					secret:'7f3d7817fdb685dc9741fe25e1688514',
+					grant_type:'authorization_code'
+				}
+				api.get(api.getWeixinUrl('oauth2'), req).then(res => {
+					if(res.code == '0000') {
+						console.log('成功')
+					}
+				}).catch((e) => {
+					console.log('失败')
+
+				})
         },
 			setAddress(){
 				this.$router.push("/shippingAddress")
@@ -145,7 +152,8 @@
 		}
 		},
 		mounted() {
-			this.getCode()
+			//this.getCode()
+			this.getOpenId()
 //			function onBridgeReady(data){
 //			   WeixinJSBridge.invoke(
 //			      'getBrandWCPayRequest', {
@@ -176,19 +184,19 @@
 			if(this.province && this.city && this.county && this.username && this.phone && this.detailAddress) {
 				this.hasNoAdress = false
 			}
-				let _this = this		
-            pushHistory();  
-            window.addEventListener("popstate", function(e) {  
-                //此处已经捕获返回事件，可以写自己的跳转代码  
-                _this.dropOutShow = true  
-            }, false);  
-            function pushHistory() {  
-                var state = {  
-                    title : "title",  
-                    url : ""  
-                };  
-                window.history.pushState(state, "title", "");  
-            }  
+//				let _this = this		
+//          pushHistory();  
+//          window.addEventListener("popstate", function(e) {  
+//              //此处已经捕获返回事件，可以写自己的跳转代码  
+//              _this.dropOutShow = true  
+//          }, false);  
+//          function pushHistory() {  
+//              var state = {  
+//                  title : "title",  
+//                  url : ""  
+//              };  
+//              window.history.pushState(state, "title", "");  
+//          }  
 
 		},
 	}

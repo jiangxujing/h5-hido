@@ -99,11 +99,11 @@
 		methods: {
 			 getCode () { // 非静默授权，第一次有弹框
             const code = _utils.getQueryString('code') // 截取路径中的code，如果没有就去微信授权，如果已经获取到了就直接传code给后台获取openId
-            //const local = window.location.href
-            const local = "https://www.moutechs.com/"
+            const local = window.location.href
+           // const local = "https://aliuat.memedai.cn/"
            
             if (code == null || code === '') {
-                window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxeca1482bdae31559' + '&redirect_uri=' + encodeURIComponent(local) + '&response_type=code&scope=snsapi_base&state=1#wechat_redirect'
+                window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc20260737b4c8770' + '&redirect_uri=' + encodeURIComponent(local) + '&response_type=code&scope=snsapi_base&state=1#wechat_redirect'
             } else {
                 this.getOpenId(code) //把code传给后台获取用户信息
             }
@@ -145,7 +145,23 @@
 		}
 		},
 		mounted() {
-			//this.getCode()
+			this.getCode()
+//			function onBridgeReady(data){
+//			   WeixinJSBridge.invoke(
+//			      'getBrandWCPayRequest', {
+//			        	appId:     data.appId,       	 // 公众号id     
+//			        	timeStamp: data.timeStamp,   	 // 时间戳     
+//			        	nonceStr:  data.nonceStr,     	 // 随机串     
+//			        	package:   data.package,         // 订单详情扩展字符串
+//			        	signType:  data.signType,     	 // 微信签名方式    
+//			        	paySign:   data.paySign          // 微信签名 
+//			      	},
+//			      function(res){
+//			      if(res.err_msg == "get_brand_wcpay_request:ok" ){
+//			         //res.err_msg将在用户支付成功后返回ok，这时调取你本身服务端业务查询，若已支付成功，则跳转成功页面，展示给用户。
+//			      } 
+//			   }); 
+//			}
 			api.setupWebViewJavascriptBridge(function(bridge) {
 					bridge.callHandler('invokeBackPress', {}, (data) => {
 						console.log(data)

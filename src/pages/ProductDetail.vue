@@ -2,7 +2,7 @@
 	<div class="product-detail">
 		<div class="content1">
 			<div class="content1-header">
-				<img class="detail-img" :src="productDetail.headPicture" />
+				<img class="detail-img" :src="packageDetail.headPicture" />
 				<div class="tips">
 					<div class="header-tips">
 						<img src="../assets/images/gou.png" />
@@ -12,7 +12,7 @@
 						<img src="../assets/images/gou.png" />
 						<span>过期退</span>
 					</div>
-					<div class="buy-count">{{productDetail.buynum}}人购买</div>
+					<div class="buy-count">{{packageDetail.buynum}}人购买</div>
 				</div>
 			</div>
 		</div>
@@ -23,10 +23,10 @@
 				<div class="package">
 					<div class="package-l">
 						<img src="../assets/images/double.png" />
-						<span>{{productDetail.name}}</span>
+						<span>{{packageDetail.name}}</span>
 					</div>
 					<div class="package-r">
-						<span>{{productDetail.num}}次</span>
+						<span>{{packageDetail.num}}次</span>
 						<span style="color:#8A9399;">|</span>
 						<span>￥219</span>
 					</div>
@@ -35,7 +35,7 @@
 				<div class="merber-package-price">
 					<div class="package-price-left">会员礼包价</div>
 					<div class="package-price-right">
-						<span style="text-decoration:line-through;">原价￥<span>{{productDetail.originalPrice}}</span></span>
+						<span style="text-decoration:line-through;">原价￥<span>{{packageDetail.originalPrice}}</span></span>
 						<span style="color:#FF7B31;font-size:1.4rem;font-weight:600;">￥399</span>
 					</div>
 				</div>
@@ -60,15 +60,18 @@
 									<span style="font-size:1.6rem;">￥<span style="font-size:2.1rem;font-weight: bold;">390</span></span>
 									<span style="font-size:1.4rem;">会员礼包</span>
 								</div>
-								<div style="color:#8A9399;font-size:1.7rem;font-weight: 400;">原价￥<span>{{productDetail.originalPrice}}</span></div>
+								<div style="color:#8A9399;font-size:1.7rem;font-weight: 400;">原价￥<span>{{packageDetail.originalPrice}}</span></div>
 							</div>
 						</div>
 						<div class="buynumber">131人购买</div>
 					</div>
 					<div>
 						<div class="description">水光针12次体验套餐*12</div>
-						<div class="share" @click="getShare">
+						<div class="share" @click="getShare" v-if="proxyShow">
 							<button>立即分享</button>
+						</div>
+						<div class="share" @click="getBuy" v-else>
+							<button>立即购买</button>
 						</div>
 					</div>
 				</div>
@@ -104,7 +107,8 @@
 				hasNoAdress: false,
 				shareWrapperShow: false,
 				orginPrice: _utils.formatMoney(39999999.11, 2),
-				productDetail: {
+				proxyShow:true,
+				packageDetail: {
 						"detailPicture": 1,
 						"headPicture": require('../assets/images/detai-img.jpg'),
 						"listPicture": 1,
@@ -122,14 +126,16 @@
 			},
 			getShare() {
 				this.shareWrapperShow = true
-
 			},
 			shareWeixin() {
-				api.setupWebViewJavascriptBridge(function(bridge) {
+				if(this.device.version.MicroMessenger) {
+					this.getWechat()
+				}else{
+					api.setupWebViewJavascriptBridge(function(bridge) {
 					let params = {
 						shareUrl: _this.url,
 						title: '商品详情',
-						shareContent: _this.productDetail.name,
+						shareContent: _this.packageDetail.name,
 						sharePic: api.imgUrl + _this.pictureUrlList[0],
 						sharePlatform: WechatSession
 					}
@@ -137,13 +143,18 @@
 						console.log(data)
 					})
 				})
+				}
+				
 			},
 			shareFriend() {
-				api.setupWebViewJavascriptBridge(function(bridge) {
+				if(this.device.version.MicroMessenger) {
+					this.getWechat()
+				}else{
+					api.setupWebViewJavascriptBridge(function(bridge) {
 					let params = {
 						shareUrl: _this.url,
 						title: '商品详情',
-						shareContent: _this.productDetail.name,
+						shareContent: _this.packageDetail.name,
 						sharePic: api.imgUrl + _this.pictureUrlList[0],
 						sharePlatform: WechatTimeline
 					}
@@ -151,6 +162,7 @@
 						console.log(data)
 					})
 				})
+				}
 			},
 			getBuy() {
 				if(!_utils.getCookie('accessToken')) {
@@ -163,7 +175,7 @@
 						})
 					})
 				} else {
-					this.$router.push("/orderDetail")
+					this.$router.push("/orderDetail?orderNo="+33)
 				}
 			},
 			getWechat() {
@@ -191,10 +203,38 @@
 					}
 				})
 			},
+			getPackageDetail(code){
+				let req = {
+						packageCode:code
+				}
+					api.post(api.getUrl('queryPackage', ''), req).then(res => {
+						if(res.code == '0000'){
+							this.packageDetail = res.content
+							if(res.content.proxy){
+								this.proxyShow = true
+							}else{
+								this.proxyShow = false
+							}
+						}
+					}).catch((e) => {
+						
+					})
+			}
 
 		},
 		mounted() {
-
+			let ua = navigator.userAgent;
+			this.device = {
+				version: function() {
+					return {
+						MicroMessenger: /micromessenger/i.test(ua),
+					}
+				}()
+			};
+			this.ios = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端
+			let code = this.$route.query.packageCode
+			this.getPackageDetail(code)
 		},
 	}
 </script>

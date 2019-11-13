@@ -141,12 +141,12 @@ export default {
         // 登录
         toNext () {
             if (!(/^\d+$/).test(this.verifyCode)) {
-                Toast('验证码是4位数字', '提示')
+                Toast('验证码有误')
             } else if (this.phone !== this.checkedPhone) {
-                Toast('请重新获取验证码', '提示')
+                Toast('请重新获取验证码')
             } else {
                 let datas = {
-                    mobilePhone: this.phone,
+                    phone: this.phone,
                     verifyCode: this.verifyCode,
                     smsSerialNo: this.serialNo
                 }
@@ -159,6 +159,7 @@ export default {
                         this.checkedPhone = ''
                         this.verifyBtn = false
                         this.verifyTitle = '获取验证码'
+                        this.serialNo = ''
                         setCookie('isRegister', content.isRegister, 7)
                         setCookie('lastLoginTime', content.lastLoginTime, 7)
                         setCookie('memberId', content.memberId, 7)
@@ -176,111 +177,6 @@ export default {
 </script>
 
 <style lang="scss">
-    @import '../assets/scss/vant.scss';
-    .login {
-        padding-top: 3rem;
-        height: 100%;
-        background: #fff;
-        .login-h2 {
-            margin-left: 2.5rem;
-            color: $darkColor;
-            font-size: 2.8rem;
-            line-height: 2.8rem;
-        }
-        .login-h3 {
-            color: $darkColor;
-            font-size: 2.8rem;
-            margin: 1.2rem 0 1rem 2.5rem;
-            line-height: 2.8rem;
-        }
-        .page-protocol {
-            position: fixed;
-            width: 100%;
-            bottom: 2.5rem;
-            text-align: center;
-            font-size: 1rem;
-            color: $lightColor;
-            .protocol-a {
-                font-size: 1rem;
-                line-height: 3rem;
-            }
-        }
-        .van-hairline--top-bottom::after, .van-hairline-unset--top-bottom::after {
-            border-width: 0;
-            border-bottom: 1px solid $borderColor;
-        }
-        .van-cell-group {
-            height: 7rem;
-            .van-cell-group-input {
-                height: 4.3rem;
-                line-height: 3.8rem;
-                font-size: 1.6rem;
-                top: 2.7rem;
-                // height: 4rem;
-                width: 100%;
-                position: absolute;
-                // top: 2rem;
-                border: none;
-                background-color: #fff;
-                color: $normalColor;
-                font-size: 1.5rem;
-                .van-field__control {
-                    height: 4rem !important;
-                    line-height: 4rem;  
-                }
-                &:focus { 
-                    border-bottom: 2px solid $themeColor;
-                }
-                &::-webkit-input-placeholder {       /* Internet Explorer 10+ */
-                    color: $lightColor !important; 
-                }
-            }
-            .van-cell-group-inputTitle {
-                position: absolute;
-                top: 0.5rem;
-                font-style: normal;
-                line-height: 1;
-                top: 1.6rem;
-                color: $lightColor;
-            }
-            .van-icon-close {
-                right: 0;
-                top: 2.7rem;
-                position: absolute;
-                line-height: 4rem;
-                color: $lightColor;
-            }
-            .verify-input-code {
-                right: 10.1rem;
-            }
-        }
-        .page-part {
-            padding: 0 2.5rem;
-        }
-        .page-verify {
-            position: absolute;
-            right: 2.5rem;
-            top: 3.8rem;
-            width: 9rem;
-            height: 1.6rem;
-            line-height: 1;
-            font-size: 1.6rem;
-            border-radius: 0;
-            border: none;
-            border-left: 1px solid $normalColor;
-            color: $themeColor;
-            padding: 0 0 0 1rem;
-        }
-        input::-webkit-input-placeholder {
-            font-size: 1.6rem;
-            color: $lightColor;
-        }
-        .page-button {
-            padding: 6rem 2.5rem 5.5rem;
-        }
-        .page-verify.van-button--disabled {
-            color: $lightColor;
-            background: #fff;
-        }
-    }
+    // @import '../assets/scss/index.scss';
+
 </style>

@@ -394,94 +394,429 @@ button.icon {
 .main-content {
     font-size: 1.3rem;
     line-height: 1.9rem;
-}
 
-// 浮层
-.open-sarari-tip {
-    position:fixed;
-    top:0;
-    right:0;
-    bottom:0;
-    left:0;
-    z-index:10000;
-    text-align: center;
-    // background: rgba(0,0,0,.6) url('../assets/images/tips.png') no-repeat 92% 0;
-    background-size: 78%;
-}
+    .van-overlay {
+        background: rgba(0, 0, 0, 0.5);
+    }
 
-/* 大按钮 */
-.page-button {
-    padding: 3rem 1.5rem 0;
-}
-.next-button {
-    height: 4.5rem;
-    width: 100%;
-    color: #fff;
-    line-height: 4.5rem;
-    font-size: 1.6rem;
-    text-align: center;
-    outline: none;
-    border: none;
-    border-radius: 3rem;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-    background: linear-gradient(to right,$lightThemeColor,$themeColor);
-}
-
-/* input中的小按钮 */
-.page-verify {
-    position: absolute;
-    right: 1.5rem;
-    bottom: 1.7rem;
-    width: 8.6rem;
-    height: 2.6rem;
-    line-height: 1;
-    font-size: 1.2rem;
-    text-align: center;
-    border-radius: 2rem;
-    -webkit-tap-highlight-color:rgba(0,0,0,0);
-    // background: linear-gradient(to right,$lightThemeColor,$themeColor);
-    background: transparent;
-    border: 1px solid $themeColor;
-    color: $themeColor;
-    &:active {
+    /* van-popup(协议) */
+    .van-popup-protocol {
+        width: 80%;
+        border-radius: 5px;
         background: transparent;
+        .pop-wrap {
+            height: 38rem;
+            border-radius: 5px;
+            background: #fff;
+        }
+        .close-wrap {
+            text-align: center;
+            margin-top: 1.66rem;
+            img {
+                height: 3.33rem;
+                width: 3.33rem;
+            }
+        }
+    }
+
+    /* van-button */
+    .van-button--disabled {
+        background: $disabledBg ;
+        opacity: 1;
+    }
+
+    /* van-field */
+    .van-field {
+        color: $darkColor;
+        line-height: 6rem;
+        padding: 0 1.5rem;
+        font-size: 1.5rem;
+        .van-field__label {
+            -webkit-box-flex: 0 !important;
+            -webkit-flex: none !important;
+            flex: none !important;
+            width: 35%;
+            min-width: 9rem;
+            max-width: 13rem;
+        }
+        .van-field__control {
+            height: 6rem;
+        }
+        .van-field-btn {
+            width: 8.6rem;
+            font-size: 1.2rem;
+            text-align: center;
+            border-radius: 2rem;
+            -webkit-tap-highlight-color:rgba(0,0,0,0);
+            // background: linear-gradient(to right,$lightThemeColor,$themeColor);
+            background: transparent;
+            border: 1px solid $themeColor;
+            color: $themeColor;
+            &:active {
+                background: transparent;
+            }
+        }
+        .van-button--disabled {
+            border: 1px solid $disabledBg;
+            color: $disabledBg;
+            opacity: 1;
+        }
+        &:not(:last-child)::after {
+            left: 1.5rem;
+            right: 1.5rem;
+            border-bottom: 1px solid $borderColor;
+        }
+    }
+
+    /* van-button */
+    .van-button:active::before {
+        opacity: 0;
+    }
+
+    /* van-checkbox */
+    .van-checkbox {
+        .van-checkbox__label {
+            text-align: left;
+        }
+        .van-checkbox__icon .van-icon {
+            width: 1.14em;
+            height: 1.14em;
+            line-height: 1.14em;
+        }
+    }
+
+    /* van-dropdown-menu */ 
+    .van-dropdown-menu {
+        height: 5rem;
+        .van-dropdown-menu__title {
+            color: #1A2833;
+        }
+    }
+    .van-dropdown-menu__item:active {
+        opacity: 1;
+    }
+
+    // 浮层
+    .open-sarari-tip {
+        position:fixed;
+        top:0;
+        right:0;
+        bottom:0;
+        left:0;
+        z-index:10000;
+        text-align: center;
+        // background: rgba(0,0,0,.6) url('../assets/images/tips.png') no-repeat 92% 0;
+        background-size: 78%;
+    }
+
+    /* 大按钮 */
+    .page-button {
+        padding: 3rem 1.5rem 0;
+    }
+    .next-button {
+        height: 4.5rem;
+        width: 100%;
+        color: #fff;
+        line-height: 4.5rem;
+        font-size: 1.6rem;
+        text-align: center;
+        outline: none;
+        border: none;
+        border-radius: 3rem;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        background: linear-gradient(to right,$lightThemeColor,$themeColor);
+    }
+
+    /* input中的小按钮 */
+    .page-verify {
+        position: absolute;
+        right: 1.5rem;
+        bottom: 1.7rem;
+        width: 8.6rem;
+        height: 2.6rem;
+        line-height: 1;
+        font-size: 1.2rem;
+        text-align: center;
+        border-radius: 2rem;
+        -webkit-tap-highlight-color:rgba(0,0,0,0);
+        // background: linear-gradient(to right,$lightThemeColor,$themeColor);
+        background: transparent;
+        border: 1px solid $themeColor;
+        color: $themeColor;
+        &:active {
+            background: transparent;
+        }
+    }
+
+    .next-button.van-button--disabled {
+        color: #fff;
+        // background: $disabledBg;
+        background: linear-gradient(to right, #ffaf82, #ff7b31);
+        opacity: .5;
+    }
+
+    .page-verify.van-button--disabled {
+        color: $lightColor;
+        border: 1px solid $lightColor;
+    }
+
+
+
+    // 表单
+    .page-field {
+        position: relative;
+        .page-part {
+            padding: 0 1.5rem;
+            background: #fff;
+        }
+    }
+
+    // 协议小字
+    .page-protocol {
+        font-size: 1.2rem;
+        color: $darkColor;
+        text-align: center;
+
+        .protocol-a {
+            font-size: 1.2rem;
+            color: $themeColor;
+            line-height: 3.2rem;
+            display: inline-block;
+            text-decoration: underline;
+        }
     }
 }
 
-.next-button.van-button--disabled {
-    color: #fff;
-    // background: $disabledBg;
-    background: linear-gradient(to right, #ffaf82, #ff7b31);
-    opacity: .5;
-}
-
-.page-verify.van-button--disabled {
-    color: $lightColor;
-    border: 1px solid $lightColor;
-}
-
-
-
-// 表单
-.page-field {
-    position: relative;
+// 登录页
+.login {
+    padding-top: 3rem;
+    height: 100%;
+    background: #fff;
+    .login-h2 {
+        margin-left: 2.5rem;
+        color: $darkColor;
+        font-size: 2.8rem;
+        line-height: 2.8rem;
+    }
+    .login-h3 {
+        color: $darkColor;
+        font-size: 2.8rem;
+        margin: 1.2rem 0 1rem 2.5rem;
+        line-height: 2.8rem;
+    }
+    .page-protocol {
+        position: fixed;
+        width: 100%;
+        bottom: 2.5rem;
+        text-align: center;
+        font-size: 1rem;
+        color: $lightColor;
+        .protocol-a {
+            font-size: 1rem;
+            line-height: 3rem;
+        }
+    }
+    .van-hairline--top-bottom::after, .van-hairline-unset--top-bottom::after {
+        border-width: 0;
+        border-bottom: 1px solid $borderColor;
+    }
+    .van-cell-group {
+        height: 7rem;
+        .van-cell-group-input {
+            height: 4.3rem;
+            line-height: 3.8rem;
+            font-size: 1.6rem;
+            top: 2.7rem;
+            // height: 4rem;
+            width: 100%;
+            position: absolute;
+            // top: 2rem;
+            border: none;
+            background-color: #fff;
+            color: $normalColor;
+            font-size: 1.5rem;
+            .van-field__control {
+                height: 4rem !important;
+                line-height: 4rem;  
+            }
+            &:focus { 
+                border-bottom: 2px solid $themeColor;
+            }
+            &::-webkit-input-placeholder {       /* Internet Explorer 10+ */
+                color: $lightColor !important; 
+            }
+        }
+        .van-cell-group-inputTitle {
+            position: absolute;
+            top: 0.5rem;
+            font-style: normal;
+            line-height: 1;
+            top: 1.6rem;
+            color: $lightColor;
+        }
+        .van-icon-close {
+            right: 0;
+            top: 2.7rem;
+            position: absolute;
+            line-height: 4rem;
+            color: $lightColor;
+        }
+        .verify-input-code {
+            right: 10.1rem;
+        }
+    }
     .page-part {
-        padding: 0 1.5rem;
+        padding: 0 2.5rem;
+    }
+    .page-verify {
+        position: absolute;
+        right: 2.5rem;
+        top: 3.8rem;
+        width: 9rem;
+        height: 1.6rem;
+        line-height: 1;
+        font-size: 1.6rem;
+        border-radius: 0;
+        border: none;
+        border-left: 1px solid $normalColor;
+        color: $themeColor;
+        padding: 0 0 0 1rem;
+    }
+    input::-webkit-input-placeholder {
+        font-size: 1.6rem;
+        color: $lightColor;
+    }
+    .page-button {
+        padding: 6rem 2.5rem 5.5rem;
+    }
+    .page-verify.van-button--disabled {
+        color: $lightColor;
         background: #fff;
     }
 }
 
-// 协议小字
-.page-protocol {
-    font-size: 1.2rem;
-    color: $darkColor;
-    text-align: center;
+// 绑卡页
+.add-bank-card {
+    padding-top: 1rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .page-protocol {
+        margin: .7rem 0 8rem 1.5rem;
+    }
+    .page-button {
+        width: 100%;
+        padding: 0 14.4% 6rem 14.4%;
+    }
+}
 
-    .protocol-a {
-        font-size: 1.2rem;
-        color: $themeColor;
-        line-height: 3.2rem;
+// 我的团队
+.my-team {
+    padding-top: 1rem;
+    .team-item {
+        background: #fff;
+        padding: 1.2rem 1rem 0;
+        margin-bottom: 1rem;
+    }
+    .team-first, .second-child {
+        display: flex;
+    }
+    .second-child {
+        padding: .6rem 0;
+    }
+    .first-img, .first-img-bg, .second-img, .second-img-bg {
+        width: 3.1rem;
+        height: 3.1rem;
+        border-radius: 50%;
+    }
+    .second-img, .second-img-bg {
+        width: 2.4rem;
+        height: 2.4rem;
+    }
+    .first-img-bg, .second-img-bg {
         display: inline-block;
-        text-decoration: underline;
+        background: $bgColor;
+    }
+    .first-content, .second-content {
+        flex: 1;
+        -webkit-box-flex: 1;
+        flex-direction: row;
+        overflow: hidden;
+        margin-left: 1rem;
+        line-height: 1;
+        font-size: 1.6rem;
+        color: $darkColor;
+    }
+    .second-content {
+        font-size: 1.4rem;
+        line-height: 2.4rem;
+        margin-left: .8rem;
+        color: #2B3842;
+    }
+    .second-amount {
+        color: $themeColor;
+        font-weight: 500;
+    }
+    .first-amount {
+        font-size: 1.8rem;
+        font-weight: 500;
+        color: $themeColor;
+        margin: 1.1rem 0 1.4rem;
+    }
+    .team-second .van-collapse-item__content {
+        background: #FAFAFA;
+        margin-bottom: 1.2rem;
+        margin-bottom: 1.2rem;
+        padding: .6rem 1.2rem;
+        border-radius: 3px;
+    }
+    .second-no {
+        height: 2.4rem;
+        line-height: 2.4rem;
+        font-size: 1.5rem;
+        color: #2B3842;
+    }
+    .second-no-right {
+        font-weight: 600;
+    }
+    .van-cell--clickable:active {
+        background: #fff;
+    }
+}
+
+// 账单
+.account-balance {
+    .account-balance-type {
+        margin-bottom: 1rem;
+    }
+    .bill-item {
+        display: flex;
+        flex-direction: row;
+        line-height: 1;
+        font-size: 1.2rem;
+        color: $darkColor;
+    }
+    .bill-item-right {
+        flex: auto;
+        text-align: right;
+    }
+    .bill-item-title {
+        font-size: 1.5rem;
+        margin-bottom: 1.1rem;
+    }
+    .bill-item-time {
+        color: $lightColor;
+    }
+    .bill-item-amount {
+        font-size: 1.8rem;
+        margin-bottom: .8rem;
+        font-weight: 600;
+    }
+    .bill-item-status {
+        color: $darkThemeColor;
+    }
+    .van-cell {
+        padding: 2rem 1.5rem;
     }
 }

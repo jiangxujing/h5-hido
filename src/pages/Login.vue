@@ -96,7 +96,7 @@ export default {
         // ipnut 清除
         setTimeout (type) {
             let _this = this
-            type == 'mobileFocus' && this.phone !== this.checkedPhone ? (clearInterval(this.clock), this.verifyBtn = false, this.verifyTitle = '获取验证码') : ''
+            type == 'mobileFocus' ? (clearInterval(this.clock), this.verifyBtn = false, this.verifyTitle = '获取验证码', this.checkedPhone = '') : ''
             setTimeout(() => { this[type] = false}, 100)
         },
         // 获取验证码

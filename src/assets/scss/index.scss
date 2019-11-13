@@ -662,7 +662,7 @@ button.icon {
             color: $lightColor;
         }
         .verify-input-code {
-            right: 10.1rem;
+            right: 11.1rem;
         }
     }
     .page-part {
@@ -692,6 +692,8 @@ button.icon {
     .page-verify.van-button--disabled {
         color: $lightColor;
         background: #fff;
+        border: none;
+        border-left: 1px solid $normalColor;
     }
 }
 

@@ -24,9 +24,9 @@ export default {
 </script>
 
 <style lang="scss">
-$colorInner: #ffc600;
-$colorMiddle: #ffe178;
-$colorOut: #faedbf;
+$colorInner: #FF7B31;
+$colorMiddle: #FFAF82;
+$colorOut: #ffa674;
 $colorBook: #fff;
 @mixin center($offset) {
   position: absolute;

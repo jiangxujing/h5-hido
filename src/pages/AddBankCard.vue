@@ -1,57 +1,75 @@
 <template>
     <div class="main-content add-bank-card">
-        <div class="watchData">{{watchData}}</div>
-        <div class="page-field">
-            <van-field
-                v-model="bankNo"
-                clearable
-                maxlength="23"
-                type="tel"
-                label="银行卡号"
-                placeholder="请输入银行卡号"
-                @input="(value) => {bankNo = value.replace(/\D/g,'').replace(/....(?!$)/g,'$& ')}"
-                @clear="clearVerifyCode" />
-            <van-field
-                v-model="name"
-                clearable
-                maxlength="20"
-                label="本人姓名"
-                placeholder="请输入本人姓名"
-                @clear="clearVerifyCode" />
-            <van-field
-                v-model="idCardNo"
-                clearable
-                maxlength="18"
-                label="身份证号"
-                placeholder="请输入身份证号"
-                @clear="clearVerifyCode" />
-            <van-field
-                v-model="mobile"
-                clearable
-                maxlength="11"
-                type="number"
-                label="预留手机号"
-                placeholder="请输入预留手机号"
-                @clear="clearVerifyCode" />
-            <van-cell-group>
+        <div>
+            <div class="watchData">{{watchData}}</div>
+            <div class="page-field">
                 <van-field
-                    v-model="verifyCode"
-                    center
+                    v-model="bankNo"
                     clearable
-                    maxlength="6"
+                    maxlength="23"
+                    type="tel"
+                    label="银行卡号"
+                    placeholder="请输入银行卡号"
+                    @input="(value) => {bankNo = value.replace(/\D/g,'').replace(/....(?!$)/g,'$& ')}"
+                    @clear="clearVerifyCode" />
+                <van-field
+                    v-model="bankName"
+                    type="tel"
+                    label="银行名称"
+                    placeholder="请选择银行名称"
+                    right-icon="arrow"
+                    @clear="clearVerifyCode" 
+                    @click="show=true" />
+                <van-field
+                    v-model="bankBranch"
+                    clearable
+                    maxlength="20"
+                    type="tel"
+                    label="开户支行"
+                    placeholder="请输入开户支行"
+                    @clear="clearVerifyCode" />
+                <van-field
+                    v-model="name"
+                    clearable
+                    maxlength="20"
+                    label="本人姓名"
+                    placeholder="请输入本人姓名"
+                    @clear="clearVerifyCode" />
+                <van-field
+                    v-model="idCardNo"
+                    clearable
+                    maxlength="18"
+                    label="身份证号"
+                    placeholder="请输入身份证号"
+                    @clear="clearVerifyCode" />
+                <van-field
+                    v-model="mobile"
+                    clearable
+                    maxlength="11"
                     type="number"
-                    label="验证码"
-                    placeholder="请输入验证码">
-                    <van-button class="van-field-btn" slot="button" plain size="small" type="info" :disabled="verifyBtn" @click="getVerify">{{verifyTitle}}</van-button>
-                </van-field>
-            </van-cell-group>
-        </div>
-        <div class="page-protocol">
-            <van-checkbox v-model="checked" checked-color="#FF7B31">
-                <span class="protocol-title">点击提交即表示我已阅读并同意</span>
-                <!-- <span class="protocol-title protocol-a" @click="popupVisible=true">《银行卡快捷支付协议》</span>  -->
-                <span class="protocol-title protocol-a" @click="openPage('https://www.baidu.com')">《银行卡快捷支付协议》</span>
-            </van-checkbox>
+                    label="预留手机号"
+                    placeholder="请输入预留手机号"
+                    @clear="clearVerifyCode" />
+                <van-cell-group>
+                    <van-field
+                        v-model="verifyCode"
+                        center
+                        clearable
+                        maxlength="6"
+                        type="number"
+                        label="验证码"
+                        placeholder="请输入验证码">
+                        <van-button class="van-field-btn" slot="button" plain size="small" type="info" :disabled="verifyBtn" @click="getVerify">{{verifyTitle}}</van-button>
+                    </van-field>
+                </van-cell-group>
+            </div>
+            <div class="page-protocol">
+                <van-checkbox v-model="checked" checked-color="#FF7B31">
+                    <span class="protocol-title">点击提交即表示我已阅读并同意</span>
+                    <!-- <span class="protocol-title protocol-a" @click="popupVisible=true">《银行卡快捷支付协议》</span>  -->
+                    <span class="protocol-title protocol-a" @click="openPage('https://www.baidu.com')">《银行卡快捷支付协议》</span>
+                </van-checkbox>
+            </div>
         </div>
         <div class="page-button">
             <van-button class="next-button" @click="toNext" :disabled="nextBtn">提 交</van-button>
@@ -62,11 +80,12 @@
                 <div class="close-wrap" @click="popupVisible=false"><img src="../assets/images/pop_close.png" /></div>
             </div>
         </van-popup> -->
+        <van-action-sheet v-model="show" :actions="actions" @select="onSelect" />
     </div>            
 </template>
 
 <script>
-import { Toast, Field, Button, Popup, Checkbox, CheckboxGroup } from 'vant'
+import { Toast, Field, Button, Popup, Checkbox, CheckboxGroup, ActionSheet } from 'vant'
 import api from '../common/api.js'
 
 export default {
@@ -79,6 +98,7 @@ export default {
             verifyBtn: false,
             nextBtn: true,
             checkedBankNo: '',
+            checkedBankName: '',
             checkedName: '',
             checkedIdCardNo: '',
             checkedMobile: '',
@@ -88,6 +108,8 @@ export default {
             mobileFocus: false,
             verifyCodeFocus: false,
             bankNo: '',
+            bankName: '',
+            bankBranch:'',
             name: '',
             idCardNo: '',
             mobile: '',
@@ -95,6 +117,12 @@ export default {
             rules: {
                 bankNo: [
                     {required: true, message: '请输入银行卡号'}
+                ],
+                bankName: [
+                    {required: true, message: '请选择银行名称'}
+                ],
+                bankBranch: [
+                    {required: true, message: '请输入开户支行'}
                 ],
                 name: [
                     {required: true, message: '请输入本人姓名'}
@@ -105,7 +133,13 @@ export default {
                 mobile: [
                     {required: true, message: '请输入手机号码'}
                 ]
-            }
+            },
+            actions: [
+                { name: '招商银行' },
+                { name: '工商银行' },
+                { name: '建设银行' }
+            ],
+            show: false
         }
     },
     mounted () {
@@ -131,6 +165,12 @@ export default {
         }
     },
     methods: {
+        // 选择银行卡
+        onSelect(item) {
+            this.show = false
+            this.bankName = item.name
+        },
+        // 跳转协议
         openPage (url) {
             window.location.href = url
         },
@@ -144,12 +184,22 @@ export default {
         checkForm () {
             const mobileReg = /^((17[0-9])|(14[0-9])|(13[0-9])|(15[0-9])|(18[0-9])|166|198|199)+\d{8}$/
             const nameReg = /^[\u4e00-\u9fa5]+(·[\u4e00-\u9fa5]+)*$/
+            const branchReg = /^[\u4e00-\u9fa5]*$/
             const idCardNoReg = /^(^\d{18}$)|(^\d{17}(\d|X|x)$)$/
             if (!this.bankNo) {
                 Toast('请输入银行卡号')
                 return false
             } else if (this.bankNo.replace(/\D/g,'').length < 12) {
                 Toast('请输入正确的银行卡号')
+                return false
+            } else if (!this.bankName) {
+                Toast('请选择银行名称')
+                return false
+            } else if (!this.bankBranch) {
+                Toast('请输入开户支行')
+                return false
+            } else if (!branchReg.test(this.bankBranch) || this.bankBranch.replace(/\D/g,'').length < 4) {
+                Toast('支行信息格式错误')
                 return false
             } else if (!this.name) {
                 Toast('请输入本人姓名')
@@ -271,15 +321,16 @@ export default {
 
 <style lang="scss">
     @import '../assets/scss/vant.scss';
-    
     .add-bank-card {
         padding-top: 1rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         .page-protocol {
-            margin: .7rem 0 0 1.5rem;
+            margin: .7rem 0 8rem 1.5rem;
         }
         .page-button {
-            position: fixed;
-            bottom: 0;
             width: 100%;
             padding: 0 14.4% 6rem 14.4%;
         }

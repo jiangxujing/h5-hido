@@ -141,12 +141,12 @@ export default {
         // 登录
         toNext () {
             if (!(/^\d+$/).test(this.verifyCode)) {
-                Toast('验证码是4位数字', '提示')
+                Toast('验证码有误')
             } else if (this.phone !== this.checkedPhone) {
-                Toast('请重新获取验证码', '提示')
+                Toast('请重新获取验证码')
             } else {
                 let datas = {
-                    mobilePhone: this.phone,
+                    phone: this.phone,
                     verifyCode: this.verifyCode,
                     smsSerialNo: this.serialNo
                 }
@@ -176,7 +176,7 @@ export default {
 </script>
 
 <style lang="scss">
-    @import '../assets/scss/vant.scss';
+    @import '../assets/scss/index.scss';
     .login {
         padding-top: 3rem;
         height: 100%;

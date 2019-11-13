@@ -227,6 +227,7 @@ const post = (url, data, noLoading, noToken) => {
     headers.token = getCookie('token')
     headers.tokenExpire = getCookie('tokenExpire')
     headers.accessToken = getCookie('accessToken')
+    headers.mmChannel = 'mmdApp_h5'
     !noToken ? axiosHead.headers = headers : ''
 
     return axios(axiosHead).then(function(resp) {

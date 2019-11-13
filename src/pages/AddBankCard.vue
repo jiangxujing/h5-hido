@@ -279,7 +279,7 @@ export default {
                 this.loginVerify = 59
             }
         },
-        // 登录
+        // 提 交
         toNext () {
             if (!(/^\d+$/).test(this.verifyCode)) {
                 Toast('验证码是4位数字', '提示')
@@ -320,7 +320,7 @@ export default {
 </script>
 
 <style lang="scss">
-    @import '../assets/scss/vant.scss';
+    @import '../assets/scss/index.scss';
     .add-bank-card {
         padding-top: 1rem;
         height: 100%;

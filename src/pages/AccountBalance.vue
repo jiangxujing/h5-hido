@@ -152,7 +152,7 @@ export default {
 </script>
 
 <style lang="scss">
-    @import '../assets/scss/vant.scss';
+    @import '../assets/scss/index.scss';
     .account-balance {
         .account-balance-type {
             margin-bottom: 1rem;

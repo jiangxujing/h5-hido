@@ -126,7 +126,7 @@ export default {
 </script>
 
 <style lang="scss">
-    @import '../assets/scss/vant.scss';
+    @import '../assets/scss/index.scss';
     .my-team {
         padding-top: 1rem;
         .team-item {

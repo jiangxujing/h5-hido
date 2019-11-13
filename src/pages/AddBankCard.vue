@@ -320,19 +320,6 @@ export default {
 </script>
 
 <style lang="scss">
-    @import '../assets/scss/index.scss';
-    .add-bank-card {
-        padding-top: 1rem;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        .page-protocol {
-            margin: .7rem 0 8rem 1.5rem;
-        }
-        .page-button {
-            width: 100%;
-            padding: 0 14.4% 6rem 14.4%;
-        }
-    }
+    // @import '../assets/scss/index.scss';
+
 </style>

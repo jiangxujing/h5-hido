@@ -29,7 +29,7 @@
 <style lang="scss">
     @import './assets/scss/index.scss';
     // @import './assets/scss/reset.scss';
-    @import './assets/scss/quill.snow.css';
+    // @import './assets/scss/quill.snow.css';
 
     #app {
     	width:100%;

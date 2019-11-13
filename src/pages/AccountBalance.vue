@@ -152,39 +152,6 @@ export default {
 </script>
 
 <style lang="scss">
-    @import '../assets/scss/index.scss';
-    .account-balance {
-        .account-balance-type {
-            margin-bottom: 1rem;
-        }
-        .bill-item {
-            display: flex;
-            flex-direction: row;
-            line-height: 1;
-            font-size: 1.2rem;
-            color: $darkColor;
-        }
-        .bill-item-right {
-            flex: auto;
-            text-align: right;
-        }
-        .bill-item-title {
-            font-size: 1.5rem;
-            margin-bottom: 1.1rem;
-        }
-        .bill-item-time {
-            color: $lightColor;
-        }
-        .bill-item-amount {
-            font-size: 1.8rem;
-            margin-bottom: .8rem;
-            font-weight: 600;
-        }
-        .bill-item-status {
-            color: $darkThemeColor;
-        }
-        .van-cell {
-            padding: 2rem 1.5rem;
-        }
-    }
+    // @import '../assets/scss/index.scss';
+    
 </style>

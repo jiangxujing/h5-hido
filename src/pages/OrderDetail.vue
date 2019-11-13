@@ -181,6 +181,7 @@
 			}
 		},
 		mounted() {
+			let orderNo = this.$route.query.orderNo
 			let ua = navigator.userAgent;
 			this.device = {
 				version: function() {

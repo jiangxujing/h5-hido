@@ -3,6 +3,7 @@
     "login-phoneLogin": "/login/phoneLogin",
     "queryPurchasedPackageList":"/mall/queryPurchasedPackage",
     "queryPackageOrderDetail":"/mall/queryPackageOrder",
+    "queryPackage":"/mall/queryPackage",
     "oauth2":"/oauth2/access_token",
     "unifiedorder":"/unifiedorder",
     "pay":"/pay/h5.json.php"

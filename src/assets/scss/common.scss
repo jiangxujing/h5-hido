@@ -16,7 +16,7 @@
         margin: 0 auto;
         margin-top: 2rem;
     }
-    .buy-now {
+    .buy-now,.buy-now-active {
             width: 70%;
             height: 4.5rem;
             background: -webkit-linear-gradient(318deg, #ffaf82 0%, #ff7b31 100%);
@@ -30,4 +30,7 @@
             bottom: 7rem;
             left: 50%;
             margin-left: -35%;
+        }
+        .buy-now-gray{
+            opacity:0.5;
         }

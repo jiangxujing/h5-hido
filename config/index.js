@@ -25,6 +25,11 @@ module.exports = {
         secure: false,
         changeOrigin: false,
       }, 
+      '/pay/**': { 
+        target: 'https://api.mch.weixin.qq.com', // 你接口的域名uat
+        secure: false,
+        changeOrigin: false,
+      }, 
     },
 
     // Various Dev Server settings

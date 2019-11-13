@@ -45,7 +45,7 @@
 			<div class="recommend">
 				<!--<input type="text" placeholder="请输入推荐人手机号" />-->
 				<van-cell-group>
-					<van-field v-model="recommendPhone" label="推荐人手机号" placeholder="请输入推荐人手机号" clearable type='number' maxlength='11' @input="checkTel"/>
+					<van-field v-model="recommendPhone" label="推荐人手机号" placeholder="请输入推荐人手机号" clearable type='number' maxlength='11' @input="checkTel" />
 				</van-cell-group>
 			</div>
 			<div class="submitTxt">
@@ -85,96 +85,107 @@
 				hasNoAdress: true,
 				orderDetailShow: true,
 				recommendPhone: '',
-				province:'',
-				city:'',
-				county:'',
+				province: '',
+				city: '',
+				county: '',
 				username: '',
 				phone: '',
 				detailAddress: '',
-				gray:true,
-				second:3,
-				dropOutShow:false
+				gray: true,
+				second: 3,
+				dropOutShow: false
 			}
 		},
 		methods: {
-			 getCode () { // 非静默授权，第一次有弹框
-            const code = _utils.getQueryString('code') // 截取路径中的code，如果没有就去微信授权，如果已经获取到了就直接传code给后台获取openId
-            const local = window.location.href
-           // const local = "https://aliuat.memedai.cn/"
-           
-            if (code == null || code === '') {
-                window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc20260737b4c8770' + '&redirect_uri=' + encodeURIComponent(local) + '&response_type=code&scope=snsapi_base&state=1#wechat_redirect'
-            } else {
-            	console.log(code)
-                this.getOpenId(code) //把code传给后台获取用户信息
-            }
-        },
-        getOpenId (code) { // 通过code获取 openId等用户信息，/api/user/wechat/login 为后台接口
-            let _this = this
-            let req = {
-					code: code,
-					appid:'wxc20260737b4c8770',
-					secret:'7f3d7817fdb685dc9741fe25e1688514',
-					grant_type:'authorization_code'
+			getCode() { // 非静默授权，第一次有弹框
+				const code = _utils.getQueryString('code') // 截取路径中的code，如果没有就去微信授权，如果已经获取到了就直接传code给后台获取openId
+				const local = window.location.href
+				if(code == null || code === '') {
+					window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc20260737b4c8770' + '&redirect_uri=' + encodeURIComponent(local) + '&response_type=code&scope=snsapi_base&state=1#wechat_redirect'
+				} else {
+					this.getOpenId(code) //把code传给后台获取用户信息
 				}
-				api.get(api.getWeixinUrl('oauth2'), req).then(res => {
-					if(res.code == '0000') {
-						console.log('成功')
+			},
+			getOpenId(code) { // 通过code获取 openId等用户信息，/api/user/wechat/login 为后台接口
+				let _this = this
+				let req = {
+					code: code,
+					appid: 'wxc20260737b4c8770',
+					secret: '7f3d7817fdb685dc9741fe25e1688514',
+					grant_type: 'authorization_code'
+				}
+				api.get(api.getWeixinUrl('oauth2', 'weixin'), req).then(res => {
+					let openId = res.openid
+					let req1 = {
+						openId: 'oXVeb1dKm_5fBzRLRmFx9l-2NVZQ'
 					}
+					api.post(api.getWeixinUrl('unifiedorder', 'weixinPay'), req1).then(res1 => {
+						function onBridgeReady(){
+						   WeixinJSBridge.invoke(
+						      'getBrandWCPayRequest', {
+						         "appId":"wxc20260737b4c8770",     //公众号名称，由商户传入     
+						         "timeStamp":"1395712654",         //时间戳，自1970年以来的秒数     
+						         "nonceStr":"e61463f8efa94090b1f366cccfbbb444", //随机串     
+						         "package":"prepay_id=u802345jgfjsdfgsdg888",     
+						         "signType":"MD5",         //微信签名方式：     
+						         "paySign":"70EA570631E4BB79628FBCA90534C63FF7FADD89" //微信签名 
+						      },
+						      function(res){
+						      if(res.err_msg == "get_brand_wcpay_request:ok" ){
+						      // 使用以上方式判断前端返回,微信团队郑重提示：
+						            //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+						      } 
+						   }); 
+						}
+						if (typeof WeixinJSBridge == "undefined"){
+						   if( document.addEventListener ){
+						       document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+						   }else if (document.attachEvent){
+						       document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+						       document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+						   }
+						}else{
+						   onBridgeReady();
+						}
+
+					}).catch((e) => {
+					})
 				}).catch((e) => {
 					console.log('失败')
-
 				})
-        },
-			setAddress(){
+			},
+			setAddress() {
 				this.$router.push("/shippingAddress")
 			},
-			checkTel(){
-				if(this.username && this.phone && this.province && this.city && this.county  && this.detailAddress && this.recommendPhone){
+			checkTel() {
+				if(this.username && this.phone && this.province && this.city && this.county && this.detailAddress && this.recommendPhone) {
 					this.gray = false
 				}
 			},
-			submitOrder(){
+			submitOrder() {
 				this.$router.push("/paymentMethod")
-//				this.orderDetailShow = false
-//				let interval = setInterval(()=>{
-//					this.second--
-//					if(this.second <=0){
-//						clearInterval(interval)
-//					}
-//				},1000)
-//				setTimeout(() => {
-//				this.$router.push("/productDetail")
-//			}, 3000)
-		},
-		goBack(){
-			this.$router.push("/productDetail")
-		}
+				//				this.orderDetailShow = false
+				//				let interval = setInterval(()=>{
+				//					this.second--
+				//					if(this.second <=0){
+				//						clearInterval(interval)
+				//					}
+				//				},1000)
+				//				setTimeout(() => {
+				//				this.$router.push("/productDetail")
+				//			}, 3000)
+			},
+			goBack() {
+				this.$router.push("/productDetail")
+			}
 		},
 		mounted() {
-			//this.getCode()
-			this.getOpenId()
-//			function onBridgeReady(data){
-//			   WeixinJSBridge.invoke(
-//			      'getBrandWCPayRequest', {
-//			        	appId:     data.appId,       	 // 公众号id     
-//			        	timeStamp: data.timeStamp,   	 // 时间戳     
-//			        	nonceStr:  data.nonceStr,     	 // 随机串     
-//			        	package:   data.package,         // 订单详情扩展字符串
-//			        	signType:  data.signType,     	 // 微信签名方式    
-//			        	paySign:   data.paySign          // 微信签名 
-//			      	},
-//			      function(res){
-//			      if(res.err_msg == "get_brand_wcpay_request:ok" ){
-//			         //res.err_msg将在用户支付成功后返回ok，这时调取你本身服务端业务查询，若已支付成功，则跳转成功页面，展示给用户。
-//			      } 
-//			   }); 
-//			}
+			this.getCode()
 			api.setupWebViewJavascriptBridge(function(bridge) {
-					bridge.callHandler('invokeBackPress', {}, (data) => {
-						console.log(data)
-					})
+				bridge.callHandler('invokeBackPress', {}, (data) => {
+					console.log(data)
 				})
+			})
 			this.province = sessionStorage.getItem('province')
 			this.county = sessionStorage.getItem('county')
 			this.city = sessionStorage.getItem('city')
@@ -184,19 +195,19 @@
 			if(this.province && this.city && this.county && this.username && this.phone && this.detailAddress) {
 				this.hasNoAdress = false
 			}
-//				let _this = this		
-//          pushHistory();  
-//          window.addEventListener("popstate", function(e) {  
-//              //此处已经捕获返回事件，可以写自己的跳转代码  
-//              _this.dropOutShow = true  
-//          }, false);  
-//          function pushHistory() {  
-//              var state = {  
-//                  title : "title",  
-//                  url : ""  
-//              };  
-//              window.history.pushState(state, "title", "");  
-//          }  
+			//				let _this = this		
+			//          pushHistory();  
+			//          window.addEventListener("popstate", function(e) {  
+			//              //此处已经捕获返回事件，可以写自己的跳转代码  
+			//              _this.dropOutShow = true  
+			//          }, false);  
+			//          function pushHistory() {  
+			//              var state = {  
+			//                  title : "title",  
+			//                  url : ""  
+			//              };  
+			//              window.history.pushState(state, "title", "");  
+			//          }  
 
 		},
 	}
@@ -208,48 +219,48 @@
 		width: 100%;
 		height: 100%;
 		background: #F5F5F5;
-		.orderWrapper{
-			width:100%;
-			height:100%;
-			background:rgba(0,0,0,0.6);
-			position:fixed;
-			left:0;
-			top:0;
-			.order-content{
-				width:72%;
-				margin:50% auto 0;
-				height:auto;
+		.orderWrapper {
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.6);
+			position: fixed;
+			left: 0;
+			top: 0;
+			.order-content {
+				width: 72%;
+				margin: 50% auto 0;
+				height: auto;
 				background: #fff;
-				border-radius:1.4rem;
-				text-align:center;
-				.title{
-					color:#4B464D;
-					padding:2rem 0;
-					font-weight:500;
-					font-size:1.7rem;
+				border-radius: 1.4rem;
+				text-align: center;
+				.title {
+					color: #4B464D;
+					padding: 2rem 0;
+					font-weight: 500;
+					font-size: 1.7rem;
 				}
-				.borderStyle{
-					width:100%d;
-					height:1px;
+				.borderStyle {
+					width: 100%d;
+					height: 1px;
 					background: #E0E0E0;
-					margin-top:2rem;
+					margin-top: 2rem;
 				}
-				button{
-					border:none;
+				button {
+					border: none;
 					background: none;
-					font-size:1.6rem;
-					width:100%;
-					height:4.5rem;
-					line-height:4.5rem;
-					font-weight:400;
+					font-size: 1.6rem;
+					width: 100%;
+					height: 4.5rem;
+					line-height: 4.5rem;
+					font-weight: 400;
 				}
-				.canle{
-					width:49%;
-					border-right:1px solid #E0E0E0;
+				.canle {
+					width: 49%;
+					border-right: 1px solid #E0E0E0;
 				}
-				.confirm{
-					width:49%;
-					color:#FF7B31;
+				.confirm {
+					width: 49%;
+					color: #FF7B31;
 				}
 			}
 		}

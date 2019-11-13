@@ -11,7 +11,7 @@ let cancel
 const prefix = '/hidoCode'
 const userPrefix = '/user'
 const weixinPrefix = '/sns'
-
+const weixinPayPrefix = '/pay'
 let toolType = null
 if (getQueryString('toolType')) {
     toolType = getQueryString('toolType')
@@ -63,9 +63,10 @@ const getWeixinUrl = (key,type) => {
 	if (typeof ApiList[key] === 'undefined' || ApiList[key] === '') {
         return ''
     }
-    let url = weixinPrefix + ApiList[key]
+   let url = type && type == 'weixin' ? weixinPrefix + ApiList[key] : weixinPayPrefix + ApiList[key]
     return url
 }
+
 const get = (url, params) =>{
   if (params) {
     params = filterNull(params)

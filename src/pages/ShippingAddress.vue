@@ -8,11 +8,12 @@
 			</van-cell-group>
 		</div>
 		<div class="title">选择所在地区</div>
-		<div @click="showPopup" style="background: #fff;padding:2.2rem 1.5rem;color:#1A2833;font-size:1.5rem">
+		<div @click="showPopup" style="background: #fff;padding:2rem 1.5rem;color:#1A2833;font-size:1.5rem;">
 			<span>地区</span>
 			<span style="padding-left:1.5rem" v-if="province && city && county">{{province}}/{{city}}/{{county}}</span>
 			<img class="arrow" src="../assets/images/arrow.png" />
 		</div>
+		<div class="borderStyle" style="margin:0 1.5rem 0 1.5rem"></div>
 		<van-popup v-model="show" closeable position="bottom" :style="{ height: '60%' }" class="city-info">
 			<ul>
 				<li v-for="(p,index) in provinceList" :key="index" @click="selectCountry(p)" :class="p.active?'active':''">
@@ -212,6 +213,12 @@
 		width: 100%;
 		height: 100%;
 		background: #F8F8F8;
+		.van-cell:not(:last-child)::after{
+			margin-right:1.5rem;
+		}
+		[class*=van-hairline]::after{
+			border:none;
+		}
 		.title {
 			color: #8A9399;
 			padding: 2rem 0 1rem 1.5rem;

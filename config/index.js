@@ -26,6 +26,7 @@ module.exports = {
         changeOrigin: false,
       }, 
       '/pay/**': { 
+
         target: 'https://api.mch.weixin.qq.com', // 服务端调取微信API统一下单接口测试用
         secure: false,
         changeOrigin: false,

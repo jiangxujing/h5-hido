@@ -220,6 +220,12 @@ const post = (url, data, noLoading, noToken) => {
             cancel = c
         })
     }
+    headers.isRegister = getCookie('isRegister')
+    headers.lastLoginTime = getCookie('lastLoginTime')
+    headers.memberId = getCookie('memberId')
+    headers.memberType = getCookie('memberType')
+    headers.token = getCookie('token')
+    headers.tokenExpire = getCookie('tokenExpire')
     headers.accessToken = getCookie('accessToken')
     !noToken ? axiosHead.headers = headers : ''
 

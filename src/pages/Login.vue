@@ -22,12 +22,12 @@
                     class="van-cell-group-input"
                     placeholder="请输入验证码"
                     type="tel"
-                    v-model="verificationCode"
+                    v-model="verifyCode"
                     maxlength="6"
                     @focus="() => {phone = phone.replace(/\D/g,''), verifyCodeFocus = true}"
                     @blur="setTimeout('verifyCodeFocus')"/>
-                    <i class="van-cell-group-inputTitle" v-if="verificationCode">验证码</i>
-                    <van-icon v-if="verificationCode && verifyCodeFocus" name="close"  @click="verificationCode = ''"/>
+                    <i class="van-cell-group-inputTitle" v-if="verifyCode">验证码</i>
+                    <van-icon v-if="verifyCode && verifyCodeFocus" name="close"  @click="verifyCode = ''"/>
                 </van-cell-group>
                 <van-button class="page-verify" @click="getVerify" :disabled="verifyBtn">{{ verifyTitle }}</van-button>
             </div>
@@ -66,7 +66,7 @@ export default {
             nextBtn: true,
             checkedPhone: '',
             phone: '',
-            verificationCode: '',
+            verifyCode: '',
             serialNo: '',
             popupVisible: false,
             mobileFocus: false,
@@ -81,7 +81,7 @@ export default {
         watchData: function () {  
             // 按钮监听
             this.verifyBtn = this.verifyTitle === '获取验证码' || this.verifyTitle === '重新发送' ? false : true
-            this.nextBtn = this.verificationCode && (this.verificationCode.length >= 4) && (this.phone === this.checkedPhone) ? false : true
+            this.nextBtn = this.verifyCode && (this.verifyCode.length >= 4) && (this.phone === this.checkedPhone) ? false : true
             if (this.phone && this.phone !== this.checkedPhone) {
                 clearInterval(this.clock)
                 this.verifyBtn = false
@@ -113,9 +113,9 @@ export default {
                 this.verifyBtn = true
                 api.post(api.getUrl('common-sendMobileCode', 'user'), datas).then(res => {
                     if (!!res && res.code === 0) {
-                        this.verificationCode = ''
+                        this.verifyCode = ''
                         this.checkedPhone = this.phone
-                        this.serialNo = res.content
+                        this.serialNo = res.content.serialNo
                         this.loginVerify = 59
                         this.verifyTitle = this.loginVerify + ' S'
                         this.clock = setInterval(this.doLoop, 1000)
@@ -140,25 +140,31 @@ export default {
         },
         // 登录
         toNext () {
-            if (!(/^\d+$/).test(this.verificationCode)) {
+            if (!(/^\d+$/).test(this.verifyCode)) {
                 Toast('验证码是4位数字', '提示')
             } else if (this.phone !== this.checkedPhone) {
                 Toast('请重新获取验证码', '提示')
             } else {
                 let datas = {
                     mobilePhone: this.phone,
-                    verificationCode: this.verificationCode,
-                    serialNo: this.serialNo,
-                    key: this.key || null
+                    verifyCode: this.verifyCode,
+                    smsSerialNo: this.serialNo
                 }
                 this.nextBtn = true
-                api.post(api.getUrl('common-validatePhoneCode', 'user'), datas).then(res => {
+                api.post(api.getUrl('login-phoneLogin', 'user'), datas).then(res => {
                     if (!!res && res.code === 0) {
                         clearInterval(this.clock)
-                        this.verificationCode = ''
+                        let content = res.content
+                        this.verifyCode = ''
                         this.checkedPhone = ''
                         this.verifyBtn = false
                         this.verifyTitle = '获取验证码'
+                        setCookie('isRegister', content.isRegister, 7)
+                        setCookie('lastLoginTime', content.lastLoginTime, 7)
+                        setCookie('memberId', content.memberId, 7)
+                        setCookie('memberType', content.memberType, 7)
+                        setCookie('token', content.token, 7)
+                        setCookie('tokenExpire', content.tokenExpire, 7)
                         setCookie('accessToken', res.accessToken, 7)
                         this.$router.go(-1) // 哪来回哪去
                     }

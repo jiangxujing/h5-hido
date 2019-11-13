@@ -21,12 +21,12 @@ module.exports = {
         changeOrigin: false,
       },
        '/sns/**': {
-        target: 'https://api.weixin.qq.com', // 你接口的域名uat
+        target: 'https://api.weixin.qq.com',
         secure: false,
         changeOrigin: false,
       }, 
       '/pay/**': { 
-        target: 'https://api.mch.weixin.qq.com', // 你接口的域名uat
+        target: 'https://api.mch.weixin.qq.com',
         secure: false,
         changeOrigin: false,
       }, 

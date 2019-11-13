@@ -93,11 +93,12 @@
 				detailAddress: '',
 				gray: true,
 				second: 3,
-				dropOutShow: false
+				dropOutShow: false,
+				jumpUrl:''
 			}
 		},
 		methods: {
-			getCode() { // 非静默授权，第一次有弹框
+			getCode() { // 静默授权，没有有弹框
 				const code = _utils.getQueryString('code') // 截取路径中的code，如果没有就去微信授权，如果已经获取到了就直接传code给后台获取openId
 				const local = window.location.href
 				if(code == null || code === '') {
@@ -106,7 +107,7 @@
 					this.getOpenId(code) //把code传给后台获取用户信息
 				}
 			},
-			getOpenId(code) { // 通过code获取 openId等用户信息，/api/user/wechat/login 为后台接口
+			getOpenId(code) { // 通过code获取 openId等用户信息
 				let _this = this
 				let req = {
 					code: code,
@@ -120,36 +121,35 @@
 						openId: 'oXVeb1dKm_5fBzRLRmFx9l-2NVZQ'
 					}
 					api.post(api.getWeixinUrl('unifiedorder', 'weixinPay'), req1).then(res1 => {
-						function onBridgeReady(){
-						   WeixinJSBridge.invoke(
-						      'getBrandWCPayRequest', {
-						         "appId":"wxc20260737b4c8770",     //公众号名称，由商户传入     
-						         "timeStamp":"1395712654",         //时间戳，自1970年以来的秒数     
-						         "nonceStr":"e61463f8efa94090b1f366cccfbbb444", //随机串     
-						         "package":"prepay_id=u802345jgfjsdfgsdg888",     
-						         "signType":"MD5",         //微信签名方式：     
-						         "paySign":"70EA570631E4BB79628FBCA90534C63FF7FADD89" //微信签名 
-						      },
-						      function(res){
-						      if(res.err_msg == "get_brand_wcpay_request:ok" ){
-						      // 使用以上方式判断前端返回,微信团队郑重提示：
-						            //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
-						      } 
-						   }); 
+						function onBridgeReady() {
+							WeixinJSBridge.invoke(
+								'getBrandWCPayRequest', {
+									"appId": "wxc20260737b4c8770", //公众号名称，由商户传入     
+									"timeStamp": "1395712654", //时间戳，自1970年以来的秒数     
+									"nonceStr": "e61463f8efa94090b1f366cccfbbb444", //随机串     
+									"package": "prepay_id=u802345jgfjsdfgsdg888",
+									"signType": "MD5", //微信签名方式：     
+									"paySign": "70EA570631E4BB79628FBCA90534C63FF7FADD89" //微信签名 
+								},
+								function(res) {
+									if(res.err_msg == "get_brand_wcpay_request:ok") {
+										// 使用以上方式判断前端返回,微信团队郑重提示：
+										//res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+									}
+								});
 						}
-						if (typeof WeixinJSBridge == "undefined"){
-						   if( document.addEventListener ){
-						       document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
-						   }else if (document.attachEvent){
-						       document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
-						       document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
-						   }
-						}else{
-						   onBridgeReady();
+						if(typeof WeixinJSBridge == "undefined") {
+							if(document.addEventListener) {
+								document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+							} else if(document.attachEvent) {
+								document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+								document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+							}
+						} else {
+							onBridgeReady();
 						}
 
-					}).catch((e) => {
-					})
+					}).catch((e) => {})
 				}).catch((e) => {
 					console.log('失败')
 				})
@@ -163,7 +163,8 @@
 				}
 			},
 			submitOrder() {
-				this.$router.push("/paymentMethod")
+				window.location.href= this.jumpUrl
+				//this.$router.push("/paymentMethod")
 				//				this.orderDetailShow = false
 				//				let interval = setInterval(()=>{
 				//					this.second--
@@ -180,7 +181,29 @@
 			}
 		},
 		mounted() {
-			this.getCode()
+			let ua = navigator.userAgent;
+			this.device = {
+				version: function() {
+					return {
+						MicroMessenger: /micromessenger/i.test(ua),
+					}
+				}()
+			};
+			this.ios = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端
+			if(this.device.version.MicroMessenger) {
+				this.getCode()
+			} else {
+				let req = {
+					code:'801e4862da74d9272af98ccbfa76bda0'
+				}
+				api.get(api.getWeixinUrl('pay', 'h5Pay'), req).then(res => {
+					this.jumpUrl = res.url
+					console.log(res.url)
+
+					}).catch((e) => {})
+			}
+
 			api.setupWebViewJavascriptBridge(function(bridge) {
 				bridge.callHandler('invokeBackPress', {}, (data) => {
 					console.log(data)

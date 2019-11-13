@@ -4,6 +4,7 @@
     "queryPurchasedPackageList":"/mall/queryPurchasedPackage",
     "queryPackageOrderDetail":"/mall/queryPackageOrder",
     "oauth2":"/oauth2/access_token",
-    "unifiedorder":"/unifiedorder"
+    "unifiedorder":"/unifiedorder",
+    "pay":"/pay/h5.json.php"
 
 }

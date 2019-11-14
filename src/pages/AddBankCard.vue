@@ -145,6 +145,12 @@ export default {
     mounted () {
         document.title = '添加银行卡'
         this.verifyTitle = '获取验证码'
+        api.setupWebViewJavascriptBridge(bridge => {
+			let params = {
+				title: '添加银行卡'
+			}
+			bridge.callHandler('callTitleUpdate', params, () => {})
+		})
     },
     computed: {
         // 监听页面数据

@@ -15,22 +15,25 @@
 		</div>
 		<div class="borderStyle" style="margin:0 1.5rem 0 1.5rem"></div>
 		<van-popup v-model="show" closeable position="bottom" :style="{ height: '60%' }" class="city-info">
-			<ul>
-				<li v-for="(p,index) in provinceList" :key="index" @click="selectCountry(p)" :class="p.active?'active':''">
-					{{p.name}}
-				</li>
-			</ul>
-			<ul>
-				<li v-for="c in cityList" @click="selectCity(c)" :class="c.active?'active':''">
-					{{c.name}}
-				</li>
+				<ul>
+					<li class="title-address">省</li>
+					<li v-for="(p,index) in addressList" :key="index" @click="selectCountry(p)" :class="p.active?'active':''">
+						{{p.provinceName}}
+					</li>
+				</ul>
+				<ul>
+					<li class="title-address">市</li>
+					<li v-for="c in cityList" @click="selectCity(c)" :class="c.active?'active':''">
+						{{c.cityName}}
+					</li>
 
-			</ul>
-			<ul>
-				<li v-for="d in districtList" @click="selectDistric(d)" :class="d.active?'active':''">
-					{{d.name}}
-				</li>
-			</ul>
+				</ul>
+				<ul>
+					<li class="title-address">区</li>
+					<li v-for="d in districtList" @click="selectDistric(d)" :class="d.active?'active':''">
+						{{d.countyName}}
+					</li>
+					</ul>
 		</van-popup>
 		<van-cell-group>
 			<van-field class="big" type="text" v-model="detailAddress" placeholder="详细地址：如道路；门牌号；小区等" @input="checkEmpty" clearable/>
@@ -55,6 +58,88 @@
 				province: '',
 				county: '',
 				city: '',
+				addressList: [{
+						"provinceId": 120000,
+						"cities": [{
+							"cityId": 120100,
+							"cityName": "天津市",
+							"counties": [{
+									"countyName": "河东区",
+									"countyId": 120102
+								},
+								{
+									"countyName": "蓟州区",
+									"countyId": 120119
+								},
+								{
+									"countyName": "河西区",
+									"countyId": 120103
+								}
+							]
+						}],
+						"provinceName": "天津"
+					},
+					{
+						"provinceId": 450000,
+						"cities": [{
+								"cityId": 450800,
+								"cityName": "贵港市",
+								"counties": [{
+										"countyName": "港北区",
+										"countyId": 450802
+									},
+									{
+										"countyName": "覃塘区",
+										"countyId": 450804
+									}
+								]
+							},
+							{
+								"cityId": 450500,
+								"cityName": "北海市",
+								"counties": [{
+										"countyName": "铁山港区",
+										"countyId": 450512
+									},
+									{
+										"countyName": "合浦县",
+										"countyId": 450521
+									},
+									{
+										"countyName": "银海区",
+										"countyId": 450503
+									},
+									{
+										"countyName": "海城区",
+										"countyId": 450502
+									}
+								]
+							},
+							{
+								"cityId": 451000,
+								"cityName": "百色市",
+								"counties": [{
+										"countyName": "隆林各族自治县",
+										"countyId": 451031
+									},
+									{
+										"countyName": "右江区",
+										"countyId": 451002
+									},
+									{
+										"countyName": "西林县",
+										"countyId": 451030
+									},
+									{
+										"countyName": "田阳县",
+										"countyId": 451021
+									}
+								]
+							}
+						],
+						"provinceName": "广西壮族自治区"
+					}
+				],
 				provinceList: [{
 					code: '110000',
 					name: '北京市'
@@ -68,7 +153,7 @@
 			}
 		},
 		methods: {
-			saveAddress(){
+			saveAddress() {
 				this.$router.push("/orderDetail")
 			},
 			checkEmpty() {
@@ -77,9 +162,9 @@
 				} else {
 					this.gray = true
 				}
-				sessionStorage.setItem('username',this.username)
-				sessionStorage.setItem('phone',this.phone)
-				sessionStorage.setItem('detailAddress',this.detailAddress)
+				sessionStorage.setItem('username', this.username)
+				sessionStorage.setItem('phone', this.phone)
+				sessionStorage.setItem('detailAddress', this.detailAddress)
 			},
 			showPopup() {
 				this.show = true;
@@ -97,19 +182,14 @@
 			selectCountry(i) {
 				this.city = ''
 				this.district = ''
-				this.cityList = [{
-					code: '110100',
-					name: '北京市'
-				}, {
-					code: '110200',
-					name: '天津市'
-				}]
-					this.provinceList.forEach((i) => {
-						this.$set(i, "active", false);
-					});
-					this.$set(i, "active", true);
-					this.province = i.name
-						sessionStorage.setItem('province',this.province)
+				this.addressList.forEach((i) => {
+					this.$set(i, "active", false);
+				});
+				this.cityList = i.cities
+				this.districtList = []
+				this.$set(i, "active", true);
+				this.province = i.provinceName
+				sessionStorage.setItem('province', this.province)
 				//				let req = {
 				//					code: this.country
 				//				}
@@ -128,55 +208,37 @@
 				//				})
 			},
 			selectCity(i) {
-					this.cityList.forEach((i) => {
-						this.$set(i, "active", false);
-					});
-					this.$set(i, "active", true);
-					this.city = i.name
-					sessionStorage.setItem('city',this.city)
-				
-
-				this.district = ''
-				let req = {
-					code: this.city
-				}
-				api.post(api.getUrl('cityList'), req).then(res => {
-					this.districtList = [{
-						code: '110101',
-						name: '东城区'
-					}, {
-						code: '110102',
-						name: '西城区'
-					}, {
-						code: '110105',
-						name: '朝阳区'
-					}, {
-						code: '110106',
-						name: '丰台区'
-					}, {
-						code: '120102',
-						name: '河东区'
-					}]
-					//this.districtList = res.content
-					let _this = this
-					this.cityList.find(function(item) {
-						if(item.code == _this.city) {
-							_this.cityName = item.name
-							console.log(_this.cityName)
-						}
-					});
-				}).catch(() => {
-					console.log("系统异常")
-				})
+				console.log(i)
+				this.districtList = i.counties
+				this.cityList.forEach((i) => {
+					this.$set(i, "active", false);
+				});
+				this.$set(i, "active", true);
+				this.city = i.cityName
+				sessionStorage.setItem('city', this.city)
+//				let req = {
+//					code: this.city
+//				}
+//				api.post(api.getUrl('cityList'), req).then(res => {
+//					let _this = this
+//					this.cityList.find(function(item) {
+//						if(item.code == _this.city) {
+//							_this.cityName = item.name
+//							console.log(_this.cityName)
+//						}
+//					});
+//				}).catch(() => {
+//					console.log("系统异常")
+//				})
 			},
 			selectDistric(i) {
-					this.districtList.forEach((i) => {
-						this.$set(i, "active", false);
-					});
-					this.$set(i, "active", true);
-					this.county = i.name
-					sessionStorage.setItem('county',this.county)
-					console.log(this.county)
+				this.districtList.forEach((i) => {
+					this.$set(i, "active", false);
+				});
+				this.$set(i, "active", true);
+				this.county = i.countyName
+				sessionStorage.setItem('county', this.county)
+				console.log(this.county)
 				this.show = false
 				console.log(this.username)
 				console.log(this.phone)
@@ -202,6 +264,7 @@
 			}
 		},
 		mounted() {
+			this.list = this.addressList.content
 			//this.getCountryList()
 		},
 	}
@@ -213,11 +276,11 @@
 		width: 100%;
 		height: 100%;
 		background: #F8F8F8;
-		.van-cell:not(:last-child)::after{
-			margin-right:1.5rem;
+		.van-cell:not(:last-child)::after {
+			margin-right: 1.5rem;
 		}
-		[class*=van-hairline]::after{
-			border:none;
+		[class*=van-hairline]::after {
+			border: none;
 		}
 		.title {
 			color: #8A9399;
@@ -259,6 +322,10 @@
 				line-height: 2.5rem;
 				font-size: 1.5rem;
 				color: #1A2833;
+				.title-address{
+					font-weight: bold;
+					line-height:5rem;
+				}
 			}
 		}
 		.active {

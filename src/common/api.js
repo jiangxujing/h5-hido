@@ -100,43 +100,60 @@ const get = (url, params) =>{
 }
 // 注册 app 交互方法
 const setupWebViewJavascriptBridge = (callback) => {
-    if (toolType === '5') {
-        if (window.WebViewJavascriptBridge) {
-            return callback(WebViewJavascriptBridge)
-        }
-        if (window.WVJBCallbacks) {
-            return window.WVJBCallbacks.push(callback)
-        }
-        window.WVJBCallbacks = [callback]
-        let WVJBIframe = document.createElement('iframe')
-        WVJBIframe.style.display = 'none'
-        WVJBIframe.src = 'https://__bridge_loaded__'
-        document.documentElement.appendChild(WVJBIframe)
-        setTimeout(function() {
-            document.documentElement.removeChild(WVJBIframe)
-        }, 0)
-    } else if (toolType === '4') {
-        if (window.WebViewJavascriptBridge) {
-            callback(WebViewJavascriptBridge)
-        } else {
-            document.addEventListener( 'WebViewJavascriptBridgeReady' , function() {
-                callback(WebViewJavascriptBridge)
-            }, false )
-        }
-        if (window.WVJBCallbacks) {
-            return window.WVJBCallbacks.push(callback)
-        }
-        window.WVJBCallbacks = [callback]
-        let WVJBIframe = document.createElement('iframe')
-        WVJBIframe.style.display = 'none'
-        WVJBIframe.src = 'https://__bridge_loaded__'
-        document.documentElement.appendChild(WVJBIframe)
-        setTimeout(function() {
-            document.documentElement.removeChild(WVJBIframe)
-        }, 0)
-    } else {
+    // if (toolType === '5') {
+    //     if (window.WebViewJavascriptBridge) {
+    //         return callback(WebViewJavascriptBridge)
+    //     }
+    //     if (window.WVJBCallbacks) {
+    //         return window.WVJBCallbacks.push(callback)
+    //     }
+    //     window.WVJBCallbacks = [callback]
+    //     let WVJBIframe = document.createElement('iframe')
+    //     WVJBIframe.style.display = 'none'
+    //     WVJBIframe.src = 'https://__bridge_loaded__'
+    //     document.documentElement.appendChild(WVJBIframe)
+    //     setTimeout(function() {
+    //         document.documentElement.removeChild(WVJBIframe)
+    //     }, 0)
+    // } else if (toolType === '4') {
+    //     if (window.WebViewJavascriptBridge) {
+    //         callback(WebViewJavascriptBridge)
+    //     } else {
+    //         document.addEventListener( 'WebViewJavascriptBridgeReady' , function() {
+    //             callback(WebViewJavascriptBridge)
+    //         }, false )
+    //     }
+    //     if (window.WVJBCallbacks) {
+    //         return window.WVJBCallbacks.push(callback)
+    //     }
+    //     window.WVJBCallbacks = [callback]
+    //     let WVJBIframe = document.createElement('iframe')
+    //     WVJBIframe.style.display = 'none'
+    //     WVJBIframe.src = 'https://__bridge_loaded__'
+    //     document.documentElement.appendChild(WVJBIframe)
+    //     setTimeout(function() {
+    //         document.documentElement.removeChild(WVJBIframe)
+    //     }, 0)
+    // } else {
+    // }
+    //android
+    if (window.WebViewJavascriptBridge) { callback(window.WebViewJavascriptBridge) } else {
+        document.addEventListener('WebViewJavascriptBridgeReady', function() { 
+            callback(window.WebViewJavascriptBridge)
+        },false);
     }
+    //ios
+    if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+    if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+    window.WVJBCallbacks = [callback];
+    var WVJBIframe = document.createElement('iframe');
+    WVJBIframe.style.display = 'none';
+    WVJBIframe.src = 'https://__bridge_loaded__';
+    document.documentElement.appendChild(WVJBIframe);
+    setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
 }
+
+// 微信
 export const getWechat = (title,desc,linkUrl,imgUrl) => {
 	   wx.checkJsApi({
         jsApiList: ['onMenuShareAppMessage','onMenuShareTimeline'], // 需要检测的JS接口列表

@@ -182,7 +182,8 @@ export default {
             this.verifyTitle = '获取验证码'
         },
         checkForm () {
-            const mobileReg = /^((17[0-9])|(14[0-9])|(13[0-9])|(15[0-9])|(18[0-9])|166|198|199)+\d{8}$/
+            // const mobileReg = /^((13[0-9])|(14[0-9])|(15[0-9])|(17[0-9])|(18[0-9])|166|198|199)+\d{8}$/
+            const mobileReg = /^(1)+\d{10}$/
             const nameReg = /^[\u4e00-\u9fa5]+(·[\u4e00-\u9fa5]+)*$/
             const branchReg = /^[\u4e00-\u9fa5]*$/
             const idCardNoReg = /^(^\d{18}$)|(^\d{17}(\d|X|x)$)$/
@@ -279,10 +280,10 @@ export default {
                 this.loginVerify = 59
             }
         },
-        // 提 交
+        // 提交
         toNext () {
             if (!(/^\d+$/).test(this.verifyCode)) {
-                Toast('验证码是4位数字', '提示')
+                Toast('验证码有误', '提示')
             } else if (this.mobile !== this.checkedMobile) {
                 Toast('请重新获取验证码', '提示')
             } else {
@@ -307,12 +308,13 @@ export default {
                 //         }
                 //     }
                 // })
-                Toast('重来！！')
+                Toast('银行卡添加成功')
                 clearInterval(this.clock)
                 this.verifyCode = ''
                 this.checkedMobile = ''
                 this.verifyBtn = false
                 this.verifyTitle = '获取验证码'
+                this.$router.go(-1)
             }
         }
     }

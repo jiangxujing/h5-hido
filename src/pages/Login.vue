@@ -38,7 +38,7 @@
         <div class="page-protocol">
             <span class="protocol-title">登录即表示我已阅读并同意</span>
             <!-- <span class="protocol-title protocol-a" @click="popupVisible=true">注册协议<span style="color:$themeColor;">、</span><span class="protocol-title protocol-a" @click="popupVisible=true">隐私策略</span> -->
-            <span class="protocol-title protocol-a" @click="openPage('https://www.baidu.com')">注册协议</span><span style="color:$themeColor;">、</span><span class="protocol-title protocol-a" @click="openPage('https://www.baidu.com')">隐私策略</span>
+            <span class="protocol-title protocol-a" @click="$router.push({name: 'registerProtocol'})">注册协议</span><span style="color:$themeColor;">、</span><span class="protocol-title protocol-a" @click="$router.push({name: 'privacyPolicy'})">隐私策略</span>
         </div>
         
         <!-- <van-popup class="van-popup-protocol" v-model="popupVisible">
@@ -90,9 +90,6 @@ export default {
         }
     },
     methods: {
-        openPage(url) {
-            window.location.href = url
-        },
         // ipnut 清除
         setTimeout (type) {
             let _this = this
@@ -101,7 +98,8 @@ export default {
         },
         // 获取验证码
         getVerify () {
-            const mobileReg = /^((13[0-9])|(14[0-9])|(15[0-9])|(17[0-9])|(18[0-9])|166|198|199)+\d{8}$/
+            // const mobileReg = /^((13[0-9])|(14[0-9])|(15[0-9])|(17[0-9])|(18[0-9])|166|198|199)+\d{8}$/
+            const mobileReg = /^(1)+\d{10}$/
             if (!this.phone) {
                 Toast('请输入手机号')
             } else if (!mobileReg.test(this.phone)) {

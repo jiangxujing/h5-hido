@@ -9,10 +9,15 @@ let CancelToken = axios.CancelToken
 let cancel
 
 const prefix = '/hidoCode'
-const userPrefix = '/user'
+const prefixList = [{
+    type: 'user',
+    value: '/user'
+}]
+
 const weixinPrefix = '/sns'
 const weixinPayPrefix = '/pay'
 const h5Prefix = '/mch'
+
 let toolType = null
 if (getQueryString('toolType')) {
     toolType = getQueryString('toolType')
@@ -57,9 +62,15 @@ const getUrl = (key, type) => {
     if (typeof ApiList[key] === 'undefined' || ApiList[key] === '') {
         return ''
     }
-    let url = type && type == 'user' ? userPrefix + ApiList[key] : prefix + ApiList[key]
+    let url = prefix + ApiList[key]
+    if (type) {
+        prefixList.forEach(item => {
+            item.type == type ? url = item.value + ApiList[key] : ''
+        })
+    }
     return url
 }
+
 const getWeixinUrl = (key,type) => {
 	if (typeof ApiList[key] === 'undefined' || ApiList[key] === '') {
         return ''

@@ -8,20 +8,27 @@
 </template>
 
 <script>
-	export default {
-		name: 'privacy-policy',
-		data() {
-			return {
+import api from '../common/api.js'
+export default {
+	name: 'privacy-policy',
+	data() {
+		return {
 
+		}
+	},
+	mounted() {
+		document.title = '隐私政策'
+		api.setupWebViewJavascriptBridge(bridge => {
+			let params = {
+				title: '隐私政策'
 			}
-		},
-		methods: {
-
-		},
-		mounted() {
-
-		},
+			bridge.callHandler('callTitleUpdate', params, () => {})
+		})
+	},
+	methods: {
+		
 	}
+}
 </script>
 
 <style lang="scss">

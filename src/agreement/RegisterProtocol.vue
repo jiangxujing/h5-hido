@@ -8,20 +8,27 @@
 </template>
 
 <script>
-	export default {
-		name: 'register-protocol',
-		data() {
-			return {
+import api from '../common/api.js'
+export default {
+	name: 'register-protocol',
+	data() {
+		return {
 
+		}
+	},
+	mounted() {
+		document.title = '注册协议'
+		api.setupWebViewJavascriptBridge(bridge => {
+			let params = {
+				title: '注册协议'
 			}
-		},
-		methods: {
-
-		},
-		mounted() {
-
-		},
+			bridge.callHandler('callTitleUpdate', params, () => {})
+		})
+	},
+	methods: {
+		
 	}
+}
 </script>
 
 <style lang="scss">

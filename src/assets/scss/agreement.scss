@@ -1,10 +1,100 @@
-$themeColor: #FF7B31;
-$lightThemeColor: #FFAF82;
-$lightColor: #8A9399;
-$normalColor: #475966;
-$darkColor: #1A2833;
-$bgColor: #f5f5f5;
-$disabledBg: #B0B5B8;
-$borderColor: #EAEAEA;
-
-$darkThemeColor: #FF0000;
+@charset "UTF-8";
+	.cont,.cont header {
+	float:left;
+	width:100%
+}
+.cont header,.main li,.main p {
+	/*font-family:"方正兰亭细黑"*/
+}
+.cont,.list div {
+	box-sizing:border-box
+}
+.addblack,.weight {
+	font-weight:700;
+	color: #222222!important;
+}
+* {
+	margin:0;
+	padding:0
+}
+body {
+	background-color:#F5F5F5
+}
+.cont {
+	margin-top:.266667rem;
+	background-color:#FFF;
+	padding-left:.4rem;
+	padding-right:.4rem;
+	font-family: SimHei;
+}
+.cont header {
+	margin-top:.7rem;
+	text-align:center;
+	font-size:.4rem;
+	margin-bottom:.54rem;
+}
+.head.left,.head.right {
+	font-size:.32rem
+}
+.main {
+	/*border-top:1px solid #ddd;*/
+	float:left;
+	font-size: 13px;
+}
+.one {
+	margin-top:.24rem
+}
+.main p {
+	line-height:.64rem;
+	color:#444444;
+	margin-bottom: .4rem;
+}
+.main li{
+	line-height:.64rem;
+	color:#444444;
+}
+.two {
+	margin-bottom:.106667rem
+}
+.list {
+	width:100%;
+	height:100%;
+	border:1px solid #d9d9d9;
+	border-radius:.08rem;
+	margin-bottom:.4rem
+}
+.list div {
+	display:inline-block
+}
+.head {
+	height:.933333rem;
+	background-color:#d9d9d9;
+	line-height:.933333rem;
+	color:#fff
+}
+.ji,.ou {
+	color:#475966
+}
+.head.left {
+	border-right:1px solid #FFF
+}
+.left,.right {
+	line-height:.8rem;
+	font-size:.293333rem
+}
+.left {
+	width:70%;
+	padding-left:3%;
+	border-right:1px solid #DDD
+}
+.right {
+	width:30%;
+	text-align:center
+}
+.ou {
+	background-color:#F5F5F5
+}
+.weight {
+	text-decoration:underline;
+	color: #222222!important;
+}

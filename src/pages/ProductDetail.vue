@@ -107,16 +107,16 @@
 				hasNoAdress: false,
 				shareWrapperShow: false,
 				orginPrice: _utils.formatMoney(39999999.11, 2),
-				proxyShow:true,
+				proxyShow: true,
 				packageDetail: {
-						"detailPicture": 1,
-						"headPicture": require('../assets/images/detai-img.jpg'),
-						"listPicture": 1,
-						"name": '大气泡',
-						"num":12,
-						"originalPrice": 11111,
-						"salesPrice": 1,
-						"buynum":131
+					"detailPicture": 1,
+					"headPicture": require('../assets/images/detai-img.jpg'),
+					"listPicture": 1,
+					"name": '大气泡',
+					"num": 12,
+					"originalPrice": 11111,
+					"salesPrice": 1,
+					"buynum": 131
 				}
 			}
 		},
@@ -130,38 +130,41 @@
 			shareWeixin() {
 				if(this.device.version.MicroMessenger) {
 					this.getWechat()
-				}else{
+				} else {
 					api.setupWebViewJavascriptBridge(function(bridge) {
-					let params = {
-						shareUrl: _this.url,
-						title: '商品详情',
-						shareContent: _this.packageDetail.name,
-						sharePic: api.imgUrl + _this.pictureUrlList[0],
-						sharePlatform: WechatSession
-					}
-					bridge.callHandler('callShareOnly', params, (data) => {
-						console.log(data)
+						let params = {
+							"sharePlatform": "WechatSession",
+							"shareParams": {
+								"shareUrl": _this.url,
+								"title": "礼包详情",
+								"shareContent": _this.packageDetail.name,
+								"sharePic": api.imgUrl + _this.pictureUrlList[0]
+							}
+						}
+						bridge.callHandler('callShareOnly', params, (data) => {
+							console.log(data)
+						})
 					})
-				})
 				}
-				
 			},
 			shareFriend() {
 				if(this.device.version.MicroMessenger) {
 					this.getWechat()
-				}else{
+				} else {
 					api.setupWebViewJavascriptBridge(function(bridge) {
-					let params = {
-						shareUrl: _this.url,
-						title: '商品详情',
-						shareContent: _this.packageDetail.name,
-						sharePic: api.imgUrl + _this.pictureUrlList[0],
-						sharePlatform: WechatTimeline
-					}
-					bridge.callHandler('callShareOnly', params, (data) => {
-						console.log(data)
+						let params = {
+							"sharePlatform": "WechatTimeline",
+							"shareParams": {
+								"shareUrl": _this.url,
+								"title": "礼包详情",
+								"shareContent": _this.packageDetail.name,
+								"sharePic": api.imgUrl + _this.pictureUrlList[0]
+							}
+						}
+						bridge.callHandler('callShareOnly', params, (data) => {
+							console.log(data)
+						})
 					})
-				})
 				}
 			},
 			getBuy() {
@@ -175,7 +178,7 @@
 						})
 					})
 				} else {
-					this.$router.push("/orderDetail?orderNo="+33)
+					this.$router.push("/orderDetail?orderNo=" + 33)
 				}
 			},
 			getWechat() {
@@ -203,26 +206,27 @@
 					}
 				})
 			},
-			getPackageDetail(code){
+			getPackageDetail(code) {
 				let req = {
-						packageCode:code
+					packageCode: code
 				}
-					api.post(api.getUrl('queryPackage', ''), req).then(res => {
-						if(res.code == '0000'){
-							this.packageDetail = res.content
-							if(res.content.proxy){
-								this.proxyShow = true
-							}else{
-								this.proxyShow = false
-							}
+				api.post(api.getUrl('queryPackage', ''), req).then(res => {
+					if(res.code == '0000') {
+						this.packageDetail = res.content
+						if(res.content.proxy) {
+							this.proxyShow = true
+						} else {
+							this.proxyShow = false
 						}
-					}).catch((e) => {
-						
-					})
+					}
+				}).catch((e) => {
+
+				})
 			}
 
 		},
 		mounted() {
+			document.title="礼包详情"
 			let ua = navigator.userAgent;
 			this.device = {
 				version: function() {

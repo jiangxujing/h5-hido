@@ -57,11 +57,16 @@
 		<div class="sendCodeWrapper" v-if="sendCodeShow" @click="sendCodeShow=false">
 			<div class="sendCode-content" @click.stop>
 				<div class="title">已向159****111发送验证码</div>
-				<input type="number" v-model="smsCode"/>
-				<button v-if="codeGrayShow">重新发送验证码</button>
-				<button @click="sendCode" class="active" v-else>重新发送验证码</button>
-				<span>{{countdown}}s</span>
+				<div class="send-style">
+					<input type="number" v-model="smsCode" placeholder="输入验证码"/>
+					<button v-if="codeGrayShow">{{countdown}}s</button>
+					<button @click="sendCode" class="active" v-else>重新发送</button>
+				</div>
+				<!--<span>{{countdown}}s</span>-->
+				<div class="borderStyle" style="margin-top:2.3rem;"></div>
+				<div style="color:#FF7B31;font-size:1.7rem;font-weight: 400;padding: 1.5rem 0;" @click="sendCodeShow=false">确定</div>
 			</div>
+			
 		</div>
 	</div>
 </template>
@@ -75,8 +80,6 @@
 				grayShow: true,
 				availableBalance: '100',
 				smsCode:'',
-				//				bankname: '招商银行',
-				//				bankno: '尾号1001（储蓄卡）',
 				bankname: '',
 				bankno: '',
 				money: '',
@@ -100,25 +103,24 @@
 		},
 		methods: {
 			sendCode(){
-				alert('发送验证码')
+				this.getWithdraw()
 			},
 			getWithdraw() {
 				this.sendCodeShow = true
+				console.log(this.inteval)
 				if(!this.inteval){
 					this.inteval = setInterval(()=>{
 					this.countdown--
 					if(this.countdown<=0){
 						clearInterval(this.inteval)
+						this.inteval = ''
 						this.countdown = 10
 						this.codeGrayShow = false
 					}else{
 						this.codeGrayShow = true
 					}
-					
-					
 				},1000)
 				}
-				
 			},
 			changeMoney() {
 				if((parseFloat(this.money) > parseFloat(this.availableBalance)) && parseFloat(this.money) <= 10000) {
@@ -151,7 +153,7 @@
 					this.grayShow = true
 				} else if(parseFloat(this.money) > 10000) {
 					this.grayShow = true
-				} else {
+				} else if(this.money){
 					this.grayShow = false
 				}
 			},
@@ -307,8 +309,8 @@
 		}
 		.sendCode-content {
 			text-align: center;
-			width: 60%;
-			height: 30rem;
+			width:72%;
+			height: auto;
 			background: #fff;
 			border-radius: 1.5rem;
 			position: fixed;
@@ -316,8 +318,32 @@
 			margin-left: -30%;
 			top: 30%;
 			.title{
-				font-size:1.3rem;
+				font-size:1.7rem;
 				line-height: 3rem;
+				font-weight:500;
+				color:#1A2833;
+				padding:3rem 0 1.7rem 0;
+			}
+			.send-style{
+				height:4.5rem;
+				border:1px solid #EAEAEA;
+				border-radius:3px;
+				margin:0 1.5rem;
+				padding: 1rem 0;
+				input{
+					border:none;
+				}
+				button{
+					border:1px solid #FF7B31;
+					width:6.8rem;
+					height:2.3rem;
+					border-radius:1.2rem;
+					background: #fff;
+					color:#FF7B31;
+					font-size:1rem;
+					box-sizing: border-box;
+					
+				}
 			}
 			.active{
 				background: indianred;

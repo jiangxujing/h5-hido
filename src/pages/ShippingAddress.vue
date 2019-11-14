@@ -17,7 +17,7 @@
 		<van-popup v-model="show" closeable position="bottom" :style="{ height: '60%' }" class="city-info">
 				<ul>
 					<li class="title-address">省</li>
-					<li v-for="(p,index) in addressList" :key="index" @click="selectCountry(p)" :class="p.active?'active':''">
+					<li v-for="(p,index) in provinceList" :key="index" @click="selectCountry(p)" :class="p.active?'active':''">
 						{{p.provinceName}}
 					</li>
 				</ul>
@@ -58,7 +58,7 @@
 				province: '',
 				county: '',
 				city: '',
-				addressList: [{
+				provinceList: [{
 						"provinceId": 120000,
 						"cities": [{
 							"cityId": 120100,
@@ -170,10 +170,7 @@
 				this.show = true;
 			},
 			getCountryList() {
-				let req = {
-					code: 1
-				}
-				api.post(api.getUrl('cityList'), req).then(res => {
+				api.post(api.getUrl('queryAdminRegion',''), {}).then(res => {
 					this.provinceList = res.content
 				}).catch(() => {
 					console.log("系统异常")
@@ -264,8 +261,7 @@
 			}
 		},
 		mounted() {
-			this.list = this.addressList.content
-			//this.getCountryList()
+			this.getCountryList()
 		},
 	}
 </script>

@@ -38,7 +38,7 @@
         <div class="page-protocol">
             <span class="protocol-title">登录即表示我已阅读并同意</span>
             <!-- <span class="protocol-title protocol-a" @click="popupVisible=true">注册协议<span style="color:$themeColor;">、</span><span class="protocol-title protocol-a" @click="popupVisible=true">隐私策略</span> -->
-            <span class="protocol-title protocol-a" @click="openPage('https://www.baidu.com')">注册协议</span><span style="color:$themeColor;">、</span><span class="protocol-title protocol-a" @click="openPage('https://www.baidu.com')">隐私策略</span>
+            <span class="protocol-title protocol-a" @click="$router.push({name: 'registerProtocol'})">注册协议</span><span style="color:$themeColor;">、</span><span class="protocol-title protocol-a" @click="$router.push({name: 'privacyPolicy'})">隐私策略</span>
         </div>
         
         <!-- <van-popup class="van-popup-protocol" v-model="popupVisible">
@@ -90,9 +90,6 @@ export default {
         }
     },
     methods: {
-        openPage(url) {
-            window.location.href = url
-        },
         // ipnut 清除
         setTimeout (type) {
             let _this = this

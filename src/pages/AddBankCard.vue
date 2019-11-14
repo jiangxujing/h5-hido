@@ -280,10 +280,10 @@ export default {
                 this.loginVerify = 59
             }
         },
-        // 提 交
+        // 提交
         toNext () {
             if (!(/^\d+$/).test(this.verifyCode)) {
-                Toast('验证码是4位数字', '提示')
+                Toast('验证码有误', '提示')
             } else if (this.mobile !== this.checkedMobile) {
                 Toast('请重新获取验证码', '提示')
             } else {
@@ -308,12 +308,13 @@ export default {
                 //         }
                 //     }
                 // })
-                Toast('重来！！')
+                Toast('银行卡添加成功')
                 clearInterval(this.clock)
                 this.verifyCode = ''
                 this.checkedMobile = ''
                 this.verifyBtn = false
                 this.verifyTitle = '获取验证码'
+                this.$router.go(-1)
             }
         }
     }

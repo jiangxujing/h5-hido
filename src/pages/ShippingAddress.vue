@@ -140,13 +140,6 @@
 						"provinceName": "广西壮族自治区"
 					}
 				],
-				provinceList: [{
-					code: '110000',
-					name: '北京市'
-				}, {
-					code: '120000',
-					name: '天津市'
-				}],
 				cityList: [],
 				districtList: [],
 				gray: true
@@ -179,7 +172,7 @@
 			selectCountry(i) {
 				this.city = ''
 				this.district = ''
-				this.addressList.forEach((i) => {
+				this.provinceList.forEach((i) => {
 					this.$set(i, "active", false);
 				});
 				this.cityList = i.cities
@@ -261,7 +254,7 @@
 			}
 		},
 		mounted() {
-			this.getCountryList()
+			//this.getCountryList()
 		},
 	}
 </script>

@@ -182,7 +182,8 @@ export default {
             this.verifyTitle = '获取验证码'
         },
         checkForm () {
-            const mobileReg = /^((17[0-9])|(14[0-9])|(13[0-9])|(15[0-9])|(18[0-9])|166|198|199)+\d{8}$/
+            // const mobileReg = /^((13[0-9])|(14[0-9])|(15[0-9])|(17[0-9])|(18[0-9])|166|198|199)+\d{8}$/
+            const mobileReg = /^(1)+\d{10}$/
             const nameReg = /^[\u4e00-\u9fa5]+(·[\u4e00-\u9fa5]+)*$/
             const branchReg = /^[\u4e00-\u9fa5]*$/
             const idCardNoReg = /^(^\d{18}$)|(^\d{17}(\d|X|x)$)$/

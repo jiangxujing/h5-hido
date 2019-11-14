@@ -101,7 +101,8 @@ export default {
         },
         // 获取验证码
         getVerify () {
-            const mobileReg = /^((13[0-9])|(14[0-9])|(15[0-9])|(17[0-9])|(18[0-9])|166|198|199)+\d{8}$/
+            // const mobileReg = /^((13[0-9])|(14[0-9])|(15[0-9])|(17[0-9])|(18[0-9])|166|198|199)+\d{8}$/
+            const mobileReg = /^(1)+\d{10}$/
             if (!this.phone) {
                 Toast('请输入手机号')
             } else if (!mobileReg.test(this.phone)) {

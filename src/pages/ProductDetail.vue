@@ -1,7 +1,7 @@
 <template>
 	<div class="product-detail">
 		<div class="content1">
-			<div class="content1-header">
+			<div class="content1-header" v-if="packageDetail">
 				<img class="detail-img" :src="packageDetail.headPicture" />
 				<div class="tips">
 					<div class="header-tips">
@@ -16,7 +16,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="content1 content2" style="margin-top:0.8rem">
+		<div class="content1 content2" style="margin-top:0.8rem" v-if="packageDetail">
 			<h2>礼包说明</h2>
 			<div class="content2-detail">
 				<h3>{{packageDetail.name}}</h3>
@@ -26,9 +26,9 @@
 						<span>{{g.goodsName}}</span>
 					</div>
 					<div class="package-r">
-						<span>{{g.goodsCount}}次</span>
+						<span>{{g.goodsCount}}{{g.goodsUnit}}</span>
 						<span style="color:#8A9399;">|</span>
-						<span>￥{{g.goodsCost/100}}</span>
+						<span>￥{{g.goodsPrice/100}}</span>
 					</div>
 				</div>
 				<div class="borderStyle"></div>
@@ -40,15 +40,13 @@
 					</div>
 				</div>
 			</div>
-			<div class="advantage" v-for="i in packageDetail.detailsPicture">
+			<div class="advantage" v-for="i in detailsPicture">
 				<img :src="i" />
 			</div>
 		</div>
-		<div class="content1 content2 content3">
+		<div class="content1 content2 content3" v-if="packageDetail">
 			<h2>产品使用规则</h2>
-			<div v-for="i in packageDetail. listPicture">
-				<img :src="i" />
-			</div>
+				<img :src="packageDetail.listPicture" />
 		</div>
 		<div class="content1 content2 content3 content4">
 			<h2>其他礼包</h2>
@@ -69,16 +67,16 @@
 					</div>
 					<div>
 						<div class="description">{{i.name}}</div>
-						<div class="share" @click="getShare(i)" v-if="proxyShow">
-							<button>立即分享</button>
-						</div>
-						<div class="share" @click="getBuy" v-else>
+						<div class="share" @click="getBuy(i)" v-if="homepageUrl.type==1">
 							<button>立即购买</button>
+						</div>
+						<div class="share" @click="getShare(i)" v-else>
+							<button>立即分享</button>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="buy" @click="getBuy">￥{{packageDetail.salesPrice/100}}成为代理</div>
+			<div class="buy" @click="getBuy" v-if="packageDetail">￥{{packageDetail.salesPrice/100}}成为代理</div>
 		</div>
 		<div class="shareWraper" v-show='shareWrapperShow' @click='shareWrapperShow=false'>
 			<div class="share-content">
@@ -111,7 +109,9 @@
 				orginPrice: _utils.formatMoney(39999999.11, 2),
 				proxyShow: true,
 				packageDetail: {},
-				giftPackageDTOList: []
+				giftPackageDTOList: [],
+				homepageUrl:'',
+				detailsPicture:[]
 			}
 		},
 		methods: {
@@ -172,7 +172,8 @@
 				return map;
 			},
 
-			getBuy() {
+			getBuy(i) {
+				console.log(i.packageCode)
 				if(!_utils.getCookie('accessToken')) {
 					console.log(this.urlParse(window.location.search).app)
 					if(this.urlParse(window.location.search).app === "app") {
@@ -187,7 +188,7 @@
 						this.$router.push("/login")
 					}
 				} else {
-					this.$router.push("/orderDetail?orderNo=" + 33)
+					this.$router.push("/orderDetail?packageCode=" + i.packageCode)
 				}
 			},
 			getWechat() {
@@ -219,12 +220,12 @@
 				let req = {
 					packageCode: code
 				}
-				api.post(api.getUrl('queryPackage', 'collections'), req, false, false, true).then(res => {
+				api.post(api.getUrl('queryPackage', 'collections'), req, false, false, false).then(res => {
 					if(res.code == 0) {
 						this.packageDetail = res.content.giftPackageDTODetails
+						this.detailsPicture = res.content.giftPackageDTODetails.detailsPicture.split(',')
 						this.giftPackageDTOList = res.content.giftPackageDTOList
-						console.log(this.packageDetail)
-						console.log(this.giftPackageDTOList)
+						this.homepageUrl = res.content.homepageUrl
 					}
 				}).catch((e) => {
 

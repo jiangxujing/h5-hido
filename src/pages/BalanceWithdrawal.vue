@@ -10,7 +10,7 @@
 			</div>
 			<div class="borderStyle" style=" margin-left: 1.5rem;margin-top:0"></div>
 			<div class="available-balance" v-if="normal">
-				可用余额{{availableBalance}}元&nbsp;&nbsp;<span style="color:#A5A5A5">(最低提现100元)</span>
+				可用余额{{withdrawalDetail.freeAmount/100}}元&nbsp;&nbsp;<span style="color:#A5A5A5">(最低提现100元)</span>
 			</div>
 			<div class="available-balance" style="color:#FF0000;" v-else>
 				{{tips}}
@@ -20,10 +20,10 @@
 			</div>
 			<div class="borderStyle" style="margin-top:0"></div>
 			<div class="payment-method-list" @click="goToBank">
-				<img class="weixin" src="../assets/images/bank.png" />
+				<img class="weixin" :src="bankImgUrl" />
 				<div class="bank-name-no">
-					<div>{{bankname}}</div>
-					<div>{{bankno}}</div>
+					<div>{{bankName}}</div>
+					<div>{{bankNo}}</div>
 				</div>
 				<img class="gouxuan" src="../assets/images/arrow.png" />
 			</div>
@@ -32,12 +32,12 @@
 		<button class="withdrawBtn buy-now-active" v-else @click="getWithdraw">确认提现</button>
 		<van-popup v-model="bankshow" closeable position="bottom" :style="{ height: '50%' }">
 			<div class="banklist">
-				<div class="bank" v-for="(b,index) in banklist" :key="index" @click="selectBank(b)" :class="b.active?'active':''">
+				<div class="bank" v-for="(b,index) in withdrawalDetail.cardList" :key="index" @click="selectBank(b)" :class="b.active?'active':''">
 					<div style="padding:1rem 1.5rem;overflow:hidden">
-						<img class="bank-logo" :src="b.banklogo" />
+						<img class="bank-logo" :src="b.bankImgUrl" />
 						<div class="bank-no">
-							<div style="margin-top:0.2rem">{{b.bankname}}</div>
-							<div style="margin-top:0.8rem">{{b.bankno}}</div>
+							<div style="margin-top:0.2rem">{{b.bankName}}</div>
+							<div style="margin-top:0.8rem">{{b.bankNo}}</div>
 						</div>
 						<img class="gou-xuan" src="../assets/images/gou.png" v-if="b.active" />
 					</div>
@@ -56,22 +56,23 @@
 		</van-popup>
 		<div class="sendCodeWrapper" v-if="sendCodeShow" @click="sendCodeShow=false">
 			<div class="sendCode-content" @click.stop>
-				<div class="title">已向159****111发送验证码</div>
+				<div class="title">{{sendCodeDetail.message}}</div>
 				<div class="send-style">
-					<input type="number" v-model="smsCode" placeholder="输入验证码"/>
+					<input type="number" v-model="smsCode" placeholder="输入验证码" />
 					<button v-if="codeGrayShow">{{countdown}}s</button>
 					<button @click="sendCode" class="active" v-else>重新发送</button>
 				</div>
 				<!--<span>{{countdown}}s</span>-->
 				<div class="borderStyle" style="margin-top:2.3rem;"></div>
-				<div style="color:#FF7B31;font-size:1.7rem;font-weight: 400;padding: 1.5rem 0;" @click="sendCodeShow=false">确定</div>
+				<div style="color:#FF7B31;font-size:1.7rem;font-weight: 400;padding: 1.5rem 0;" @click="confirmCode">确定</div>
 			</div>
-			
+
 		</div>
 	</div>
 </template>
 
 <script>
+	import api from '../common/api.js'
 	import _utils from '../common/utils.js'
 	export default {
 		name: 'balanceWithdrawal',
@@ -79,48 +80,104 @@
 			return {
 				grayShow: true,
 				availableBalance: '100',
-				smsCode:'',
-				bankname: '',
-				bankno: '',
+				smsCode: '',
+				bankName: '',
+				bankNo: '',
 				money: '',
 				bankshow: false,
-				banklist: [{
-					banklogo: require('../assets/images/bank.png'),
-					bankname: '招商银行',
-					bankno: '621811226666'
-				}, {
-					banklogo: require('../assets/images/bank.png'),
-					bankname: '招商银行',
-					bankno: '621811228888'
-				}],
+				bankImgUrl:'',
+				sendCodeDetail: {},
+				withdrawalDetail: {},
 				active: false,
 				normal: true,
 				sendCodeShow: false,
-				countdown:10,
-				codeGrayShow:true,
-				inteval:''
+				countdown: 10,
+				codeGrayShow: true,
+				inteval: ''
 			}
 		},
 		methods: {
-			sendCode(){
+			sendCode() {
 				this.getWithdraw()
 			},
-			getWithdraw() {
-				this.sendCodeShow = true
-				console.log(this.inteval)
-				if(!this.inteval){
-					this.inteval = setInterval(()=>{
-					this.countdown--
-					if(this.countdown<=0){
-						clearInterval(this.inteval)
-						this.inteval = ''
-						this.countdown = 10
-						this.codeGrayShow = false
-					}else{
-						this.codeGrayShow = true
-					}
-				},1000)
+			confirmCode() {
+//				amount	申请提现金额	number	
+//				bankAccountName	银行卡账户名	string	
+//				bankBranch	开户支行	string	
+//				bankCardNo	提现银行卡号	string	
+//				bankName	发卡行	string	
+//				mmTicket	token	string	header里
+//				serialNo	短信流水号	string	@mock=2019111449067933
+//				verificationCode	验证码	string	@mock=974
+				let req = {
+					amount:this.money*100,
+					bankAccountName:'',
+					bankBranch:'',
+					bankCardNo:'',
+					bankName:'',
+					serialNo:this.serialNo,
+					verificationCode:this.smsCode
 				}
+				api.post(api.getUrl('withdrawalAuthSendSms', 'hido-core'), req).then(res => {
+					if(res.code == 0) {
+						this.sendCodeDetail = res.content;
+						this.sendCodeShow = true
+						console.log(this.inteval)
+						if(!this.inteval) {
+							this.inteval = setInterval(() => {
+								this.countdown--
+									if(this.countdown <= 0) {
+										clearInterval(this.inteval)
+										this.inteval = ''
+										this.countdown = 10
+										this.codeGrayShow = false
+									} else {
+										this.codeGrayShow = true
+									}
+							}, 1000)
+						}
+					}
+				}).catch((e) => {
+
+				})
+			},
+			getWithdraw() {
+				api.post(api.getUrl('withdrawalSendSms', 'hido-core'), {}).then(res => {
+					if(res.code == 0) {
+						this.sendCodeDetail = res.content;
+						this.serialNo = res.content.serialNo
+						this.sendCodeShow = true
+						console.log(this.inteval)
+						if(!this.inteval) {
+							this.inteval = setInterval(() => {
+								this.countdown--
+									if(this.countdown <= 0) {
+										clearInterval(this.inteval)
+										this.inteval = ''
+										this.countdown = 10
+										this.codeGrayShow = false
+									} else {
+										this.codeGrayShow = true
+									}
+							}, 1000)
+						}
+					}
+				}).catch((e) => {
+					if(!this.inteval) {
+							this.inteval = setInterval(() => {
+								this.countdown--
+									if(this.countdown <= 0) {
+										clearInterval(this.inteval)
+										this.inteval = ''
+										this.countdown = 10
+										this.codeGrayShow = false
+									} else {
+										this.codeGrayShow = true
+									}
+							}, 1000)
+						}
+				})
+
 			},
 			changeMoney() {
 				if((parseFloat(this.money) > parseFloat(this.availableBalance)) && parseFloat(this.money) <= 10000) {
@@ -134,7 +191,7 @@
 					this.grayShow = true
 				} else {
 					this.normal = true
-					if(!this.bankno) {
+					if(!this.bankNo) {
 						this.grayShow = true
 					} else {
 						this.grayShow = false
@@ -142,18 +199,18 @@
 				}
 			},
 			selectBank(i) {
-				this.banklist.forEach((i) => {
+				this.withdrawalDetail.cardList.forEach((i) => {
 					this.$set(i, "active", false);
 				});
 				this.$set(i, "active", true);
 				this.bankshow = false
-				this.bankname = i.bankname
-				this.bankno = i.bankno
+				this.bankname = i.bankName
+				this.bankno = i.bankNo
 				if((parseFloat(this.money) > parseFloat(this.availableBalance)) && parseFloat(this.money) <= 10000) {
 					this.grayShow = true
 				} else if(parseFloat(this.money) > 10000) {
 					this.grayShow = true
-				} else if(this.money){
+				} else if(this.money) {
 					this.grayShow = false
 				}
 			},
@@ -167,10 +224,22 @@
 				//				} else {
 				//					this.bankshow = true
 				//				}
+			},
+			queryWithdrawal() {
+				api.post(api.getUrl('queryWithdrawal', 'hido-core'), {}).then(res => {
+					if(res.code == 0) {
+						this.withdrawalDetail = res.content
+						this.bankName =  res.content.cardList[0].bankName
+						this.bankNo =  res.content.cardList[0].bankCardNo
+						this.bankImgUrl =  res.content.cardList[0].bankImgUrl
+					}
+				}).catch((e) => {
+
+				})
 			}
 		},
 		mounted() {
-
+			this.queryWithdrawal()
 		},
 	}
 </script>
@@ -274,6 +343,7 @@
 			}
 			.bank-logo {
 				float: left;
+				width: 4rem;
 			}
 			.bank-no {
 				float: left;
@@ -309,7 +379,7 @@
 		}
 		.sendCode-content {
 			text-align: center;
-			width:72%;
+			width: 72%;
 			height: auto;
 			background: #fff;
 			border-radius: 1.5rem;
@@ -317,35 +387,34 @@
 			left: 50%;
 			margin-left: -30%;
 			top: 30%;
-			.title{
-				font-size:1.7rem;
+			.title {
+				font-size: 1.7rem;
 				line-height: 3rem;
-				font-weight:500;
-				color:#1A2833;
-				padding:3rem 0 1.7rem 0;
+				font-weight: 500;
+				color: #1A2833;
+				padding: 3rem 0 1.7rem 0;
 			}
-			.send-style{
-				height:4.5rem;
-				border:1px solid #EAEAEA;
-				border-radius:3px;
-				margin:0 1.5rem;
+			.send-style {
+				height: 4.5rem;
+				border: 1px solid #EAEAEA;
+				border-radius: 3px;
+				margin: 0 1.5rem;
 				padding: 1rem 0;
-				input{
-					border:none;
+				input {
+					border: none;
 				}
-				button{
-					border:1px solid #FF7B31;
-					width:6.8rem;
-					height:2.3rem;
-					border-radius:1.2rem;
+				button {
+					border: 1px solid #FF7B31;
+					width: 6.8rem;
+					height: 2.3rem;
+					border-radius: 1.2rem;
 					background: #fff;
-					color:#FF7B31;
-					font-size:1rem;
+					color: #FF7B31;
+					font-size: 1rem;
 					box-sizing: border-box;
-					
 				}
 			}
-			.active{
+			.active {
 				background: indianred;
 			}
 		}

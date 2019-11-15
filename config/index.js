@@ -25,6 +25,11 @@ module.exports = {
         secure: false,
         changeOrigin: false,
       },
+      '/hido-core/**': {
+        target: 'http://192.168.199.66:8080',
+        secure: false,
+        changeOrigin: false,
+      },
        '/sns/**': {
         target: 'https://api.weixin.qq.com', // 通过code换取网页授权openId的域名测试用
         secure: false,

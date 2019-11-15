@@ -9,36 +9,36 @@
 				</div>
 				<div style="padding:1.5rem" v-else>
 					<div>
-						<span>{{username}}{{phone}}</span>
+						<span>{{orderDetail.receiverName}}{{orderDetail.receiverPhone}}</span>
 						<img class="arrow" src="../assets/images/arrow.png" />
 					</div>
 					<div class="adress adress1">
-						{{province}}/{{city}}/{{county}}
+						{{orderDetail.area}}
+						<!--{{province}}/{{city}}/{{county}}-->
 					</div>
 					<div class="adress adress2">
-						{{detailAddress}}
+						{{orderDetail.detailAddr}}
 					</div>
 				</div>
 			</div>
 			<div class="gift-package">
 				<div style="overflow:hidden">
-					<img class="libao" src="../assets/images/libao.png" />
+					<img class="libao" :src="orderDetail.merchantLogo" />
 					<div style="overflow:hidden">
 						<div style="float:left">
 							<div class="package-price">
 								<div class="van-multi-ellipsis--l2" style="color:#1A2833;font-size:1.5rem">
-									399大礼包399大礼包399
+									{{orderDetail.productName}}
 								</div>
 								<div>
-									<span style="font-size:1.4rem;color:#8A9399">修复面膜*10</span>
+									<span style="font-size:1.4rem;color:#8A9399">{{orderDetail.merchantName}}</span>
 								</div>
 							</div>
 						</div>
 						<div class="buynumber">x1</div>
 					</div>
 					<div style="overflow:hidden;padding-left:1.2rem">
-						<span style="font-size:1.4rem;color:#8A9399;float:left">无针水光针*1</span>
-						<span style="color:#FF7B31;font-size:1.6rem;float:right">￥399</span>
+						<span style="color:#FF7B31;font-size:1.6rem;float:right">￥{{orderDetail.orderRealAmt/100}}</span>
 					</div>
 				</div>
 			</div>
@@ -51,7 +51,7 @@
 			<div class="submitTxt">
 				<div style="padding:2.2rem 1.5rem;">
 					<span style="color:#1A2833;font-size:1.6rem;">订单金额：</span>
-					<span style="color:#FF7B31;font-size:1.8rem;">￥399</span>
+					<span style="color:#FF7B31;font-size:1.8rem;">￥{{orderDetail.orderRealAmt/100}}</span>
 					<button class="submit-gray" v-if="gray">提交</button>
 					<button class="submit-active" v-else @click="submitOrder">提交</button>
 				</div>
@@ -82,7 +82,7 @@
 		name: 'orderDetail',
 		data() {
 			return {
-				hasNoAdress: true,
+				hasNoAdress: false,
 				orderDetailShow: true,
 				recommendPhone: '',
 				province: '',
@@ -94,7 +94,8 @@
 				gray: true,
 				second: 3,
 				dropOutShow: false,
-				jumpUrl:''
+				jumpUrl: '',
+				orderDetail: {},
 			}
 		},
 		methods: {
@@ -163,7 +164,7 @@
 				}
 			},
 			submitOrder() {
-				window.location.href= this.jumpUrl
+				window.location.href = this.jumpUrl
 				//this.$router.push("/paymentMethod")
 				//				this.orderDetailShow = false
 				//				let interval = setInterval(()=>{
@@ -178,6 +179,80 @@
 			},
 			goBack() {
 				this.$router.push("/productDetail")
+			},
+			getOrderDetail() {
+				let req = {
+					"channel": 1,
+					"receiverName": "张虹旺",
+					"receiverPhone": "18055899999",
+					"area": "上海市，浦东新区",
+					"detailAddr": "博山东路",
+					"productId": "20191114173306YQ",
+					"orderType": 4,
+					"payType": 2,
+					"refererPhone": "18055899929",
+					"firstCommissionRatio": "2.00",
+					"secondCommissionRatio": "1.00"
+				}
+				api.post(api.getUrl('createOrderV2', 'collections'), req).then(res => {
+					res = {
+	"code": "000",
+	"desc": "操作成功[A4000]",
+	"accessToken": null,
+	"content": {
+		"orderNo": "MALL3019111551851941200310",
+		"memberId": null,
+		"phone": null,
+		"amount": 987,
+		"applyTerm": null,
+		"monthPayment": null,
+		"merchantId": null,
+		"merchantName": '水光针*10,玻尿酸*10',
+		"sdkOrderNo": null,
+		"walletOrderNo": null,
+		"repaymentType": null,
+		"status": null,
+		"createTime": 1573815185209,
+		"storeId": null,
+		"orderFlag": null,
+		"receiverName": "张虹旺",
+		"receiverPhone": "18055899999",
+		"area": "上海市，浦东新区",
+		"detailAddr": "博山东路",
+		"deliverDetail": null,
+		"couponCode": null,
+		"discountAmt": 0,
+		"parentOrderNo": null,
+		"merchantLogo": 'http://cdn.duitang.com/uploads/item/201510/17/20151017095028_eGJMw.thumb.700_0.jpeg',
+		"couponName": null,
+		"couponUseJson": null,
+		"freight": null,
+		"orderRealAmt": 987,
+		"eachProcedureFee": null,
+		"cancelTime": null,
+		"payTime": null,
+		"invalidTime": null,
+		"deliverTime": null,
+		"receiveTime": null,
+		"finishTime": null,
+		"version": null,
+		"productId": "20191114173306YQ",
+		"productName": "展示名",
+		"orderType": 4,
+		"marketingActivityNo": null,
+		"offlineOrderNo": null,
+		"payType": 2,
+		"weixinPaymentJson": null,
+		"rightsRecordId": null
+	},
+	"sign": null
+}
+					if(res.code == 0) {
+						this.orderDetail = res.content
+					}
+				}).catch((e) => {
+
+				})
 			}
 		},
 		mounted() {
@@ -196,13 +271,13 @@
 				this.getCode()
 			} else {
 				let req = {
-					code:'801e4862da74d9272af98ccbfa76bda0'
+					code: '801e4862da74d9272af98ccbfa76bda0'
 				}
 				api.get(api.getWeixinUrl('pay', 'h5Pay'), req).then(res => {
 					this.jumpUrl = res.url
 					console.log(res.url)
 
-					}).catch((e) => {})
+				}).catch((e) => {})
 			}
 
 			api.setupWebViewJavascriptBridge(function(bridge) {
@@ -232,7 +307,7 @@
 			//              };  
 			//              window.history.pushState(state, "title", "");  
 			//          }  
-
+			this.getOrderDetail()
 		},
 	}
 </script>

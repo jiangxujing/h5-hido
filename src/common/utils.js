@@ -595,19 +595,19 @@ export const getToolType = () => {
 	return toolType
 }
 
-
 /**
- * 下载
+ * 判断是否是内嵌app
  **/
-export const toDownload = () => {
-	if((getToolType() == '5') || (getToolType() == '4')) {
-		return false
-		// } else if (getToolType() == '1') {
-		//     toShare()
-	} else {
-		window.location.href = 'https://www.moutechs.com/download/download.html'
-	}
+export const urlParse = queryStr => {
+	let arr = queryStr.slice(1).split('&')
+	let map = {}
+	arr.forEach(item => {
+		let param = item.split('=')
+		map[param[0]] = param[1]
+	})
+	return map
 }
+
 
 /**
  * 显示遮罩层
@@ -679,7 +679,7 @@ export default {
 	getUrlSearch,
 	getQueryString,
 	getToolType,
+	urlParse,
 	toShare,
-	toDownload,
 	timeInterval
 }

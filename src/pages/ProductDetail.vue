@@ -210,7 +210,7 @@
 				let req = {
 					packageCode: code
 				}
-				api.post(api.getUrl('queryPackage', 'collections'), req).then(res => {
+				api.post(api.getUrl('queryPackage', 'collections'), req, false, false, true).then(res => {
 					if(res.code == '0000') {
 						this.packageDetail = res.content
 						if(res.content.proxy) {
@@ -238,6 +238,7 @@
 			this.ios = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端
 			let code = this.$route.query.packageCode
+			code = '20191114173306YQ'
 			this.getPackageDetail(code)
 		},
 	}

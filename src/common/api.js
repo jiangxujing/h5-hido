@@ -4,6 +4,7 @@ import ApiList from './api.json'
 import { Toast } from 'vant'
 import { getQueryString, getCookie } from './utils.js'
 import Loading from '../components/Loading/loading.js'
+import qs from 'qs'
 
 let CancelToken = axios.CancelToken
 let cancel
@@ -207,8 +208,9 @@ export const getWechat = (title,desc,linkUrl,imgUrl) => {
  * data： 入参对象
  * Loading: 无加载动画
  * noToken: 不需要校验token
+ * formData: formData请求方式
  **/
-const post = (url, data, noLoading, noToken) => {
+const post = (url, data, noLoading, noToken, formData) => {
     data ? data = filterNull(data) : ''
     const sec = 6000
     let postData = {}
@@ -256,11 +258,12 @@ const post = (url, data, noLoading, noToken) => {
     headers.memberId = getCookie('memberId')
     headers.memberType = getCookie('memberType')
     headers.token = getCookie('token')
-     headers.mmTicket = getCookie('accessToken')
+    headers.mmTicket = getCookie('accessToken')
     headers.tokenExpire = getCookie('tokenExpire')
     headers.accessToken = getCookie('accessToken')
     headers.mmChannel = 'mmdApp_h5'
     !noToken ? axiosHead.headers = headers : ''
+    formData ? axiosHead.data = qs.stringify(postData) : ''
 
     return axios(axiosHead).then(function(resp) {
         Loading.hide()

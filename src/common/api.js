@@ -115,42 +115,6 @@ const get = (url, params) =>{
 }
 // 注册 app 交互方法
 const setupWebViewJavascriptBridge = (callback) => {
-    // if (toolType === '5') {
-    //     if (window.WebViewJavascriptBridge) {
-    //         return callback(WebViewJavascriptBridge)
-    //     }
-    //     if (window.WVJBCallbacks) {
-    //         return window.WVJBCallbacks.push(callback)
-    //     }
-    //     window.WVJBCallbacks = [callback]
-    //     let WVJBIframe = document.createElement('iframe')
-    //     WVJBIframe.style.display = 'none'
-    //     WVJBIframe.src = 'https://__bridge_loaded__'
-    //     document.documentElement.appendChild(WVJBIframe)
-    //     setTimeout(function() {
-    //         document.documentElement.removeChild(WVJBIframe)
-    //     }, 0)
-    // } else if (toolType === '4') {
-    //     if (window.WebViewJavascriptBridge) {
-    //         callback(WebViewJavascriptBridge)
-    //     } else {
-    //         document.addEventListener( 'WebViewJavascriptBridgeReady' , function() {
-    //             callback(WebViewJavascriptBridge)
-    //         }, false )
-    //     }
-    //     if (window.WVJBCallbacks) {
-    //         return window.WVJBCallbacks.push(callback)
-    //     }
-    //     window.WVJBCallbacks = [callback]
-    //     let WVJBIframe = document.createElement('iframe')
-    //     WVJBIframe.style.display = 'none'
-    //     WVJBIframe.src = 'https://__bridge_loaded__'
-    //     document.documentElement.appendChild(WVJBIframe)
-    //     setTimeout(function() {
-    //         document.documentElement.removeChild(WVJBIframe)
-    //     }, 0)
-    // } else {
-    // }
     //android
     if (window.WebViewJavascriptBridge) { callback(window.WebViewJavascriptBridge) } else {
         document.addEventListener('WebViewJavascriptBridgeReady', function() { 
@@ -273,12 +237,14 @@ const post = (url, data, noLoading, noToken, formData) => {
             respData['content'] = _parseJSON(respData['content'])
             if (respData['code'] === 1111) {
                 Toast('凭证已失效，请重新登录', '提示')
-                if (toolType === '5' || toolType === '4') {
+                if (toolType === '1' || toolType === '2') {
+                    this.$router.push({name: 'login'})
+                } else {
                     setupWebViewJavascriptBridge(function(bridge) {
                         let params = {
                             jumpUrl: window.location.href
                         }
-                        bridge.callHandler('goLogin', params, (data) => {
+                        bridge.callHandler('callLogin', params, (data) => {
                             console.log(data)
                         })
                     })

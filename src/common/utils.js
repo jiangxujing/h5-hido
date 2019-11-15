@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import md5 from 'js-md5'
-import axios from 'axios'
+
 
 const ua = navigator.userAgent.toLowerCase(), //判断浏览器类型 
 	arrExp = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2], // 加权因子
@@ -607,7 +607,6 @@ export const urlParse = queryStr => {
 	})
 	return map
 }
-
 
 /**
  * 显示遮罩层

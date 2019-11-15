@@ -58,88 +58,7 @@
 				province: '',
 				county: '',
 				city: '',
-				provinceList: [{
-						"provinceId": 120000,
-						"cities": [{
-							"cityId": 120100,
-							"cityName": "天津市",
-							"counties": [{
-									"countyName": "河东区",
-									"countyId": 120102
-								},
-								{
-									"countyName": "蓟州区",
-									"countyId": 120119
-								},
-								{
-									"countyName": "河西区",
-									"countyId": 120103
-								}
-							]
-						}],
-						"provinceName": "天津"
-					},
-					{
-						"provinceId": 450000,
-						"cities": [{
-								"cityId": 450800,
-								"cityName": "贵港市",
-								"counties": [{
-										"countyName": "港北区",
-										"countyId": 450802
-									},
-									{
-										"countyName": "覃塘区",
-										"countyId": 450804
-									}
-								]
-							},
-							{
-								"cityId": 450500,
-								"cityName": "北海市",
-								"counties": [{
-										"countyName": "铁山港区",
-										"countyId": 450512
-									},
-									{
-										"countyName": "合浦县",
-										"countyId": 450521
-									},
-									{
-										"countyName": "银海区",
-										"countyId": 450503
-									},
-									{
-										"countyName": "海城区",
-										"countyId": 450502
-									}
-								]
-							},
-							{
-								"cityId": 451000,
-								"cityName": "百色市",
-								"counties": [{
-										"countyName": "隆林各族自治县",
-										"countyId": 451031
-									},
-									{
-										"countyName": "右江区",
-										"countyId": 451002
-									},
-									{
-										"countyName": "西林县",
-										"countyId": 451030
-									},
-									{
-										"countyName": "田阳县",
-										"countyId": 451021
-									}
-								]
-							}
-						],
-						"provinceName": "广西壮族自治区"
-					}
-				],
+				provinceList: [],
 				cityList: [],
 				districtList: [],
 				gray: true
@@ -163,7 +82,7 @@
 				this.show = true;
 			},
 			getCountryList() {
-				api.post(api.getUrl('queryAdminRegion',''), {}).then(res => {
+				api.post(api.getUrl('queryAdminRegion','collections'), {}).then(res => {
 					this.provinceList = res.content
 				}).catch(() => {
 					console.log("系统异常")
@@ -180,22 +99,6 @@
 				this.$set(i, "active", true);
 				this.province = i.provinceName
 				sessionStorage.setItem('province', this.province)
-				//				let req = {
-				//					code: this.country
-				//				}
-				//				api.post(api.getUrl('cityList'), req).then(res => {
-				//					this.cityList = res.content
-				//					let _this = this
-				//					this.countryList.find(function(item) {
-				//						if(item.code == _this.country) {
-				//							_this.countryName = item.name
-				//							console.log(_this.countryName)
-				//						}
-				//					});
-				//					//obj 就是被选中的那个对象，
-				//				}).catch(()=>{
-				//					console.log("系统异常")
-				//				})
 			},
 			selectCity(i) {
 				console.log(i)
@@ -206,20 +109,6 @@
 				this.$set(i, "active", true);
 				this.city = i.cityName
 				sessionStorage.setItem('city', this.city)
-//				let req = {
-//					code: this.city
-//				}
-//				api.post(api.getUrl('cityList'), req).then(res => {
-//					let _this = this
-//					this.cityList.find(function(item) {
-//						if(item.code == _this.city) {
-//							_this.cityName = item.name
-//							console.log(_this.cityName)
-//						}
-//					});
-//				}).catch(() => {
-//					console.log("系统异常")
-//				})
 			},
 			selectDistric(i) {
 				this.districtList.forEach((i) => {
@@ -254,7 +143,7 @@
 			}
 		},
 		mounted() {
-			//this.getCountryList()
+			this.getCountryList()
 		},
 	}
 </script>

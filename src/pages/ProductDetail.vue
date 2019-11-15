@@ -210,7 +210,7 @@
 				let req = {
 					packageCode: code
 				}
-				api.post(api.getUrl('queryPackage', ''), req).then(res => {
+				api.post(api.getUrl('queryPackage', 'collections'), req).then(res => {
 					if(res.code == '0000') {
 						this.packageDetail = res.content
 						if(res.content.proxy) {

@@ -21,7 +21,7 @@ module.exports = {
         changeOrigin: false,
       },
        '/collections-web/**': {
-        target: 'https://bf-uat.memedai.cn',
+        target: 'http://192.168.199.65:8080',
         secure: false,
         changeOrigin: false,
       },

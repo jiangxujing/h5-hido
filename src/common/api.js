@@ -12,6 +12,9 @@ const prefix = '/hidoCode'
 const prefixList = [{
     type: 'user',
     value: '/user'
+},{
+	type: 'collections',
+    value: '/collections-web'
 }]
 
 const weixinPrefix = '/sns'
@@ -253,6 +256,7 @@ const post = (url, data, noLoading, noToken) => {
     headers.memberId = getCookie('memberId')
     headers.memberType = getCookie('memberType')
     headers.token = getCookie('token')
+     headers.mmTicket = getCookie('accessToken')
     headers.tokenExpire = getCookie('tokenExpire')
     headers.accessToken = getCookie('accessToken')
     headers.mmChannel = 'mmdApp_h5'

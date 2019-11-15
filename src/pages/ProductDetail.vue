@@ -12,62 +12,64 @@
 						<img src="../assets/images/gou.png" />
 						<span>过期退</span>
 					</div>
-					<div class="buy-count">{{packageDetail.buynum}}人购买</div>
+					<div class="buy-count">{{packageDetail.initSalesCount}}人购买</div>
 				</div>
 			</div>
 		</div>
 		<div class="content1 content2" style="margin-top:0.8rem">
 			<h2>礼包说明</h2>
 			<div class="content2-detail">
-				<h3>大气泡+水光针体验套餐</h3>
-				<div class="package">
+				<h3>{{packageDetail.name}}</h3>
+				<div class="package" v-for="g in packageDetail.giftPackageDetailList">
 					<div class="package-l">
 						<img src="../assets/images/double.png" />
-						<span>{{packageDetail.name}}</span>
+						<span>{{g.goodsName}}</span>
 					</div>
 					<div class="package-r">
-						<span>{{packageDetail.num}}次</span>
+						<span>{{g.goodsCount}}次</span>
 						<span style="color:#8A9399;">|</span>
-						<span>￥219</span>
+						<span>￥{{g.goodsCost/100}}</span>
 					</div>
 				</div>
 				<div class="borderStyle"></div>
 				<div class="merber-package-price">
 					<div class="package-price-left">会员礼包价</div>
 					<div class="package-price-right">
-						<span style="text-decoration:line-through;">原价￥<span>{{packageDetail.originalPrice}}</span></span>
-						<span style="color:#FF7B31;font-size:1.4rem;font-weight:600;">￥399</span>
+						<span style="text-decoration:line-through;">原价￥<span>{{packageDetail.originalPrice/100}}</span></span>
+						<span style="color:#FF7B31;font-size:1.4rem;font-weight:600;">￥{{packageDetail.salesPrice/100}}</span>
 					</div>
 				</div>
 			</div>
-			<div class="advantage">
-				<img src="../assets/images/advantage.jpg" />
+			<div class="advantage" v-for="i in packageDetail.detailsPicture">
+				<img :src="i" />
 			</div>
 		</div>
 		<div class="content1 content2 content3">
 			<h2>产品使用规则</h2>
-			<img src="../assets/images/productRule.png" />
+			<div v-for="i in packageDetail. listPicture">
+				<img :src="i" />
+			</div>
 		</div>
 		<div class="content1 content2 content3 content4">
 			<h2>其他礼包</h2>
-			<div class="other-packages">
+			<div class="other-packages" v-for="i in giftPackageDTOList" style="margin-top:1rem">
 				<div>
 					<div style="overflow:hidden">
 						<div style="float:left">
-							<img class="libao" src="../assets/images/libao.png" />
+							<img class="libao" :src="i.headPicture" />
 							<div class="package-price">
 								<div style="color:#FF7B31">
-									<span style="font-size:1.6rem;">￥<span style="font-size:2.1rem;font-weight: bold;">390</span></span>
+									<span style="font-size:1.6rem;">￥<span style="font-size:2.1rem;font-weight: bold;">{{i.salesPrice/100}}</span></span>
 									<span style="font-size:1.4rem;">会员礼包</span>
 								</div>
-								<div style="color:#8A9399;font-size:1.7rem;font-weight: 400;">原价￥<span>{{packageDetail.originalPrice}}</span></div>
+								<div style="color:#8A9399;font-size:1.7rem;font-weight: 400;">原价￥<span>{{i.originalPrice/100}}</span></div>
 							</div>
 						</div>
-						<div class="buynumber">131人购买</div>
+						<div class="buynumber">{{i.initSalesCount}}人购买</div>
 					</div>
 					<div>
-						<div class="description">水光针12次体验套餐*12</div>
-						<div class="share" @click="getShare" v-if="proxyShow">
+						<div class="description">{{i.name}}</div>
+						<div class="share" @click="getShare(i)" v-if="proxyShow">
 							<button>立即分享</button>
 						</div>
 						<div class="share" @click="getBuy" v-else>
@@ -76,7 +78,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="buy" @click="getBuy">￥399成为代理</div>
+			<div class="buy" @click="getBuy">￥{{packageDetail.salesPrice/100}}成为代理</div>
 		</div>
 		<div class="shareWraper" v-show='shareWrapperShow' @click='shareWrapperShow=false'>
 			<div class="share-content">
@@ -108,37 +110,30 @@
 				shareWrapperShow: false,
 				orginPrice: _utils.formatMoney(39999999.11, 2),
 				proxyShow: true,
-				packageDetail: {
-					"detailPicture": 1,
-					"headPicture": require('../assets/images/detai-img.jpg'),
-					"listPicture": 1,
-					"name": '大气泡',
-					"num": 12,
-					"originalPrice": 11111,
-					"salesPrice": 1,
-					"buynum": 131
-				}
+				packageDetail: {},
+				giftPackageDTOList: []
 			}
 		},
 		methods: {
 			cancleBtn() {
 				this.shareWrapperShow = false
 			},
-			getShare() {
+			getShare(i) {
+				this.shareContent = i
 				this.shareWrapperShow = true
 			},
 			shareWeixin() {
 				if(this.device.version.MicroMessenger) {
 					this.getWechat()
 				} else {
-					api.setupWebViewJavascriptBridge(function(bridge) {
+					api.setupWebViewJavascriptBridge((bridge) => {
 						let params = {
 							"sharePlatform": "WechatSession",
 							"shareParams": {
-								"shareUrl": _this.url,
-								"title": "礼包详情",
-								"shareContent": _this.packageDetail.name,
-								"sharePic": api.imgUrl + _this.pictureUrlList[0]
+								"shareUrl": _utils.getUrlSearch(),
+								"title": this.shareContent.shareTitle,
+								"shareContent": this.shareContent.shareDesc,
+								"sharePic": this.shareContent.sharePicture
 							}
 						}
 						bridge.callHandler('callShareOnly', params, (data) => {
@@ -151,14 +146,14 @@
 				if(this.device.version.MicroMessenger) {
 					this.getWechat()
 				} else {
-					api.setupWebViewJavascriptBridge(function(bridge) {
+					api.setupWebViewJavascriptBridge((bridge) => {
 						let params = {
 							"sharePlatform": "WechatTimeline",
 							"shareParams": {
-								"shareUrl": _this.url,
-								"title": "礼包详情",
-								"shareContent": _this.packageDetail.name,
-								"sharePic": api.imgUrl + _this.pictureUrlList[0]
+								"shareUrl": _utils.getUrlSearch(),
+								"title": this.shareContent.shareTitle,
+								"shareContent": this.shareContent.shareDesc,
+								"sharePic": this.shareContent.sharePicture
 							}
 						}
 						bridge.callHandler('callShareOnly', params, (data) => {
@@ -167,16 +162,30 @@
 					})
 				}
 			},
+			urlParse(queryStr) {
+				let arr = queryStr.slice(1).split('&');
+				let map = {};
+				arr.forEach(item => {
+					let param = item.split('=');
+					map[param[0]] = param[1];
+				});
+				return map;
+			},
+
 			getBuy() {
 				if(!_utils.getCookie('accessToken')) {
-					this.$router.push("/orderDetail")
-					api.setupWebViewJavascriptBridge(function(bridge) {
-						bridge.callHandler('callLogin', {}, (data) => {
-							console.log(data)
-							_utils.setCookie('accessToken', data.content.accessToken, 1)
+					console.log(this.urlParse(window.location.search).app)
+					if(this.urlParse(window.location.search).app === "app") {
+						api.setupWebViewJavascriptBridge(function(bridge) {
+							bridge.callHandler('callLogin', {}, (data) => {
+								console.log(data)
+								_utils.setCookie('accessToken', data.content.accessToken, 1)
 
+							})
 						})
-					})
+					} else {
+						this.$router.push("/login")
+					}
 				} else {
 					this.$router.push("/orderDetail?orderNo=" + 33)
 				}
@@ -211,13 +220,11 @@
 					packageCode: code
 				}
 				api.post(api.getUrl('queryPackage', 'collections'), req, false, false, true).then(res => {
-					if(res.code == '0000') {
-						this.packageDetail = res.content
-						if(res.content.proxy) {
-							this.proxyShow = true
-						} else {
-							this.proxyShow = false
-						}
+					if(res.code == 0) {
+						this.packageDetail = res.content.giftPackageDTODetails
+						this.giftPackageDTOList = res.content.giftPackageDTOList
+						console.log(this.packageDetail)
+						console.log(this.giftPackageDTOList)
 					}
 				}).catch((e) => {
 
@@ -226,7 +233,7 @@
 
 		},
 		mounted() {
-			document.title="礼包详情"
+			document.title = "礼包详情"
 			let ua = navigator.userAgent;
 			this.device = {
 				version: function() {
@@ -238,7 +245,6 @@
 			this.ios = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端
 			let code = this.$route.query.packageCode
-			code = '20191114173306YQ'
 			this.getPackageDetail(code)
 		},
 	}
@@ -288,7 +294,7 @@
 			h2 {
 				padding-top: 2.8rem;
 				padding-left: 1.5rem;
-				padding-bottom: 2.4rem;
+				padding-bottom: 1.4rem;
 			}
 			.content2-detail {
 				width: 92%;

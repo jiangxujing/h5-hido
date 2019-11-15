@@ -37,8 +37,7 @@
         </div>
         <div class="page-protocol">
             <span class="protocol-title">登录即表示我已阅读并同意</span>
-            <!-- <span class="protocol-title protocol-a" @click="popupVisible=true">注册协议<span style="color:$themeColor;">、</span><span class="protocol-title protocol-a" @click="popupVisible=true">隐私策略</span> -->
-            <span class="protocol-title protocol-a" @click="$router.push({name: 'registerProtocol'})">注册协议</span><span style="color:$themeColor;">、</span><span class="protocol-title protocol-a" @click="$router.push({name: 'privacyPolicy'})">隐私策略</span>
+            <span class="protocol-title protocol-a" @click="$router.push({name: 'registerProtocol'})">用户注册协议</span><span style="color:$themeColor;">、</span><span class="protocol-title protocol-a" @click="$router.push({name: 'privacyPolicy'})">隐私策略</span>
         </div>
         
         <!-- <van-popup class="van-popup-protocol" v-model="popupVisible">

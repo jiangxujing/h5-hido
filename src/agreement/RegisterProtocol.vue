@@ -103,7 +103,7 @@ export default {
 		}
 	},
 	mounted() {
-		document.title = '注册协议'
+		document.title = '用户注册协议'
 	},
 	methods: {
 		

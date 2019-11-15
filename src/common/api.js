@@ -2,7 +2,7 @@ import axios from 'axios'
 import _ from 'lodash'
 import ApiList from './api.json'
 import { Toast } from 'vant'
-import { getQueryString, getCookie } from './utils.js'
+import { getQueryString, getCookie, setCookie, urlParse } from './utils.js'
 import Loading from '../components/Loading/loading.js'
 import qs from 'qs'
 
@@ -109,48 +109,12 @@ const get = (url, params) =>{
         return Promise.reject(new Error(resp.status))
     }).catch(function(err) {
         console.log(err)
-//      Toast('网络异常，请稍后再试', '提示')
+        // Toast('网络异常，请稍后再试', '提示')
         return Promise.reject(new Error(err))
     })
 }
 // 注册 app 交互方法
 const setupWebViewJavascriptBridge = (callback) => {
-    // if (toolType === '5') {
-    //     if (window.WebViewJavascriptBridge) {
-    //         return callback(WebViewJavascriptBridge)
-    //     }
-    //     if (window.WVJBCallbacks) {
-    //         return window.WVJBCallbacks.push(callback)
-    //     }
-    //     window.WVJBCallbacks = [callback]
-    //     let WVJBIframe = document.createElement('iframe')
-    //     WVJBIframe.style.display = 'none'
-    //     WVJBIframe.src = 'https://__bridge_loaded__'
-    //     document.documentElement.appendChild(WVJBIframe)
-    //     setTimeout(function() {
-    //         document.documentElement.removeChild(WVJBIframe)
-    //     }, 0)
-    // } else if (toolType === '4') {
-    //     if (window.WebViewJavascriptBridge) {
-    //         callback(WebViewJavascriptBridge)
-    //     } else {
-    //         document.addEventListener( 'WebViewJavascriptBridgeReady' , function() {
-    //             callback(WebViewJavascriptBridge)
-    //         }, false )
-    //     }
-    //     if (window.WVJBCallbacks) {
-    //         return window.WVJBCallbacks.push(callback)
-    //     }
-    //     window.WVJBCallbacks = [callback]
-    //     let WVJBIframe = document.createElement('iframe')
-    //     WVJBIframe.style.display = 'none'
-    //     WVJBIframe.src = 'https://__bridge_loaded__'
-    //     document.documentElement.appendChild(WVJBIframe)
-    //     setTimeout(function() {
-    //         document.documentElement.removeChild(WVJBIframe)
-    //     }, 0)
-    // } else {
-    // }
     //android
     if (window.WebViewJavascriptBridge) { callback(window.WebViewJavascriptBridge) } else {
         document.addEventListener('WebViewJavascriptBridgeReady', function() { 
@@ -178,28 +142,28 @@ export const getWechat = (title,desc,linkUrl,imgUrl) => {
     });
     wx.ready(function() {
         wx.onMenuShareAppMessage({
-        title: title,
-        desc:desc,
-        link: linkUrl,
-        imgUrl: imgUrl,
-        trigger: function(res) {},
-        success: function(res) {},
-        cancel: function(res) {},
-        fail: function(res) {}
+            title: title,
+            desc:desc,
+            link: linkUrl,
+            imgUrl: imgUrl,
+            trigger: function(res) {},
+            success: function(res) {},
+            cancel: function(res) {},
+            fail: function(res) {}
         });
         wx.onMenuShareTimeline({
-        title: title,
-        desc:desc,
-        link: linkUrl,
-        imgUrl: imgUrl,
-        trigger: function(res) {},
-        success: function(res) {},
-        cancel: function(res) {},
-        fail: function(res) {}
+            title: title,
+            desc:desc,
+            link: linkUrl,
+            imgUrl: imgUrl,
+            trigger: function(res) {},
+            success: function(res) {},
+            cancel: function(res) {},
+            fail: function(res) {}
         });
     });
     wx.error(function(res){
-    //alert("配置項過期！");
+        //alert("配置項過期！");
     });
 }
 /**
@@ -211,38 +175,40 @@ export const getWechat = (title,desc,linkUrl,imgUrl) => {
  * formData: formData请求方式
  **/
 const post = (url, data, noLoading, noToken, formData) => {
-    data ? data = filterNull(data) : ''
+    // 超时
     const sec = 6000
+    // body 入参
+    data ? data = filterNull(data) : ''
     let postData = {}
-    // app传入的头部信息
+    let _data = _.assign({}, data)
+    _.forEach(_data, (val, key) => {
+        ['timeout'].indexOf(key) === -1 ? postData[key] = val : ''
+    })
+    // header 入参
     let headers = {
+        isRegister: null,
+        lastLoginTime: null,
+        memberId: null,
+        memberType: null,
         token: null,
-        mmDeviceId: null,
-        versionNo: null,
-        phoneBrand: null,
-        phoneType: null,
-        ipAddress: null,
+        tokenExpire: null,
+        accessToken: null,
+        mmTicket: null,
         positionLongitude: null,
         positionLatitude: null
     }
     for (let k in headers) {
         if (getQueryString(k)) {
             headers[k] = getQueryString(k)
-            sessionStorage.setItem(k, headers[k])
+            setCookie(k, headers[k], 7)
         } else {
-            headers[k] = sessionStorage.getItem(k)
+            headers[k] = getCookie(k)
         }
     }
-    
-    let _data = _.assign({}, data)
-    _.forEach(_data, (val, key) => {
-        ['timeout'].indexOf(key) === -1 ? postData[key] = val : ''
-    })
+    headers.mmChannel = 'mmdApp_h5'
+    headers.mmTicket = headers.accessToken
 
     let timeout = _data['timeout'] || 10 * sec
-
-    !noLoading ? Loading.show() : ''
-
     // 请求头
     let axiosHead = {
         method: 'post',
@@ -253,15 +219,8 @@ const post = (url, data, noLoading, noToken, formData) => {
             cancel = c
         })
     }
-    headers.isRegister = getCookie('isRegister')
-    headers.lastLoginTime = getCookie('lastLoginTime')
-    headers.memberId = getCookie('memberId')
-    headers.memberType = getCookie('memberType')
-    headers.token = getCookie('token')
-    headers.mmTicket = getCookie('accessToken')
-    headers.tokenExpire = getCookie('tokenExpire')
-    headers.accessToken = getCookie('accessToken')
-    headers.mmChannel = 'mmdApp_h5'
+
+    !noLoading ? Loading.show() : ''
     !noToken ? axiosHead.headers = headers : ''
     formData ? axiosHead.data = qs.stringify(postData) : ''
 
@@ -271,17 +230,20 @@ const post = (url, data, noLoading, noToken, formData) => {
             let respData = resp.data
             respData['code'] = ~~(respData['code'])
             respData['content'] = _parseJSON(respData['content'])
-            if (respData['code'] === 1111) {
+            if (respData['code'] === 1210 || respData['code'] === 1211 || respData['code'] === 111) {
                 Toast('凭证已失效，请重新登录', '提示')
-                if (toolType === '5' || toolType === '4') {
+                if (urlParse()) {
                     setupWebViewJavascriptBridge(function(bridge) {
                         let params = {
                             jumpUrl: window.location.href
                         }
-                        bridge.callHandler('goLogin', params, (data) => {
+                        bridge.callHandler('callLogin', params, (data) => {
+                            setCookie('accessToken', data.accessToken, 7)
                             console.log(data)
                         })
                     })
+                } else {
+                    this.$router.push({name: 'login'})
                 }
             } else if (respData['code'] !== 0) {
                 let desc = respData['desc'] ? respData['desc'] : '网络异常，请稍后再试'

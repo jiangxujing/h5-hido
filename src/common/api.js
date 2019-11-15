@@ -13,7 +13,7 @@ const prefix = '/hidoCode'
 const prefixList = [{
     type: 'user',
     value: '/user'
-},{
+}, {
 	type: 'collections',
     value: '/collections-web'
 },{
@@ -25,13 +25,6 @@ const weixinPrefix = '/sns'
 const weixinPayPrefix = '/pay'
 const h5Prefix = '/mch'
 
-let toolType = null
-if (getQueryString('toolType')) {
-    toolType = getQueryString('toolType')
-    sessionStorage.setItem('toolType', toolType)
-} else {
-    toolType = sessionStorage.getItem('toolType')
-}
 
 /* 自定义判断元素类型JS */
 function toType(obj) {
@@ -135,6 +128,18 @@ const setupWebViewJavascriptBridge = (callback) => {
     setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
 }
 
+// 调用 Native 接口
+const setNative = (params, type) => {
+    setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler(type, params, (data) => {
+            for (let key in data) {
+                setCookie(key, data[key], 7)
+            }
+            console.log(data)
+        })
+    })
+}
+
 // 微信
 export const getWechat = (title,desc,linkUrl,imgUrl) => {
 	   wx.checkJsApi({
@@ -175,7 +180,7 @@ export const getWechat = (title,desc,linkUrl,imgUrl) => {
  * data： 入参对象
  * Loading: 无加载动画
  * noToken: 不需要校验token
- * formData: formData请求方式
+ * formData: 传参方式为 formData
  **/
 const post = (url, data, noLoading, noToken, formData) => {
     // 超时
@@ -189,16 +194,21 @@ const post = (url, data, noLoading, noToken, formData) => {
     })
     // header 入参
     let headers = {
+        mmTicket: null,
+        token: null,
+        tokenExpire: null,
+        accessToken: null,
         isRegister: null,
         lastLoginTime: null,
         memberId: null,
         memberType: null,
-        token: null,
-        tokenExpire: null,
-        accessToken: null,
-        mmTicket: null,
-        positionLongitude: null,
-        positionLatitude: null
+        deviceID: null,
+        phoneBrand: null,
+        phoneVersion: null,
+        appVersion: null,
+        screenHeight: null,
+        screenWidth: null,
+        channel: null
     }
     for (let k in headers) {
         if (getQueryString(k)) {
@@ -208,8 +218,8 @@ const post = (url, data, noLoading, noToken, formData) => {
             headers[k] = getCookie(k)
         }
     }
-    headers.mmChannel = 'mmdApp_h5'
-    headers.mmTicket = headers.accessToken
+    
+    // headers.mmTicket = headers.accessToken
 
     let timeout = _data['timeout'] || 10 * sec
     // 请求头
@@ -236,15 +246,16 @@ const post = (url, data, noLoading, noToken, formData) => {
             if (respData['code'] === 1210 || respData['code'] === 1211 || respData['code'] === 111) {
                 Toast('凭证已失效，请重新登录', '提示')
                 if (urlParse()) {
-                    setupWebViewJavascriptBridge(function(bridge) {
-                        let params = {
-                            jumpUrl: window.location.href
-                        }
-                        bridge.callHandler('callLogin', params, (data) => {
-                            setCookie('accessToken', data.accessToken, 7)
-                            console.log(data)
-                        })
-                    })
+                    // setupWebViewJavascriptBridge(function(bridge) {
+                    //     let params = {
+                    //         jumpUrl: window.location.href
+                    //     }
+                    //     bridge.callHandler('callLogin', params, (data) => {
+                    //         setCookie('accessToken', data.accessToken, 7)
+                    //         console.log(data)
+                    //     })
+                    // })
+                    setNative({}, 'callLogin')
                 } else {
                     this.$router.push({name: 'login'})
                 }
@@ -271,6 +282,7 @@ export default {
     getWechat,
     post,
     setupWebViewJavascriptBridge,
+    setNative,
     cancel: () => {
         cancel && cancel()
     }

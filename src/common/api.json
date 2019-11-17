@@ -1,7 +1,10 @@
 {
-    "common-sendMobileCode": "/v2/common/sendMobileCode",
     "login-phoneLogin": "/login/phoneLogin",
+    "common-sendMobileCode": "/v2/common/sendMobileCode",
+    "bankCard-v3-getVerifyCode": "/bankCard/v3/getVerifyCode",
+    "bankCard-v3-bindBankCard": "/bankCard/v3/bindBankCard",
     "agent-queryMyteam":"/agent/queryMyteam",
+    "agent-queryBankLimit":"/agent/queryBankLimit",
     "queryPurchasedPackageList":"/mall/queryPurchasedPackage",
     "queryPackageOrderDetail":"/mall/queryPackageOrder",
     "queryPackage":"/mall/queryPackageDetails",

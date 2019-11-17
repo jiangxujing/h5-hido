@@ -118,7 +118,7 @@
 					serialNo:this.serialNo,
 					verificationCode:this.smsCode
 				}
-				api.post(api.getUrl('withdrawalAuthSendSms', 'hido-core'), req).then(res => {
+				api.post(api.getUrl('withdrawalAuthSendSms'), req).then(res => {
 					if(res.code == 0) {
 						this.sendCodeDetail = res.content;
 						this.sendCodeShow = true
@@ -142,7 +142,7 @@
 				})
 			},
 			getWithdraw() {
-				api.post(api.getUrl('withdrawalSendSms', 'hido-core'), {}).then(res => {
+				api.post(api.getUrl('withdrawalSendSms'), {}).then(res => {
 					if(res.code == 0) {
 						this.sendCodeDetail = res.content;
 						this.serialNo = res.content.serialNo
@@ -226,7 +226,7 @@
 				//				}
 			},
 			queryWithdrawal() {
-				api.post(api.getUrl('queryWithdrawal', 'hido-core'), {}).then(res => {
+				api.post(api.getUrl('queryWithdrawal'), {}).then(res => {
 					if(res.code == 0) {
 						this.withdrawalDetail = res.content
 						this.bankName =  res.content.cardList[0].bankName

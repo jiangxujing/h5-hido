@@ -58,8 +58,6 @@ export default {
             api.post(api.getUrl('agent-queryMyteam'), {}).then(res => {
                 if (!!res && res.code === 0) {
                     if (!!res.content && res.content.length > 0) {
-                        // this.total = res.total
-                        // this.total = res.content.total
                         this.myTeam = res.content.map(item => {
                             let itemObj = {
                                 firstAgentPhoto: item.firstAgentPhoto,

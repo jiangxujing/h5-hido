@@ -9,36 +9,35 @@
 				</div>
 				<div style="padding:1.5rem" v-else>
 					<div>
-						<span>{{orderDetail.receiverName}}{{orderDetail.receiverPhone}}</span>
+						<span>{{username}}{{phone}}</span>
 						<img class="arrow" src="../assets/images/arrow.png" />
 					</div>
 					<div class="adress adress1">
-						{{orderDetail.area}}
-						<!--{{province}}/{{city}}/{{county}}-->
+						{{province}}/{{city}}/{{county}}
 					</div>
 					<div class="adress adress2">
-						{{orderDetail.detailAddr}}
+						{{detailAddress}}
 					</div>
 				</div>
 			</div>
 			<div class="gift-package">
 				<div style="overflow:hidden">
-					<img class="libao" :src="orderDetail.merchantLogo" />
+					<img class="libao" v-if="orderDetail.headPicture" :src="orderDetail.headPicture" />
 					<div style="overflow:hidden">
 						<div style="float:left">
 							<div class="package-price">
 								<div class="van-multi-ellipsis--l2" style="color:#1A2833;font-size:1.5rem">
-									{{orderDetail.productName}}
+									{{orderDetail.name}}
 								</div>
-								<div>
-									<span style="font-size:1.4rem;color:#8A9399">{{orderDetail.merchantName}}</span>
+								<div v-for="i in orderDetail.giftPackageDetailList">
+									<span style="font-size:1.4rem;color:#8A9399">{{i.goodsName}}</span>
 								</div>
 							</div>
 						</div>
 						<div class="buynumber">x1</div>
 					</div>
 					<div style="overflow:hidden;padding-left:1.2rem">
-						<span style="color:#FF7B31;font-size:1.6rem;float:right">￥{{orderDetail.orderRealAmt/100}}</span>
+						<span style="color:#FF7B31;font-size:1.6rem;float:right">￥{{orderDetail.salesPrice/100}}</span>
 					</div>
 				</div>
 			</div>
@@ -51,7 +50,7 @@
 			<div class="submitTxt">
 				<div style="padding:2.2rem 1.5rem;">
 					<span style="color:#1A2833;font-size:1.6rem;">订单金额：</span>
-					<span style="color:#FF7B31;font-size:1.8rem;">￥{{orderDetail.orderRealAmt/100}}</span>
+					<span style="color:#FF7B31;font-size:1.8rem;">￥{{orderDetail.salesPrice/100}}</span>
 					<button class="submit-gray" v-if="gray">提交</button>
 					<button class="submit-active" v-else @click="submitOrder">提交</button>
 				</div>
@@ -82,7 +81,7 @@
 		name: 'orderDetail',
 		data() {
 			return {
-				hasNoAdress: false,
+				hasNoAdress: true,
 				orderDetailShow: true,
 				recommendPhone: '',
 				province: '',
@@ -118,11 +117,100 @@
 				}
 				api.get(api.getWeixinUrl('oauth2', 'weixin'), req).then(res => {
 					let openId = res.openid
-					let req1 = {
-						openId: 'oXVeb1dKm_5fBzRLRmFx9l-2NVZQ'
+					this.getJsApiPay()
+				}).catch((e) => {
+					console.log('失败')
+				})
+			},
+			setAddress() {
+				this.$router.push("/shippingAddress")
+			},
+			checkTel() {
+				if(this.recommendPhone) {
+					this.gray = false
+				}
+				//				if(this.username && this.phone && this.province && this.city && this.county && this.detailAddress && this.recommendPhone) {
+				//					this.gray = false
+				//				}
+			},
+			submitOrder() {
+				this.getOrderDetail()
+				//window.location.href = this.jumpUrl
+
+				//this.$router.push("/paymentMethod")
+				//				this.orderDetailShow = false
+				//				let interval = setInterval(()=>{
+				//					this.second--
+				//					if(this.second <=0){
+				//						clearInterval(interval)
+				//					}
+				//				},1000)
+				//				setTimeout(() => {
+				//				this.$router.push("/productDetail")
+				//			}, 3000)
+			},
+			goBack() {
+				this.$router.push("/productDetail")
+			},
+			getOrderDetail() {
+				let req = {
+					"channel": 1,
+					"receiverName": this.username,
+					"receiverPhone": this.phone,
+					"area": this.province+','+this.city+','+this.county,
+					"detailAddr": this.detailAddress,
+					"productId": this.$route.query.packageCode,
+					"orderType": 4,
+					"payType": 2,
+					"refererPhone":this.recommendPhone,
+					"firstCommissionRatio": this.firstCommissionRatio,
+					"secondCommissionRatio": this.secondCommissionRatio
+				}
+				api.post(api.getUrl('createOrderV2', 'collections'), req).then(res => {
+					if(res.code == 0) {
+						this.orderNo = res.content.orderNo
+						if(this.device.version.MicroMessenger) {
+							//在微信浏览器里需要静默授权等走jsapi支付
+							//this.getCode() 需要静默授权时调用
+							
+							//假如登录时已经做过授权，拿到了openId了
+							this.getJsApiPay()
+						}else{
+							//在app里走h5支付
+							this.getH5Pay()
+						}
+						
 					}
-					api.post(api.getWeixinUrl('unifiedorder', 'weixinPay'), req1).then(res1 => {
-						function onBridgeReady() {
+				}).catch((e) => {
+
+				})
+			},
+			
+			getH5Pay(){
+				console.log('来这里？')
+				let req = {
+					orderNo:this.orderNo,
+					payType:'WX_JS'
+				}
+				api.post(api.getUrl('pay', 'collections'), req).then(res => {
+					if(res.code == 0) {
+							this.jumpUrl = res.url
+					}
+				}).catch((e) => {
+
+				})
+			},
+			getJsApiPay(){
+					let req = {
+						ext:{
+							openId:'oXVeb1dKm_5fBzRLRmFx9l-2NVZQ'
+						},
+						orderNo:this.orderNo,
+						payType:'WX_JS'
+					}
+					api.post(api.getUrl('pay', 'collections'), req).then(res => {
+						if(res.code == 0) {
+							function onBridgeReady() {
 							WeixinJSBridge.invoke(
 								'getBrandWCPayRequest', {
 									"appId": "wxc20260737b4c8770", //公众号名称，由商户传入     
@@ -149,106 +237,20 @@
 						} else {
 							onBridgeReady();
 						}
-
-					}).catch((e) => {})
-				}).catch((e) => {
-					console.log('失败')
-				})
+						}
+					}).catch((e) => {
+	
+					})
 			},
-			setAddress() {
-				this.$router.push("/shippingAddress")
-			},
-			checkTel() {
-				if(this.username && this.phone && this.province && this.city && this.county && this.detailAddress && this.recommendPhone) {
-					this.gray = false
-				}
-			},
-			submitOrder() {
-				window.location.href = this.jumpUrl
-				//this.$router.push("/paymentMethod")
-				//				this.orderDetailShow = false
-				//				let interval = setInterval(()=>{
-				//					this.second--
-				//					if(this.second <=0){
-				//						clearInterval(interval)
-				//					}
-				//				},1000)
-				//				setTimeout(() => {
-				//				this.$router.push("/productDetail")
-				//			}, 3000)
-			},
-			goBack() {
-				this.$router.push("/productDetail")
-			},
-			getOrderDetail() {
+			getPackageDetail(){
 				let req = {
-					"channel": 1,
-					"receiverName": "张虹旺",
-					"receiverPhone": "18055899999",
-					"area": "上海市，浦东新区",
-					"detailAddr": "博山东路",
-					"productId": "20191114173306YQ",
-					"orderType": 4,
-					"payType": 2,
-					"refererPhone": "18055899929",
-					"firstCommissionRatio": "2.00",
-					"secondCommissionRatio": "1.00"
+					packageCode: this.packageCode
 				}
-				api.post(api.getUrl('createOrderV2', 'collections'), req).then(res => {
-					res = {
-	"code": "000",
-	"desc": "操作成功[A4000]",
-	"accessToken": null,
-	"content": {
-		"orderNo": "MALL3019111551851941200310",
-		"memberId": null,
-		"phone": null,
-		"amount": 987,
-		"applyTerm": null,
-		"monthPayment": null,
-		"merchantId": null,
-		"merchantName": '水光针*10,玻尿酸*10',
-		"sdkOrderNo": null,
-		"walletOrderNo": null,
-		"repaymentType": null,
-		"status": null,
-		"createTime": 1573815185209,
-		"storeId": null,
-		"orderFlag": null,
-		"receiverName": "张虹旺",
-		"receiverPhone": "18055899999",
-		"area": "上海市，浦东新区",
-		"detailAddr": "博山东路",
-		"deliverDetail": null,
-		"couponCode": null,
-		"discountAmt": 0,
-		"parentOrderNo": null,
-		"merchantLogo": 'http://cdn.duitang.com/uploads/item/201510/17/20151017095028_eGJMw.thumb.700_0.jpeg',
-		"couponName": null,
-		"couponUseJson": null,
-		"freight": null,
-		"orderRealAmt": 987,
-		"eachProcedureFee": null,
-		"cancelTime": null,
-		"payTime": null,
-		"invalidTime": null,
-		"deliverTime": null,
-		"receiveTime": null,
-		"finishTime": null,
-		"version": null,
-		"productId": "20191114173306YQ",
-		"productName": "展示名",
-		"orderType": 4,
-		"marketingActivityNo": null,
-		"offlineOrderNo": null,
-		"payType": 2,
-		"weixinPaymentJson": null,
-		"rightsRecordId": null
-	},
-	"sign": null
-}
+				api.post(api.getUrl('queryPackage', 'collections'), req, false, false, false).then(res => {
 					if(res.code == 0) {
-						this.orderDetail = res.content
+						this.orderDetail = res.content.giftPackageDTODetails
+						this.firstCommissionRatio = res.content.giftPackageDTODetails.firstCommissionRatio
+						this.secondCommissionRatio = res.content.giftPackageDTODetails.secondCommissionRatio
 					}
 				}).catch((e) => {
 
@@ -256,7 +258,9 @@
 			}
 		},
 		mounted() {
-			let orderNo = this.$route.query.orderNo
+			this.packageCode = this.$route.query.packageCode
+			sessionStorage.setItem('packageCode',this.$route.query.packageCode)
+			this.getPackageDetail()
 			let ua = navigator.userAgent;
 			this.device = {
 				version: function() {
@@ -307,7 +311,6 @@
 			//              };  
 			//              window.history.pushState(state, "title", "");  
 			//          }  
-			this.getOrderDetail()
 		},
 	}
 </script>

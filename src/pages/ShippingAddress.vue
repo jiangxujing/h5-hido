@@ -66,7 +66,8 @@
 		},
 		methods: {
 			saveAddress() {
-				this.$router.push("/orderDetail")
+				let packageCode = sessionStorage.getItem('packageCode')
+				this.$router.push("/orderDetail?packageCode=" + packageCode)
 			},
 			checkEmpty() {
 				if(this.username && this.phone && this.detailAddress && this.province && this.city && this.county) {

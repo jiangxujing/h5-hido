@@ -10,6 +10,7 @@
     "withdrawalSendSms":"/agent/withdrawalSendSms",
     "withdrawalAuthSendSms":"/agent/withdrawalAuthSendSms",
     "createOrderV2":"/v2/order/createOrderV2",
+    "pay":"/v2/order/pay",
     "oauth2":"/oauth2/access_token",
     "unifiedorder":"/unifiedorder",
     "pay":"/pay/h5.json.php"

@@ -188,7 +188,11 @@
 						this.$router.push("/login")
 					}
 				} else {
+					if(i.packageCode){
 					this.$router.push("/orderDetail?packageCode=" + i.packageCode)
+					}else{
+						this.$router.push("/orderDetail?packageCode=" + this.$route.query.packageCode)
+					}
 				}
 			},
 			getWechat() {
@@ -222,8 +226,11 @@
 				}
 				api.post(api.getUrl('queryPackage', 'collections'), req, false, false, false).then(res => {
 					if(res.code == 0) {
+						console.log('jinl ')
 						this.packageDetail = res.content.giftPackageDTODetails
-						this.detailsPicture = res.content.giftPackageDTODetails.detailsPicture.split(',')
+						if(res.content.giftPackageDTODetails){
+							this.detailsPicture = res.content.giftPackageDTODetails.detailsPicture.split(',')
+						}
 						this.giftPackageDTOList = res.content.giftPackageDTOList
 						this.homepageUrl = res.content.homepageUrl
 					}

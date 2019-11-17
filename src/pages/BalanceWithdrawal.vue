@@ -101,48 +101,31 @@
 				this.getWithdraw()
 			},
 			confirmCode() {
-//				amount	申请提现金额	number	
-//				bankAccountName	银行卡账户名	string	
-//				bankBranch	开户支行	string	
-//				bankCardNo	提现银行卡号	string	
-//				bankName	发卡行	string	
-//				mmTicket	token	string	header里
-//				serialNo	短信流水号	string	@mock=2019111449067933
-//				verificationCode	验证码	string	@mock=974
 				let req = {
-					amount:this.money*100,
-					bankAccountName:'',
-					bankBranch:'',
-					bankCardNo:'',
-					bankName:'',
+					amount:this.money/100,
+					bankBranch:this.bankBranch,
+					bankCardNo:this.bankNo,
+					bankName:this.bankName,
 					serialNo:this.serialNo,
-					verificationCode:this.smsCode
+					verificationCode:this.smsCode,
+					moblie:this.moblie,
+					name:this.name
 				}
 				api.post(api.getUrl('withdrawalAuthSendSms'), req).then(res => {
 					if(res.code == 0) {
-						this.sendCodeDetail = res.content;
-						this.sendCodeShow = true
-						console.log(this.inteval)
-						if(!this.inteval) {
-							this.inteval = setInterval(() => {
-								this.countdown--
-									if(this.countdown <= 0) {
-										clearInterval(this.inteval)
-										this.inteval = ''
-										this.countdown = 10
-										this.codeGrayShow = false
-									} else {
-										this.codeGrayShow = true
-									}
-							}, 1000)
-						}
+						this.sendCodeShow = false
+					}else{
+						
 					}
 				}).catch((e) => {
 
 				})
 			},
 			getWithdraw() {
-				api.post(api.getUrl('withdrawalSendSms'), {}).then(res => {
+				let req = {
+					mobile:this.moblie
+				}
+				api.post(api.getUrl('withdrawalSendSms'), req).then(res => {
 					if(res.code == 0) {
 						this.sendCodeDetail = res.content;
 						this.serialNo = res.content.serialNo
@@ -204,8 +187,10 @@
 				});
 				this.$set(i, "active", true);
 				this.bankshow = false
-				this.bankname = i.bankName
-				this.bankno = i.bankNo
+				this.bankName = i.bankName
+				this.bankNo = i.bankNo
+				this.name = i.name
+				this.moblie = i.moblie
 				if((parseFloat(this.money) > parseFloat(this.availableBalance)) && parseFloat(this.money) <= 10000) {
 					this.grayShow = true
 				} else if(parseFloat(this.money) > 10000) {
@@ -232,6 +217,10 @@
 						this.bankName =  res.content.cardList[0].bankName
 						this.bankNo =  res.content.cardList[0].bankCardNo
 						this.bankImgUrl =  res.content.cardList[0].bankImgUrl
+						this.bankBranch = res.content.cardList[0].bankBranch
+						this.moblie = res.content.cardList[0].mobile
+						this.name = res.content.cardList[0].name
+						console.log(this.moblie)
 					}
 				}).catch((e) => {
 

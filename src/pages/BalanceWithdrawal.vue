@@ -79,7 +79,6 @@
 		data() {
 			return {
 				grayShow: true,
-				availableBalance: '100',
 				smsCode: '',
 				bankName: '',
 				bankNo: '',
@@ -163,7 +162,7 @@
 
 			},
 			changeMoney() {
-				if((parseFloat(this.money) > parseFloat(this.availableBalance)) && parseFloat(this.money) <= 10000) {
+				if((parseFloat(this.money) > parseFloat(this.withdrawalDetail.freeAmount/100)) && parseFloat(this.money) <= 10000) {
 					this.normal = false
 					this.tips = '金额已超过可提现余额'
 					this.grayShow = true

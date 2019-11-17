@@ -8,7 +8,7 @@
 			<div style="margin-top:1rem">
 				预计1个工作日内到账
 			</div>
-			<button class="btn">完成</button>
+			<button class="btn" @click="goBack">完成</button>
 		</div>
 	</div>
 </template>
@@ -22,7 +22,15 @@
 			}
 		},
 		methods: {
-			buyNow() {
+			goBack() {
+				api.setupWebViewJavascriptBridge((bridge) => {
+						let params = {
+							uri:''
+						}
+						bridge.callHandler('callAPP', params, (data) => {
+							console.log(data)
+						})
+					})
 
 			}
 		},

@@ -139,7 +139,6 @@
 			submitOrder() {
 				this.getOrderDetail()
 				//window.location.href = this.jumpUrl
-
 				//this.$router.push("/paymentMethod")
 				//				this.orderDetailShow = false
 				//				let interval = setInterval(()=>{
@@ -302,17 +301,15 @@
 				this.hasNoAdress = false
 			}
 			pushHistory();
-			window.addEventListener("popstate", (e) => {
+			window.addEventListener("popstate", (e)=> {
 				//此处已经捕获返回事件，可以写自己的跳转代码  
-				_this.dropOutShow = true
+				this.dropOutShow = true
 			}, false);
-
-			function pushHistory() {
+			function pushHistory(){
 				var state = {
-					title: "title",
-					url: ""
+					title: "订单详情",
 				};
-				window.history.pushState();
+				window.history.pushState(state, "title");
 			}
 		},
 	}

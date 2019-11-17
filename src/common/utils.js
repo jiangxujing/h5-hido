@@ -601,6 +601,7 @@ export const getToolType = () => {
 export const urlParse = queryStr => {
 	let arr = queryStr.slice(1).split('&')
 	let map = {}
+	console.log(arr)
 	arr.forEach(item => {
 		let param = item.split('=')
 		map[param[0]] = param[1]

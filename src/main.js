@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vant from 'vant'
+// import Vant from 'vant'
 import App from './App'
 import router from './router.js'
 import api from './common/api.js'

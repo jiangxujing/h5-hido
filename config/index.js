@@ -10,7 +10,7 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/hidoCode/**': {
+      '/hido-core/**': {
         target: 'http://192.168.199.66:8080',
         secure: false,
         changeOrigin: false,
@@ -22,11 +22,6 @@ module.exports = {
       },
        '/collections-web/**': {
         target: 'http://192.168.199.65:8080',
-        secure: false,
-        changeOrigin: false,
-      },
-      '/hido-core/**': {
-        target: 'http://192.168.199.66:8080',
         secure: false,
         changeOrigin: false,
       },

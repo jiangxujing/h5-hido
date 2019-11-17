@@ -1,15 +1,16 @@
 import axios from 'axios'
 import _ from 'lodash'
+import router from '../router.js'
 import ApiList from './api.json'
 import { Toast } from 'vant'
-import { getQueryString, getCookie, setCookie, urlParse } from './utils.js'
+import { getQueryString, getCookie, setCookie, delCookie, urlParse } from './utils.js'
 import Loading from '../components/Loading/loading.js'
 import qs from 'qs'
 
 let CancelToken = axios.CancelToken
 let cancel
 
-const prefix = '/hidoCode'
+const prefix = '/hido-core'
 const prefixList = [{
     type: 'user',
     value: '/user'
@@ -218,8 +219,6 @@ const post = (url, data, noLoading, noToken, formData) => {
             headers[k] = getCookie(k)
         }
     }
-    
-    // headers.mmTicket = headers.accessToken
 
     let timeout = _data['timeout'] || 10 * sec
     // 请求头
@@ -243,21 +242,19 @@ const post = (url, data, noLoading, noToken, formData) => {
             let respData = resp.data
             respData['code'] = ~~(respData['code'])
             respData['content'] = _parseJSON(respData['content'])
-            if (respData['code'] === 1210 || respData['code'] === 1211 || respData['code'] === 111) {
-                Toast('凭证已失效，请重新登录', '提示')
-                if (urlParse()) {
-                    // setupWebViewJavascriptBridge(function(bridge) {
-                    //     let params = {
-                    //         jumpUrl: window.location.href
-                    //     }
-                    //     bridge.callHandler('callLogin', params, (data) => {
-                    //         setCookie('accessToken', data.accessToken, 7)
-                    //         console.log(data)
-                    //     })
-                    // })
+            if (respData['code'] === 9999) {
+                for (let k in headers) {
+                    delCookie(k)
+                }
+                let desc = respData['desc'] ? respData['desc'] : '凭证已失效，请重新登录'
+                Toast(desc)
+                if (urlParse(window.location.search).app === 'app') {
                     setNative({}, 'callLogin')
                 } else {
-                    this.$router.push({name: 'login'})
+                    router.replace({
+                        path: 'login',
+                        query: {redirect: router.currentRoute.fullPath}
+                    })
                 }
             } else if (respData['code'] !== 0) {
                 let desc = respData['desc'] ? respData['desc'] : '网络异常，请稍后再试'

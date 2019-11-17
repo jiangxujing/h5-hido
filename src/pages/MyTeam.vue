@@ -6,15 +6,15 @@
                 <img class="first-img" :src="item.firstAgentPhoto" v-if="item.firstAgentPhoto" />
                 <span class="first-img-bg" v-else></span>
                 <div class="first-content">
-                    <div class="first-phone">{{item.firstAgentPhone}}</div>
-                    <div class="first-amount">{{'￥' + item.firstAgentAmount}}</div>
+                    <div class="first-phone">{{item.firstAgentInfo}}</div>
+                    <div class="first-amount">{{'￥' + item.firstAgentAllAmount}}</div>
                 </div>
             </div>
             <van-collapse v-model="item.activeNames">
                 <van-collapse-item :name="idx" v-for="(child, idx) in item.list" :key="idx" class="team-second">
                     <div slot="title" class="second-no">
                         <span>二级代理</span>
-                        <span class="second-no-right fl-r">{{item.secondAgentNo + '人'}}</span>
+                        <span class="second-no-right fl-r">{{item.firstAgentTeamSum + '人'}}</span>
                     </div>
                     <div>
                         <div v-for="(second, i) in item.list[0]" :key="i" class="second-child">
@@ -55,70 +55,34 @@ export default {
     methods: {
         // 获取团队信息
         getMyTeam () {
-            const content = [{
-                firstAgentAmount: 500000,
-                firstAgentPhone: '131****7810(小明)',
-                firstAgentPhoto: '',
-                secondAgentNo: 5,
-                list: [{
-                    secondAgentAmount: 100000,
-                    secondAgentPhone: '131****7810',
-                    secondAgentPhoto: ''
-                }, {
-                    secondAgentAmount: 100000,
-                    secondAgentPhone: '131****7810',
-                    secondAgentPhoto: ''
-                }, {
-                    secondAgentAmount: 100000,
-                    secondAgentPhone: '131****7810',
-                    secondAgentPhoto: ''
-                }, {
-                    secondAgentAmount: 100000,
-                    secondAgentPhone: '131****7810',
-                    secondAgentPhoto: ''
-                }, {
-                    secondAgentAmount: 100000,
-                    secondAgentPhone: '131****7810',
-                    secondAgentPhoto: ''
-                }]
-            }, {
-                firstAgentAmount: 300000,
-                firstAgentPhone: '131****7810(小明)',
-                firstAgentPhoto: '',
-                secondAgentNo: 3,
-                list: [{
-                    secondAgentAmount: 100000,
-                    secondAgentPhone: '131****7810',
-                    secondAgentPhoto: ''
-                }, {
-                    secondAgentAmount: 100000,
-                    secondAgentPhone: '131****7810',
-                    secondAgentPhoto: ''
-                }, {
-                    secondAgentAmount: 100000,
-                    secondAgentPhone: '131****7810',
-                    secondAgentPhoto: ''
-                }]
-            }]
-
-            this.myTeam = content.map(item => {
-                let itemObj = {
-                    firstAgentPhone: item.firstAgentPhone,
-                    firstAgentPhoto: item.firstAgentPhoto,
-                    secondAgentNo: item.secondAgentNo,
-                    firstAgentAmount: formatMoney(item.firstAgentAmount, 1),
-                    activeNames: [],
-                    list: []
-                }
-                itemObj.list[0] = item.list.map(child => {
-                    let childObj = {
-                        secondAgentPhone: child.secondAgentPhone,
-                        secondAgentPhoto: child.secondAgentPhoto,
-                        secondAgentAmount: formatMoney(child.secondAgentAmount, 1)
+            api.post(api.getUrl('agent-queryMyteam'), {}).then(res => {
+                if (!!res && res.code === 0) {
+                    if (!!res.content && res.content.length > 0) {
+                        // this.total = res.total
+                        // this.total = res.content.total
+                        this.myTeam = res.content.map(item => {
+                            let itemObj = {
+                                firstAgentPhoto: item.firstAgentPhoto,
+                                firstAgentTeamSum: item.firstAgentTeamSum,
+                                firstAgentAllAmount: formatMoney(item.firstAgentAllAmount, 1),
+                                activeNames: [],
+                                list: []
+                            }
+                            itemObj.firstAgentInfo = item.firstAgentName ? item.firstAgentPhone + '(' + item.firstAgentName + ')' : item.firstAgentPhone
+                            itemObj.list[0] = item.list.map(child => {
+                                let childObj = {
+                                    secondAgentPhone: child.secondAgentPhone,
+                                    secondAgentPhoto: child.secondAgentPhoto,
+                                    secondAgentAmount: formatMoney(child.secondAgentAmount, 1)
+                                }
+                                return childObj
+                            })
+                            return itemObj
+                        })
+                    } else {
+                        this.myTeam = []
                     }
-                    return childObj
-                })
-                return itemObj
+                }
             })
         }
     }
@@ -126,6 +90,5 @@ export default {
 </script>
 
 <style lang="scss">
-    // @import '../assets/scss/index.scss';
 
 </style>

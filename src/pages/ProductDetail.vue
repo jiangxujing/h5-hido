@@ -233,6 +233,8 @@
 						}
 						this.giftPackageDTOList = res.content.giftPackageDTOList
 						this.homepageUrl = res.content.homepageUrl
+						let type = res.content.homepageUrl.type
+						sessionStorage.setItem('type',type)
 					}
 				}).catch((e) => {
 

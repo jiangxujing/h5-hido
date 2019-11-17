@@ -661,6 +661,10 @@ export const toShare = () => {
 	}
 	document.body.appendChild($node)
 }
+export const checkTel = () => {
+			let strTemp = /^1[3|4|5|6|7|8|9][0-9]{9}$/;
+			return strTemp
+		}
 
 export default {
 	validator,
@@ -681,5 +685,6 @@ export default {
 	getToolType,
 	urlParse,
 	toShare,
-	timeInterval
+	timeInterval,
+	checkTel
 }

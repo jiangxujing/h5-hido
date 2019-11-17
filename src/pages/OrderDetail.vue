@@ -41,8 +41,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="recommend">
-				<!--<input type="text" placeholder="请输入推荐人手机号" />-->
+			<div class="recommend" v-if="type==1">
 				<van-cell-group>
 					<van-field v-model="recommendPhone" label="推荐人手机号" placeholder="请输入推荐人手机号" clearable type='number' maxlength='11' @input="checkTel" />
 				</van-cell-group>
@@ -95,6 +94,7 @@
 				dropOutShow: false,
 				jumpUrl: '',
 				orderDetail: {},
+				type: sessionStorage.getItem('type')
 			}
 		},
 		methods: {
@@ -126,12 +126,15 @@
 				this.$router.push("/shippingAddress")
 			},
 			checkTel() {
-				if(this.recommendPhone) {
+				let strTemp = _utils.checkTel()
+				let tel = this.recommendPhone
+				console.log(tel)
+				if(strTemp.test(tel)) {
 					this.gray = false
+				} else {
+					this.gray = true
+					console.log('手机号错误')
 				}
-				//				if(this.username && this.phone && this.province && this.city && this.county && this.detailAddress && this.recommendPhone) {
-				//					this.gray = false
-				//				}
 			},
 			submitOrder() {
 				this.getOrderDetail()
@@ -157,12 +160,12 @@
 					"channel": 1,
 					"receiverName": this.username,
 					"receiverPhone": this.phone,
-					"area": this.province+','+this.city+','+this.county,
+					"area": this.province + ',' + this.city + ',' + this.county,
 					"detailAddr": this.detailAddress,
 					"productId": this.$route.query.packageCode,
 					"orderType": 4,
 					"payType": 2,
-					"refererPhone":this.recommendPhone,
+					"refererPhone": this.recommendPhone,
 					"firstCommissionRatio": this.firstCommissionRatio,
 					"secondCommissionRatio": this.secondCommissionRatio
 				}
@@ -172,45 +175,45 @@
 						if(this.device.version.MicroMessenger) {
 							//在微信浏览器里需要静默授权等走jsapi支付
 							//this.getCode() 需要静默授权时调用
-							
+
 							//假如登录时已经做过授权，拿到了openId了
 							this.getJsApiPay()
-						}else{
+						} else {
 							//在app里走h5支付
 							this.getH5Pay()
 						}
-						
+
 					}
 				}).catch((e) => {
 
 				})
 			},
-			
-			getH5Pay(){
+
+			getH5Pay() {
 				console.log('来这里？')
 				let req = {
-					orderNo:this.orderNo,
-					payType:'WX_JS'
+					orderNo: this.orderNo,
+					payType: 'WX_JS'
 				}
 				api.post(api.getUrl('pay', 'collections'), req).then(res => {
 					if(res.code == 0) {
-							this.jumpUrl = res.url
+						this.jumpUrl = res.url
 					}
 				}).catch((e) => {
 
 				})
 			},
-			getJsApiPay(){
-					let req = {
-						ext:{
-							openId:'oXVeb1dKm_5fBzRLRmFx9l-2NVZQ'
-						},
-						orderNo:this.orderNo,
-						payType:'WX_JS'
-					}
-					api.post(api.getUrl('pay', 'collections'), req).then(res => {
-						if(res.code == 0) {
-							function onBridgeReady() {
+			getJsApiPay() {
+				let req = {
+					ext: {
+						openId: 'oXVeb1dKm_5fBzRLRmFx9l-2NVZQ'
+					},
+					orderNo: this.orderNo,
+					payType: 'WX_JS'
+				}
+				api.post(api.getUrl('pay', 'collections'), req).then(res => {
+					if(res.code == 0) {
+						function onBridgeReady() {
 							WeixinJSBridge.invoke(
 								'getBrandWCPayRequest', {
 									"appId": "wxc20260737b4c8770", //公众号名称，由商户传入     
@@ -237,12 +240,12 @@
 						} else {
 							onBridgeReady();
 						}
-						}
-					}).catch((e) => {
-	
-					})
+					}
+				}).catch((e) => {
+
+				})
 			},
-			getPackageDetail(){
+			getPackageDetail() {
 				let req = {
 					packageCode: this.packageCode
 				}
@@ -259,7 +262,7 @@
 		},
 		mounted() {
 			this.packageCode = this.$route.query.packageCode
-			sessionStorage.setItem('packageCode',this.$route.query.packageCode)
+			sessionStorage.setItem('packageCode', this.$route.query.packageCode)
 			this.getPackageDetail()
 			let ua = navigator.userAgent;
 			this.device = {
@@ -298,19 +301,19 @@
 			if(this.province && this.city && this.county && this.username && this.phone && this.detailAddress) {
 				this.hasNoAdress = false
 			}
-			//				let _this = this		
-			//          pushHistory();  
-			//          window.addEventListener("popstate", function(e) {  
-			//              //此处已经捕获返回事件，可以写自己的跳转代码  
-			//              _this.dropOutShow = true  
-			//          }, false);  
-			//          function pushHistory() {  
-			//              var state = {  
-			//                  title : "title",  
-			//                  url : ""  
-			//              };  
-			//              window.history.pushState(state, "title", "");  
-			//          }  
+			pushHistory();
+			window.addEventListener("popstate", (e) => {
+				//此处已经捕获返回事件，可以写自己的跳转代码  
+				_this.dropOutShow = true
+			}, false);
+
+			function pushHistory() {
+				var state = {
+					title: "title",
+					url: ""
+				};
+				window.history.pushState();
+			}
 		},
 	}
 </script>

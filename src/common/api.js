@@ -17,9 +17,6 @@ const prefixList = [{
 }, {
 	type: 'collections',
     value: '/collections-web'
-},{
-	type: 'hido-core',
-    value: '/hido-core'
 }]
 
 const weixinPrefix = '/sns'

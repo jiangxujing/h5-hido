@@ -4,6 +4,7 @@
     "bankCard-v3-getVerifyCode": "/bankCard/v3/getVerifyCode",
     "bankCard-v3-bindBankCard": "/bankCard/v3/bindBankCard",
     "agent-queryMyteam":"/agent/queryMyteam",
+    "agent-queryBills":"/agent/queryBills",
     "agent-queryBankLimit":"/agent/queryBankLimit",
     "queryPurchasedPackageList":"/mall/queryPurchasedPackage",
     "queryPackageOrderDetail":"/mall/queryPackageOrder",
@@ -15,6 +16,5 @@
     "createOrderV2":"/v2/order/createOrderV2",
     "pay":"/v2/order/pay",
     "oauth2":"/oauth2/access_token",
-    "unifiedorder":"/unifiedorder",
-    "pay":"/pay/h5.json.php"
+    "unifiedorder":"/unifiedorder"
 }

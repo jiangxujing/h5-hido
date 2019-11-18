@@ -255,10 +255,10 @@ const post = (url, data, noLoading, noToken, formData) => {
                 let desc = respData['desc'] ? respData['desc'] : '凭证已失效，请重新登录'
                 Toast(desc)
                 setNative('callLogin', {})
-                router.replace({
-                    path: 'login',
-                    query: {redirect: router.currentRoute.fullPath}
-                })
+                // router.replace({
+                //     path: 'login',
+                //     query: {redirect: router.currentRoute.fullPath}
+                // })
                 // if (urlParse(window.location.search).app === 'app') {
                 //     setNative('callLogin', {})
                 // } else {

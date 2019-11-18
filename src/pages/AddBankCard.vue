@@ -133,13 +133,14 @@ export default {
     mounted () {
         document.title = '添加银行卡'
         this.verifyTitle = '获取验证码'
-        let params = {
-            title: '添加银行卡'
-        }
-        api.setNative('callTitleUpdate', params)
-        this.getQueryBankLimit()
+        api.setNative('callTitleUpdate', {title: '添加银行卡'})
         api.setNative('callDevInfo', {})
         api.setNative('callToken', {})
+        api.setNative('callInit', {interceptBack: false})
+        // this.getQueryBankLimit()
+        setInterval(() => {
+            this.getQueryBankLimit()
+        }, 600)
     },
     computed: {
         // 监听页面数据

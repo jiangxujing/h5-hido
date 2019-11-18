@@ -52,9 +52,12 @@ export default {
     },
     mounted () {
         document.title = '账单'
-        this.getBillList()
         api.setNative('callDevInfo', {})
         api.setNative('callToken', {})
+        // this.getBillList()
+        setInterval(() => {
+            this.getBillList()
+        }, 600)
     },
     computed: {
 

@@ -136,8 +136,6 @@ export default {
         api.setNative('callTitleUpdate', {title: '添加银行卡'})
         api.setNative('callDevInfo', {})
         api.setNative('callToken', {})
-        api.setNative('callInit', {interceptBack: false})
-        // this.getQueryBankLimit()
         setTimeout(() => {
             this.getQueryBankLimit()
         }, 600)

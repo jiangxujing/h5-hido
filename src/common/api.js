@@ -254,27 +254,14 @@ const post = (url, data, noLoading, noToken, formData) => {
                 }
                 let desc = respData['desc'] ? respData['desc'] : '凭证已失效，请重新登录'
                 Toast(desc)
-                // setNative('callLogin', {})
-                setupWebViewJavascriptBridge(function(bridge) {
-                    let params = {}
-                    bridge.callHandler('callLogin', params, (data) => {
-                        Toast(data)
-                        setCookie('accessToken', data.accessToken, 7)
-                        setCookie('mmTicket', data.accessToken, 7)
+                if (urlParse(window.location.search).app === 'app') {
+                    setNative('callLogin', {})
+                } else {
+                    router.replace({
+                        path: 'login',
+                        query: {redirect: router.currentRoute.fullPath}
                     })
-                })
-                // router.replace({
-                //     path: 'login',
-                //     query: {redirect: router.currentRoute.fullPath}
-                // })
-                // if (urlParse(window.location.search).app === 'app') {
-                //     setNative('callLogin', {})
-                // } else {
-                //     router.replace({
-                //         path: 'login',
-                //         query: {redirect: router.currentRoute.fullPath}
-                //     })
-                // }
+                }
             } else if (respData['code'] !== 0) {
                 let desc = respData['desc'] ? respData['desc'] : '网络异常，请稍后再试'
                 Toast(desc)

@@ -35,7 +35,6 @@ export default {
         api.setNative('callTitleUpdate', {title: '银行卡'})
         api.setNative('callDevInfo', {})
         api.setNative('callToken', {})
-        // this.getBankCardList()
         setTimeout(() => {
             this.getBankCardList()
         }, 600)

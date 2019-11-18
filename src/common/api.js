@@ -135,7 +135,7 @@ const setNative = (type, params) => {
     if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
         setupWebViewJavascriptBridge(function(bridge) {
             bridge.callHandler(type, params, function(data) {
-                Toast('111: ' + data)
+                Toast('code 1 : ' + data.code)
                 for (var key in data) {
                     setCookie(key, data[key], 7)
                 }

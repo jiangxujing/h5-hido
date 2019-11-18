@@ -3,7 +3,7 @@ import _ from 'lodash'
 import router from '../router.js'
 import ApiList from './api.json'
 import { Toast } from 'vant'
-import { getQueryString, getCookie, setCookie, delCookie, urlParse } from './utils.js'
+import { getQueryString, getCookie, setCookie, delCookie } from './utils.js'
 import Loading from '../components/Loading/loading.js'
 import qs from 'qs'
 
@@ -132,7 +132,7 @@ const setupWebViewJavascriptBridge = (callback) => {
  * params: 入参
  **/
 const setNative = (type, params) => {
-    // if (urlParse(window.location.search).app === 'app') {
+    if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
         setupWebViewJavascriptBridge(function(bridge) {
             bridge.callHandler(type, params, (data) => {
                 for (let key in data) {
@@ -141,7 +141,7 @@ const setNative = (type, params) => {
                 console.log(data)
             })
         })
-    // }
+    }
 }
 
 // 微信
@@ -254,7 +254,7 @@ const post = (url, data, noLoading, noToken, formData) => {
                 }
                 let desc = respData['desc'] ? respData['desc'] : '凭证已失效，请重新登录'
                 Toast(desc)
-                if (urlParse(window.location.search).app === 'app') {
+                if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
                     setNative('callLogin', {})
                 } else {
                     router.replace({

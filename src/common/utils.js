@@ -595,19 +595,6 @@ export const getToolType = () => {
 	return toolType
 }
 
-/**
- * 判断是否是内嵌app
- **/
-export const urlParse = queryStr => {
-	let arr = queryStr.slice(1).split('&')
-	let map = {}
-	console.log(arr)
-	arr.forEach(item => {
-		let param = item.split('=')
-		map[param[0]] = param[1]
-	})
-	return map
-}
 
 /**
  * 显示遮罩层
@@ -661,10 +648,11 @@ export const toShare = () => {
 	}
 	document.body.appendChild($node)
 }
+
 export const checkTel = () => {
-			let strTemp = /^1[3|4|5|6|7|8|9][0-9]{9}$/;
-			return strTemp
-		}
+	let strTemp = /^1[3|4|5|6|7|8|9][0-9]{9}$/;
+	return strTemp
+}
 
 export default {
 	validator,
@@ -683,7 +671,6 @@ export default {
 	getUrlSearch,
 	getQueryString,
 	getToolType,
-	urlParse,
 	toShare,
 	timeInterval,
 	checkTel

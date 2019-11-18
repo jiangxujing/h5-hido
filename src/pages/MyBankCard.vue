@@ -32,11 +32,12 @@ export default {
     },
     mounted () {
         document.title = '银行卡'
-        this.getBankCardList()
-        let params = {
-            title: '银行卡'
-        }
-        api.setNative('callTitleUpdate', params)
+        api.setNative('callTitleUpdate', {title: '银行卡'})
+        api.setNative('callDevInfo', {})
+        api.setNative('callToken', {})
+        setTimeout(() => {
+            this.getBankCardList()
+        }, 600)
     },
     computed: {
 

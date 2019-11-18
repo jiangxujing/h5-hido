@@ -3,7 +3,7 @@ import _ from 'lodash'
 import router from '../router.js'
 import ApiList from './api.json'
 import { Toast } from 'vant'
-import { getQueryString, getCookie, setCookie, delCookie, urlParse } from './utils.js'
+import { getQueryString, getCookie, setCookie, delCookie } from './utils.js'
 import Loading from '../components/Loading/loading.js'
 import qs from 'qs'
 
@@ -132,7 +132,7 @@ const setupWebViewJavascriptBridge = (callback) => {
  * params: 入参
  **/
 const setNative = (type, params) => {
-    if (urlParse(window.location.search).app === 'app') {
+    if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
         setupWebViewJavascriptBridge(function(bridge) {
             bridge.callHandler(type, params, (data) => {
                 for (let key in data) {
@@ -223,6 +223,9 @@ const post = (url, data, noLoading, noToken, formData) => {
         }
     }
 
+    headers.mmTicket = headers.accessToken
+    setCookie('mmTicket', headers['mmTicket'], 7)
+
     let timeout = _data['timeout'] || 10 * sec
     // 请求头
     let axiosHead = {
@@ -251,7 +254,7 @@ const post = (url, data, noLoading, noToken, formData) => {
                 }
                 let desc = respData['desc'] ? respData['desc'] : '凭证已失效，请重新登录'
                 Toast(desc)
-                if (urlParse(window.location.search).app === 'app') {
+                if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
                     setNative('callLogin', {})
                 } else {
                     router.replace({
@@ -261,7 +264,7 @@ const post = (url, data, noLoading, noToken, formData) => {
                 }
             } else if (respData['code'] !== 0) {
                 let desc = respData['desc'] ? respData['desc'] : '网络异常，请稍后再试'
-                Toast(desc, '提示')
+                Toast(desc)
             }
             return Promise.resolve(respData)
         } else {
@@ -270,7 +273,7 @@ const post = (url, data, noLoading, noToken, formData) => {
     }).catch(function (err) {
         console.log(err)
         Loading.hide()
-        Toast('网络异常，请稍后再试', '提示')
+        Toast('网络异常，请稍后再试')
     })
 }
 

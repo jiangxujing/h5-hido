@@ -8,7 +8,7 @@
 						<span>收货信息</span>
 						<img class="arrow" src="../assets/images/arrow.png" />
 					</div>
-					<div style="padding:1.5rem" v-else>
+					<div style="padding:1.5rem" v-else @click="setAddress">
 						<div>
 							<span>{{username}}{{phone}}</span>
 							<img class="arrow" src="../assets/images/arrow.png" />
@@ -183,7 +183,7 @@
 			},
 			getOrderDetail() {
 				let req = {
-					"channel": 1,
+					"channel": this.channel,
 					"receiverName": this.username,
 					"receiverPhone": this.phone,
 					"area": this.province + ',' + this.city + ',' + this.county,
@@ -219,7 +219,7 @@
 				console.log('来这里？')
 				let req = {
 					orderNo: this.orderNo,
-					payType: 'WX_JS'
+					payType: 'WX_H5'
 				}
 				api.post(api.getUrl('pay', 'collections'), req).then(res => {
 					if(res.code == 0) {
@@ -231,7 +231,7 @@
 			},
 			getJsApiPay() {
 				let req = {
-					orderNo: 'MALL3019111859318619601020',
+					orderNo: "MALL3019111859318619601020",
 					payType: 'WX_JS'
 				}
 				api.post(api.getUrl('pay', 'collections'), req).then(res => {
@@ -241,12 +241,12 @@
 						function onBridgeReady() {
 							WeixinJSBridge.invoke(
 								'getBrandWCPayRequest', {
-									"appId": "sceneInfo.appId", //公众号名称，由商户传入     
-									"timeStamp": "sceneInfo.timeStamp", //时间戳，自1970年以来的秒数     
-									"nonceStr": "sceneInfo.nonceStr", //随机串     
-									"package": "sceneInfo.package",
-									"signType": "sceneInfo.signType", //微信签名方式：     
-									"paySign": "sceneInfo.paySign" //微信签名 
+									"appId": sceneInfo.appId, //公众号名称，由商户传入     
+									"timeStamp": sceneInfo.timeStamp, //时间戳，自1970年以来的秒数     
+									"nonceStr": sceneInfo.nonceStr, //随机串     
+									"package": sceneInfo.package,
+									"signType": sceneInfo.signType, //微信签名方式：     
+									"paySign": sceneInfo.paySign //微信签名 
 								},
 								function(res) {
 									if(res.err_msg == "get_brand_wcpay_request:ok") {
@@ -315,6 +315,7 @@
 			}
 		},
 		mounted() {
+			this.getJsApiPay()
 			this.packageCode = this.$route.query.packageCode
 			sessionStorage.setItem('packageCode', this.$route.query.packageCode)
 			this.getPackageDetail()
@@ -328,6 +329,19 @@
 			};
 			this.ios = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端
+			if(_utils.urlParse(window.location.search).app === "app"){
+				if(this.ios){
+					this.channel = 2
+				}else if(this.android){
+					this.channel = 1
+				}
+			}else if(this.device.version.MicroMessenger){
+				if(this.ios){
+					this.channel = 4
+				}else if(this.android){
+					this.channel = 3
+				}
+			}
 			api.setupWebViewJavascriptBridge(function(bridge) {
 				bridge.callHandler('invokeBackPress', {}, (data) => {
 					this.dropOutShow = true
@@ -339,12 +353,6 @@
 			this.username = sessionStorage.getItem('username')
 			this.phone = sessionStorage.getItem('phone')
 			this.detailAddress = sessionStorage.getItem('detailAddress')
-			console.log(this.province)
-			console.log(this.city)
-			console.log(this.county)
-			console.log(this.username)
-			console.log(this.phone)
-			console.log(this.detailAddress)
 			if(this.province && this.city && this.county && this.username && this.phone && this.detailAddress) {
 				this.hasNoAdress = false
 				console.log(this.hasNoAdress)

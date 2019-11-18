@@ -1,73 +1,94 @@
 <template>
 	<div class="orderDetail">
-		<div v-if="orderDetailShow">
-			<div class="receipt-address">
-				<div style="padding:1.5rem" v-if="hasNoAdress" @click="setAddress">
-					<img class="add" src="../assets/images/add.png" />
-					<span>收货信息</span>
-					<img class="arrow" src="../assets/images/arrow.png" />
-				</div>
-				<div style="padding:1.5rem" v-else>
-					<div>
-						<span>{{username}}{{phone}}</span>
+		<div v-if="orderShow">
+			<div v-if="orderDetailShow">
+				<div class="receipt-address">
+					<div style="padding:1.5rem" v-if="hasNoAdress" @click="setAddress">
+						<img class="add" src="../assets/images/add.png" />
+						<span>收货信息</span>
 						<img class="arrow" src="../assets/images/arrow.png" />
 					</div>
-					<div class="adress adress1">
-						{{province}}/{{city}}/{{county}}
-					</div>
-					<div class="adress adress2">
-						{{detailAddress}}
+					<div style="padding:1.5rem" v-else>
+						<div>
+							<span>{{username}}{{phone}}</span>
+							<img class="arrow" src="../assets/images/arrow.png" />
+						</div>
+						<div class="adress adress1">
+							{{province}}/{{city}}/{{county}}
+						</div>
+						<div class="adress adress2">
+							{{detailAddress}}
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="gift-package">
-				<div style="overflow:hidden">
-					<img class="libao" v-if="orderDetail.headPicture" :src="orderDetail.headPicture" />
+				<div class="gift-package">
 					<div style="overflow:hidden">
-						<div style="float:left">
-							<div class="package-price">
-								<div class="van-multi-ellipsis--l2" style="color:#1A2833;font-size:1.5rem">
-									{{orderDetail.name}}
-								</div>
-								<div v-for="i in orderDetail.giftPackageDetailList">
-									<span style="font-size:1.4rem;color:#8A9399">{{i.goodsName}}</span>
+						<img class="libao" v-if="orderDetail.headPicture" :src="orderDetail.headPicture" />
+						<div style="overflow:hidden">
+							<div style="float:left">
+								<div class="package-price">
+									<div class="van-multi-ellipsis--l2" style="color:#1A2833;font-size:1.5rem">
+										{{orderDetail.name}}
+									</div>
+									<div v-for="i in orderDetail.giftPackageDetailList">
+										<span style="font-size:1.4rem;color:#8A9399">{{i.goodsName}}*{{i.goodsCount}}</span>
+									</div>
 								</div>
 							</div>
+							<div class="buynumber">x1</div>
 						</div>
-						<div class="buynumber">x1</div>
+						<div style="overflow:hidden;padding-left:1.2rem">
+							<span style="color:#FF7B31;font-size:1.6rem;float:right">￥{{orderDetail.salesPrice/100}}</span>
+						</div>
 					</div>
-					<div style="overflow:hidden;padding-left:1.2rem">
-						<span style="color:#FF7B31;font-size:1.6rem;float:right">￥{{orderDetail.salesPrice/100}}</span>
+				</div>
+				<div class="recommend" v-if="type==1">
+					<van-cell-group>
+						<van-field v-model="recommendPhone" label="推荐人手机号" placeholder="请输入推荐人手机号" clearable type='number' maxlength='11' @input="checkTel" />
+					</van-cell-group>
+				</div>
+				<div class="submitTxt">
+					<div style="padding:2.2rem 1.5rem;">
+						<span style="color:#1A2833;font-size:1.6rem;">订单金额：</span>
+						<span style="color:#FF7B31;font-size:1.8rem;">￥{{orderDetail.salesPrice/100}}</span>
+						<button class="submit-gray" v-if="gray">提交</button>
+						<button class="submit-active" v-else @click="submitOrder">提交</button>
 					</div>
 				</div>
 			</div>
-			<div class="recommend" v-if="type==1">
-				<van-cell-group>
-					<van-field v-model="recommendPhone" label="推荐人手机号" placeholder="请输入推荐人手机号" clearable type='number' maxlength='11' @input="checkTel" />
-				</van-cell-group>
+			<div v-else class="order-status">
+				<img src="../assets/images/order-success.png" />
+				<div class="sucess-txt" style="padding-top:3rem;">您的订单已提交成功</div>
+				<div class="sucess-txt" style="padding-top:1.1rem;">会为您尽快安排发货</div>
+				<div style="#8A9399;font-size:1.4rem;padding-top:2rem;">{{second}}s后自动跳转回购买界面</div>
 			</div>
-			<div class="submitTxt">
-				<div style="padding:2.2rem 1.5rem;">
-					<span style="color:#1A2833;font-size:1.6rem;">订单金额：</span>
-					<span style="color:#FF7B31;font-size:1.8rem;">￥{{orderDetail.salesPrice/100}}</span>
-					<button class="submit-gray" v-if="gray">提交</button>
-					<button class="submit-active" v-else @click="submitOrder">提交</button>
+			<div class="orderWrapper" v-if="dropOutShow">
+				<div class="order-content">
+					<div class="title">提示</div>
+					<div style="color:#353535;font-size:1.5rem;">是否确认取消订单</div>
+					<div class="borderStyle"></div>
+					<button class="canle" @click="dropOutShow=false">取消</button>
+					<button class="confirm" @click="goBack">确认</button>
 				</div>
 			</div>
 		</div>
-		<div v-else class="order-status">
-			<img src="../assets/images/order-success.png" />
-			<div class="sucess-txt" style="padding-top:3rem;">您的订单已提交成功</div>
-			<div class="sucess-txt" style="padding-top:1.1rem;">会为您尽快安排发货</div>
-			<div style="#8A9399;font-size:1.4rem;padding-top:2rem;">{{second}}s后自动跳转回购买界面</div>
-		</div>
-		<div class="orderWrapper" v-if="dropOutShow">
-			<div class="order-content">
-				<div class="title">提示</div>
-				<div style="color:#353535;font-size:1.5rem;">是否确认取消订单</div>
-				<div class="borderStyle"></div>
-				<button class="canle" @click="dropOutShow=false">取消</button>
-				<button class="confirm" @click="goBack">确认</button>
+		<div class="paymentMethod" v-else>
+			<div class="payment-header">
+				<div class="title">需支付</div>
+				<div class="money">
+					<span>￥</span>
+					<span>{{orderDetail.salesPrice/100}}</span>
+				</div>
+			</div>
+			<div class="payment-method-list">
+				<div>
+					<img class="weixin" src="../assets/images/weixin-pay.png" />
+					<span>微信支付</span>
+					<img class="gouxuan" src="../assets/images/gouxuan@2x.png" />
+				</div>
+			</div>
+			<div style="text-align: center;">
+				<button class="buy-now" @click="buyNow">立即支付</button>
 			</div>
 		</div>
 	</div>
@@ -89,12 +110,14 @@
 				username: '',
 				phone: '',
 				detailAddress: '',
-				gray: false,
+				gray: true,
 				second: 3,
 				dropOutShow: false,
 				jumpUrl: '',
 				orderDetail: {},
-				type: sessionStorage.getItem('type')
+				type:'',
+				paymethodShow: false,
+				orderShow:true
 			}
 		},
 		methods: {
@@ -136,8 +159,12 @@
 					console.log('手机号错误')
 				}
 			},
-			submitOrder() {
+			buyNow(){
 				this.getOrderDetail()
+			},
+			submitOrder() {
+				//this.getOrderDetail()
+				this.orderShow = false
 				//window.location.href = this.jumpUrl
 				//this.$router.push("/paymentMethod")
 				//				this.orderDetailShow = false
@@ -155,26 +182,13 @@
 				this.$router.push("/productDetail")
 			},
 			getOrderDetail() {
-//				let req = {
-//					"channel": 1,
-//					"receiverName": this.username,
-//					"receiverPhone": this.phone,
-//					"area": this.province + ',' + this.city + ',' + this.county,
-//					"detailAddr": this.detailAddress,
-//					"productId": this.$route.query.packageCode,
-//					"orderType": 4,
-//					"payType": 2,
-//					"refererPhone": this.recommendPhone,
-//					"firstCommissionRatio": this.firstCommissionRatio,
-//					"secondCommissionRatio": this.secondCommissionRatio
-//				}
-			let req = {
+				let req = {
 					"channel": 1,
-					"receiverName": '江绪静',
-					"receiverPhone": '13122390030',
-					"area": "上海市,浦东新区",
-					"detailAddr": '银山路183路',
-					"productId": '20191114173306YQ',
+					"receiverName": this.username,
+					"receiverPhone": this.phone,
+					"area": this.province + ',' + this.city + ',' + this.county,
+					"detailAddr": this.detailAddress,
+					"productId": this.$route.query.packageCode,
 					"orderType": 4,
 					"payType": 2,
 					"refererPhone": this.recommendPhone,
@@ -217,23 +231,22 @@
 			},
 			getJsApiPay() {
 				let req = {
-					ext: {
-						openId: 'oXVeb1dKm_5fBzRLRmFx9l-2NVZQ'
-					},
-					orderNo: this.orderNo,
+					orderNo: 'MALL3019111859318619601020',
 					payType: 'WX_JS'
 				}
 				api.post(api.getUrl('pay', 'collections'), req).then(res => {
 					if(res.code == 0) {
+						console.log('gggggggggggggggggg')
+						let sceneInfo = res.content.sceneInfo
 						function onBridgeReady() {
 							WeixinJSBridge.invoke(
 								'getBrandWCPayRequest', {
-									"appId": "wxc20260737b4c8770", //公众号名称，由商户传入     
-									"timeStamp": "1395712654", //时间戳，自1970年以来的秒数     
-									"nonceStr": "e61463f8efa94090b1f366cccfbbb444", //随机串     
-									"package": "prepay_id=u802345jgfjsdfgsdg888",
-									"signType": "MD5", //微信签名方式：     
-									"paySign": "70EA570631E4BB79628FBCA90534C63FF7FADD89" //微信签名 
+									"appId": "sceneInfo.appId", //公众号名称，由商户传入     
+									"timeStamp": "sceneInfo.timeStamp", //时间戳，自1970年以来的秒数     
+									"nonceStr": "sceneInfo.nonceStr", //随机串     
+									"package": "sceneInfo.package",
+									"signType": "sceneInfo.signType", //微信签名方式：     
+									"paySign": "sceneInfo.paySign" //微信签名 
 								},
 								function(res) {
 									if(res.err_msg == "get_brand_wcpay_request:ok") {
@@ -253,6 +266,34 @@
 							onBridgeReady();
 						}
 					}
+
+					function onBridgeReady() {
+						WeixinJSBridge.invoke(
+							'getBrandWCPayRequest', {
+								"appId": "wxc20260737b4c8770", //公众号名称，由商户传入     
+								"timeStamp": "1574056060", //时间戳，自1970年以来的秒数     
+								"nonceStr": "0c63d3206a744f7ebe340355c40afe41", //随机串     
+								"package": "prepay_id=wx18134739986118d83d3119721626299000",
+								"signType": "MD5", //微信签名方式：     
+								"paySign": "7391FA4619C4E42A169611820A856B4C" //微信签名 
+							},
+							function(res) {
+								if(res.err_msg == "get_brand_wcpay_request:ok") {
+									// 使用以上方式判断前端返回,微信团队郑重提示：
+									//res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+								}
+							});
+					}
+					if(typeof WeixinJSBridge == "undefined") {
+						if(document.addEventListener) {
+							document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+						} else if(document.attachEvent) {
+							document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+							document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+						}
+					} else {
+						onBridgeReady();
+					}
 				}).catch((e) => {
 
 				})
@@ -264,6 +305,7 @@
 				api.post(api.getUrl('queryPackage', 'collections'), req, false, false, false).then(res => {
 					if(res.code == 0) {
 						this.orderDetail = res.content.giftPackageDTODetails
+						this.type = res.content.homepageUrl.type
 						this.firstCommissionRatio = res.content.giftPackageDTODetails.firstCommissionRatio
 						this.secondCommissionRatio = res.content.giftPackageDTODetails.secondCommissionRatio
 					}
@@ -297,20 +339,30 @@
 			this.username = sessionStorage.getItem('username')
 			this.phone = sessionStorage.getItem('phone')
 			this.detailAddress = sessionStorage.getItem('detailAddress')
+			console.log(this.province)
+			console.log(this.city)
+			console.log(this.county)
+			console.log(this.username)
+			console.log(this.phone)
+			console.log(this.detailAddress)
 			if(this.province && this.city && this.county && this.username && this.phone && this.detailAddress) {
 				this.hasNoAdress = false
+				console.log(this.hasNoAdress)
+				if(!this.hasNoAdress) {
+					this.gray = false
+				}
 			}
-			pushHistory();
-			window.addEventListener("popstate", (e)=> {
-				//此处已经捕获返回事件，可以写自己的跳转代码  
-				this.dropOutShow = true
-			}, false);
-			function pushHistory(){
-				var state = {
-					title: "订单详情",
-				};
-				window.history.pushState(state, "title");
-			}
+			//			pushHistory();
+			//			window.addEventListener("popstate", (e)=> {
+			//				//此处已经捕获返回事件，可以写自己的跳转代码  
+			//				this.dropOutShow = true
+			//			}, false);
+			//			function pushHistory(){
+			//				var state = {
+			//					title: "订单详情",
+			//				};
+			//				window.history.pushState(state, "title");
+			//			}
 		},
 	}
 </script>
@@ -462,6 +514,54 @@
 				font-weight: 600;
 				color: rgba(26, 40, 51, 1);
 				line-height: 18px;
+			}
+		}
+		.paymentMethod {
+			.payment-header {
+				width: 100%;
+				height: auto;
+				background: #fff;
+				margin-top: 1rem;
+				text-align: center;
+				.title {
+					color: #1A2833;
+					font-size: 1.4rem;
+					padding: 2.4rem;
+				}
+				.money {
+					color: #FF7B31;
+					span:first-child {
+						font-weight: 600;
+						font-size: 2.8rem;
+					}
+					span:last-child {
+						font-weight: bold;
+						font-size: 4.8rem;
+					}
+				}
+			}
+			.payment-method-list {
+				width: 100%;
+				height: auto;
+				margin-top: 1rem;
+				background: #fff;
+				padding: 1.3rem 0 1.3rem 1.5rem;
+				.weixin {
+					width: 4rem;
+				}
+				span {
+					font-size: 1.7rem;
+					color: #1A2833;
+					line-height: 4rem;
+					padding-left: 1.3rem;
+				}
+				.gouxuan {
+					width: 1.9rem;
+					vertical-align: middle;
+					margin-top: 0.8rem;
+					float: right;
+					margin-right: 1.5rem;
+				}
 			}
 		}
 	}

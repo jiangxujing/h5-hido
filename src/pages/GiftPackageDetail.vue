@@ -172,7 +172,7 @@
 				let req = {
 					orderNo: orderNo
 				}
-				api.post(api.getUrl('queryPackageOrderDetail'), req).then(res => {
+				api.post(api.getUrl('queryPackageOrderDetail','collections'), req).then(res => {
 					if(res.code == '0000') {
 						this.giftDetail = res.content;
 						if(this.giftDetail.status == 1) {
@@ -190,7 +190,9 @@
 			}
 		},
 		mounted() {
+			document.title = '礼包详情'
 			let orderNo = this.$route.query.orderNo
+			this.getPackageOrder(orderNo)
 			console.log(orderNo)
 			//this.getPackageOrder(orderNo)
 			if(this.giftDetail.status == 1) {

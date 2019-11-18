@@ -18,7 +18,7 @@
 
 			</div>
 			<div class="borderStyle" style="margin-top:0"></div>
-			<div class="payment-method-list" @click="goToBank">
+			<div class="payment-method-list" @click="goToBank" v-if="bankNumShow">
 				<img class="weixin" :src="bankImgUrl" />
 				<div class="bank-name-no">
 					<div>{{bankName}}</div>
@@ -26,6 +26,13 @@
 				</div>
 				<img class="gouxuan" src="../assets/images/arrow.png" />
 			</div>
+				<div class="bank" @click="addBank" v-else style="height:6.5rem">
+					<div style="padding: 2rem 1rem 0 1.8rem;height:2.4rem;line-height:2.4rem;">
+						<img src="../assets/images/addbank.png" class="bank-add" style="width:2.4rem;"/>
+						<span style="color:#8A9399;font-size:1.4rem;margin-left:1.5rem">添加银行卡</span>
+						<img src="../assets/images/arrowbank.png" class="banklarrow" style="width:2.2rem;float:right"/>
+					</div>
+				</div>
 		</div>
 		<button class="withdrawBtn buy-now buy-now-gray" v-if="grayShow">确认提现</button>
 		<button class="withdrawBtn buy-now-active" v-else @click="getWithdraw">确认提现</button>
@@ -91,7 +98,8 @@
 				sendCodeShow: false,
 				countdown: 60,
 				codeGrayShow: true,
-				inteval: ''
+				inteval: '',
+				bankNumShow:true
 			}
 		},
 		methods: {
@@ -208,6 +216,11 @@
 				api.post(api.getUrl('queryWithdrawal'), {}).then(res => {
 					if(res.code == 0) {
 						this.withdrawalDetail = res.content
+						if(res.content.cardList && res.content.cardList.length>0){
+							this.bankNumShow = true	
+						}else{
+							this.bankNumShow = false
+						}
 						this.bankName =  res.content.cardList[0].bankName
 						this.bankCardNo =  res.content.cardList[0].bankCardNo
 						this.bankImgUrl =  res.content.cardList[0].bankImgUrl

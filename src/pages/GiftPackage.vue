@@ -67,6 +67,7 @@
 			
 		},
 		mounted() {
+			document.title='我的礼包'
 			this.getGiftList()
 
 		},

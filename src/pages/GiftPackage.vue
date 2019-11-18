@@ -2,7 +2,7 @@
 	<div>
 			<div class="gift-package" v-for = "(p,index) in packageList" :key="index" @click="goToGiftDetail(p.orderNo)">
 				<div class="time-status">
-					<div class="time">{{p.orderTime}}</div>
+					<div class="time"  >{{$utils.dateFormatter(p.createTime, "yyyy-MM-dd HH:mm:ss")}}</div>
 					<div class="status">已发货</div>
 				</div>
 				<div class="borderStyle"></div>
@@ -22,7 +22,7 @@
 					</div>
 					<div style="overflow:hidden;padding-left:1.2rem">
 						<span style="font-size:1.4rem;color:#8A9399;float:left">无针水光针*1</span>
-						<span style="color:#1A2833;font-weight:bold;font-size:1.6rem;float:right;padding-right: 1.5rem;">￥<span>{{p.oderAmount}}</span></span>
+						<span style="color:#1A2833;font-weight:bold;font-size:1.6rem;float:right;padding-right: 1.5rem;">￥<span>{{p.amount/100}}</span></span>
 					</div>
 				</div>
 			</div>
@@ -31,6 +31,7 @@
 
 <script>
 	import api from '../common/api.js'
+	import _utils from '../common/utils.js'
 	export default {
 		name: 'giftPackage',
 		data() {
@@ -54,9 +55,9 @@
 		},
 		methods: {
 			getGiftList(){
-				  api.post(api.getUrl('queryPurchasedPackageList'), {}).then(res => {
+				  api.post(api.getUrl('queryPurchasedPackageList','collections'), {}).then(res => {
                        if (res.code == '0000') {
-                       		this.packageList = res.content.packageList
+                       		this.packageList = res.content
                        }
                    })
 			},
@@ -66,7 +67,7 @@
 			
 		},
 		mounted() {
-			
+			this.getGiftList()
 
 		},
 	}

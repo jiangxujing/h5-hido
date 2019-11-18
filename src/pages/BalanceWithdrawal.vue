@@ -23,7 +23,7 @@
 				<img class="weixin" :src="bankImgUrl" />
 				<div class="bank-name-no">
 					<div>{{bankName}}</div>
-					<div>{{bankNo}}</div>
+					<div>{{bankCardNo}}</div>
 				</div>
 				<img class="gouxuan" src="../assets/images/arrow.png" />
 			</div>
@@ -37,7 +37,7 @@
 						<img class="bank-logo" :src="b.bankImgUrl" />
 						<div class="bank-no">
 							<div style="margin-top:0.2rem">{{b.bankName}}</div>
-							<div style="margin-top:0.8rem">{{b.bankNo}}</div>
+							<div style="margin-top:0.8rem">{{b.bankCardNo}}</div>
 						</div>
 						<img class="gou-xuan" src="../assets/images/gou.png" v-if="b.active" />
 					</div>
@@ -81,7 +81,7 @@
 				grayShow: true,
 				smsCode: '',
 				bankName: '',
-				bankNo: '',
+				bankCardNo: '',
 				money: '',
 				bankshow: false,
 				bankImgUrl:'',
@@ -100,19 +100,21 @@
 				this.getWithdraw()
 			},
 			confirmCode() {
+				let amount = this.money*100
 				let req = {
-					amount:this.money/100,
+					amount:amount,
 					bankBranch:this.bankBranch,
-					bankCardNo:this.bankNo,
+					bankCardNo:this.bankCardNo,
 					bankName:this.bankName,
 					serialNo:this.serialNo,
 					verificationCode:this.smsCode,
-					moblie:this.moblie,
+					mobile:this.moblie,
 					name:this.name
 				}
 				api.post(api.getUrl('withdrawalAuthSendSms'), req).then(res => {
 					if(res.code == 0) {
 						this.sendCodeShow = false
+						this.$router.push("/withdrawSucess")
 					}else{
 						
 					}
@@ -173,7 +175,7 @@
 					this.grayShow = true
 				} else {
 					this.normal = true
-					if(!this.bankNo) {
+					if(!this.bankCardNo) {
 						this.grayShow = true
 					} else {
 						this.grayShow = false
@@ -187,7 +189,7 @@
 				this.$set(i, "active", true);
 				this.bankshow = false
 				this.bankName = i.bankName
-				this.bankNo = i.bankNo
+				this.bankCardNo = i.bankCardNo
 				this.name = i.name
 				this.moblie = i.moblie
 				if((parseFloat(this.money) > parseFloat(this.availableBalance)) && parseFloat(this.money) <= 10000) {
@@ -214,7 +216,7 @@
 					if(res.code == 0) {
 						this.withdrawalDetail = res.content
 						this.bankName =  res.content.cardList[0].bankName
-						this.bankNo =  res.content.cardList[0].bankCardNo
+						this.bankCardNo =  res.content.cardList[0].bankCardNo
 						this.bankImgUrl =  res.content.cardList[0].bankImgUrl
 						this.bankBranch = res.content.cardList[0].bankBranch
 						this.moblie = res.content.cardList[0].mobile

@@ -89,7 +89,7 @@
 				username: '',
 				phone: '',
 				detailAddress: '',
-				gray: true,
+				gray: false,
 				second: 3,
 				dropOutShow: false,
 				jumpUrl: '',
@@ -155,13 +155,26 @@
 				this.$router.push("/productDetail")
 			},
 			getOrderDetail() {
-				let req = {
+//				let req = {
+//					"channel": 1,
+//					"receiverName": this.username,
+//					"receiverPhone": this.phone,
+//					"area": this.province + ',' + this.city + ',' + this.county,
+//					"detailAddr": this.detailAddress,
+//					"productId": this.$route.query.packageCode,
+//					"orderType": 4,
+//					"payType": 2,
+//					"refererPhone": this.recommendPhone,
+//					"firstCommissionRatio": this.firstCommissionRatio,
+//					"secondCommissionRatio": this.secondCommissionRatio
+//				}
+			let req = {
 					"channel": 1,
-					"receiverName": this.username,
-					"receiverPhone": this.phone,
-					"area": this.province + ',' + this.city + ',' + this.county,
-					"detailAddr": this.detailAddress,
-					"productId": this.$route.query.packageCode,
+					"receiverName": '江绪静',
+					"receiverPhone": '13122390030',
+					"area": "上海市,浦东新区",
+					"detailAddr": '银山路183路',
+					"productId": '20191114173306YQ',
 					"orderType": 4,
 					"payType": 2,
 					"refererPhone": this.recommendPhone,
@@ -273,22 +286,9 @@
 			};
 			this.ios = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端
-			if(this.device.version.MicroMessenger) {
-				this.getCode()
-			} else {
-				let req = {
-					code: '801e4862da74d9272af98ccbfa76bda0'
-				}
-				api.get(api.getWeixinUrl('pay', 'h5Pay'), req).then(res => {
-					this.jumpUrl = res.url
-					console.log(res.url)
-
-				}).catch((e) => {})
-			}
-
 			api.setupWebViewJavascriptBridge(function(bridge) {
 				bridge.callHandler('invokeBackPress', {}, (data) => {
-					console.log(data)
+					this.dropOutShow = true
 				})
 			})
 			this.province = sessionStorage.getItem('province')

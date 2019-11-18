@@ -54,9 +54,9 @@ export default {
     mounted () {
         document.title = '我的团队'
         api.setNative('callInit', {interceptBack: false})
-        setTimeout(() => {
-            this.getMyTeam()
-        }, 600)
+        // setTimeout(() => {
+        //     this.getMyTeam()
+        // }, 600)
     },
     computed: {
 

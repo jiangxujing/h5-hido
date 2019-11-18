@@ -53,8 +53,16 @@ export default {
     },
     mounted () {
         document.title = '我的团队'
-        api.setNative('callDevInfo', {})
-        api.setNative('callToken', {})
+        // api.setNative('callDevInfo', {})
+        // api.setNative('callToken', {})
+        setupWebViewJavascriptBridge(function(bridge) {
+            let params = {}
+            bridge.callHandler('callToken', params, (data) => {
+                Toast(data)
+                setCookie('accessToken', data.accessToken, 7)
+                setCookie('mmTicket', data.accessToken, 7)
+            })
+        })
         // this.getMyTeam()
         setInterval(() => {
             this.getMyTeam()

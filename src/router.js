@@ -11,6 +11,7 @@ import addBankCard from '@/pages/AddBankCard'
 import paymentMethod from '@/pages/PaymentMethod'
 import balanceWithdrawal from '@/pages/BalanceWithdrawal'
 import myTeam from '@/pages/MyTeam'
+import myBankCard from '@/pages/MyBankCard'
 import accountBalance from '@/pages/AccountBalance'
 import withdrawSucess from '@/pages/WithdrawSucess'
 import privacyPolicy from '@/agreement/PrivacyPolicy'
@@ -68,6 +69,10 @@ export default new Router({
         	path: '/myTeam',
             component: myTeam,
             name:'myTeam'
+        },{
+        	path: '/myBankCard',
+            component: myBankCard,
+            name:'myBankCard'
         },{
         	path: '/accountBalance',
             component: accountBalance,

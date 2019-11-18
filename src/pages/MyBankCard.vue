@@ -33,6 +33,10 @@ export default {
     mounted () {
         document.title = '我的银行卡'
         this.getBankCardList()
+        let params = {
+            title: '我的银行卡'
+        }
+        api.setNative({}, params)
     },
     computed: {
 

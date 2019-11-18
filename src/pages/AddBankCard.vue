@@ -138,7 +138,7 @@ export default {
         api.setNative('callToken', {})
         api.setNative('callInit', {interceptBack: false})
         // this.getQueryBankLimit()
-        setInterval(() => {
+        setTimeout(() => {
             this.getQueryBankLimit()
         }, 600)
     },

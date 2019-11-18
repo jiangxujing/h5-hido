@@ -36,7 +36,7 @@ export default {
         api.setNative('callDevInfo', {})
         api.setNative('callToken', {})
         // this.getBankCardList()
-        setInterval(() => {
+        setTimeout(() => {
             this.getBankCardList()
         }, 600)
     },

@@ -55,7 +55,7 @@ export default {
         document.title = '我的团队'
         // api.setNative('callDevInfo', {})
         // api.setNative('callToken', {})
-        setupWebViewJavascriptBridge(function(bridge) {
+        api.setupWebViewJavascriptBridge(function(bridge) {
             let params = {}
             bridge.callHandler('callToken', params, (data) => {
                 Toast(data)
@@ -64,7 +64,7 @@ export default {
             })
         })
         // this.getMyTeam()
-        setInterval(() => {
+        setTimeout(() => {
             this.getMyTeam()
         }, 600)
     },

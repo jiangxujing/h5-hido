@@ -55,7 +55,7 @@ export default {
         api.setNative('callDevInfo', {})
         api.setNative('callToken', {})
         // this.getBillList()
-        setInterval(() => {
+        setTimeout(() => {
             this.getBillList()
         }, 600)
     },

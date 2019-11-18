@@ -237,7 +237,9 @@
 		mounted() {
 			document.title = "余额提现"
 			api.setNative('callInit', {interceptBack: false})
-			this.queryWithdrawal()
+			setTimeout(() => {
+				this.queryWithdrawal()
+			}, 600)
 		},
 	}
 </script>

@@ -51,7 +51,7 @@
 
 <script>
 import { Toast, Field, Button, Popup } from 'vant'
-import { setCookie } from '../common/utils.js'
+import { setCookie,getQueryString } from '../common/utils.js'
 import api from '../common/api.js'
 
 export default {
@@ -74,6 +74,7 @@ export default {
     },
     mounted () {
         this.verifyTitle = '获取验证码'
+        this.getCode()
     },
     computed: {
         // 监听页面数据
@@ -89,6 +90,14 @@ export default {
         }
     },
     methods: {
+    	getCode() { // 静默授权，没有有弹框
+				const code = getQueryString('code') // 截取路径中的code，如果没有就去微信授权，如果已经获取到了就直接传code给后台获取openId
+				this.code= code
+				const local = window.location.href
+				if(code == null || code === '') {
+					window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc20260737b4c8770' + '&redirect_uri=' + encodeURIComponent(local) + '&response_type=code&scope=snsapi_base&state=1#wechat_redirect'
+				} 
+			},
         // ipnut 清除
         setTimeout (type) {
             let _this = this
@@ -145,7 +154,10 @@ export default {
                 let datas = {
                     phone: this.phone,
                     verifyCode: this.verifyCode,
-                    smsSerialNo: this.serialNo
+                    smsSerialNo: this.serialNo,
+                    code:this.code,
+                    scope:'snsapi_base',
+                    wechat:'XM'
                 }
                 this.nextBtn = true
                 api.post(api.getUrl('login-phoneLogin', 'user'), datas).then(res => {

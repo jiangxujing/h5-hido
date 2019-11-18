@@ -56,12 +56,6 @@
 					</div>
 				</div>
 			</div>
-			<div v-else class="order-status">
-				<img src="../assets/images/order-success.png" />
-				<div class="sucess-txt" style="padding-top:3rem;">您的订单已提交成功</div>
-				<div class="sucess-txt" style="padding-top:1.1rem;">会为您尽快安排发货</div>
-				<div style="#8A9399;font-size:1.4rem;padding-top:2rem;">{{second}}s后自动跳转回购买界面</div>
-			</div>
 			<div class="orderWrapper" v-if="dropOutShow">
 				<div class="order-content">
 					<div class="title">提示</div>
@@ -111,7 +105,6 @@
 				phone: '',
 				detailAddress: '',
 				gray: true,
-				second: 3,
 				dropOutShow: false,
 				jumpUrl: '',
 				orderDetail: {},
@@ -166,24 +159,13 @@
 				//this.getOrderDetail()
 				this.orderShow = false
 				//window.location.href = this.jumpUrl
-				//this.$router.push("/paymentMethod")
-				//				this.orderDetailShow = false
-				//				let interval = setInterval(()=>{
-				//					this.second--
-				//					if(this.second <=0){
-				//						clearInterval(interval)
-				//					}
-				//				},1000)
-				//				setTimeout(() => {
-				//				this.$router.push("/productDetail")
-				//			}, 3000)
 			},
 			goBack() {
 				this.$router.push("/productDetail")
 			},
 			getOrderDetail() {
 				let req = {
-					"channel":1,
+					"channel":this.channel,
 					"receiverName": this.username,
 					"receiverPhone": this.phone,
 					"area": this.province + ',' + this.city + ',' + this.county,
@@ -216,7 +198,6 @@
 			},
 
 			getH5Pay() {
-				console.log('来这里？')
 				let req = {
 					orderNo: this.orderNo,
 					payType: 'WX_H5'
@@ -237,12 +218,7 @@
 				api.post(api.getUrl('pay', 'collections'), req).then(res => {
 					if(res.code == 0) {
 						let sceneInfo = JSON.parse(res.content.sceneInfo)
-						console.log(sceneInfo.appId)
-						console.log(sceneInfo.timeStamp)
-						console.log(sceneInfo.nonceStr)
-						console.log(sceneInfo.package)
-						console.log(sceneInfo.signType)
-						console.log(sceneInfo.paySign)
+						let _this = this
 						function onBridgeReady() {
 							WeixinJSBridge.invoke(
 								'getBrandWCPayRequest', {
@@ -254,25 +230,21 @@
 									"paySign": sceneInfo.paySign //微信签名 
 								},
 								function(res) {
-									alert(JSON.stringify(res))
 									if(res.err_msg == "get_brand_wcpay_request:ok") {
+										_this.$router.push("/orderSuccess")
 										// 使用以上方式判断前端返回,微信团队郑重提示：
 										//res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
 									}
 								});
 						}
 						if(typeof WeixinJSBridge == "undefined") {
-							alert('1111')
 							if(document.addEventListener) {
-								alert('2222')
 								document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
 							} else if(document.attachEvent) {
-								alert('3333')
 								document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
 								document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
 							}
 						} else {
-							alert('222')
 							onBridgeReady();
 						}
 					}
@@ -298,7 +270,7 @@
 			}
 		},
 		mounted() {
-			this.getJsApiPay()
+			//this.getJsApiPay()
 			this.packageCode = this.$route.query.packageCode
 			sessionStorage.setItem('packageCode', this.$route.query.packageCode)
 			this.getPackageDetail()
@@ -312,19 +284,19 @@
 			};
 			this.ios = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端
-//			if(_utils.urlParse(window.location.search).app === "app"){
-//				if(this.ios){
-//					this.channel = 2
-//				}else if(this.android){
-//					this.channel = 1
-//				}
-//			}else if(this.device.version.MicroMessenger){
-//				if(this.ios){
-//					this.channel = 4
-//				}else if(this.android){
-//					this.channel = 3
-//				}
-//			}
+			 if(this.device.version.MicroMessenger){
+				if(this.ios){
+					this.channel = 4
+				}else if(this.android){
+					this.channel = 3
+				}
+			}else{
+				if(this.ios){
+					this.channel = 2
+				}else if(this.android){
+					this.channel = 1
+				}
+			}
 			api.setupWebViewJavascriptBridge(function(bridge) {
 				bridge.callHandler('invokeBackPress', {}, (data) => {
 					this.dropOutShow = true
@@ -490,22 +462,6 @@
 				opacity: 0.5;
 			}
 			.submit-active {}
-		}
-		.order-status {
-			width: 100%;
-			height: 100%;
-			background: #fff;
-			text-align: center;
-			img {
-				width: 6.6rem;
-				padding-top: 9.5rem;
-			}
-			.sucess-txt {
-				font-size: 1.8rem;
-				font-weight: 600;
-				color: rgba(26, 40, 51, 1);
-				line-height: 18px;
-			}
 		}
 		.paymentMethod {
 			.payment-header {

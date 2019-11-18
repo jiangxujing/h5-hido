@@ -16,6 +16,7 @@ import accountBalance from '@/pages/AccountBalance'
 import withdrawSucess from '@/pages/WithdrawSucess'
 import privacyPolicy from '@/agreement/PrivacyPolicy'
 import registerProtocol from '@/agreement/RegisterProtocol'
+import orderSuccess from '@/pages/OrderSuccess'
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
     return originalPush.call(this, location).catch(err => err)
@@ -89,6 +90,11 @@ export default new Router({
         	path: '/registerProtocol',
             component: registerProtocol,
             name:'registerProtocol'
+        },{
+        	path: '/orderSuccess',
+            component: orderSuccess,
+            name:'orderSuccess'
+        	
         }
     ]
 })

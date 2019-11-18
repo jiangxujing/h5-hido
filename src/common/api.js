@@ -126,21 +126,22 @@ const setupWebViewJavascriptBridge = (callback) => {
     setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
 }
 
-// 调用 Native 接口
 /**
  * cookie 存取
  * type: 定义的接口名
  * params: 入参
  **/
 const setNative = (type, params) => {
-    setupWebViewJavascriptBridge(function(bridge) {
-        bridge.callHandler(type, params, (data) => {
-            for (let key in data) {
-                setCookie(key, data[key], 7)
-            }
-            console.log(data)
+    if (urlParse(window.location.search).app === 'app') {
+        setupWebViewJavascriptBridge(function(bridge) {
+            bridge.callHandler(type, params, (data) => {
+                for (let key in data) {
+                    setCookie(key, data[key], 7)
+                }
+                console.log(data)
+            })
         })
-    })
+    }
 }
 
 // 微信

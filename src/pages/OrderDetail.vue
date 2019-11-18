@@ -183,7 +183,7 @@
 			},
 			getOrderDetail() {
 				let req = {
-					"channel": this.channel,
+					"channel":1,
 					"receiverName": this.username,
 					"receiverPhone": this.phone,
 					"area": this.province + ',' + this.city + ',' + this.county,
@@ -250,13 +250,16 @@
 								},
 								function(res) {
 									if(res.err_msg == "get_brand_wcpay_request:ok") {
+										alert('到这一步了吗')
 										// 使用以上方式判断前端返回,微信团队郑重提示：
 										//res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
 									}
 								});
 						}
 						if(typeof WeixinJSBridge == "undefined") {
+							alert('1111')
 							if(document.addEventListener) {
+								
 								document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
 							} else if(document.attachEvent) {
 								document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
@@ -267,33 +270,6 @@
 						}
 					}
 
-					function onBridgeReady() {
-						WeixinJSBridge.invoke(
-							'getBrandWCPayRequest', {
-								"appId": "wxc20260737b4c8770", //公众号名称，由商户传入     
-								"timeStamp": "1574056060", //时间戳，自1970年以来的秒数     
-								"nonceStr": "0c63d3206a744f7ebe340355c40afe41", //随机串     
-								"package": "prepay_id=wx18134739986118d83d3119721626299000",
-								"signType": "MD5", //微信签名方式：     
-								"paySign": "7391FA4619C4E42A169611820A856B4C" //微信签名 
-							},
-							function(res) {
-								if(res.err_msg == "get_brand_wcpay_request:ok") {
-									// 使用以上方式判断前端返回,微信团队郑重提示：
-									//res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
-								}
-							});
-					}
-					if(typeof WeixinJSBridge == "undefined") {
-						if(document.addEventListener) {
-							document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
-						} else if(document.attachEvent) {
-							document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
-							document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
-						}
-					} else {
-						onBridgeReady();
-					}
 				}).catch((e) => {
 
 				})
@@ -329,19 +305,19 @@
 			};
 			this.ios = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端
-			if(_utils.urlParse(window.location.search).app === "app"){
-				if(this.ios){
-					this.channel = 2
-				}else if(this.android){
-					this.channel = 1
-				}
-			}else if(this.device.version.MicroMessenger){
-				if(this.ios){
-					this.channel = 4
-				}else if(this.android){
-					this.channel = 3
-				}
-			}
+//			if(_utils.urlParse(window.location.search).app === "app"){
+//				if(this.ios){
+//					this.channel = 2
+//				}else if(this.android){
+//					this.channel = 1
+//				}
+//			}else if(this.device.version.MicroMessenger){
+//				if(this.ios){
+//					this.channel = 4
+//				}else if(this.android){
+//					this.channel = 3
+//				}
+//			}
 			api.setupWebViewJavascriptBridge(function(bridge) {
 				bridge.callHandler('invokeBackPress', {}, (data) => {
 					this.dropOutShow = true

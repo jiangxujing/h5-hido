@@ -52,8 +52,16 @@ export default {
     },
     mounted () {
         document.title = '账单'
-        api.setNative('callDevInfo', {})
-        api.setNative('callToken', {})
+        // api.setNative('callDevInfo', {})
+        // api.setNative('callToken', {})
+        api.setupWebViewJavascriptBridge(function(bridge) {
+            let params = {}
+            bridge.callHandler('callToken', params, (data) => {
+                Toast(data)
+                setCookie('accessToken', data.accessToken, 7)
+                setCookie('mmTicket', data.accessToken, 7)
+            })
+        })
         // this.getBillList()
         setTimeout(() => {
             this.getBillList()

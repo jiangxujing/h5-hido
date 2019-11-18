@@ -3,7 +3,6 @@
 		<div class="balanceWithdrawal-content">
 			<div class="title">提现余额（元）</div>
 			<div>
-				<!--<input v-model="" style="border:none;outline: none;font-size:4.5rem;"/>-->
 				<van-cell-group>
 					<van-field @input="changeMoney" class="money" v-model="money" placeholder="请输入提现金额" clearable onkeyup="value=value.replace(/[^\d.]/g,'');value=value.replace(/^\./g,'');value=value.replace(/\.{2,}/g,'.');value=value.replace('.','$#$').replace(/\./g,'').replace('$#$','.');value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3')" />
 				</van-cell-group>
@@ -90,7 +89,7 @@
 				active: false,
 				normal: true,
 				sendCodeShow: false,
-				countdown: 10,
+				countdown: 60,
 				codeGrayShow: true,
 				inteval: ''
 			}
@@ -123,7 +122,10 @@
 				})
 			},
 			getWithdraw() {
-				let req = {
+				if(parseFloat(this.money) <=0){
+					 Toast('提现金额不能为0', '提示')
+				}else{
+					let req = {
 					mobile:this.moblie
 				}
 				api.post(api.getUrl('withdrawalSendSms'), req).then(res => {
@@ -138,7 +140,7 @@
 									if(this.countdown <= 0) {
 										clearInterval(this.inteval)
 										this.inteval = ''
-										this.countdown = 10
+										this.countdown = 60
 										this.codeGrayShow = false
 									} else {
 										this.codeGrayShow = true
@@ -147,21 +149,8 @@
 						}
 					}
 				}).catch((e) => {
-					if(!this.inteval) {
-							this.inteval = setInterval(() => {
-								this.countdown--
-									if(this.countdown <= 0) {
-										clearInterval(this.inteval)
-										this.inteval = ''
-										this.countdown = 10
-										this.codeGrayShow = false
-									} else {
-										this.codeGrayShow = true
-									}
-							}, 1000)
-						}
 				})
-
+				}
 			},
 			changeMoney() {
 				if((parseFloat(this.money) > parseFloat(this.withdrawalDetail.freeAmount/100)) && parseFloat(this.money) <= 10000) {
@@ -173,7 +162,11 @@
 					this.normal = false
 					this.tips = '单笔最高可提现10000.00元'
 					this.grayShow = true
-				} else {
+				} else if(parseFloat(this.money) < 100){
+					this.normal = false
+					this.tips = '单笔最低可提现100.00元'
+					this.grayShow = true
+				}else {
 					this.normal = true
 					if(!this.bankCardNo) {
 						this.grayShow = true

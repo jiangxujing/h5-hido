@@ -264,8 +264,10 @@
 						if(typeof WeixinJSBridge == "undefined") {
 							alert('1111')
 							if(document.addEventListener) {
+								alert('2222')
 								document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
 							} else if(document.attachEvent) {
+								alert('3333')
 								document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
 								document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
 							}

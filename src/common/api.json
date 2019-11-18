@@ -6,6 +6,7 @@
     "agent-queryMyteam":"/agent/queryMyteam",
     "agent-queryBills":"/agent/queryBills",
     "agent-queryBankLimit":"/agent/queryBankLimit",
+    "agent-queryBindBankList":"/agent/queryBindBankList",
     "queryPurchasedPackageList":"/mall/queryPurchasedPackage",
     "queryPackageOrderDetail":"/mall/queryPackageOrder",
     "queryPackage":"/mall/queryPackageDetails",

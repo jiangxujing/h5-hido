@@ -157,7 +157,6 @@ export default {
                 this.verifyBtn = false
                 this.verifyTitle = '获取验证码'
             }
-            console.log(this.verifyBtn)
         }
     },
     methods: {

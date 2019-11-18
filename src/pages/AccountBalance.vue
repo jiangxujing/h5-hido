@@ -1,23 +1,28 @@
 <template>
     <!-- 账单 -->
     <div class="main-content account-balance">
-        <van-dropdown-menu class="account-balance-type" active-color="#FF7B31">
-            <van-dropdown-item v-model="type" :options="typeList" @change="setType"/>
-        </van-dropdown-menu>
-        <!-- <van-list> -->
-            <van-cell v-for="(item, index) in beillList" :key="index">
-                <div class="bill-item">
-                    <div class="bill-item-left">
-                        <div class="bill-item-title">{{item.title}}</div>
-                        <div class="bill-item-data">{{item.data}}</div>
+        <div v-if="request">
+            <van-dropdown-menu class="account-balance-type" active-color="#FF7B31">
+                <van-dropdown-item v-model="type" :options="typeList" @change="setType"/>
+            </van-dropdown-menu>
+            <div v-if="beillList && beillList.length > 0">
+                <!-- <van-list> -->
+                <van-cell v-for="(item, index) in beillList" :key="index">
+                    <div class="bill-item">
+                        <div class="bill-item-left">
+                            <div class="bill-item-title">{{item.title}}</div>
+                            <div class="bill-item-data">{{item.data}}</div>
+                        </div>
+                        <div class="bill-item-right">
+                            <div :class="item.isPlus ? 'bill-item-amount theme-color' : 'bill-item-amount'">{{item.amountShow}}</div>
+                            <!-- <div class="bill-item-status">{{item.status}}</div> -->
+                        </div>
                     </div>
-                    <div class="bill-item-right">
-                        <div :class="item.isPlus ? 'bill-item-amount theme-color' : 'bill-item-amount'">{{item.amountShow}}</div>
-                        <!-- <div class="bill-item-status">{{item.status}}</div> -->
-                    </div>
-                </div>
-            </van-cell>
-        <!-- </van-list> -->
+                </van-cell>
+                <!-- </van-list> -->
+            </div>
+            <div class="no-content" v-else>暂无账单</div>
+        </div>
     </div>
 </template>
 
@@ -41,7 +46,8 @@ export default {
                 value: '02',
                 text: '奖励金提取'
             }],
-            beillList: []
+            beillList: [],
+            request: false
         }
     },
     mounted () {
@@ -64,6 +70,7 @@ export default {
             }
             api.post(api.getUrl('agent-queryBills'), datas).then(res => {
                 if (!!res && res.code === 0) {
+                    this.request = true
                     if (!!res.content && res.content.length > 0) {
                         this.beillList = res.content.map(item => {
                             let data = item

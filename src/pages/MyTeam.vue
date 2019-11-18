@@ -1,33 +1,38 @@
 <template>
     <!-- 我的团队 -->
     <div class="main-content my-team">
-        <div v-for="(item, index) in myTeam" :key="index" class="team-item">
-            <div class="team-first">
-                <img class="first-img" :src="item.firstAgentPhoto" v-if="item.firstAgentPhoto" />
-                <span class="first-img-bg" v-else></span>
-                <div class="first-content">
-                    <div class="first-phone">{{item.firstAgentInfo}}</div>
-                    <div class="first-amount">{{'￥' + item.firstAgentAllAmount}}</div>
-                </div>
-            </div>
-            <van-collapse v-model="item.activeNames">
-                <van-collapse-item :name="idx" v-for="(child, idx) in item.list" :key="idx" class="team-second">
-                    <div slot="title" class="second-no">
-                        <span>二级代理</span>
-                        <span class="second-no-right fl-r">{{item.firstAgentTeamSum + '人'}}</span>
-                    </div>
-                    <div>
-                        <div v-for="(second, i) in item.list[0]" :key="i" class="second-child">
-                            <img class="second-img" :src="second.secondAgentPhoto" v-if="second.secondAgentPhoto" />
-                            <span class="second-img-bg" v-else></span>
-                            <div class="second-content">
-                                <span class="second-phone">{{second.secondAgentPhone}}</span>
-                                <span class="second-amount fl-r">{{'￥' + second.secondAgentAmount}}</span>
-                            </div>
+        <div v-if="request">
+            <div v-if="myTeam && myTeam.length > 0">
+                <div v-for="(item, index) in myTeam" :key="index" class="team-item">
+                    <div class="team-first">
+                        <img class="first-img" :src="item.firstAgentPhoto" v-if="item.firstAgentPhoto" />
+                        <span class="first-img-bg" v-else></span>
+                        <div class="first-content">
+                            <div class="first-phone">{{item.firstAgentInfo}}</div>
+                            <div class="first-amount">{{'￥' + item.firstAgentAllAmount}}</div>
                         </div>
                     </div>
-                </van-collapse-item>
-            </van-collapse>
+                    <van-collapse v-model="item.activeNames">
+                        <van-collapse-item :name="idx" v-for="(child, idx) in item.list" :key="idx" class="team-second">
+                            <div slot="title" class="second-no">
+                                <span>二级代理</span>
+                                <span class="second-no-right fl-r">{{item.firstAgentTeamSum + '人'}}</span>
+                            </div>
+                            <div>
+                                <div v-for="(second, i) in item.list[0]" :key="i" class="second-child">
+                                    <img class="second-img" :src="second.secondAgentPhoto" v-if="second.secondAgentPhoto" />
+                                    <span class="second-img-bg" v-else></span>
+                                    <div class="second-content">
+                                        <span class="second-phone">{{second.secondAgentPhone}}</span>
+                                        <span class="second-amount fl-r">{{'￥' + second.secondAgentAmount}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </van-collapse-item>
+                    </van-collapse>
+                </div>
+            </div>
+            <div class="no-content" v-else>暂无团队</div>
         </div>
     </div>
 </template>
@@ -42,7 +47,8 @@ export default {
     data () {
         return {
             activeNames: ['0'],
-            myTeam: []
+            myTeam: [],
+            request: false
         }
     },
     mounted () {
@@ -57,6 +63,7 @@ export default {
         getMyTeam () {
             api.post(api.getUrl('agent-queryMyteam'), {}).then(res => {
                 if (!!res && res.code === 0) {
+                    this.request = true
                     if (!!res.content && res.content.length > 0) {
                         this.myTeam = res.content.map(item => {
                             let itemObj = {

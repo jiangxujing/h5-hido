@@ -53,6 +53,8 @@ export default {
     mounted () {
         document.title = '账单'
         this.getBillList()
+        api.setNative('callDevInfo', {})
+        api.setNative('callToken', {})
     },
     computed: {
 

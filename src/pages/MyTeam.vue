@@ -54,6 +54,8 @@ export default {
     mounted () {
         document.title = '我的团队'
         this.getMyTeam()
+        api.setNative('callDevInfo', {})
+        api.setNative('callToken', {})
     },
     computed: {
 

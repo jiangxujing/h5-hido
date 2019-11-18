@@ -223,6 +223,11 @@ const post = (url, data, noLoading, noToken, formData) => {
         }
     }
 
+    if (!headers.mmTicket) {
+        headers.mmTicket = headers.accessToken
+        setCookie('mmTicket', headers['mmTicket'], 7)
+    }
+
     let timeout = _data['timeout'] || 10 * sec
     // 请求头
     let axiosHead = {

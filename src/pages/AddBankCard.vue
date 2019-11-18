@@ -138,6 +138,8 @@ export default {
         }
         api.setNative('callTitleUpdate', params)
         this.getQueryBankLimit()
+        api.setNative('callDevInfo', {})
+        api.setNative('callToken', {})
     },
     computed: {
         // 监听页面数据

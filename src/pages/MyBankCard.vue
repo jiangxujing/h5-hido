@@ -37,6 +37,8 @@ export default {
             title: '银行卡'
         }
         api.setNative('callTitleUpdate', params)
+        api.setNative('callDevInfo', {})
+        api.setNative('callToken', {})
     },
     computed: {
 

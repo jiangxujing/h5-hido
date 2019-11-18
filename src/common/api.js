@@ -239,7 +239,7 @@ const post = (url, data, noLoading, noToken, formData) => {
             let respData = resp.data
             respData['code'] = ~~(respData['code'])
             respData['content'] = _parseJSON(respData['content'])
-            if (respData['code'] === 9999) {
+            if (respData['code'] === 9999 || respData['code'] === 1210 || respData['code'] === 1211 || respData['code'] === 111) {
                 for (let k in headers) {
                     delCookie(k)
                 }

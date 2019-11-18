@@ -236,8 +236,13 @@
 				}
 				api.post(api.getUrl('pay', 'collections'), req).then(res => {
 					if(res.code == 0) {
-						console.log('gggggggggggggggggg')
-						let sceneInfo = res.content.sceneInfo
+						let sceneInfo = JSON.parse(res.content.sceneInfo)
+						console.log(sceneInfo.appId)
+						console.log(sceneInfo.timeStamp)
+						console.log(sceneInfo.nonceStr)
+						console.log(sceneInfo.package)
+						console.log(sceneInfo.signType)
+						console.log(sceneInfo.paySign)
 						function onBridgeReady() {
 							WeixinJSBridge.invoke(
 								'getBrandWCPayRequest', {
@@ -248,6 +253,7 @@
 									"signType": sceneInfo.signType, //微信签名方式：     
 									"paySign": sceneInfo.paySign //微信签名 
 								},
+								
 								function(res) {
 									if(res.err_msg == "get_brand_wcpay_request:ok") {
 										alert('到这一步了吗')

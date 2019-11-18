@@ -127,15 +127,16 @@ const setupWebViewJavascriptBridge = (callback) => {
 }
 
 /**
- * cookie 存取
+ * setNative 把获取到的入参 赋值到 cookie
  * type: 定义的接口名
- * params: 入参
+ * params: 入参对象
  **/
 const setNative = (type, params) => {
     if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
         setupWebViewJavascriptBridge(function(bridge) {
-            bridge.callHandler(type, params, (data) => {
-                for (let key in data) {
+            bridge.callHandler(type, params, function(data) {
+                for (var key in data) {
+                    Toast(data[key])
                     setCookie(key, data[key], 7)
                 }
                 console.log(data)

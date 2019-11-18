@@ -679,7 +679,7 @@ button.icon {
         position: absolute;
         right: 2.5rem;
         top: 3.8rem;
-        width: 90px;
+        width: 92px;
         height: 1.6rem;
         line-height: 1;
         font-size: 16px;
@@ -687,7 +687,7 @@ button.icon {
         border: none;
         border-left: 1px solid $normalColor;
         color: $themeColor;
-        padding: 0 0 0 1rem;
+        padding: 0 0 0 10px;
     }
     input::-webkit-input-placeholder {
         font-size: 1.6rem;

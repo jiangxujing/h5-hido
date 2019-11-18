@@ -8,6 +8,7 @@
                     type="tel"
                     label="请选择开户行"
                     right-icon="arrow"
+                    disabled
                     @click="show=true" />
                 <van-field
                     v-model="cardNo"

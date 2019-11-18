@@ -227,6 +227,8 @@ const post = (url, data, noLoading, noToken, formData) => {
     }
 
     headers.mmTicket = headers.accessToken
+    headers.channel = 'android'
+    headers.conection = 'close'
     setCookie('mmTicket', headers['mmTicket'], 7)
 
     let timeout = _data['timeout'] || 10 * sec

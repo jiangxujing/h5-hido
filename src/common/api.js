@@ -135,8 +135,8 @@ const setNative = (type, params) => {
     if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
         setupWebViewJavascriptBridge(function(bridge) {
             bridge.callHandler(type, params, function(data) {
+                Toast(data)
                 for (var key in data) {
-                    Toast(data[key])
                     setCookie(key, data[key], 7)
                 }
                 console.log(data)
@@ -144,6 +144,7 @@ const setNative = (type, params) => {
         })
     }
 }
+
 
 // 微信
 export const getWechat = (title,desc,linkUrl,imgUrl) => {

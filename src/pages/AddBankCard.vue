@@ -134,8 +134,7 @@ export default {
         document.title = '添加银行卡'
         this.verifyTitle = '获取验证码'
         api.setNative('callTitleUpdate', {title: '添加银行卡'})
-        api.setNative('callDevInfo', {})
-        api.setNative('callToken', {})
+        api.setNative('callInit', {interceptBack: true})
         setTimeout(() => {
             this.getQueryBankLimit()
         }, 600)

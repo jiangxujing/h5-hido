@@ -32,9 +32,8 @@ export default {
     },
     mounted () {
         document.title = '银行卡'
+        api.setNative('callInit', {interceptBack: true})
         api.setNative('callTitleUpdate', {title: '银行卡'})
-        api.setNative('callDevInfo', {})
-        api.setNative('callToken', {})
         setTimeout(() => {
             this.getBankCardList()
         }, 600)

@@ -53,8 +53,7 @@ export default {
     },
     mounted () {
         document.title = '我的团队'
-        api.setNative('callDevInfo', {})
-        api.setNative('callToken', {})
+        api.setNative('callInit', {interceptBack: false})
         setTimeout(() => {
             this.getMyTeam()
         }, 600)

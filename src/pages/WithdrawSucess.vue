@@ -25,10 +25,7 @@
 		methods: {
 			goBack() {
 				api.setupWebViewJavascriptBridge((bridge) => {
-						let params = {
-							uri:''
-						}
-						bridge.callHandler('callAPP', params, (data) => {
+						bridge.callHandler('callFinish', {}, (data) => {
 							console.log(data)
 						})
 					})

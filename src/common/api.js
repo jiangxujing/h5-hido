@@ -132,7 +132,7 @@ const setupWebViewJavascriptBridge = (callback) => {
  * params: 入参
  **/
 const setNative = (type, params) => {
-    if (urlParse(window.location.search).app === 'app') {
+    // if (urlParse(window.location.search).app === 'app') {
         setupWebViewJavascriptBridge(function(bridge) {
             bridge.callHandler(type, params, (data) => {
                 for (let key in data) {
@@ -141,7 +141,7 @@ const setNative = (type, params) => {
                 console.log(data)
             })
         })
-    }
+    // }
 }
 
 // 微信
@@ -223,10 +223,8 @@ const post = (url, data, noLoading, noToken, formData) => {
         }
     }
 
-    if (!headers.mmTicket) {
-        headers.mmTicket = headers.accessToken
-        setCookie('mmTicket', headers['mmTicket'], 7)
-    }
+    headers.mmTicket = headers.accessToken
+    setCookie('mmTicket', headers['mmTicket'], 7)
 
     let timeout = _data['timeout'] || 10 * sec
     // 请求头
@@ -256,14 +254,19 @@ const post = (url, data, noLoading, noToken, formData) => {
                 }
                 let desc = respData['desc'] ? respData['desc'] : '凭证已失效，请重新登录'
                 Toast(desc)
-                if (urlParse(window.location.search).app === 'app') {
-                    setNative('callLogin', {})
-                } else {
-                    router.replace({
-                        path: 'login',
-                        query: {redirect: router.currentRoute.fullPath}
-                    })
-                }
+                setNative('callLogin', {})
+                router.replace({
+                    path: 'login',
+                    query: {redirect: router.currentRoute.fullPath}
+                })
+                // if (urlParse(window.location.search).app === 'app') {
+                //     setNative('callLogin', {})
+                // } else {
+                //     router.replace({
+                //         path: 'login',
+                //         query: {redirect: router.currentRoute.fullPath}
+                //     })
+                // }
             } else if (respData['code'] !== 0) {
                 let desc = respData['desc'] ? respData['desc'] : '网络异常，请稍后再试'
                 Toast(desc, '提示')

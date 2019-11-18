@@ -31,12 +31,12 @@ export default {
         }
     },
     mounted () {
-        document.title = '我的银行卡'
+        document.title = '银行卡'
         this.getBankCardList()
         let params = {
-            title: '我的银行卡'
+            title: '银行卡'
         }
-        api.setNative({}, params)
+        api.setNative('callTitleUpdate', params)
     },
     computed: {
 

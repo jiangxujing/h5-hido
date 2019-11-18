@@ -127,7 +127,12 @@ const setupWebViewJavascriptBridge = (callback) => {
 }
 
 // 调用 Native 接口
-const setNative = (params, type) => {
+/**
+ * cookie 存取
+ * type: 定义的接口名
+ * params: 入参
+ **/
+const setNative = (type, params) => {
     setupWebViewJavascriptBridge(function(bridge) {
         bridge.callHandler(type, params, (data) => {
             for (let key in data) {
@@ -246,7 +251,7 @@ const post = (url, data, noLoading, noToken, formData) => {
                 let desc = respData['desc'] ? respData['desc'] : '凭证已失效，请重新登录'
                 Toast(desc)
                 if (urlParse(window.location.search).app === 'app') {
-                    setNative({}, 'callLogin')
+                    setNative('callLogin', {})
                 } else {
                     router.replace({
                         path: 'login',

@@ -136,7 +136,7 @@ export default {
         let params = {
             title: '添加银行卡'
         }
-        api.setNative({}, params)
+        api.setNative('callTitleUpdate', params)
         this.getQueryBankLimit()
     },
     computed: {

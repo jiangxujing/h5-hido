@@ -229,6 +229,7 @@
 			}
 		},
 		mounted() {
+			document.title = "余额提现"
 			this.queryWithdrawal()
 		},
 	}

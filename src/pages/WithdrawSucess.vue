@@ -33,7 +33,7 @@
 			}
 		},
 		mounted() {
-
+			document.title = '提现成功'
 		},
 	}
 </script>

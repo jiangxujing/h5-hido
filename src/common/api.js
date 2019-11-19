@@ -226,7 +226,7 @@ const post = (url, data, noLoading, noToken, formData) => {
         }
     }
 
-    headers.mmTicket = 'EEDB16C8FBA7B0D463BFC77E0E974EBEC445A2341153CFBD15EFFB3742AE97DB'
+    headers.mmTicket = headers.accessToken
     headers.channel = 'android'
     headers.conection = 'close'
     setCookie('mmTicket', headers['mmTicket'], 7)

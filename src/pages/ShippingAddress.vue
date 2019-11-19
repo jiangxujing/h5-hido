@@ -195,6 +195,7 @@
 		}
 		.city-info {
 			display: flex;
+			background: #fff!important;
 			ul {
 				flex: 1;
 				text-align: center;

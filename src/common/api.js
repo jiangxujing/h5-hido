@@ -1,6 +1,7 @@
 import axios from 'axios'
 import _ from 'lodash'
 import router from '../router.js'
+import MMsdk from './mm-sdk.js'
 import ApiList from './api.json'
 import { Toast } from 'vant'
 import { getQueryString, getCookie, setCookie, delCookie } from './utils.js'
@@ -180,38 +181,28 @@ const setupWebViewJavascriptBridge = function(callback) {
  * params: 入参对象
  **/
 var setNative = function(type, params) {
-    if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
-        Toast(type)
-        setupWebViewJavascriptBridge(function(birdge) {
-            birdge.callHandler(type, params, function(data) {
-                if (data.content) {
-                    var content = data.content
-                    for (var key in content) {
-                        setCookie(key, content[key], 7)
-                    }
-                }
-            })
-            // if (sysPlatform === 'IOS') {
-            //     base.birdge.callHandler(type, params, function(data) {
-            //         if (data.content) {
-            //             var content = data.content
-            //             for (var key in content) {
-            //                 setCookie(key, content[key], 7)
-            //             }
-            //         }
-            //     });
-            // } else if (sysPlatform === 'ANDROID') {
-            //     window.WebViewJavascriptBridge.callHandler(type, data, function(data) {
-            //         if (data.content) {
-            //             var content = data.content
-            //             for (var key in content) {
-            //                 setCookie(key, content[key], 7)
-            //             }
-            //         }
-            //     })
-            // }
-        })
-    }
+    // if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
+    //     setupWebViewJavascriptBridge(function(birdge) {
+    //         birdge.callHandler(type, params, function(data) {
+    //             if (data.content) {
+    //                 var content = data.content
+    //                 for (var key in content) {
+    //                     setCookie(key, content[key], 7)
+    //                 }
+    //             }
+    //         })
+    //     })
+        
+    // }
+    MMsdk.init(false).then(res => {
+        alert(JSON.stringify(res))
+        if (data.content) {
+            var content = res.content
+            for (var key in content) {
+                setCookie(key, content[key], 7)
+            }
+        }
+    })
 }
 
 

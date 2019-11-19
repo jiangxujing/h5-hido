@@ -179,28 +179,28 @@
 					})
 					setTimeout(() => {
 						if(!_utils.getCookie('accessToken')) {
-							  api.setNative('callLogin', {})
-						}else{
-							if(i.packageCode) {
-							this.$router.push("/orderDetail?packageCode=" + i.packageCode)
+							api.setNative('callLogin', {})
 						} else {
-							this.$router.push("/orderDetail?packageCode=" + this.$route.query.packageCode)
+							if(i.packageCode) {
+								this.$router.push("/orderDetail?packageCode=" + i.packageCode)
+							} else {
+								this.$router.push("/orderDetail?packageCode=" + this.$route.query.packageCode)
+							}
 						}
-						}
-						
+
 					}, 600)
 				} else {
 					if(!_utils.getCookie('accessToken')) {
 						this.$router.push("/login")
-					}else {
+					} else {
 						if(i.packageCode) {
 							this.$router.push("/orderDetail?packageCode=" + i.packageCode)
 						} else {
 							this.$router.push("/orderDetail?packageCode=" + this.$route.query.packageCode)
 						}
+					}
 				}
-			}
-				},
+			},
 			getWechat() {
 				let linkUrl = location.href.split('#')[0]
 				console.log(linkUrl)
@@ -251,20 +251,36 @@
 		},
 		mounted() {
 			this.getWechat()
-				api.registerHandler('invokeBackPress',function(data){
-					alert('1='+JSON.String(data))
-					console.log(data)
-				})
+			api.registerHandler('invokeBackPress', function(data) {
+				Toast()
+				alert('1=' + JSON.String(data))
+				console.log(data)
+			})
+			let params = {
+				interceptBack: true
+			}
 			api.setupWebViewJavascriptBridge((bridge) => {
-				bridge.callHandler('invokeBackPress', {}, (data) => {
-					alert('2='+JSON.String(data))
+				bridge.callHandler('callInit', params, (data) => {
 					api.setupWebViewJavascriptBridge((bridge) => {
-						bridge.callHandler('callFinish', {}, (data) => {
-						alert('3='+JSON.String(data))
+						bridge.registerHandler('invokeBackPress', (data) => {
+							api.setupWebViewJavascriptBridge((bridge) => {
+								bridge.callHandler('callFinish', {}, (data) => {
+									Toast('3=' + JSON.String(data))
+								})
+							})
 						})
-			})
+					})
 				})
 			})
+			api.setupWebViewJavascriptBridge((bridge) => {
+						bridge.registerHandler('invokeBackPress', (data) => {
+							api.setupWebViewJavascriptBridge((bridge) => {
+								bridge.callHandler('callFinish', {}, (data) => {
+									Toast('3=' + JSON.String(data))
+								})
+							})
+						})
+					})
 			document.title = "礼包详情"
 			let ua = navigator.userAgent;
 			this.device = {

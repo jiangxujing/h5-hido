@@ -171,11 +171,31 @@
 			this.username = sessionStorage.getItem('username')
 			this.phone = sessionStorage.getItem('phone')
 			this.detailAddress = sessionStorage.getItem('detailAddress')
-			api.setupWebViewJavascriptBridge(function(bridge) {
-				bridge.callHandler('invokeBackPress', {}, (data) => {
-					this.dropOutShow = true
+			let params = {
+				interceptBack: true
+			}
+			api.setupWebViewJavascriptBridge((bridge) => {
+				bridge.callHandler('callInit', params, (data) => {
+					api.setupWebViewJavascriptBridge((bridge) => {
+						bridge.registerHandler('invokeBackPress', (data) => {
+							api.setupWebViewJavascriptBridge((bridge) => {
+								bridge.callHandler('callFinish', {}, (data) => {
+									Toast('3=' + JSON.String(data))
+								})
+							})
+						})
+					})
 				})
 			})
+			api.setupWebViewJavascriptBridge((bridge) => {
+						bridge.registerHandler('invokeBackPress', (data) => {
+							api.setupWebViewJavascriptBridge((bridge) => {
+								bridge.callHandler('callFinish', {}, (data) => {
+									Toast('3=' + JSON.String(data))
+								})
+							})
+						})
+					})
 			if(this.province && this.city && this.county && this.username && this.phone && this.detailAddress) {
 				this.hasNoAdress = false
 				console.log(this.hasNoAdress)

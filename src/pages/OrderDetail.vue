@@ -174,15 +174,12 @@
 			let params = {
 				interceptBack: true
 			}
+			let _this = this
 			api.setupWebViewJavascriptBridge((bridge) => {
 				bridge.callHandler('callInit', params, (data) => {
 					api.setupWebViewJavascriptBridge((bridge) => {
 						bridge.registerHandler('invokeBackPress', (data) => {
-							api.setupWebViewJavascriptBridge((bridge) => {
-								bridge.callHandler('callFinish', {}, (data) => {
-									Toast('3=' + JSON.String(data))
-								})
-							})
+							_this.dropOutShow = true
 						})
 					})
 				})
@@ -190,9 +187,7 @@
 			api.setupWebViewJavascriptBridge((bridge) => {
 						bridge.registerHandler('invokeBackPress', (data) => {
 							api.setupWebViewJavascriptBridge((bridge) => {
-								bridge.callHandler('callFinish', {}, (data) => {
-									Toast('3=' + JSON.String(data))
-								})
+								_this.dropOutShow = true
 							})
 						})
 					})

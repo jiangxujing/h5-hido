@@ -13,7 +13,7 @@
                 <van-field
                     v-model="cardNo"
                     clearable
-                    maxlength="20"
+                    maxlength="23"
                     type="tel"
                     label="银行卡号"
                     placeholder="请输入银行卡号"

@@ -1,7 +1,6 @@
 import axios from 'axios'
 import _ from 'lodash'
 import router from '../router.js'
-// import h5MiMeSdk from './mm-sdk.js'
 import ApiList from './api.json'
 import { Toast } from 'vant'
 import { getQueryString, getCookie, setCookie, delCookie } from './utils.js'
@@ -119,25 +118,13 @@ const get = (url, params) =>{
         return Promise.reject(new Error(err))
     })
 }
-// 注册 app 交互方法
+
+/**
+ * jsbridge
+ * @param  callback
+ * @return webviewjsbridge
+ */
 const setupWebViewJavascriptBridge = function(callback) {
-    // //android
-    // if (window.WebViewJavascriptBridge) {
-    //     callback(window.WebViewJavascriptBridge)
-    // } else {
-    //     document.addEventListener('WebViewJavascriptBridgeReady', function() { 
-    //         callback(window.WebViewJavascriptBridge)
-    //     },false);
-    // }
-    // //ios
-    // if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
-    // if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
-    // window.WVJBCallbacks = [callback];
-    // var WVJBIframe = document.createElement('iframe');
-    // WVJBIframe.style.display = 'none';
-    // WVJBIframe.src = 'https://__bridge_loaded__';
-    // document.documentElement.appendChild(WVJBIframe);
-    // setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
     if (sysPlatform === 'IOS') {
         if (window.WebViewJavascriptBridge) {
             return callback(WebViewJavascriptBridge);
@@ -148,113 +135,24 @@ const setupWebViewJavascriptBridge = function(callback) {
         window.WVJBCallbacks = [callback];
         var WVJBIframe = document.createElement('iframe');
         WVJBIframe.style.display = 'none';
-        WVJBIframe.src = 'https://__bridge_loaded__';
+        WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
         document.documentElement.appendChild(WVJBIframe);
         setTimeout(function() {
             document.documentElement.removeChild(WVJBIframe);
-        }, 0);
-    } else if (sysPlatform === 'ANDROID') {
+        }, 0)
+    }
+    if (sysPlatform === 'ANDROID') {
         if (window.WebViewJavascriptBridge) {
             callback(WebViewJavascriptBridge);
         } else {
-            document.addEventListener('WebViewJavascriptBridgeReady', function() {
+            document.addEventListener(
+            'WebViewJavascriptBridgeReady',
+            function() {
                 callback(WebViewJavascriptBridge);
-            }, false);
+            },
+            false
+            );
         }
-        if (window.WVJBCallbacks) {
-            return window.WVJBCallbacks.push(callback);
-        }
-        window.WVJBCallbacks = [callback];
-        var WVJBIframe = document.createElement('iframe');
-        WVJBIframe.style.display = 'none';
-        WVJBIframe.src = 'https://__bridge_loaded__';
-        document.documentElement.appendChild(WVJBIframe);
-        setTimeout(function() {
-            document.documentElement.removeChild(WVJBIframe);
-        }, 0);
-    }
-}
-
-/**
- * setNative 把获取到的入参 赋值到 cookie
- * type: 定义的接口名
- * params: 入参对象
- **/
-// const setNative = function(type, params) {
-//     alert(type + ' --- ' + sysPlatform)
-//     if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
-//         alert(type + ' --- hido --- ' + sysPlatform)
-//         setupWebViewJavascriptBridge(function(birdge) {
-//             birdge.callHandler(type, params, function(data) {
-//                 if (data.content) {
-//                     var content = data.content
-//                     for (var key in content) {
-//                         setCookie(key, content[key], 7)
-//                     }
-//                 }
-//             })
-//         })
-//     }
-//     console.log(h5MiMeSdk)
-//     h5MiMeSdk.init(false).then(res => {
-//         alert(JSON.stringify(res))
-//         if (data.content) {
-//             var content = res.content
-//             for (var key in content) {
-//                 setCookie(key, content[key], 7)
-//             }
-//         }
-//     })
-
-//     setupWebViewJavascriptBridge(function(birdge) {
-//         birdge.callHandler(type, params, function(data) {
-//             if (data.content) {
-//                 var content = data.content
-//                 for (var key in content) {
-//                     setCookie(key, content[key], 7)
-//                 }
-//             }
-//         })
-//     })
-// }
-
-
-
-/**
- * 兼容IOS和安卓的jsbridge
- * @param  callback
- * @return webviewjsbridge
- */
-const connectWebViewJavascriptBridge = function(callback) {
-    if (sysPlatform === 'IOS') {
-      if (window.WebViewJavascriptBridge) {
-        return callback(WebViewJavascriptBridge);
-      }
-      if (window.WVJBCallbacks) {
-        return window.WVJBCallbacks.push(callback);
-      }
-      window.WVJBCallbacks = [callback];
-      var WVJBIframe = document.createElement('iframe');
-      WVJBIframe.style.display = 'none';
-      WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
-      document.documentElement.appendChild(WVJBIframe);
-      setTimeout(function() {
-        document.documentElement.removeChild(WVJBIframe);
-      }, 0)
-    }
-
-    if (sysPlatform === 'ANDROID') {
-      if (window.WebViewJavascriptBridge) {
-        callback(WebViewJavascriptBridge);
-      } else {
-        document.addEventListener(
-          'WebViewJavascriptBridgeReady',
-          function() {
-            callback(WebViewJavascriptBridge);
-          },
-          false
-        );
-      }
     }
 };
 
@@ -264,9 +162,8 @@ const connectWebViewJavascriptBridge = function(callback) {
  * params: 入参对象
  **/
 const setNative = function(type, params) {
-    connectWebViewJavascriptBridge(function(webViewCallHandler) {
+    setupWebViewJavascriptBridge(function(webViewCallHandler) {
         webViewCallHandler.callHandler(type, params, function(data) {
-            alert(sysPlatform + ' --- ' + type + ' --- ' + JSON.stringify(data))
             if (data.content) {
                 var content = data.content
                 for (var key in content) {
@@ -361,7 +258,7 @@ const post = (url, data, noLoading, noToken, formData) => {
     headers.channel = 'android'
     headers.conection = 'close'
     setCookie('mmTicket', headers['mmTicket'], 7)
-	alert(JSON.stringify(headers))
+
     let timeout = _data['timeout'] || 10 * sec
     // 请求头
     let axiosHead = {

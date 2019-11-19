@@ -736,9 +736,10 @@ button.icon {
             display: none;
         }
         .van-action-sheet__header {
-            color: #1A2833;
+            color: $darkColor;
             line-height: 54px;
             font-weight: 600;
+            background: #fff;
         }
     }
 }

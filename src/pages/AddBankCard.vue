@@ -134,7 +134,6 @@ export default {
     mounted () {
         document.title = '添加银行卡'
         this.verifyTitle = '获取验证码'
-        // api.setNative('callTitleUpdate', {title: '添加银行卡'})
         if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
             setTimeout(() => {
                 this.getQueryBankLimit()

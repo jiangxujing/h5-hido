@@ -278,7 +278,8 @@ const post = (url, data, noLoading, noToken, formData) => {
     }).catch(function (err) {
         console.log(err)
         Loading.hide()
-        Toast('网络异常，请稍后再试')
+        alert(JSON.stringify(err))
+        Toast(err)
     })
 }
 

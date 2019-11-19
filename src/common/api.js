@@ -108,7 +108,7 @@ const get = (url, params) =>{
     })
 }
 // 注册 app 交互方法
-const setupWebViewJavascriptBridge = (callback) => {
+const setupWebViewJavascriptBridge = function(callback) {
     //android
     if (window.WebViewJavascriptBridge) { callback(window.WebViewJavascriptBridge) } else {
         document.addEventListener('WebViewJavascriptBridgeReady', function() { 

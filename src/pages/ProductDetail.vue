@@ -190,8 +190,7 @@
 				} else {
 					if(!_utils.getCookie('mmTicket')) {
 						this.$router.push("/login")
-					}
-				} else {
+					}else {
 					if(!_utils.getCookie('mmTicket')) {
 						this.$router.push("/login")
 					} else {
@@ -202,7 +201,8 @@
 						}
 					}
 				}
-			},
+			}
+				},
 			getWechat() {
 				let linkUrl = location.href.split('#')[0]
 				let reqUrl = {

@@ -264,9 +264,9 @@
 					api.setupWebViewJavascriptBridge((bridge) => {
 						bridge.registerHandler('invokeBackPress', (data) => {
 							api.setupWebViewJavascriptBridge((bridge) => {
-								bridge.callHandler('callFinish', {}, (data) => {
-									Toast('3=' + JSON.String(data))
-								})
+								this.$router.push("/giftPackage")
+//								bridge.callHandler('callFinish', {}, (data) => {
+//								})
 							})
 						})
 					})
@@ -275,9 +275,9 @@
 			api.setupWebViewJavascriptBridge((bridge) => {
 						bridge.registerHandler('invokeBackPress', (data) => {
 							api.setupWebViewJavascriptBridge((bridge) => {
-								bridge.callHandler('callFinish', {}, (data) => {
-									Toast('3=' + JSON.String(data))
-								})
+								this.$router.push("/giftPackage")
+//								bridge.callHandler('callFinish', {}, (data) => {
+//								})
 							})
 						})
 					})

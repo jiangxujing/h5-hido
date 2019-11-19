@@ -230,7 +230,7 @@ const post = (url, data, noLoading, noToken, formData) => {
     headers.channel = 'android'
     headers.conection = 'close'
     setCookie('mmTicket', headers['mmTicket'], 7)
-
+	alert(JSON.stringify(headers))
     let timeout = _data['timeout'] || 10 * sec
     // 请求头
     let axiosHead = {

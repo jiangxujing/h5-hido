@@ -180,7 +180,7 @@ const setupWebViewJavascriptBridge = function(callback) {
  * type: 定义的接口名
  * params: 入参对象
  **/
-var setNative = function(type, params) {
+const setNative = function(type, params) {
     alert(type + ' --- ' + sysPlatform)
     if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
         alert(type + ' --- hido --- ' + sysPlatform)

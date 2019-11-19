@@ -179,27 +179,28 @@
 						interceptBack: false
 					})
 					setTimeout(() => {
-						if(i.packageCode) {
+						if(!_utils.getCookie('accessToken')) {
+							  api.setNative('callLogin', {})
+						}else{
+							if(i.packageCode) {
 							alert('1')
 							this.$router.push("/orderDetail?packageCode=" + i.packageCode)
 						} else {
 							alert('2')
 							this.$router.push("/orderDetail?packageCode=" + this.$route.query.packageCode)
 						}
+						}
+						
 					}, 600)
 				} else {
-					if(!_utils.getCookie('mmTicket')) {
+					if(!_utils.getCookie('accessToken')) {
 						this.$router.push("/login")
 					}else {
-					if(!_utils.getCookie('mmTicket')) {
-						this.$router.push("/login")
-					} else {
 						if(i.packageCode) {
 							this.$router.push("/orderDetail?packageCode=" + i.packageCode)
 						} else {
 							this.$router.push("/orderDetail?packageCode=" + this.$route.query.packageCode)
 						}
-					}
 				}
 			}
 				},

@@ -180,42 +180,101 @@ const setupWebViewJavascriptBridge = function(callback) {
  * type: 定义的接口名
  * params: 入参对象
  **/
-const setNative = function(type, params) {
-    alert(type + ' --- ' + sysPlatform)
-    if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
-        alert(type + ' --- hido --- ' + sysPlatform)
-        setupWebViewJavascriptBridge(function(birdge) {
-            birdge.callHandler(type, params, function(data) {
-                if (data.content) {
-                    var content = data.content
-                    for (var key in content) {
-                        setCookie(key, content[key], 7)
-                    }
-                }
-            })
-        })
-    }
-    // console.log(h5MiMeSdk)
-    // h5MiMeSdk.init(false).then(res => {
-    //     alert(JSON.stringify(res))
-    //     if (data.content) {
-    //         var content = res.content
-    //         for (var key in content) {
-    //             setCookie(key, content[key], 7)
-    //         }
-    //     }
-    // })
+// const setNative = function(type, params) {
+//     alert(type + ' --- ' + sysPlatform)
+//     if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
+//         alert(type + ' --- hido --- ' + sysPlatform)
+//         setupWebViewJavascriptBridge(function(birdge) {
+//             birdge.callHandler(type, params, function(data) {
+//                 if (data.content) {
+//                     var content = data.content
+//                     for (var key in content) {
+//                         setCookie(key, content[key], 7)
+//                     }
+//                 }
+//             })
+//         })
+//     }
+//     console.log(h5MiMeSdk)
+//     h5MiMeSdk.init(false).then(res => {
+//         alert(JSON.stringify(res))
+//         if (data.content) {
+//             var content = res.content
+//             for (var key in content) {
+//                 setCookie(key, content[key], 7)
+//             }
+//         }
+//     })
 
-    // setupWebViewJavascriptBridge(function(birdge) {
-    //     birdge.callHandler(type, params, function(data) {
-    //         if (data.content) {
-    //             var content = data.content
-    //             for (var key in content) {
-    //                 setCookie(key, content[key], 7)
-    //             }
-    //         }
-    //     })
-    // })
+//     setupWebViewJavascriptBridge(function(birdge) {
+//         birdge.callHandler(type, params, function(data) {
+//             if (data.content) {
+//                 var content = data.content
+//                 for (var key in content) {
+//                     setCookie(key, content[key], 7)
+//                 }
+//             }
+//         })
+//     })
+// }
+
+
+
+/**
+ * 兼容IOS和安卓的jsbridge
+ * @param  callback
+ * @return webviewjsbridge
+ */
+const connectWebViewJavascriptBridge = function(callback) {
+    if (sysPlatform === 'IOS') {
+      if (window.WebViewJavascriptBridge) {
+        return callback(WebViewJavascriptBridge);
+      }
+      if (window.WVJBCallbacks) {
+        return window.WVJBCallbacks.push(callback);
+      }
+      window.WVJBCallbacks = [callback];
+      var WVJBIframe = document.createElement('iframe');
+      WVJBIframe.style.display = 'none';
+      WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+      document.documentElement.appendChild(WVJBIframe);
+      setTimeout(function() {
+        document.documentElement.removeChild(WVJBIframe);
+      }, 0)
+    }
+
+    if (sysPlatform === 'ANDROID') {
+      if (window.WebViewJavascriptBridge) {
+        callback(WebViewJavascriptBridge);
+      } else {
+        document.addEventListener(
+          'WebViewJavascriptBridgeReady',
+          function() {
+            callback(WebViewJavascriptBridge);
+          },
+          false
+        );
+      }
+    }
+};
+
+/**
+ * setNative 把获取到的入参 赋值到 cookie
+ * type: 定义的接口名
+ * params: 入参对象
+ **/
+const setNative = function(type, params) {
+    connectWebViewJavascriptBridge(function(webViewCallHandler) {
+        webViewCallHandler.callHandler(type, params, function(data) {
+            alert(sysPlatform + ' --- ' + type + ' --- ' + JSON.stringify(data))
+            if (data.content) {
+                var content = data.content
+                for (var key in content) {
+                    setCookie(key, content[key], 7)
+                }
+            }
+        })
+    });
 }
 
 

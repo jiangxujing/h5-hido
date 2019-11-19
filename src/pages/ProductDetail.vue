@@ -202,7 +202,7 @@
 				}
 			},
 			getWechat() {
-				let linkUrl = location.href.split('#')[0]
+				let linkUrl = location.href
 				console.log(linkUrl)
 				let reqUrl = {
 					url: encodeURIComponent(linkUrl)

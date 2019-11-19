@@ -4,6 +4,7 @@
             <div class="watchData">{{watchData}}</div>
             <div class="page-field">
                 <van-field
+                    class="bank-name-input"
                     v-model="bankName"
                     type="tel"
                     label="请选择开户行"

@@ -233,10 +233,14 @@
 		},
 		mounted() {
 			document.title = "余额提现"
-			api.setNative('callInit', {interceptBack: false})
-			setTimeout(() => {
+			if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
+				api.setNative('callInit', {interceptBack: false})
+				setTimeout(() => {
+					this.queryWithdrawal()
+				}, 600)
+			} else {
 				this.queryWithdrawal()
-			}, 600)
+			}
 		},
 	}
 </script>

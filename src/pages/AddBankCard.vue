@@ -13,11 +13,11 @@
                 <van-field
                     v-model="cardNo"
                     clearable
-                    maxlength="23"
+                    maxlength="20"
                     type="tel"
                     label="银行卡号"
                     placeholder="请输入银行卡号"
-                    @input="(value) => {cardNo = value.replace(/\D/g,'').replace(/....(?!$)/g,'$& ')}"
+                    @input="(value) => {cardNo = cardNo.replace(/\D/g,'').replace(/....(?!$)/g,'$& ')}"
                     @clear="clearVerifyCode" />
                 <van-field
                     v-model="bankBranch"
@@ -134,10 +134,14 @@ export default {
     mounted () {
         document.title = '添加银行卡'
         this.verifyTitle = '获取验证码'
-        api.setNative('callTitleUpdate', {title: '添加银行卡'})
-        setTimeout(() => {
+        // api.setNative('callTitleUpdate', {title: '添加银行卡'})
+        if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
+            setTimeout(() => {
+                this.getQueryBankLimit()
+            }, 600)
+        } else {
             this.getQueryBankLimit()
-        }, 600)
+        }
     },
     computed: {
         // 监听页面数据

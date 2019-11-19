@@ -52,10 +52,14 @@ export default {
     },
     mounted () {
         document.title = '账单'
-        api.setNative('callInit', {interceptBack: false})
-        setTimeout(() => {
+        if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
+            api.setNative('callInit', {interceptBack: false})
+            setTimeout(() => {
+                this.getBillList()
+            }, 600)
+        } else {
             this.getBillList()
-        }, 600)
+        }
     },
     computed: {
 

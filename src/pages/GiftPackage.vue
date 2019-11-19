@@ -79,8 +79,14 @@
 		},
 		mounted() {
 			document.title='我的礼包'
-			api.setNative('callInit', {interceptBack: false})
-			this.getGiftList()
+			if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
+				api.setNative('callInit', {interceptBack: false})
+				setTimeout(() => {
+					this.getGiftList()
+				}, 600)
+			} else {
+				this.getGiftList()
+			}
 		},
 	}
 </script>

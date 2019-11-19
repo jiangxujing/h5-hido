@@ -32,7 +32,7 @@ export default {
     },
     mounted () {
         document.title = '银行卡'
-        // api.setNative('callInit', {interceptBack: true})
+        api.setNative('callInit', {interceptBack: true})
         api.setNative('callTitleUpdate', {title: '银行卡'})
         setTimeout(() => {
             this.getBankCardList()

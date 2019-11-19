@@ -52,7 +52,7 @@ export default {
     },
     mounted () {
         document.title = '账单'
-        // api.setNative('callInit', {interceptBack: false})
+        api.setNative('callInit', {interceptBack: false})
         setTimeout(() => {
             this.getBillList()
         }, 600)

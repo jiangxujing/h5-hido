@@ -55,11 +55,11 @@
 		},
 		methods: {
 			getGiftList(){
-				  api.post(api.getUrl('queryPurchasedPackageList','collections'), {}).then(res => {
-                       if (res.code == '0000') {
-                       		this.packageList = res.content
-                       }
-                   })
+				api.post(api.getUrl('queryPurchasedPackageList','collections'), {}).then(res => {
+					if (res.code == '0000') {
+						this.packageList = res.content
+					}
+				})
 			},
 			goToGiftDetail(orderNo){
 				this.$router.push("/giftPackageDetail?orderNo="+orderNo)
@@ -68,8 +68,8 @@
 		},
 		mounted() {
 			document.title='我的礼包'
+			api.setNative('callInit', {interceptBack: false})
 			this.getGiftList()
-
 		},
 	}
 </script>

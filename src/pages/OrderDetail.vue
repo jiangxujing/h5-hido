@@ -95,7 +95,7 @@
 		name: 'orderDetail',
 		data() {
 			return {
-				hasNoAdress: true,
+				hasNoAdress: false,
 				orderDetailShow: true,
 				recommendPhone: '',
 				province: '',
@@ -299,6 +299,12 @@
 			this.username = sessionStorage.getItem('username')
 			this.phone = sessionStorage.getItem('phone')
 			this.detailAddress = sessionStorage.getItem('detailAddress')
+			this.county='浦东 新区'
+			this.city = '上海市'
+			this.province = '上海'
+			this.detailAddress = '银山路'
+			this.username = '江绪静'
+			this.phone = '13122390030'
 			if(this.province && this.city && this.county && this.username && this.phone && this.detailAddress) {
 				this.hasNoAdress = false
 				console.log(this.hasNoAdress)

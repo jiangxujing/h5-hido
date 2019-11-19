@@ -291,9 +291,9 @@ export default {
         // 提交
         toNext () {
             if (!(/^\d+$/).test(this.verifyCode)) {
-                Toast('验证码有误', '提示')
+                Toast('验证码有误')
             } else if (this.phone !== this.checkedPhone) {
-                Toast('请重新获取验证码', '提示')
+                Toast('请重新获取验证码')
             } else if (!this.checked) {
                 Toast('请先阅读并同意相关协议')
                 return false

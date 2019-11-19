@@ -220,12 +220,12 @@ const setupWebViewJavascriptBridge = function(callback) {
 
 
 
-  /**
-   * 兼容IOS和安卓的jsbridge
-   * @param  callback
-   * @return webviewjsbridge
-   */
-  var connectWebViewJavascriptBridge = function (callback) {
+/**
+ * 兼容IOS和安卓的jsbridge
+ * @param  callback
+ * @return webviewjsbridge
+ */
+const connectWebViewJavascriptBridge = function(callback) {
     if (sysPlatform === 'IOS') {
       if (window.WebViewJavascriptBridge) {
         return callback(WebViewJavascriptBridge);
@@ -256,23 +256,7 @@ const setupWebViewJavascriptBridge = function(callback) {
         );
       }
     }
-  };
-  var callJsBridgeHandler = function (handler, data) {
-    handler = handler || '';
-    data = data || {};
-    return new Promise(function (resolve, reject) {
-      if (handler === '') {
-        reject(new Error(errMsg[998]));
-      } else {
-        return connectWebViewJavascriptBridge(function (webViewCallHandler) {
-          return webViewCallHandler.callHandler(handler, data, function (res) {
-            console.log('original res:' + JSON.stringify(res));
-            resolve(parseDataContent(res));
-          });
-        });
-      }
-    });
-  };
+};
 
 /**
  * setNative 把获取到的入参 赋值到 cookie
@@ -280,15 +264,17 @@ const setupWebViewJavascriptBridge = function(callback) {
  * params: 入参对象
  **/
 const setNative = function(type, params) {
-    callJsBridgeHandler(type, params).then(function(data) {
-        alert(sysPlatform + ' --- ' + type + ' --- ' + JSON.stringify(data))
-        if (data.content) {
-            var content = data.content
-            for (var key in content) {
-                setCookie(key, content[key], 7)
+    connectWebViewJavascriptBridge(function(webViewCallHandler) {
+        webViewCallHandler.callHandler(type, params, function(data) {
+            alert(sysPlatform + ' --- ' + type + ' --- ' + JSON.stringify(data))
+            if (data.content) {
+                var content = data.content
+                for (var key in content) {
+                    setCookie(key, content[key], 7)
+                }
             }
-        }
-    })
+        })
+    });
 }
 
 

@@ -718,6 +718,12 @@ button.icon {
         width: 100%;
         padding: 0 14.4% 6rem 14.4%;
     }
+    .bank-name-input {
+        .van-field__control:disabled {
+            color: #323233;
+            -webkit-text-fill-color: #323233;
+        }
+    }
 }
 
 // 我的团队

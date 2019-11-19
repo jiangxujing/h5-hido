@@ -170,7 +170,6 @@ const setNative = function(type, params) {
                     setCookie(key, content[key], 7)
                 }
             }
-            
         })
     });
 }
@@ -335,7 +334,9 @@ const post = (url, data, noLoading, noToken, formData) => {
         console.log(err)
         Loading.hide()
         // alert(JSON.stringify(err))
-        Toast(err)
+        // Toast(err)
+        let desc = '网络异常，请稍后再试'
+        Toast(desc)
     })
 }
 

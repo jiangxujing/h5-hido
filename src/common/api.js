@@ -182,7 +182,7 @@ const setupWebViewJavascriptBridge = function(callback) {
  * type: 定义的接口名
  * params: 入参对象
  **/
-const setNative = function(type, params) {
+var setNatives = function(type, params) {
     if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
         Toast(type)
         // setupWebViewJavascriptBridge(function(bridge) {
@@ -277,19 +277,19 @@ const setNative = function(type, params) {
    * @type Object
    */
   var webViewCallHandler = {
-    callHandler: function (handlerName, data) {
-      if (sysPlatform === 'IOS') {
-        base.birdge.callHandler(handlerName, data, function (response) {
-          return response;
-        });
-      } else if (sysPlatform === 'ANDROID') {
-        window.WebViewJavascriptBridge.callHandler(
-          handlerName, data,
-          function (response) {
+        callHandler: function (handlerName, data) {
+        if (sysPlatform === 'IOS') {
+            base.birdge.callHandler(handlerName, data, function (response) {
             return response;
-          });
-      }
-    }
+            });
+        } else if (sysPlatform === 'ANDROID') {
+            window.WebViewJavascriptBridge.callHandler(
+            handlerName, data,
+            function (response) {
+                return response;
+            });
+        }
+        }
   };
 
   var parseDataContent = function (data) {
@@ -313,22 +313,32 @@ const setNative = function(type, params) {
     return data;
   };
 
-//   const setNative = function (handler, data) {
-//     handler = handler || '';
-//     data = data || {};
-//     return new Promise(function (resolve, reject) {
-//       if (handler === '') {
-//         reject(new Error(errMsg[998]));
-//       } else {
-//         return connectWebViewJavascriptBridge(function (webViewCallHandler) {
-//           return webViewCallHandler.callHandler(handler, data, function (res) {
-//             console.log('original res:' + JSON.stringify(res));
-//             resolve(parseDataContent(res));
-//           });
-//         });
-//       }
-//     });
-//   };
+  const setNative = function (handler, data) {
+    connectWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler(type, params, function(data) {
+            if (data.content) {
+                let content = data.content
+                for (var key in content) {
+                    setCookie(key, content[key], 7)
+                }
+            }
+        })
+    })
+    // handler = handler || '';
+    // data = data || {};
+    // return new Promise(function (resolve, reject) {
+    //   if (handler === '') {
+    //     reject(new Error(errMsg[998]));
+    //   } else {
+    //     return connectWebViewJavascriptBridge(function (webViewCallHandler) {
+    //       return webViewCallHandler.callHandler(handler, data, function (res) {
+    //         console.log('original res:' + JSON.stringify(res));
+    //         (parseDataContent(res));
+    //       });
+    //     });
+    //   }
+    // });
+  };
 
 
 

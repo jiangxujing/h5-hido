@@ -23,14 +23,14 @@
 				</ul>
 				<ul>
 					<li class="title-address">市</li>
-					<li v-for="c in cityList" @click="selectCity(c)" :class="c.active?'active':''">
+					<li v-for="(c,index) in cityList" :key="index" @click="selectCity(c)" :class="c.active?'active':''">
 						{{c.cityName}}
 					</li>
 
 				</ul>
 				<ul>
 					<li class="title-address">区</li>
-					<li v-for="d in districtList" @click="selectDistric(d)" :class="d.active?'active':''">
+					<li v-for="(d,index) in districtList" :key="index" @click="selectDistric(d)" :class="d.active?'active':''">
 						{{d.countyName}}
 					</li>
 					</ul>

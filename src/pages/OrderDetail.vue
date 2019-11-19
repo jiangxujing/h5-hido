@@ -164,7 +164,7 @@
 					"productId": this.$route.query.packageCode,
 					"orderType": 4,
 					"payType": 2,
-					"refererPhone": this.recommendPhone,
+					"refererPhone": this.recommendPhone || null,
 					"firstCommissionRatio": this.firstCommissionRatio,
 					"secondCommissionRatio": this.secondCommissionRatio
 				}

@@ -7,8 +7,8 @@
                     class="bank-name-input"
                     v-model="bankName"
                     type="tel"
-                    label="请选择开户行"
                     right-icon="arrow"
+                    placeholder="请选择开户行"
                     disabled
                     @click="show=true" />
                 <van-field
@@ -72,7 +72,7 @@
         <div class="page-button">
             <van-button class="next-button" @click="toNext" :disabled="nextBtn">提 交</van-button>
         </div>
-        <van-action-sheet v-model="show" :actions="bankList" @select="onSelect" />
+        <van-action-sheet v-model="show" :actions="bankList"  @select="onSelect" title="请选择开户行" class="bank-list-sheet" />
     </div>            
 </template>
 
@@ -291,9 +291,9 @@ export default {
         // 提交
         toNext () {
             if (!(/^\d+$/).test(this.verifyCode)) {
-                Toast('验证码有误', '提示')
+                Toast('验证码有误')
             } else if (this.phone !== this.checkedPhone) {
-                Toast('请重新获取验证码', '提示')
+                Toast('请重新获取验证码')
             } else if (!this.checked) {
                 Toast('请先阅读并同意相关协议')
                 return false

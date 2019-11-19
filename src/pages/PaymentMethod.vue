@@ -153,6 +153,26 @@
 					this.channel = 1
 				}
 			}
+				let params = {
+				interceptBack: true
+			}
+			let _this = this
+			api.setupWebViewJavascriptBridge((bridge) => {
+				bridge.callHandler('callInit', params, (data) => {
+					api.setupWebViewJavascriptBridge((bridge) => {
+						bridge.registerHandler('invokeBackPress', (data) => {
+							_this.$router.push("/orderDetail?packageCode=" + sessionStorage.getItem('packageCode'))
+						})
+					})
+				})
+			})
+			api.setupWebViewJavascriptBridge((bridge) => {
+						bridge.registerHandler('invokeBackPress', (data) => {
+							api.setupWebViewJavascriptBridge((bridge) => {
+								_this.$router.push("/orderDetail?packageCode=" + sessionStorage.getItem('packageCode'))
+							})
+						})
+					})
 		},
 	}
 </script>

@@ -173,27 +173,21 @@
 			},
 
 			getBuy(i) {
-				if(navigator.userAgent.toLowerCase().indexOf('hido')  !=  -1) {
-					api.setupWebViewJavascriptBridge(function(bridge) {
-						bridge.callHandler('callToken', {}, (data) => {
-							_utils.setCookie('mmTicket', data.content.accessToken, 7)
-							if(data.accessToken) {
-								if(i.packageCode) {
-									this.$router.push("/orderDetail?packageCode=" + i.packageCode)
-								} else {
-									this.$router.push("/orderDetail?packageCode=" + this.$route.query.packageCode)
-								}
-							} else {
-								api.setupWebViewJavascriptBridge(function(bridge) {
-									bridge.callHandler('callLogin', {}, (data) => {
-										console.log(data)
-										_utils.setCookie('accessToken', data.content.accessToken, 1)
-										_utils.setCookie('mmTicket', data.content.accessToken, 7)
-									})
-								})
-							}
-						})
+					if(navigator.userAgent.toLowerCase().indexOf('hido')  !=  -1) {
+					api.setNative('callInit', {
+						interceptBack: false
 					})
+					setTimeout(() => {
+						if(i.packageCode) {
+							this.$router.push("/orderDetail?packageCode=" + i.packageCode)
+						} else {
+							this.$router.push("/orderDetail?packageCode=" + this.$route.query.packageCode)
+						}
+					}, 600)
+				} else {
+					if(!_utils.getCookie('mmTicket')) {
+						this.$router.push("/login")
+					}
 				} else {
 					if(!_utils.getCookie('mmTicket')) {
 						this.$router.push("/login")

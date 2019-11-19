@@ -95,7 +95,7 @@
 		name: 'orderDetail',
 		data() {
 			return {
-				hasNoAdress: false,
+				hasNoAdress: true,
 				orderDetailShow: true,
 				recommendPhone: '',
 				province: '',
@@ -299,12 +299,12 @@
 			this.username = sessionStorage.getItem('username')
 			this.phone = sessionStorage.getItem('phone')
 			this.detailAddress = sessionStorage.getItem('detailAddress')
-			this.county='浦东 新区'
-			this.city = '上海市'
-			this.province = '上海'
-			this.detailAddress = '银山路'
-			this.username = '江绪静'
-			this.phone = '13122390030'
+//			this.county='浦东 新区'
+//			this.city = '上海市'
+//			this.province = '上海'
+//			this.detailAddress = '银山路'
+//			this.username = '江绪静'
+//			this.phone = '13122390030'
 			if(this.province && this.city && this.county && this.username && this.phone && this.detailAddress) {
 				this.hasNoAdress = false
 				console.log(this.hasNoAdress)
@@ -312,17 +312,17 @@
 					this.gray = false
 				}
 			}
-			//			pushHistory();
-			//			window.addEventListener("popstate", (e)=> {
-			//				//此处已经捕获返回事件，可以写自己的跳转代码  
-			//				this.dropOutShow = true
-			//			}, false);
-			//			function pushHistory(){
-			//				var state = {
-			//					title: "订单详情",
-			//				};
-			//				window.history.pushState(state, "title");
-			//			}
+						pushHistory();
+						window.addEventListener("popstate", (e)=> {
+							//此处已经捕获返回事件，可以写自己的跳转代码  
+							this.dropOutShow = true
+						}, false);
+						function pushHistory(){
+							var state = {
+								title: "订单详情",
+							};
+							window.history.pushState(state, "title");
+						}
 		},
 	}
 </script>

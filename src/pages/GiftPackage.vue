@@ -14,15 +14,14 @@
 								<div class="van-multi-ellipsis--l2" style="color:#1A2833;font-size:1.5rem">
 									{{p.productName}}
 								</div>
-								<div>
-									<span style="font-size:1.4rem;color:#8A9399">修复面膜*10</span>
+								<div v-for="l in p.goodsList">
+									<span style="font-size:1.4rem;color:#8A9399">{{l.goodsDesc}}*{{l.goodsCount}}</span>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div style="overflow:hidden;padding-left:1.2rem">
-						<span style="font-size:1.4rem;color:#8A9399;float:left">无针水光针*1</span>
-						<span style="color:#1A2833;font-weight:bold;font-size:1.6rem;float:right;padding-right: 1.5rem;">￥<span>{{p.amount/100}}</span></span>
+						<span style="color:#1A2833;font-weight:bold;font-size:1.6rem;float:right;padding-right: 1.5rem;">￥<span>{{p.oderAmount/100}}</span></span>
 					</div>
 				</div>
 			</div>

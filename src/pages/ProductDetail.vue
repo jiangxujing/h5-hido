@@ -251,37 +251,6 @@
 		},
 		mounted() {
 			this.getWechat()
-			api.registerHandler('invokeBackPress', function(data) {
-				Toast()
-				alert('1=' + JSON.String(data))
-				console.log(data)
-			})
-			let params = {
-				interceptBack: true
-			}
-			let _this = this
-			api.setupWebViewJavascriptBridge((bridge) => {
-				bridge.callHandler('callInit', params, (data) => {
-					api.setupWebViewJavascriptBridge((bridge) => {
-						bridge.registerHandler('invokeBackPress', (data) => {
-							api.setupWebViewJavascriptBridge((bridge) => {
-								_this.$router.push("/giftPackage")
-//								bridge.callHandler('callFinish', {}, (data) => {
-//								})
-							})
-						})
-					})
-				})
-			})
-			api.setupWebViewJavascriptBridge((bridge) => {
-						bridge.registerHandler('invokeBackPress', (data) => {
-							api.setupWebViewJavascriptBridge((bridge) => {
-								_this.$router.push("/giftPackage")
-//								bridge.callHandler('callFinish', {}, (data) => {
-//								})
-							})
-						})
-					})
 			document.title = "礼包详情"
 			let ua = navigator.userAgent;
 			this.device = {
@@ -302,6 +271,26 @@
 			} else {
 				this.getPackageDetail(code)
 			}
+				let params = {
+				interceptBack: true
+			}
+			let _this = this
+			api.setupWebViewJavascriptBridge((bridge) => {
+				bridge.callHandler('callInit', params, (data) => {
+					api.setupWebViewJavascriptBridge((bridge) => {
+						bridge.registerHandler('invokeBackPress', (data) => {
+							_this.$router.push("/giftPackage")
+						})
+					})
+				})
+			})
+			api.setupWebViewJavascriptBridge((bridge) => {
+						bridge.registerHandler('invokeBackPress', (data) => {
+							api.setupWebViewJavascriptBridge((bridge) => {
+								_this.$router.push("/giftPackage")
+							})
+						})
+					})
 		},
 	}
 </script>

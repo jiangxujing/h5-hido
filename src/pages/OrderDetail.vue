@@ -198,17 +198,6 @@
 					this.gray = false
 				}
 			}
-						pushHistory();
-						window.addEventListener("popstate", (e)=> {
-							//此处已经捕获返回事件，可以写自己的跳转代码  
-							this.dropOutShow = true
-						}, false);
-						function pushHistory(){
-							var state = {
-								title: "订单详情",
-							};
-							window.history.pushState(state, "title");
-						}
 		},
 	}
 </script>

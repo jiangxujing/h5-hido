@@ -131,7 +131,7 @@ const setupWebViewJavascriptBridge = function(callback) {
  * type: 定义的接口名
  * params: 入参对象
  **/
-const setNative = (type, params) => {
+const setNative = function(type, params) {
     if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
         setupWebViewJavascriptBridge(function(bridge) {
             bridge.callHandler(type, params, function(data) {

@@ -182,16 +182,25 @@ const setNative = function(type, params) {
  * callback: 回调方法
  **/
 const registerHandler = function(type, responseCallback) {
-    if (sysPlatform === 'IOS') {
-        setupWebViewJavascriptBridge(function(webViewCallHandler) {
-            webViewCallHandler.registerHandler(type, responseCallback(data))
-        })
-    } else if (sysPlatform === 'ANDROID') {
-        setupWebViewJavascriptBridge(function(webViewCallHandler) {
-            webViewCallHandler.init(type, responseCallback(data))
-            webViewCallHandler.registerHandler(type, responseCallback(data))
-        })
-    }
+    // if (sysPlatform === 'IOS') {
+    //     webViewCallHandler.registerHandler(type, function(data) {
+    //         responseCallback(data)
+    //     })
+    // } else if (sysPlatform === 'ANDROID') {
+    //     setupWebViewJavascriptBridge(function(webViewCallHandler) {
+    //         webViewCallHandler.init(function(message, responseCallback) {
+    //             responseCallback(message)
+    //         })
+    //         webViewCallHandler.registerHandler(type, function(data) {
+    //             responseCallback(data)
+    //         })
+    //     })
+    // }
+    setupWebViewJavascriptBridge(function (webViewCallHandler) {
+        webViewCallHandler.registerHandler(type, function(data) {
+            responseCallback(data)
+        });
+    });
 }
 
 // 微信

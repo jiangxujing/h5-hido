@@ -223,7 +223,7 @@
 							signature: signature, // 必填，签名，见附录1
 							jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
 						});
-						api.getWechat(this.content.title, this.content.content, linkUrl, imgurl)
+						api.getWechat('hido', '你好点的', linkUrl, 'http://cdn.duitang.com/uploads/item/201510/17/20151017095028_eGJMw.thumb.700_0.jpeg')
 					}
 				})
 			},
@@ -293,7 +293,14 @@
 			this.ios = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端
 			let code = this.$route.query.packageCode
-			this.getPackageDetail(code)
+			if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
+				api.setNative('callInit', {interceptBack: false})
+				setTimeout(() => {
+					this.getPackageDetail(code)
+				}, 600)
+			} else {
+				this.getPackageDetail(code)
+			}
 		},
 	}
 </script>

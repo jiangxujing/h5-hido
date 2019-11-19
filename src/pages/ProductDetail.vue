@@ -173,14 +173,17 @@
 			},
 
 			getBuy(i) {
-					if(navigator.userAgent.toLowerCase().indexOf('hido')  !=  -1) {
+				if(navigator.userAgent.toLowerCase().indexOf('hido')  !=  -1) {
+					alert('3')
 					api.setNative('callInit', {
 						interceptBack: false
 					})
 					setTimeout(() => {
 						if(i.packageCode) {
+							alert('1')
 							this.$router.push("/orderDetail?packageCode=" + i.packageCode)
 						} else {
+							alert('2')
 							this.$router.push("/orderDetail?packageCode=" + this.$route.query.packageCode)
 						}
 					}, 600)

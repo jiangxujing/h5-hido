@@ -17,7 +17,7 @@
                     type="tel"
                     label="银行卡号"
                     placeholder="请输入银行卡号"
-                    @input="(value) => {cardNo = cardNo.replace(/\D/g,'').replace(/....(?!$)/g,'$& ')}"
+                    @input="(value) => {cardNo = cardNo.replace(/\D/g,'').replace(/(\S{4})/g, '$1 ').replace(/\s*$/, '')}"
                     @clear="clearVerifyCode" />
                 <van-field
                     v-model="bankBranch"

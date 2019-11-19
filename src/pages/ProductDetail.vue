@@ -251,16 +251,10 @@
 		},
 		mounted() {
 			this.getWechat()
-//			api.setupWebViewJavascriptBridge((bridge) => {
-//				bridge.callHandler('invokeBackPress', {}, (data) => {
-//					api.setupWebViewJavascriptBridge((bridge) => {
-//						bridge.callHandler('callFinish', {}, (data) => {
-//							console.log(data)
-//						})
-//					})
-//				})
-//			})
-
+				api.registerHandler('invokeBackPress',function(data){
+					alert(JSon.String(data))
+					console.log(data)
+				})
 			document.title = "礼包详情"
 			let ua = navigator.userAgent;
 			this.device = {

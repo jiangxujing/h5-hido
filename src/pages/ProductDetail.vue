@@ -252,12 +252,17 @@
 		mounted() {
 			this.getWechat()
 				api.registerHandler('invokeBackPress',function(data){
-					alert(JSon.String(data))
+					alert('1='+JSON.String(data))
 					console.log(data)
 				})
 			api.setupWebViewJavascriptBridge((bridge) => {
 				bridge.callHandler('invokeBackPress', {}, (data) => {
-					alert(data)
+					alert('2='+JSON.String(data))
+					api.setupWebViewJavascriptBridge((bridge) => {
+						bridge.callHandler('callFinish', {}, (data) => {
+						alert('3='+JSON.String(data))
+						})
+			})
 				})
 			})
 			document.title = "礼包详情"

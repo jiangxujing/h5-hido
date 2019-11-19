@@ -14,11 +14,11 @@ let sysPlatform = '';
 let ua = navigator.userAgent.toLowerCase();
 //调用设备对象的test方法判断设备类型
 if (/iphone|ipad|ipod/.test(ua)) {
-  sysPlatform = 'IOS';
+    sysPlatform = 'IOS';
 } else if (/android/.test(ua)) {
-  sysPlatform = 'ANDROID';
+    sysPlatform = 'ANDROID';
 } else {
-  sysPlatform = '';
+    sysPlatform = '';
 }
 
 const prefix = '/hido-core'
@@ -182,21 +182,42 @@ const setupWebViewJavascriptBridge = function(callback) {
  * type: 定义的接口名
  * params: 入参对象
  **/
-// const setNative = function(type, params) {
-//     if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
-//         Toast(type)
-//         setupWebViewJavascriptBridge(function(bridge) {
-//             bridge.callHandler(type, params, function(data) {
-//                 if (data.content) {
-//                     let content = data.content
-//                     for (var key in content) {
-//                         setCookie(key, content[key], 7)
-//                     }
-//                 }
-//             })
-//         })
-//     }
-// }
+const setNative = function(type, params) {
+    if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
+        Toast(type)
+        // setupWebViewJavascriptBridge(function(bridge) {
+        //     bridge.callHandler(type, params, function(data) {
+        //         if (data.content) {
+        //             let content = data.content
+        //             for (var key in content) {
+        //                 setCookie(key, content[key], 7)
+        //             }
+        //         }
+        //     })
+        // })
+        setupWebViewJavascriptBridge(function(bridge) {
+            if (sysPlatform === 'IOS') {
+                base.birdge.callHandler(type, params, function(data) {
+                    if (data.content) {
+                        var content = data.content
+                        for (var key in content) {
+                            setCookie(key, content[key], 7)
+                        }
+                    }
+                });
+            } else if (sysPlatform === 'ANDROID') {
+                window.WebViewJavascriptBridge.callHandler(type, data, function(data) {
+                    if (data.content) {
+                        var content = data.content
+                        for (var key in content) {
+                            setCookie(key, content[key], 7)
+                        }
+                    }
+                })
+            }
+        })
+    }
+}
 
   /**
    * 初始化jsbridge
@@ -292,22 +313,22 @@ const setupWebViewJavascriptBridge = function(callback) {
     return data;
   };
 
-  const setNative = function (handler, data) {
-    handler = handler || '';
-    data = data || {};
-    return new Promise(function (resolve, reject) {
-      if (handler === '') {
-        reject(new Error(errMsg[998]));
-      } else {
-        return connectWebViewJavascriptBridge(function (webViewCallHandler) {
-          return webViewCallHandler.callHandler(handler, data, function (res) {
-            console.log('original res:' + JSON.stringify(res));
-            resolve(parseDataContent(res));
-          });
-        });
-      }
-    });
-  };
+//   const setNative = function (handler, data) {
+//     handler = handler || '';
+//     data = data || {};
+//     return new Promise(function (resolve, reject) {
+//       if (handler === '') {
+//         reject(new Error(errMsg[998]));
+//       } else {
+//         return connectWebViewJavascriptBridge(function (webViewCallHandler) {
+//           return webViewCallHandler.callHandler(handler, data, function (res) {
+//             console.log('original res:' + JSON.stringify(res));
+//             resolve(parseDataContent(res));
+//           });
+//         });
+//       }
+//     });
+//   };
 
 
 

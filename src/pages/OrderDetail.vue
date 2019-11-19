@@ -203,7 +203,7 @@
 			},
 			getJsApiPay() {
 				let req = {
-					orderNo: "MALL3019111859318619601020",
+					orderNo: this.orderNo,
 					payType: 'WX_JS'
 				}
 				api.post(api.getUrl('pay', 'collections'), req).then(res => {

@@ -181,7 +181,7 @@ const setupWebViewJavascriptBridge = function(callback) {
  * params: 入参对象
  **/
 var setNative = function(type, params) {
-    alert(type)
+    alert(type + ' --- ' + sysPlatform)
     if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
         setupWebViewJavascriptBridge(function(birdge) {
             birdge.callHandler(type, params, function(data) {

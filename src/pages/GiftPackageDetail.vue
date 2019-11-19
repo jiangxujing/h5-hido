@@ -7,10 +7,10 @@
 					<div style="float:left">
 						<div class="package-price">
 							<div class="van-multi-ellipsis--l2" style="color:#1A2833;font-size:1.5rem">
-								{{giftDetail.packageName}}
+								{{giftDetail.productName}}
 							</div>
 							<div class="price">
-								￥{{giftDetail.oderAmount}}
+								￥{{giftDetail.orderRealAmt/100}}
 							</div>
 						</div>
 					</div>
@@ -20,16 +20,16 @@
 		<div class="project-detail">
 			<h2>核销券号</h2>
 			<div class="borderStyle"></div>
-			<div class="project">
+			<div class="project" v-for="g in giftDetail.virtualGoods">
 				<div class="project-content">
-					<div class="project-name">{{giftDetail.virtualGoods.goodsDesc}}</div>
+					<div class="project-name">{{g.goodsDesc}}</div>
 					<div class="project-num">
 						<span>可用：</span>
-						<span>{{giftDetail.virtualGoods.goodsCount}}</span>
+						<span>{{g.goodsCount}}</span>
 					</div>
 				</div>
 				<div class="voucher-number-list">
-					<div class="voucher-content" v-for="(item,index) in giftDetail.virtualGoods.writeOff" :key="index">
+					<div class="voucher-content" v-for="(item,index) in g.writeOff" :key="index">
 						<div class="voucher-number" :class="item.status == '未使用'?'active-number':''">
 							<span>券号：</span>
 							<span>{{item.consumerCode}}</span>
@@ -46,8 +46,8 @@
 				<div>{{status}}</div>
 			</div>
 			<div class="borderStyle"></div>
-			<div class="goods-title">
-				修复面膜x12；针剂x8
+			<div class="goods-title" v-for="i in giftDetail.shipGoods">
+				{{i.goodsDesc}}*{{i.goodsCount}}
 			</div>
 			<div class="good-user-detail">
 				<div class="good-user">
@@ -60,15 +60,15 @@
 				</div>
 				<div class="good-user">
 					<div>收货地址</div>
-					<div style="line-height: 2rem;">{{giftDetail.area}}{{giftDetail.address}}</div>
+					<div style="line-height: 2rem;">{{giftDetail.area}}{{giftDetail.detailAddr}}</div>
 				</div>
 				<div class="borderStyle" style="margin-top:1.4rem"></div>
 				<div class="logistics">
 					<div>
-						<span>中通快递:</span>
-						<span>{{giftDetail.logisticsNo}}</span>
+						<span>{{giftDetail.expressCompany}}:</span>
+						<span>{{giftDetail.expressNo}}</span>
 					</div>
-					<div class="copy tag-read" :data-clipboard-text="giftDetail.logisticsNo" @click="copy">复制</div>
+					<div class="copy tag-read" :data-clipboard-text="giftDetail.expressNo" @click="copy">复制</div>
 				</div>
 			</div>
 		</div>
@@ -82,15 +82,15 @@
 				</div>
 				<div class="good-user order-d">
 					<div>创建时间：</div>
-					<div>{{giftDetail.createTime}}</div>
+					<div>{{$utils.dateFormatter(giftDetail.createTime, "yyyy-MM-dd HH:mm:ss")}}</div>
 				</div>
 				<div class="good-user order-d">
 					<div>付款时间：</div>
-					<div>{{giftDetail.orderTime}}</div>
+					<div>{{giftDetail.payTime}}</div>
 				</div>
 				<div class="good-user order-d">
 					<div>支付方式：</div>
-					<div>微信支付</div>
+					<div>{{payMethodType}}</div>
 				</div>
 			</div>
 		</div>
@@ -101,6 +101,7 @@
 	import Clipboard from 'clipboard';
 	import { Toast } from 'vant'
 	import api from '../common/api.js'
+	import _utils from '../common/utils.js'
 	export default {
 		name: 'productDetail',
 		data() {
@@ -119,37 +120,8 @@
 					status: '已使用'
 				}],
 				status: '',
-				giftDetail: {
-					"address": "测试内容n7hi",
-					"area": "测试内容tt61",
-					"createTime": "测试内容0u1h",
-					"oderAmount": 34844,
-					"orderNo": "测试内容d314",
-					"orderTime": "测试内容57o1",
-					"packageCode": "测试内容lyz3",
-					"packageName": "测试内容6rqv",
-					"payType": "测试内容y3ua",
-					"receiverName": "测试内容8q73",
-					"receiverPhone": "测试内容1b56",
-					"imgurl": require('../assets/images/libao.png'),
-					"logisticsNo": 32109210119,
-					"shipGoods": [{
-						"goodsCount": 46472,
-						"goodsDesc": "测试内容mr5r"
-					}],
-					"status": 7,
-					"virtualGoods": {
-						"goodsCount": 15252,
-						"goodsDesc": "测试内容5alx",
-						"writeOff": [{
-							"consumerCode": "122222222222",
-							"writeOffTime": "2019-10-11"
-						},{
-							"consumerCode": "333333333",
-							"writeOffTime": ""
-						}]
-					}
-				},
+				payMethodType:'微信支付',
+				giftDetail: {},
 
 			}
 		},
@@ -173,8 +145,84 @@
 					orderNo: orderNo
 				}
 				api.post(api.getUrl('queryPackageOrderDetail','collections'), req).then(res => {
-					if(res.code == '0000') {
+					res ={
+						"code": "000",
+						"desc": "操作成功[A4000]",
+						"accessToken": null,
+						"content": {
+							"orderNo": "MALL3019111982331034800310",
+							"channel": null,
+							"memberId": 31,
+							"phone": null,
+							"amount": 100000,
+							"receiverName": "江绪静",
+							"receiverPhone": "13122390030",
+							"area": "上海,上海市,浦东 新区",
+							"detailAddr": "银山路",
+							"postcode": null,
+							"deliverDetail": null,
+							"productId": "20191118140042LZ",
+							"productName": "这个礼包是生效的",
+							"freight": null,
+							"orderRealAmt": 100000,
+							"orderType": null,
+							"payType": 2,
+							"refererPhone": "",
+							"firstCommissionRatio": 10.00,
+							"secondCommissionRatio": 5.00,
+							"createTime": 1574128233000,
+							"payTime": null,
+							"expressCompany": '中通快递',
+							"expressNo": '11111111111111111111',
+							"createTimeFrom": null,
+							"createTimeTo": null,
+							"payTimeFrom": null,
+							"payTimeTo": null,
+							"status": 1,
+							"virtualGoodsDetailDTOList": null,
+							"shipGoods": [{
+								"memberId": 31,
+								"orderNo": "MALL3019111982331034800310",
+								"packageDetailId": 106,
+								"goodsCount": 1,
+								"goodsDesc": "润百颜1ml"
+							}],
+							"virtualGoods": [{
+					            "goodsCount": 80185,
+					            "goodsDesc": "测试内容odnk",
+					            "writeOff": [
+					                {
+					                    "consumerCode": "测试内容23r7",
+					                    "writeOffTime": "测试内容reyd"
+					                }
+					            ]
+					        },{
+					            "goodsCount": 80186,
+					            "goodsDesc": "测试内容odnk111111111",
+					            "writeOff": [
+					                {
+					                    "consumerCode": "测试内容23r7",
+					                    "writeOffTime": "测试内容reyd"
+					                }
+					            ]
+					        }],
+						},
+						"sign": null
+					}
+					if(res.code == 0) {
 						this.giftDetail = res.content;
+						console.log(this.giftDetail)
+						if(res.content.payType == 2){
+							this.payMethodType = '微信支付'
+						}else if(res.content.payType == 0){
+							this.payMethodType = '未支付'
+						}else if(res.content.payType == 1){
+							this.payMethodType = '钱包支付'
+						}else if(res.content.payType == 3){
+							this.payMethodType = '快捷支付'
+						}else{
+							this.payMethodType = '微信支付'
+						}
 						if(this.giftDetail.status == 1) {
 							this.status = '待支付'
 						} else if(this.giftDetail.status == 3) {

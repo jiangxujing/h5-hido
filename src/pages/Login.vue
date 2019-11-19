@@ -74,7 +74,17 @@ export default {
     },
     mounted () {
         this.verifyTitle = '获取验证码'
-        this.getCode()
+        let ua = navigator.userAgent;
+			this.device = {
+				version: function() {
+					return {
+						MicroMessenger: /micromessenger/i.test(ua),
+					}
+				}()
+			};
+			if(this.device.version.MicroMessenger){
+				 this.getCode()
+			}
     },
     computed: {
         // 监听页面数据

@@ -96,7 +96,7 @@
 					"receiverPhone": this.phone,
 					"area": this.province + ',' + this.city + ',' + this.county,
 					"detailAddr": this.detailAddress,
-					"productId": 	sessionStorage.getItem('packageCode'),
+					"productId": sessionStorage.getItem('packageCode'),
 					"orderType": 4,
 					"payType": 2,
 					"refererPhone": sessionStorage.getItem('recommendPhone') || null,

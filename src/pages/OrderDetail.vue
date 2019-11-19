@@ -152,10 +152,7 @@
 		},
 		mounted() {
 			//this.getJsApiPay()
-			console.log(this.province)
-			sessionStorage.setItem('packageCode',this.$route.query.packageCode)
-			sessionStorage.setItem('packageCode', this.$route.query.packageCode)
-			this.getPackageDetail()
+			this.packageCode = this.$route.query.packageCode
 			let ua = navigator.userAgent;
 			this.device = {
 				version: function() {
@@ -166,7 +163,8 @@
 			};
 			this.ios = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端
-			this.packageCode = this.$route.query.packageCode
+			sessionStorage.setItem('packageCode',this.$route.query.packageCode)
+			this.getPackageDetail()
 			this.province = sessionStorage.getItem('province')
 			this.county = sessionStorage.getItem('county')
 			this.city = sessionStorage.getItem('city')

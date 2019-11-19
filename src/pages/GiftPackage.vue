@@ -2,17 +2,17 @@
 	<div>
 			<div class="gift-package" v-for = "(p,index) in packageList" :key="index" @click="goToGiftDetail(p.orderNo)">
 				<div class="time-status">
-					<div class="time"  >{{$utils.dateFormatter(p.createTime, "yyyy-MM-dd HH:mm:ss")}}</div>
-					<div class="status">已发货</div>
+					<div class="time">{{$utils.dateFormatter(p.createTime, "yyyy-MM-dd HH:mm:ss")}}</div>
+					<div class="status">{{getStatusDesc(p.status)}}</div>
 				</div>
 				<div class="borderStyle"></div>
 				<div style="overflow:hidden">
-					<img class="libao" :src="p.imgurl" />
+					<img class="libao" :src="p.headPicture" />
 					<div style="overflow:hidden;padding-right: 1.5rem;">
 						<div style="float:left">
 							<div class="package-price">
 								<div class="van-multi-ellipsis--l2" style="color:#1A2833;font-size:1.5rem">
-									{{p.packageName}}
+									{{p.productName}}
 								</div>
 								<div>
 									<span style="font-size:1.4rem;color:#8A9399">修复面膜*10</span>
@@ -63,6 +63,17 @@
 			},
 			goToGiftDetail(orderNo){
 				this.$router.push("/giftPackageDetail?orderNo="+orderNo)
+			},
+			getStatusDesc(status){
+				if(status == 1){
+					return '待支付'
+				}else if(status == 3){
+					return '待发货'
+				}else if(status == 7){
+					return '已发货'
+				}else{
+					return '待发货'
+				}
 			}
 			
 		},

@@ -2,7 +2,7 @@
 	<div class="gift-package-detail">
 		<div class="gift-package">
 			<div style="overflow:hidden">
-				<img class="libao" :src="giftDetail.imgurl" />
+				<img class="libao" :src="giftDetail.headPicture" />
 				<div style="overflow:hidden;padding-right: 1.5rem;">
 					<div style="float:left">
 						<div class="package-price">
@@ -145,70 +145,71 @@
 					orderNo: orderNo
 				}
 				api.post(api.getUrl('queryPackageOrderDetail','collections'), req).then(res => {
-					res ={
-						"code": "000",
-						"desc": "操作成功[A4000]",
-						"accessToken": null,
-						"content": {
-							"orderNo": "MALL3019111982331034800310",
-							"channel": null,
-							"memberId": 31,
-							"phone": null,
-							"amount": 100000,
-							"receiverName": "江绪静",
-							"receiverPhone": "13122390030",
-							"area": "上海,上海市,浦东 新区",
-							"detailAddr": "银山路",
-							"postcode": null,
-							"deliverDetail": null,
-							"productId": "20191118140042LZ",
-							"productName": "这个礼包是生效的",
-							"freight": null,
-							"orderRealAmt": 100000,
-							"orderType": null,
-							"payType": 2,
-							"refererPhone": "",
-							"firstCommissionRatio": 10.00,
-							"secondCommissionRatio": 5.00,
-							"createTime": 1574128233000,
-							"payTime": null,
-							"expressCompany": '中通快递',
-							"expressNo": '11111111111111111111',
-							"createTimeFrom": null,
-							"createTimeTo": null,
-							"payTimeFrom": null,
-							"payTimeTo": null,
-							"status": 1,
-							"virtualGoodsDetailDTOList": null,
-							"shipGoods": [{
-								"memberId": 31,
-								"orderNo": "MALL3019111982331034800310",
-								"packageDetailId": 106,
-								"goodsCount": 1,
-								"goodsDesc": "润百颜1ml"
-							}],
-							"virtualGoods": [{
-					            "goodsCount": 80185,
-					            "goodsDesc": "测试内容odnk",
-					            "writeOff": [
-					                {
-					                    "consumerCode": "测试内容23r7",
-					                    "writeOffTime": "测试内容reyd"
-					                }
-					            ]
-					        },{
-					            "goodsCount": 80186,
-					            "goodsDesc": "测试内容odnk111111111",
-					            "writeOff": [
-					                {
-					                    "consumerCode": "测试内容23r7",
-					                    "writeOffTime": "测试内容reyd"
-					                }
-					            ]
-					        }],
-						},
-						"sign": null
-					}
+//					res ={
+//						"code": "000",
+//						"desc": "操作成功[A4000]",
+//						"accessToken": null,
+//						"content": {
+//							"orderNo": "MALL3019111982331034800310",
+//							"channel": null,
+//							"memberId": 31,
+//							"phone": null,
+//							"amount": 100000,
+//							"receiverName": "江绪静",
+//							"receiverPhone": "13122390030",
+//							"area": "上海,上海市,浦东 新区",
+//							"detailAddr": "银山路",
+//							"postcode": null,
+//							"deliverDetail": null,
+//							"headPicture":"https://migrate-mime-public-nonpro.oss-cn-shanghai.aliyuncs.com/4400_5W766391-8JPAU3MU4MTN2AJZOKDQ3-BLEORZ2K-0.jpg",
+//							"productId": "20191118140042LZ",
+//							"productName": "这个礼包是生效的",
+//							"freight": null,
+//							"orderRealAmt": 100000,
+//							"orderType": null,
+//							"payType": 2,
+//							"refererPhone": "",
+//							"firstCommissionRatio": 10.00,
+//							"secondCommissionRatio": 5.00,
+//							"createTime": 1574128233000,
+//							"payTime": null,
+//							"expressCompany": '中通快递',
+//							"expressNo": '11111111111111111111',
+//							"createTimeFrom": null,
+//							"createTimeTo": null,
+//							"payTimeFrom": null,
+//							"payTimeTo": null,
+//							"status": 1,
+//							"virtualGoodsDetailDTOList": null,
+//							"shipGoods": [{
+//								"memberId": 31,
+//								"orderNo": "MALL3019111982331034800310",
+//								"packageDetailId": 106,
+//								"goodsCount": 1,
+//								"goodsDesc": "润百颜1ml"
+//							}],
+//							"virtualGoods": [{
+//					            "goodsCount": 80185,
+//					            "goodsDesc": "测试内容odnk",
+//					            "writeOff": [
+//					                {
+//					                    "consumerCode": "测试内容23r7",
+//					                    "writeOffTime": "测试内容reyd"
+//					                }
+//					            ]
+//					        },{
+//					            "goodsCount": 80186,
+//					            "goodsDesc": "测试内容odnk111111111",
+//					            "writeOff": [
+//					                {
+//					                    "consumerCode": "测试内容23r7",
+//					                    "writeOffTime": ""
+//					                }
+//					            ]
+//					        }],
+//						},
+//						"sign": null
+//					}
 					if(res.code == 0) {
 						this.giftDetail = res.content;
 						console.log(this.giftDetail)
@@ -230,10 +231,18 @@
 						} else if(this.giftDetail.status == 7) {
 							this.status = '已发货'
 						}
+						this.giftDetail.virtualGoods.forEach((i) => {
+							i.writeOff.forEach((k) => {
+								if(k.writeOffTime){
+									this.$set(k, "status", '已使用');
+								}else{
+									this.$set(k, "status", '未使用');
+								}
+						});
+					});
 					}
 				}).catch((e) => {
-					this.giftDetail = res.content;
-
+					
 				})
 			}
 		},
@@ -251,13 +260,7 @@
 				this.status = '已发货'
 			}
 			
-			this.giftDetail.virtualGoods.writeOff.forEach((i) => {
-						if(i.writeOffTime){
-							this.$set(i, "status", '已使用');
-						}else{
-							this.$set(i, "status", '未使用');
-						}
-					});
+
 		},
 	}
 </script>
@@ -306,6 +309,7 @@
 			}
 			.project {
 				padding: 0 1.5rem;
+				margin-top:2rem;
 				.project-content {
 					overflow: hidden;
 					.project-name {

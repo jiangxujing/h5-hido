@@ -14,9 +14,6 @@
 			<div class="available-balance" style="color:#FF0000;" v-else>
 				{{tips}}
 			</div>
-			<div class="available-balance" style="color:#FF0000;" v-else>
-
-			</div>
 			<div class="borderStyle" style="margin-top:0"></div>
 			<div class="payment-method-list" @click="goToBank" v-if="bankNumShow">
 				<img class="weixin" :src="bankImgUrl" />

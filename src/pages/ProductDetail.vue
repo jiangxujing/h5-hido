@@ -235,7 +235,7 @@
 				}
 				let imgUrl = this.imageUrl
 				let imgurl = location.origin + this.prefixUrl + imgUrl
-				api.get(api.getUrl('getWechat'), reqUrl).then(res => {
+				api.get(api.getUrl('share'), reqUrl).then(res => {
 					if(res.code == '0000') {
 						var timestamp = res.content.timestamp;
 						var nonceStr = res.content.nonceStr;

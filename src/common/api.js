@@ -278,7 +278,7 @@ const post = (url, data, noLoading, noToken, formData) => {
     return axios(axiosHead).then(function(resp) {
         Loading.hide()
         if (resp.status >= 200 && resp.status < 300) {
-            let respData = resp.data
+            let respData = _parseJSON(resp.data)
             respData['code'] = ~~(respData['code'])
             respData['content'] = _parseJSON(respData['content'])
             if (respData['code'] === 9999 || respData['code'] === 1210 || respData['code'] === 1211 || respData['code'] === 111) {

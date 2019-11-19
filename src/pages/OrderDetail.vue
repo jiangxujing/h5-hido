@@ -66,25 +66,6 @@
 				</div>
 			</div>
 		</div>
-		<div class="paymentMethod" v-else>
-			<div class="payment-header">
-				<div class="title">需支付</div>
-				<div class="money">
-					<span>￥</span>
-					<span>{{orderDetail.salesPrice/100}}</span>
-				</div>
-			</div>
-			<div class="payment-method-list">
-				<div>
-					<img class="weixin" src="../assets/images/weixin-pay.png" />
-					<span>微信支付</span>
-					<img class="gouxuan" src="../assets/images/gouxuan@2x.png" />
-				</div>
-			</div>
-			<div style="text-align: center;">
-				<button class="buy-now" @click="buyNow">立即支付</button>
-			</div>
-		</div>
 	</div>
 </template>
 
@@ -135,6 +116,7 @@
 			checkTel() {
 				let strTemp = _utils.checkTel()
 				let tel = this.recommendPhone
+				sessionStorage.setItem('recommendPhone',this.recommendPhone)
 				console.log(tel)
 				if(strTemp.test(tel)) {
 					this.gray = false
@@ -143,106 +125,11 @@
 					console.log('手机号错误')
 				}
 			},
-			buyNow(){
-				this.getOrderDetail()
-			},
 			submitOrder() {
-				//this.getOrderDetail()
-				this.orderShow = false
-				//window.location.href = this.jumpUrl
+				this.$router.push("/paymentMethod")
 			},
 			goBack() {
 				this.$router.push("/productDetail?packageCode="+this.packageCode)
-			},
-			getOrderDetail() {
-				let req = {
-					"channel":this.channel,
-					"receiverName": this.username,
-					"receiverPhone": this.phone,
-					"area": this.province + ',' + this.city + ',' + this.county,
-					"detailAddr": this.detailAddress,
-					"productId": this.$route.query.packageCode,
-					"orderType": 4,
-					"payType": 2,
-					"refererPhone": this.recommendPhone || null,
-					"firstCommissionRatio": this.firstCommissionRatio,
-					"secondCommissionRatio": this.secondCommissionRatio
-				}
-				api.post(api.getUrl('createOrderV2', 'collections'), req).then(res => {
-					if(res.code == 0) {
-						this.orderNo = res.content.orderNo
-						if(this.device.version.MicroMessenger) {
-							//在微信浏览器里需要静默授权等走jsapi支付
-							//this.getCode() 需要静默授权时调用
-
-							//假如登录时已经做过授权，拿到了openId了
-							this.getJsApiPay()
-						} else {
-							//在app里走h5支付
-							this.getH5Pay()
-						}
-
-					}
-				}).catch((e) => {
-
-				})
-			},
-
-			getH5Pay() {
-				let req = {
-					orderNo: this.orderNo,
-					payType: 'WX_H5'
-				}
-				api.post(api.getUrl('pay', 'collections'), req).then(res => {
-					if(res.code == 0) {
-						this.jumpUrl = res.url
-					}
-				}).catch((e) => {
-
-				})
-			},
-			getJsApiPay() {
-				let req = {
-					orderNo: this.orderNo,
-					payType: 'WX_JS'
-				}
-				api.post(api.getUrl('pay', 'collections'), req).then(res => {
-					if(res.code == 0) {
-						let sceneInfo = JSON.parse(res.content.sceneInfo)
-						let _this = this
-						function onBridgeReady() {
-							WeixinJSBridge.invoke(
-								'getBrandWCPayRequest', {
-									"appId": sceneInfo.appId, //公众号名称，由商户传入     
-									"timeStamp": sceneInfo.timeStamp, //时间戳，自1970年以来的秒数     
-									"nonceStr": sceneInfo.nonceStr, //随机串     
-									"package": sceneInfo.package,
-									"signType": sceneInfo.signType, //微信签名方式：     
-									"paySign": sceneInfo.paySign //微信签名 
-								},
-								function(res) {
-									if(res.err_msg == "get_brand_wcpay_request:ok") {
-										_this.$router.push("/orderSuccess")
-										// 使用以上方式判断前端返回,微信团队郑重提示：
-										//res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
-									}
-								});
-						}
-						if(typeof WeixinJSBridge == "undefined") {
-							if(document.addEventListener) {
-								document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
-							} else if(document.attachEvent) {
-								document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
-								document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
-							}
-						} else {
-							onBridgeReady();
-						}
-					}
-
-				}).catch((e) => {
-
-				})
 			},
 			getPackageDetail() {
 				let req = {
@@ -251,9 +138,12 @@
 				api.post(api.getUrl('queryPackage', 'collections'), req, false, false, false).then(res => {
 					if(res.code == 0) {
 						this.orderDetail = res.content.giftPackageDTODetails
+						sessionStorage.setItem('salesPrice', res.content.giftPackageDTODetails.salesPrice)
 						this.type = res.content.homepageUrl.type
 						this.firstCommissionRatio = res.content.giftPackageDTODetails.firstCommissionRatio
 						this.secondCommissionRatio = res.content.giftPackageDTODetails.secondCommissionRatio
+						sessionStorage.setItem('firstCommissionRatio',res.content.giftPackageDTODetails.firstCommissionRatio)
+						sessionStorage.setItem('secondCommissionRatio',res.content.giftPackageDTODetails.secondCommissionRatio)
 					}
 				}).catch((e) => {
 
@@ -262,7 +152,8 @@
 		},
 		mounted() {
 			//this.getJsApiPay()
-			this.packageCode = this.$route.query.packageCode
+			console.log(this.province)
+			sessionStorage.setItem('packageCode',this.$route.query.packageCode)
 			sessionStorage.setItem('packageCode', this.$route.query.packageCode)
 			this.getPackageDetail()
 			let ua = navigator.userAgent;
@@ -275,36 +166,18 @@
 			};
 			this.ios = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端
-			 if(this.device.version.MicroMessenger){
-				if(this.ios){
-					this.channel = 4
-				}else if(this.android){
-					this.channel = 3
-				}
-			}else{
-				if(this.ios){
-					this.channel = 2
-				}else if(this.android){
-					this.channel = 1
-				}
-			}
-			api.setupWebViewJavascriptBridge(function(bridge) {
-				bridge.callHandler('invokeBackPress', {}, (data) => {
-					this.dropOutShow = true
-				})
-			})
+			this.packageCode = this.$route.query.packageCode
 			this.province = sessionStorage.getItem('province')
 			this.county = sessionStorage.getItem('county')
 			this.city = sessionStorage.getItem('city')
 			this.username = sessionStorage.getItem('username')
 			this.phone = sessionStorage.getItem('phone')
 			this.detailAddress = sessionStorage.getItem('detailAddress')
-//			this.county='浦东 新区'
-//			this.city = '上海市'
-//			this.province = '上海'
-//			this.detailAddress = '银山路'
-//			this.username = '江绪静'
-//			this.phone = '13122390030'
+			api.setupWebViewJavascriptBridge(function(bridge) {
+				bridge.callHandler('invokeBackPress', {}, (data) => {
+					this.dropOutShow = true
+				})
+			})
 			if(this.province && this.city && this.county && this.username && this.phone && this.detailAddress) {
 				this.hasNoAdress = false
 				console.log(this.hasNoAdress)

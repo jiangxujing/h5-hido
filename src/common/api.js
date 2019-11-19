@@ -170,10 +170,29 @@ const setNative = function(type, params) {
                     setCookie(key, content[key], 7)
                 }
             }
+            
         })
     });
 }
 
+
+/**
+ * registerHandler 注册app调用方法
+ * type: 定义的接口名
+ * callback: 回调方法
+ **/
+const registerHandler = function(type, responseCallback) {
+    if (sysPlatform === 'IOS') {
+        setupWebViewJavascriptBridge(function(webViewCallHandler) {
+            webViewCallHandler.registerHandler(type, responseCallback(data))
+        })
+    } else if (sysPlatform === 'ANDROID') {
+        setupWebViewJavascriptBridge(function(webViewCallHandler) {
+            webViewCallHandler.init(type, responseCallback(data))
+            webViewCallHandler.registerHandler(type, responseCallback(data))
+        })
+    }
+}
 
 // 微信
 export const getWechat = (title,desc,linkUrl,imgUrl) => {
@@ -320,6 +339,7 @@ export default {
     post,
     setupWebViewJavascriptBridge,
     setNative,
+    registerHandler,
     cancel: () => {
         cancel && cancel()
     }

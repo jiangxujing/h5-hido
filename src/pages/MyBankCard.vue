@@ -32,7 +32,6 @@ export default {
     },
     mounted () {
         document.title = '银行卡'
-        // api.setNative('callTitleUpdate', {title: '银行卡'})
         if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
             api.setNative('callInit', {interceptBack: false})
             setTimeout(() => {
@@ -41,7 +40,6 @@ export default {
         } else {
             this.getBankCardList()
         }
-        
     },
     computed: {
 

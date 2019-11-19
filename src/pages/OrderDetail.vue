@@ -152,7 +152,7 @@
 				//window.location.href = this.jumpUrl
 			},
 			goBack() {
-				this.$router.push("/productDetail")
+				this.$router.push("/productDetail?packageCode="+this.packageCode)
 			},
 			getOrderDetail() {
 				let req = {

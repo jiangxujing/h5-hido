@@ -4,7 +4,7 @@
         <div v-if="request">
             <div v-for="(item, index) in bankCardList" :key="index" class="bank-item">
                 <span class="bank-item-tips">借记卡</span>
-                <img class="bank-item-bg" :src="item.bankBg" v-if="item.bankBg"/>
+                <img class="bank-item-bg" :src="item.backgroundPhoto" v-if="item.backgroundPhoto"/>
                 <img class="bank-item-bg" src="../assets/images/myBankCard.png" v-else/>
                 <div class="bank-item-content">
                     <img class="bank-item-photo" :src="item.bankPhoto">

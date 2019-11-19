@@ -724,6 +724,23 @@ button.icon {
             -webkit-text-fill-color: #323233;
         }
     }
+    .van-field__body input {
+        font-size: 1.5rem;
+    }
+    .bank-list-sheet {
+        border-radius: 1.4rem;
+        margin-bottom: 3rem;
+        width: 96%;
+        margin: 0 2% 3rem;
+        .van-icon, .van-icon::before {
+            display: none;
+        }
+        .van-action-sheet__header {
+            color: #1A2833;
+            line-height: 54px;
+            font-weight: 600;
+        }
+    }
 }
 
 // 我的团队

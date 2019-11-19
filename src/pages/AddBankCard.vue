@@ -7,8 +7,8 @@
                     class="bank-name-input"
                     v-model="bankName"
                     type="tel"
-                    label="请选择开户行"
                     right-icon="arrow"
+                    placeholder="请选择开户行"
                     disabled
                     @click="show=true" />
                 <van-field
@@ -72,7 +72,7 @@
         <div class="page-button">
             <van-button class="next-button" @click="toNext" :disabled="nextBtn">提 交</van-button>
         </div>
-        <van-action-sheet v-model="show" :actions="bankList" @select="onSelect" />
+        <van-action-sheet v-model="show" :actions="bankList"  @select="onSelect" title="请选择开户行" class="bank-list-sheet" />
     </div>            
 </template>
 

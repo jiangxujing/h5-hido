@@ -274,20 +274,23 @@
 				let params = {
 				interceptBack: true
 			}
-			let _this = this
-			api.setupWebViewJavascriptBridge((bridge) => {
+				api.setupWebViewJavascriptBridge((bridge) => {
 				bridge.callHandler('callInit', params, (data) => {
 					api.setupWebViewJavascriptBridge((bridge) => {
 						bridge.registerHandler('invokeBackPress', (data) => {
-							_this.$router.push("/giftPackage")
+							api.setupWebViewJavascriptBridge((bridge) => {
+								bridge.callHandler('callFinish', {}, (data) => {
+								})
+							})
 						})
 					})
 				})
 			})
-			api.setupWebViewJavascriptBridge((bridge) => {
+		api.setupWebViewJavascriptBridge((bridge) => {
 						bridge.registerHandler('invokeBackPress', (data) => {
 							api.setupWebViewJavascriptBridge((bridge) => {
-								_this.$router.push("/giftPackage")
+								bridge.callHandler('callFinish', {}, (data) => {
+								})
 							})
 						})
 					})

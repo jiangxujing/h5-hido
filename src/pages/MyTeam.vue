@@ -53,14 +53,18 @@ export default {
     },
     mounted () {
         document.title = '我的团队'
-        if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
-            api.setNative('callInit', {interceptBack: false})
-            setTimeout(() => {
-                this.getMyTeam()
-            }, 600)
-        } else {
+        api.setNative('callInit', {interceptBack: false})
+        setTimeout(() => {
             this.getMyTeam()
-        }
+        }, 600)
+        // if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
+        //     api.setNative('callInit', {interceptBack: false})
+        //     setTimeout(() => {
+        //         this.getMyTeam()
+        //     }, 600)
+        // } else {
+        //     this.getMyTeam()
+        // }
     },
     computed: {
 

@@ -46,7 +46,7 @@
 		</div>
 		<div class="content1 content2 content3" v-if="packageDetail">
 			<h2>产品使用规则</h2>
-				<img :src="packageDetail.listPicture" />
+			<img :src="packageDetail.listPicture" />
 		</div>
 		<div class="content1 content2 content3 content4">
 			<h2>其他礼包</h2>
@@ -110,8 +110,8 @@
 				proxyShow: true,
 				packageDetail: {},
 				giftPackageDTOList: [],
-				homepageUrl:'',
-				detailsPicture:[]
+				homepageUrl: '',
+				detailsPicture: []
 			}
 		},
 		methods: {
@@ -173,60 +173,28 @@
 			},
 
 			getBuy(i) {
-				console.log(i.packageCode)
-				if(this.urlParse(window.location.search).app === "app") {
-					api.setupWebViewJavascriptBridge(function(bridge) {
-							bridge.callHandler('callToken', {}, (data) => {
-								_utils.setCookie('accessToken', data.content.accessToken, 7)
-								_utils.setCookie('mmTicket', data.content.accessToken, 7)
-								if(data.accessToken){
-									if(i.packageCode){
-										this.$router.push("/orderDetail?packageCode=" + i.packageCode)
-										}else{
-											this.$router.push("/orderDetail?packageCode=" + this.$route.query.packageCode)
-										}
-								}else{
-									api.setupWebViewJavascriptBridge(function(bridge) {
-							bridge.callHandler('callLogin', {}, (data) => {
-								console.log(data)
-								_utils.setCookie('accessToken', data.content.accessToken, 1)
-								_utils.setCookie('mmTicket', data.content.accessToken, 7)
-							})
-						})
-								}
-							})
-						})
+				if(navigator.userAgent.toLowerCase().indexOf('hido')  !=  -1) {
+					api.setNative('callInit', {
+						interceptBack: false
+					})
+					setTimeout(() => {
+						if(i.packageCode) {
+							this.$router.push("/orderDetail?packageCode=" + i.packageCode)
+						} else {
+							this.$router.push("/orderDetail?packageCode=" + this.$route.query.packageCode)
+						}
+					}, 600)
+				} else {
+					if(!_utils.getCookie('mmTicket')) {
+						this.$router.push("/login")
 					} else {
-						if(!_utils.getCookie('accessToken')) {
-							this.$router.push("/login")
-						}else{
-							if(i.packageCode){
-					this.$router.push("/orderDetail?packageCode=" + i.packageCode)
-					}else{
-						this.$router.push("/orderDetail?packageCode=" + this.$route.query.packageCode)
-					}
+						if(i.packageCode) {
+							this.$router.push("/orderDetail?packageCode=" + i.packageCode)
+						} else {
+							this.$router.push("/orderDetail?packageCode=" + this.$route.query.packageCode)
 						}
 					}
-//				if(!_utils.getCookie('accessToken')) {
-//					console.log(this.urlParse(window.location.search).app)
-//					if(this.urlParse(window.location.search).app === "app") {
-//						api.setupWebViewJavascriptBridge(function(bridge) {
-//							bridge.callHandler('callLogin', {}, (data) => {
-//								console.log(data)
-//								_utils.setCookie('accessToken', data.content.accessToken, 1)
-//								_utils.setCookie('mmTicket', data.content.accessToken, 7)
-//							})
-//						})
-//					} else {
-//						this.$router.push("/login")
-//					}
-//				} else {
-//					if(i.packageCode){
-//					this.$router.push("/orderDetail?packageCode=" + i.packageCode)
-//					}else{
-//						this.$router.push("/orderDetail?packageCode=" + this.$route.query.packageCode)
-//					}
-//				}
+				}
 			},
 			getWechat() {
 				let linkUrl = location.href.split('#')[0]
@@ -261,13 +229,13 @@
 					if(res.code == 0) {
 						console.log('jinl ')
 						this.packageDetail = res.content.giftPackageDTODetails
-						if(res.content.giftPackageDTODetails){
+						if(res.content.giftPackageDTODetails) {
 							this.detailsPicture = res.content.giftPackageDTODetails.detailsPicture.split(',')
 						}
 						this.giftPackageDTOList = res.content.giftPackageDTOList
 						this.homepageUrl = res.content.homepageUrl
 						let type = res.content.homepageUrl.type
-						sessionStorage.setItem('type',type)
+						sessionStorage.setItem('type', type)
 					}
 				}).catch((e) => {
 

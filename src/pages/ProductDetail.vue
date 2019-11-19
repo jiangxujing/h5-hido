@@ -175,25 +175,25 @@
 			getBuy(i) {
 				if(navigator.userAgent.toLowerCase().indexOf('hido')  !=  -1) {
 					api.setupWebViewJavascriptBridge(function(bridge) {
-							bridge.callHandler('callToken', {}, (data) => {
-								_utils.setCookie('mmTicket', data.content.accessToken, 7)
-								if(data.accessToken){
-									if(i.packageCode){
-										this.$router.push("/orderDetail?packageCode=" + i.packageCode)
-										}else{
-											this.$router.push("/orderDetail?packageCode=" + this.$route.query.packageCode)
-										}
-								}else{
-									api.setupWebViewJavascriptBridge(function(bridge) {
-										bridge.callHandler('callLogin', {}, (data) => {
-											console.log(data)
-											_utils.setCookie('accessToken', data.content.accessToken, 1)
-											_utils.setCookie('mmTicket', data.content.accessToken, 7)
-										})
-									})
+						bridge.callHandler('callToken', {}, (data) => {
+							_utils.setCookie('mmTicket', data.content.accessToken, 7)
+							if(data.accessToken) {
+								if(i.packageCode) {
+									this.$router.push("/orderDetail?packageCode=" + i.packageCode)
+								} else {
+									this.$router.push("/orderDetail?packageCode=" + this.$route.query.packageCode)
 								}
-							})
+							} else {
+								api.setupWebViewJavascriptBridge(function(bridge) {
+									bridge.callHandler('callLogin', {}, (data) => {
+										console.log(data)
+										_utils.setCookie('accessToken', data.content.accessToken, 1)
+										_utils.setCookie('mmTicket', data.content.accessToken, 7)
+									})
+								})
+							}
 						})
+					})
 				} else {
 					if(!_utils.getCookie('mmTicket')) {
 						this.$router.push("/login")
@@ -254,21 +254,16 @@
 
 		},
 		mounted() {
-			pushHistory();
-			window.addEventListener("popstate", (e)=> {
-				//此处已经捕获返回事件，可以写自己的跳转代码  
-				api.setupWebViewJavascriptBridge((bridge) => {
+			api.setupWebViewJavascriptBridge((bridge) => {
+				bridge.callHandler('invokeBackPress', {}, (data) => {
+					api.setupWebViewJavascriptBridge((bridge) => {
 						bridge.callHandler('callFinish', {}, (data) => {
 							console.log(data)
 						})
 					})
-			}, false);
-			function pushHistory(){
-				var state = {
-					title: "订单详情",
-				};
-				window.history.pushState(state, "title");
-			}
+				})
+			})
+
 			document.title = "礼包详情"
 			let ua = navigator.userAgent;
 			this.device = {

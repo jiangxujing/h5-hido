@@ -10,6 +10,17 @@ import qs from 'qs'
 let CancelToken = axios.CancelToken
 let cancel
 
+let sysPlatform = '';
+let ua = navigator.userAgent.toLowerCase();
+//调用设备对象的test方法判断设备类型
+if (/iphone|ipad|ipod/.test(ua)) {
+  sysPlatform = 'IOS';
+} else if (/android/.test(ua)) {
+  sysPlatform = 'ANDROID';
+} else {
+  sysPlatform = '';
+}
+
 const prefix = '/hido-core'
 const prefixList = [{
     type: 'user',
@@ -109,21 +120,58 @@ const get = (url, params) =>{
 }
 // 注册 app 交互方法
 const setupWebViewJavascriptBridge = function(callback) {
-    //android
-    if (window.WebViewJavascriptBridge) { callback(window.WebViewJavascriptBridge) } else {
-        document.addEventListener('WebViewJavascriptBridgeReady', function() { 
-            callback(window.WebViewJavascriptBridge)
-        },false);
+    // //android
+    // if (window.WebViewJavascriptBridge) {
+    //     callback(window.WebViewJavascriptBridge)
+    // } else {
+    //     document.addEventListener('WebViewJavascriptBridgeReady', function() { 
+    //         callback(window.WebViewJavascriptBridge)
+    //     },false);
+    // }
+    // //ios
+    // if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+    // if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+    // window.WVJBCallbacks = [callback];
+    // var WVJBIframe = document.createElement('iframe');
+    // WVJBIframe.style.display = 'none';
+    // WVJBIframe.src = 'https://__bridge_loaded__';
+    // document.documentElement.appendChild(WVJBIframe);
+    // setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
+    if (sysPlatform === 'IOS') {
+        if (window.WebViewJavascriptBridge) {
+            return callback(WebViewJavascriptBridge)
+        }
+        if (window.WVJBCallbacks) {
+            return window.WVJBCallbacks.push(callback)
+        }
+        window.WVJBCallbacks = [callback]
+        let WVJBIframe = document.createElement('iframe')
+        WVJBIframe.style.display = 'none'
+        WVJBIframe.src = 'https://__bridge_loaded__'
+        document.documentElement.appendChild(WVJBIframe)
+        setTimeout(function() {
+            document.documentElement.removeChild(WVJBIframe)
+        }, 0)
+    } else if (sysPlatform === 'ANDROID') {
+        if (window.WebViewJavascriptBridge) {
+            callback(WebViewJavascriptBridge)
+        } else {
+            document.addEventListener( 'WebViewJavascriptBridgeReady' , function() {
+                callback(WebViewJavascriptBridge)
+            }, false )
+        }
+        if (window.WVJBCallbacks) {
+            return window.WVJBCallbacks.push(callback)
+        }
+        window.WVJBCallbacks = [callback]
+        let WVJBIframe = document.createElement('iframe')
+        WVJBIframe.style.display = 'none'
+        WVJBIframe.src = 'https://__bridge_loaded__'
+        document.documentElement.appendChild(WVJBIframe)
+        setTimeout(function() {
+            document.documentElement.removeChild(WVJBIframe)
+        }, 0)
     }
-    //ios
-    if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
-    if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
-    window.WVJBCallbacks = [callback];
-    var WVJBIframe = document.createElement('iframe');
-    WVJBIframe.style.display = 'none';
-    WVJBIframe.src = 'https://__bridge_loaded__';
-    document.documentElement.appendChild(WVJBIframe);
-    setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
 }
 
 /**
@@ -133,6 +181,7 @@ const setupWebViewJavascriptBridge = function(callback) {
  **/
 const setNative = function(type, params) {
     if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
+        Toast(type)
         setupWebViewJavascriptBridge(function(bridge) {
             bridge.callHandler(type, params, function(data) {
                 if (data.content) {

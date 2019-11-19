@@ -23,7 +23,6 @@
                     v-model="bankBranch"
                     clearable
                     maxlength="20"
-                    type="tel"
                     label="开户支行"
                     placeholder="请输入开户支行"
                     @clear="clearVerifyCode" />

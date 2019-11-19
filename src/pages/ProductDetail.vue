@@ -254,15 +254,15 @@
 
 		},
 		mounted() {
-			api.setupWebViewJavascriptBridge((bridge) => {
-				bridge.callHandler('invokeBackPress', {}, (data) => {
-					api.setupWebViewJavascriptBridge((bridge) => {
-						bridge.callHandler('callFinish', {}, (data) => {
-							console.log(data)
-						})
-					})
-				})
-			})
+//			api.setupWebViewJavascriptBridge((bridge) => {
+//				bridge.callHandler('invokeBackPress', {}, (data) => {
+//					api.setupWebViewJavascriptBridge((bridge) => {
+//						bridge.callHandler('callFinish', {}, (data) => {
+//							console.log(data)
+//						})
+//					})
+//				})
+//			})
 
 			document.title = "礼包详情"
 			let ua = navigator.userAgent;

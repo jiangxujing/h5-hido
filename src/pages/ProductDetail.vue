@@ -252,6 +252,7 @@
 
 		},
 		mounted() {
+			this.getWechat()
 //			api.setupWebViewJavascriptBridge((bridge) => {
 //				bridge.callHandler('invokeBackPress', {}, (data) => {
 //					api.setupWebViewJavascriptBridge((bridge) => {

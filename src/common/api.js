@@ -306,7 +306,7 @@ const post = (url, data, noLoading, noToken, formData) => {
     }).catch(function (err) {
         console.log(err)
         Loading.hide()
-        alert(JSON.stringify(err))
+        // alert(JSON.stringify(err))
         Toast(err)
     })
 }

@@ -255,6 +255,11 @@
 					alert(JSon.String(data))
 					console.log(data)
 				})
+			api.setupWebViewJavascriptBridge((bridge) => {
+				bridge.callHandler('invokeBackPress', {}, (data) => {
+					alert(data)
+				})
+			})
 			document.title = "礼包详情"
 			let ua = navigator.userAgent;
 			this.device = {

@@ -145,71 +145,6 @@
 					orderNo: orderNo
 				}
 				api.post(api.getUrl('queryPackageOrderDetail','collections'), req).then(res => {
-//					res ={
-//						"code": "000",
-//						"desc": "操作成功[A4000]",
-//						"accessToken": null,
-//						"content": {
-//							"orderNo": "MALL3019111982331034800310",
-//							"channel": null,
-//							"memberId": 31,
-//							"phone": null,
-//							"amount": 100000,
-//							"receiverName": "江绪静",
-//							"receiverPhone": "13122390030",
-//							"area": "上海,上海市,浦东 新区",
-//							"detailAddr": "银山路",
-//							"postcode": null,
-//							"deliverDetail": null,
-//							"headPicture":"https://migrate-mime-public-nonpro.oss-cn-shanghai.aliyuncs.com/4400_5W766391-8JPAU3MU4MTN2AJZOKDQ3-BLEORZ2K-0.jpg",
-//							"productId": "20191118140042LZ",
-//							"productName": "这个礼包是生效的",
-//							"freight": null,
-//							"orderRealAmt": 100000,
-//							"orderType": null,
-//							"payType": 2,
-//							"refererPhone": "",
-//							"firstCommissionRatio": 10.00,
-//							"secondCommissionRatio": 5.00,
-//							"createTime": 1574128233000,
-//							"payTime": null,
-//							"expressCompany": '中通快递',
-//							"expressNo": '11111111111111111111',
-//							"createTimeFrom": null,
-//							"createTimeTo": null,
-//							"payTimeFrom": null,
-//							"payTimeTo": null,
-//							"status": 1,
-//							"virtualGoodsDetailDTOList": null,
-//							"shipGoods": [{
-//								"memberId": 31,
-//								"orderNo": "MALL3019111982331034800310",
-//								"packageDetailId": 106,
-//								"goodsCount": 1,
-//								"goodsDesc": "润百颜1ml"
-//							}],
-//							"virtualGoods": [{
-//					            "goodsCount": 80185,
-//					            "goodsDesc": "测试内容odnk",
-//					            "writeOff": [
-//					                {
-//					                    "consumerCode": "测试内容23r7",
-//					                    "writeOffTime": "测试内容reyd"
-//					                }
-//					            ]
-//					        },{
-//					            "goodsCount": 80186,
-//					            "goodsDesc": "测试内容odnk111111111",
-//					            "writeOff": [
-//					                {
-//					                    "consumerCode": "测试内容23r7",
-//					                    "writeOffTime": ""
-//					                }
-//					            ]
-//					        }],
-//						},
-//						"sign": null
-//					}
 					if(res.code == 0) {
 						this.giftDetail = res.content;
 						console.log(this.giftDetail)
@@ -249,7 +184,14 @@
 		mounted() {
 			document.title = '礼包详情'
 			let orderNo = this.$route.query.orderNo
-			this.getPackageOrder(orderNo)
+			if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
+				api.setNative('callInit', {interceptBack: false})
+				setTimeout(() => {
+						this.getPackageOrder(orderNo)
+				}, 600)
+			} else {
+					this.getPackageOrder(orderNo)
+			}
 			console.log(orderNo)
 			//this.getPackageOrder(orderNo)
 			if(this.giftDetail.status == 1) {
@@ -259,8 +201,6 @@
 			} else if(this.giftDetail.status == 7) {
 				this.status = '已发货'
 			}
-			
-
 		},
 	}
 </script>

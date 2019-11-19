@@ -139,61 +139,176 @@ const setupWebViewJavascriptBridge = function(callback) {
     // setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
     if (sysPlatform === 'IOS') {
         if (window.WebViewJavascriptBridge) {
-            return callback(WebViewJavascriptBridge)
+            return callback(WebViewJavascriptBridge);
         }
         if (window.WVJBCallbacks) {
-            return window.WVJBCallbacks.push(callback)
+            return window.WVJBCallbacks.push(callback);
         }
-        window.WVJBCallbacks = [callback]
-        let WVJBIframe = document.createElement('iframe')
-        WVJBIframe.style.display = 'none'
-        WVJBIframe.src = 'https://__bridge_loaded__'
-        document.documentElement.appendChild(WVJBIframe)
+        window.WVJBCallbacks = [callback];
+        var WVJBIframe = document.createElement('iframe');
+        WVJBIframe.style.display = 'none';
+        WVJBIframe.src = 'https://__bridge_loaded__';
+        document.documentElement.appendChild(WVJBIframe);
         setTimeout(function() {
-            document.documentElement.removeChild(WVJBIframe)
-        }, 0)
+            document.documentElement.removeChild(WVJBIframe);
+        }, 0);
     } else if (sysPlatform === 'ANDROID') {
         if (window.WebViewJavascriptBridge) {
-            callback(WebViewJavascriptBridge)
+            callback(WebViewJavascriptBridge);
         } else {
             document.addEventListener( 'WebViewJavascriptBridgeReady' , function() {
-                callback(WebViewJavascriptBridge)
-            }, false )
+                callback(WebViewJavascriptBridge);
+            }, false);
         }
         if (window.WVJBCallbacks) {
-            return window.WVJBCallbacks.push(callback)
+            return window.WVJBCallbacks.push(callback);
         }
-        window.WVJBCallbacks = [callback]
-        let WVJBIframe = document.createElement('iframe')
-        WVJBIframe.style.display = 'none'
-        WVJBIframe.src = 'https://__bridge_loaded__'
-        document.documentElement.appendChild(WVJBIframe)
+        window.WVJBCallbacks = [callback];
+        var WVJBIframe = document.createElement('iframe');
+        WVJBIframe.style.display = 'none';
+        WVJBIframe.src = 'https://__bridge_loaded__';
+        document.documentElement.appendChild(WVJBIframe);
         setTimeout(function() {
-            document.documentElement.removeChild(WVJBIframe)
-        }, 0)
+            document.documentElement.removeChild(WVJBIframe);
+        }, 0);
     }
 }
+
+
+
 
 /**
  * setNative 把获取到的入参 赋值到 cookie
  * type: 定义的接口名
  * params: 入参对象
  **/
-const setNative = function(type, params) {
-    if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
-        Toast(type)
-        setupWebViewJavascriptBridge(function(bridge) {
-            bridge.callHandler(type, params, function(data) {
-                if (data.content) {
-                    let content = data.content
-                    for (var key in content) {
-                        setCookie(key, content[key], 7)
-                    }
-                }
-            })
-        })
+// const setNative = function(type, params) {
+//     if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
+//         Toast(type)
+//         setupWebViewJavascriptBridge(function(bridge) {
+//             bridge.callHandler(type, params, function(data) {
+//                 if (data.content) {
+//                     let content = data.content
+//                     for (var key in content) {
+//                         setCookie(key, content[key], 7)
+//                     }
+//                 }
+//             })
+//         })
+//     }
+// }
+
+  /**
+   * 初始化jsbridge
+   * @return jsbridge
+   */
+  var getJSBridge = function () {
+    if (window.WebViewJavascriptBridge) {
+      return window.WebViewJavascriptBridge;
+    } else {
+      document.addEventListener('WebViewJavascriptBridgeReady', function () {
+        console.log(window.WebViewJavascriptBridge);
+        return window.WebViewJavascriptBridge;
+      }, false)
     }
-}
+  };
+
+  /**
+   * 兼容IOS和安卓的jsbridge
+   * @param  callback
+   * @return webviewjsbridge
+   */
+  var connectWebViewJavascriptBridge = function (callback) {
+    if (sysPlatform === 'IOS') {
+      if (window.WebViewJavascriptBridge) {
+        return callback(WebViewJavascriptBridge);
+      }
+      if (window.WVJBCallbacks) {
+        return window.WVJBCallbacks.push(callback);
+      }
+      window.WVJBCallbacks = [callback];
+      var WVJBIframe = document.createElement('iframe');
+      WVJBIframe.style.display = 'none';
+      WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+      document.documentElement.appendChild(WVJBIframe);
+      setTimeout(function() {
+        document.documentElement.removeChild(WVJBIframe);
+      }, 0)
+    }
+
+    if (sysPlatform === 'ANDROID') {
+      if (window.WebViewJavascriptBridge) {
+        callback(WebViewJavascriptBridge);
+      } else {
+        document.addEventListener(
+          'WebViewJavascriptBridgeReady',
+          function() {
+            callback(WebViewJavascriptBridge);
+          },
+          false
+        );
+      }
+    }
+  };
+
+  /**
+   * 兼容IOS和安卓的bridge重写
+   * @type Object
+   */
+  var webViewCallHandler = {
+    callHandler: function (handlerName, data) {
+      if (sysPlatform === 'IOS') {
+        base.birdge.callHandler(handlerName, data, function (response) {
+          return response;
+        });
+      } else if (sysPlatform === 'ANDROID') {
+        window.WebViewJavascriptBridge.callHandler(
+          handlerName, data,
+          function (response) {
+            return response;
+          });
+      }
+    }
+  };
+
+  var parseDataContent = function (data) {
+    if (typeof data == 'undefined' || !data) return false;
+    var _parseJSON = function (str) {
+      if (typeof str == 'object') {
+        return str;
+      }
+      try {
+        return JSON.parse(str);
+      } catch (ex) {};
+      return (new Function("", "return " + str))();
+    };
+
+    if ('[object String]' === Object.prototype.toString.call(data)) {
+      data = _parseJSON(data);
+    }
+    data.code = ~~(data.code);
+    data.content = data.content || {};
+    data.content = _parseJSON(data.content);
+    return data;
+  };
+
+  const setNative = function (handler, data) {
+    handler = handler || '';
+    data = data || {};
+    return new Promise(function (resolve, reject) {
+      if (handler === '') {
+        reject(new Error(errMsg[998]));
+      } else {
+        return connectWebViewJavascriptBridge(function (webViewCallHandler) {
+          return webViewCallHandler.callHandler(handler, data, function (res) {
+            console.log('original res:' + JSON.stringify(res));
+            resolve(parseDataContent(res));
+          });
+        });
+      }
+    });
+  };
+
 
 
 // 微信

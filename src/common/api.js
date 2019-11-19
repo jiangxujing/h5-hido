@@ -183,6 +183,7 @@ const setupWebViewJavascriptBridge = function(callback) {
 var setNative = function(type, params) {
     alert(type + ' --- ' + sysPlatform)
     if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
+        alert(type + ' --- hido --- ' + sysPlatform)
         setupWebViewJavascriptBridge(function(birdge) {
             birdge.callHandler(type, params, function(data) {
                 if (data.content) {

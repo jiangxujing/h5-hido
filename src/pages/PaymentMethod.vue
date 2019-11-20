@@ -54,7 +54,7 @@
 				}
 				api.post(api.getUrl('pay', 'collections'), req).then(res => {
 					if(res.code == 0) {
-						this.h5Show = true
+						sessionStorage.setItem('h5paysuccess',true)
 						let uri = location.origin + '/h5-hido/index.html#/paymentMethod'
 						let linkUrl = encodeURIComponent(uri)
 						let sceneInfo = JSON.parse(res.content.sceneInfo)
@@ -148,6 +148,9 @@
 			}
 		},
 		mounted() {
+			if(sessionStorage.getItem('h5paysuccess')){
+				this.h5Show = true
+			}
 			this.province = sessionStorage.getItem('province')
 			this.county = sessionStorage.getItem('county')
 			this.city = sessionStorage.getItem('city')

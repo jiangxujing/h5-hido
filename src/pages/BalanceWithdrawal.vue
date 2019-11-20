@@ -131,7 +131,8 @@
 					 Toast('提现金额不能为0', '提示')
 				}else{
 					let req = {
-					mobile:this.moblie
+					mobile:this.moblie,
+					cardId:this.cardId
 				}
 				api.post(api.getUrl('withdrawalSendSms'), req).then(res => {
 					if(res.code == 0) {
@@ -190,6 +191,7 @@
 				this.bankCardNo = i.bankCardNo
 				this.name = i.name
 				this.moblie = i.moblie
+				this.cardId = i.cardId
 				if((parseFloat(this.money) > parseFloat(this.availableBalance)) && parseFloat(this.money) <= 10000) {
 					this.grayShow = true
 				} else if(parseFloat(this.money) > 10000) {
@@ -224,6 +226,7 @@
 						this.bankBranch = res.content.cardList[0].bankBranch
 						this.moblie = res.content.cardList[0].mobile
 						this.name = res.content.cardList[0].name
+						this.cardId = res.content.cardList[0].cardId
 						console.log(this.moblie)
 					}
 				}).catch((e) => {

@@ -113,7 +113,8 @@
 					serialNo:this.serialNo,
 					verificationCode:this.smsCode,
 					mobile:this.moblie,
-					name:this.name
+					name:this.name,
+					cardId:this.cardId
 				}
 				api.post(api.getUrl('withdrawalAuthSendSms'), req).then(res => {
 					if(res.code == 0) {
@@ -131,8 +132,7 @@
 					 Toast('提现金额不能为0', '提示')
 				}else{
 					let req = {
-					mobile:this.moblie,
-					cardId:this.cardId
+					mobile:this.moblie
 				}
 				api.post(api.getUrl('withdrawalSendSms'), req).then(res => {
 					if(res.code == 0) {

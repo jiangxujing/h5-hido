@@ -751,6 +751,12 @@ button.icon {
         background: #fff;
         padding: 1.2rem 1rem 0;
         margin-bottom: 1rem;
+        .van-hairline--top-bottom::after {
+            border: none;
+        }
+        .van-collapse {
+            border-top: 1px solid #eaeaea;
+        }
     }
     .team-first, .second-child {
         display: flex;

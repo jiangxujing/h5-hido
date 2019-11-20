@@ -751,11 +751,13 @@ button.icon {
         background: #fff;
         padding: 1.2rem 1rem 0;
         margin-bottom: 1rem;
-        .van-hairline--top-bottom::after {
+        .van-collapse-item__wrapper,
+        .van-hairline--top-bottom::after,
+        .van-cell:not(:last-child):after {
             border: none;
         }
         .van-collapse {
-            border-top: 1px solid #eaeaea;
+            border-top: 1px solid $borderColor;
         }
     }
     .team-first, .second-child {
@@ -808,6 +810,7 @@ button.icon {
         margin-bottom: 1.2rem;
         margin-bottom: 1.2rem;
         padding: .6rem 1.2rem;
+        border: none;
         border-radius: 3px;
     }
     .second-no {

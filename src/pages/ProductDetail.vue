@@ -166,6 +166,9 @@
 			},
 
 			getBuy(i) {
+				if(sessionStorage.getItem('h5paysuccess')){
+					sessionStorage.removeItem('h5paysuccess')
+				}
 				if(navigator.userAgent.toLowerCase().indexOf('hido')  !=  -1) {
 					api.setNative('callInit', {
 						interceptBack: false
@@ -226,17 +229,19 @@
 				let req = {
 					packageCode: code
 				}
-				api.post(api.getUrl('queryPackage', 'collections'), req, false, false, false).then(res => {
+				api.post(api.getUrl('queryPackage', 'collections'), req).then(res => {
 					if(res.code == 0) {
 						console.log('jinl ')
 						this.packageDetail = res.content.giftPackageDTODetails
-						if(res.content.giftPackageDTODetails) {
+						this.giftPackageDTOList = res.content.giftPackageDTOList
+						if(res.content.giftPackageDTODetails.detailsPicture) {
 							this.detailsPicture = res.content.giftPackageDTODetails.detailsPicture.split(',')
 						}
-						this.giftPackageDTOList = res.content.giftPackageDTOList
 						this.homepageUrl = res.content.homepageUrl
-						let type = res.content.homepageUrl.type
-						sessionStorage.setItem('type', type)
+						if(!!res.content.homepageUrl){
+							let type = res.content.homepageUrl.type
+							sessionStorage.setItem('type', type)
+						}
 					}
 				}).catch((e) => {
 

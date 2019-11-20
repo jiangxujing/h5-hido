@@ -131,7 +131,7 @@
 						let params = {
 							"sharePlatform": "WechatSession",
 							"shareParams": {
-								"shareUrl": _utils.getUrlSearch(),
+								"shareUrl": location.href,
 								"title": this.shareContent.shareTitle,
 								"shareContent": this.shareContent.shareDesc,
 								"sharePic": this.shareContent.sharePicture
@@ -151,7 +151,7 @@
 						let params = {
 							"sharePlatform": "WechatTimeline",
 							"shareParams": {
-								"shareUrl": _utils.getUrlSearch(),
+								"shareUrl": location.href,
 								"title": this.shareContent.shareTitle,
 								"shareContent": this.shareContent.shareDesc,
 								"sharePic": this.shareContent.sharePicture

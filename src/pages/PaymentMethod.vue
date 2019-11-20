@@ -42,8 +42,8 @@
 					if(res.code == 0) {
 						let sceneInfo = JSON.parse(res.content.sceneInfo)
 						this.jumpUrl = sceneInfo.mWebUrl
-						console.log(this.jumpUrl)
-						location.href = this.jumpUrl
+						console.log(this.jumpUrl+'&redirect_url='+location.origin+'h5-hido/index.html#/orderSuccess')
+						location.href = this.jumpUrl+'&redirect_url='+location.origin+'h5-hido/index.html#/orderSuccess'
 					}
 				}).catch((e) => {
 

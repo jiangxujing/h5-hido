@@ -752,7 +752,8 @@ button.icon {
         padding: 1.2rem 1rem 0;
         margin-bottom: 1rem;
         .van-collapse-item__wrapper,
-        .van-hairline--top-bottom::after {
+        .van-hairline--top-bottom::after,
+        .van-cell:not(:last-child):after {
             border: none;
         }
         .van-collapse {

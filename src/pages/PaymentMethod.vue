@@ -33,7 +33,7 @@
 		name: 'paymentMethod',
 		data() {
 			return {
-				h5Show:true,
+				h5Show:false,
 				salesPrice: sessionStorage.getItem('salesPrice')
 			}
 		},
@@ -54,6 +54,7 @@
 				}
 				api.post(api.getUrl('pay', 'collections'), req).then(res => {
 					if(res.code == 0) {
+						this.h5Show = true
 						let uri = location.origin + '/h5-hido/index.html#/paymentMethod'
 						let linkUrl = encodeURIComponent(uri)
 						let sceneInfo = JSON.parse(res.content.sceneInfo)

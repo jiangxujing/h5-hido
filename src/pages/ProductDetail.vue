@@ -56,11 +56,11 @@
 						<div style="float:left">
 							<img class="libao" :src="i.headPicture" />
 							<div class="package-price">
-								<div style="color:#FF7B31">
-									<span style="font-size:1.6rem;">￥<span style="font-size:2.1rem;font-weight: bold;">{{i.salesPrice/100}}</span></span>
+								<div style="color:#FF7B31;max-width: 15rem;overflow: hidden;text-overflow: ellipsis">
+									<span style="font-size:1.6rem;">￥<span style="font-size:2.1rem;font-weight: bold;">{{$utils.formatMoney(i.salesPrice,1)}}</span></span>
 									<span style="font-size:1.4rem;">会员礼包</span>
 								</div>
-								<div style="color:#8A9399;font-size:1.7rem;font-weight: 400;">原价￥<span>{{i.originalPrice/100}}</span></div>
+								<div style="color:#8A9399;font-size:1.7rem;font-weight: 400;">原价￥<span>{{$utils.formatMoney(i.originalPrice,1)}}</span></div>
 							</div>
 						</div>
 						<div class="buynumber">{{i.initSalesCount}}人购买</div>
@@ -76,7 +76,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="buy" @click="getBuy" v-if="packageDetail">￥{{packageDetail.salesPrice/100}}成为代理</div>
+			<div class="buy" @click="getBuy" v-if="packageDetail">￥{{$utils.formatMoney(packageDetail.salesPrice,1)}}成为代理</div>
 		</div>
 		<div class="shareWraper" v-show='shareWrapperShow' @click='shareWrapperShow=false'>
 			<div class="share-content">
@@ -448,8 +448,7 @@
 			.share {
 				float: right;
 				button {
-					width: 82px;
-					height: 30px;
+					padding: 0.8rem 1.8rem;
 					background: linear-gradient(132deg, rgba(255, 175, 130, 1) 0%, rgba(255, 123, 49, 1) 100%);
 					border-radius: 15px;
 					color: #fff;

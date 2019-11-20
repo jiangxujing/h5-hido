@@ -40,10 +40,12 @@
 				}
 				api.post(api.getUrl('pay', 'collections'), req).then(res => {
 					if(res.code == 0) {
+						let uri = location.origin+'/h5-hido/index.html#/orderSuccess'
+					 let linkUrl = encodeURIComponent(uri)
 						let sceneInfo = JSON.parse(res.content.sceneInfo)
 						this.jumpUrl = sceneInfo.mWebUrl
-						console.log(this.jumpUrl+'&redirect_url='+location.origin+'/h5-hido/index.html#/orderSuccess')
-						location.href = this.jumpUrl+'&redirect_url='+location.origin+'/h5-hido/index.html#/orderSuccess'
+						console.log(this.jumpUrl+'&redirect_url='+linkUrl)
+						location.href = this.jumpUrl+'&redirect_url='+linkUrl
 					}
 				}).catch((e) => {
 

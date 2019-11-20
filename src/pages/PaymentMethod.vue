@@ -1,21 +1,28 @@
 <template>
-	<div class="paymentMethod">
-		<div class="payment-header">
-			<div class="title">需支付</div>
-			<div class="money">
-				<span>￥</span>
-				<span>{{salesPrice/100}}</span>
+	<div class="paymentMethod" >
+			<div class="payment-header">
+				<div class="title">需支付</div>
+				<div class="money">
+					<span>￥</span>
+					<span>{{salesPrice/100}}</span>
+				</div>
 			</div>
-		</div>
-		<div class="payment-method-list">
-			<div>
-				<img class="weixin" src="../assets/images/weixin-pay.png" />
-				<span>微信支付</span>
-				<img class="gouxuan" src="../assets/images/gouxuan@2x.png" />
+			<div class="payment-method-list">
+				<div>
+					<img class="weixin" src="../assets/images/weixin-pay.png" />
+					<span>微信支付</span>
+					<img class="gouxuan" src="../assets/images/gouxuan@2x.png" />
+				</div>
 			</div>
-		</div>
-		<div style="text-align: center;">
-			<button class="buy-now" @click="buyNow">立即支付</button>
+			<div style="text-align: center;">
+				<button class="buy-now" @click="buyNow">立即支付</button>
+			</div>
+		<div class="orderH5Wrapper" v-if="h5Show">
+			<div class="content">
+				<div class="title">请确认微信支付是否完成</div>
+				<div class="success" @click="getSuccess">已完成支付</div>
+				<div class="error" @click="getError">支付遇到问题，重新支付</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -26,11 +33,18 @@
 		name: 'paymentMethod',
 		data() {
 			return {
-				salesPrice:sessionStorage.getItem('salesPrice')
+				h5Show:true,
+				salesPrice: sessionStorage.getItem('salesPrice')
 			}
 		},
 		methods: {
-			buyNow(){
+			buyNow() {
+				this.getOrderDetail()
+			},
+			getSuccess(){
+				this.$router.push("/orderSuccess")
+			},
+			getError(){
 				this.getOrderDetail()
 			},
 			getH5Pay() {
@@ -40,12 +54,12 @@
 				}
 				api.post(api.getUrl('pay', 'collections'), req).then(res => {
 					if(res.code == 0) {
-						let uri = location.origin+'/h5-hido/index.html#/orderSuccess'
-					 let linkUrl = encodeURIComponent(uri)
+						let uri = location.origin + '/h5-hido/index.html#/paymentMethod'
+						let linkUrl = encodeURIComponent(uri)
 						let sceneInfo = JSON.parse(res.content.sceneInfo)
 						this.jumpUrl = sceneInfo.mWebUrl
-						console.log(this.jumpUrl+'&redirect_url='+linkUrl)
-						location.href = this.jumpUrl+'&redirect_url='+linkUrl
+						console.log(this.jumpUrl + '&redirect_url=' + linkUrl)
+						location.href = this.jumpUrl + '&redirect_url=' + linkUrl
 					}
 				}).catch((e) => {
 
@@ -60,6 +74,7 @@
 					if(res.code == 0) {
 						let sceneInfo = JSON.parse(res.content.sceneInfo)
 						let _this = this
+
 						function onBridgeReady() {
 							WeixinJSBridge.invoke(
 								'getBrandWCPayRequest', {
@@ -94,9 +109,9 @@
 
 				})
 			},
-				getOrderDetail() {
+			getOrderDetail() {
 				let req = {
-					"channel":this.channel,
+					"channel": this.channel,
 					"receiverName": this.username,
 					"receiverPhone": this.phone,
 					"area": this.province + ',' + this.city + ',' + this.county,
@@ -135,7 +150,7 @@
 			this.username = sessionStorage.getItem('username')
 			this.phone = sessionStorage.getItem('phone')
 			this.detailAddress = sessionStorage.getItem('detailAddress')
-				let ua = navigator.userAgent;
+			let ua = navigator.userAgent;
 			this.device = {
 				version: function() {
 					return {
@@ -145,20 +160,20 @@
 			};
 			this.ios = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端
-			 if(this.device.version.MicroMessenger){
-				if(this.ios){
+			if(this.device.version.MicroMessenger) {
+				if(this.ios) {
 					this.channel = 4
-				}else if(this.android){
+				} else if(this.android) {
 					this.channel = 3
 				}
-			}else{
-				if(this.ios){
+			} else {
+				if(this.ios) {
 					this.channel = 2
-				}else if(this.android){
+				} else if(this.android) {
 					this.channel = 1
 				}
 			}
-				let params = {
+			let params = {
 				interceptBack: true
 			}
 			let _this = this
@@ -172,18 +187,18 @@
 				})
 			})
 			api.setupWebViewJavascriptBridge((bridge) => {
-						bridge.registerHandler('invokeBackPress', (data) => {
-							api.setupWebViewJavascriptBridge((bridge) => {
-								_this.$router.push("/orderDetail?packageCode=" + sessionStorage.getItem('packageCode'))
-							})
-						})
+				bridge.registerHandler('invokeBackPress', (data) => {
+					api.setupWebViewJavascriptBridge((bridge) => {
+						_this.$router.push("/orderDetail?packageCode=" + sessionStorage.getItem('packageCode'))
 					})
+				})
+			})
 		},
 	}
 </script>
 
 <style lang="scss">
-		@import '../assets/scss/common.scss';
+	@import '../assets/scss/common.scss';
 	.paymentMethod {
 		.payment-header {
 			width: 100%;
@@ -231,6 +246,37 @@
 				margin-right: 1.5rem;
 			}
 		}
-		
+		.orderH5Wrapper{
+			width:100%;
+			height:100%;
+			background: rgba(0,0,0,.6);
+			position:fixed;
+			left:0;
+			top:0;
+			.content{
+				width:70%;
+				height:20rem;
+				background: #fff;
+				border-radius:1.5rem;
+				margin: 40% auto;
+				.title{
+					color:#1A2833;
+					font-size:1.6rem;
+					font-weight: bold;
+					padding: 2rem 0;
+    				text-align: center;
+				}
+				.success{
+					color:#FE3750;
+				}
+				.success,.error{
+					font-size:1.4rem;
+					text-align: center;
+					border-bottom: 1px solid #eee;
+					padding: 1rem;
+					font-weight: 400;
+				}
+			}
+		}
 	}
 </style>

@@ -21,7 +21,6 @@
                             <div>
                                 <div v-for="(second, i) in item.list[0]" :key="i" class="second-child">
                                     <img class="second-img" :src="second.secondAgentPhoto" v-if="second.secondAgentPhoto" />
-                                    <span class="second-img-bg" v-else></span>
                                     <div class="second-content">
                                         <span class="second-phone">{{second.secondAgentPhone}}</span>
                                         <span class="second-amount fl-r">{{'￥' + second.secondAgentAmount}}</span>

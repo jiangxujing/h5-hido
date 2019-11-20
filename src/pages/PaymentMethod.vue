@@ -41,6 +41,7 @@
 				api.post(api.getUrl('pay', 'collections'), req).then(res => {
 					if(res.code == 0) {
 						this.jumpUrl = res.content.sceneInfo.mWebUrl
+						console.log(this.jumpUrl)
 						location.href = this.jumpUrl
 					}
 				}).catch((e) => {

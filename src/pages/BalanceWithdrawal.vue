@@ -9,7 +9,7 @@
 			</div>
 			<div class="borderStyle" style=" margin-left: 1.5rem;margin-top:0"></div>
 			<div class="available-balance" v-if="normal" v-cloak>
-				可用余额{{withdrawalDetail.freeAmount/100}}元&nbsp;&nbsp;<span style="color:#A5A5A5">(最低提现100元)</span>
+				可用余额<span v-if="withdrawalDetail.freeAmount">{{withdrawalDetail.freeAmount/100}}</span>元&nbsp;&nbsp;<span style="color:#A5A5A5">(最低提现100元)</span>
 			</div>
 			<div class="available-balance" style="color:#FF0000;" v-else>
 				{{tips}}
@@ -33,7 +33,7 @@
 		</div>
 		<button class="withdrawBtn buy-now buy-now-gray" v-if="grayShow">确认提现</button>
 		<button class="withdrawBtn buy-now-active" v-else @click="getWithdraw">确认提现</button>
-		<van-popup v-model="bankshow" closeable position="bottom" :style="{ height: '50%' }">
+		<van-popup v-model="bankshow" closeable position="bottom" :style="{ height: '100%' }">
 			<div class="banklist">
 				<div class="bank" v-for="(b,index) in withdrawalDetail.cardList" :key="index" @click="selectBank(b)" :class="b.active?'active':''">
 					<div style="padding:1rem 1.5rem;overflow:hidden">
@@ -317,6 +317,8 @@
 		.banklist {
 			width: 96%;
 			height: auto;
+			 max-height: 40rem;
+   			 overflow-y: scroll;
 			background: #fff;
 			position: fixed;
 			bottom: 9rem;

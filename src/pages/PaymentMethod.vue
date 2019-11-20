@@ -40,7 +40,8 @@
 				}
 				api.post(api.getUrl('pay', 'collections'), req).then(res => {
 					if(res.code == 0) {
-						this.jumpUrl = res.url
+						this.jumpUrl = res.content.sceneInfo.mWebUrl
+						location.href = this.jumpUrl
 					}
 				}).catch((e) => {
 

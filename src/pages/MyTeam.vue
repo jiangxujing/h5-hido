@@ -13,7 +13,7 @@
                         </div>
                     </div>
                     <van-collapse v-model="item.activeNames">
-                        <van-collapse-item :name="idx" v-for="(child, idx) in item.list" :key="idx" class="team-second">
+                        <van-collapse-item :name="index + '-' + idx" v-for="(child, idx) in item.list" :key="idx" class="team-second">
                             <div slot="title" class="second-no">
                                 <span>二级代理</span>
                                 <span class="second-no-right fl-r">{{item.firstAgentTeamSum + '人'}}</span>
@@ -46,7 +46,7 @@ export default {
     name: 'my-team',
     data () {
         return {
-            activeNames: ['0'],
+            activeNames: [],
             myTeam: [],
             request: false
         }

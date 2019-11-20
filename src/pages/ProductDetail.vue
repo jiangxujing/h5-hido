@@ -202,13 +202,15 @@
 				}
 			},
 			getWechat() {
-				let linkUrl = location.href
-				console.log(linkUrl)
+				let packageDetail = this.packageDetail
+				//let linkUrl = location.href.split('#')[0]
+				let url = location.href.replace("#","&");
+				 let linkUrl = url.split('#')[0]
+				url = linkUrl.replace("&","#")
+				console.log(url)
 				let reqUrl = {
-					url: encodeURIComponent(linkUrl)
+					url: encodeURIComponent(url)
 				}
-				let imgUrl = this.imageUrl
-				let imgurl = location.origin + this.prefixUrl + imgUrl
 				api.get(api.getUrl('share'), reqUrl).then(res => {
 					if(res.code == '0000') {
 						var timestamp = res.content.timestamp;
@@ -223,7 +225,7 @@
 							signature: signature, // 必填，签名，见附录1
 							jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
 						});
-						api.getWechat('hido', '你好点的', linkUrl, 'http://cdn.duitang.com/uploads/item/201510/17/20151017095028_eGJMw.thumb.700_0.jpeg')
+						api.getWechat(packageDetail.shareTitle, packageDetail.shareDesc, url, packageDetail.sharePicture)
 					}
 				})
 			},

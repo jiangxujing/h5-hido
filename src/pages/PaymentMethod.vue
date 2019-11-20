@@ -16,6 +16,7 @@
 		</div>
 		<div style="text-align: center;">
 			<button class="buy-now" @click="buyNow">立即支付</button>
+			<a :href=this.jumpUrl>立即支付</a>
 		</div>
 	</div>
 </template>
@@ -40,7 +41,8 @@
 				}
 				api.post(api.getUrl('pay', 'collections'), req).then(res => {
 					if(res.code == 0) {
-						this.jumpUrl = res.content.sceneInfo.mWebUrl
+						let sceneInfo = JSON.parse(res.content.sceneInfo)
+						this.jumpUrl = sceneInfo.mWebUrl
 						console.log(this.jumpUrl)
 						location.href = this.jumpUrl
 					}

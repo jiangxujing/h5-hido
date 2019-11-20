@@ -67,7 +67,7 @@
 					</div>
 					<div>
 						<div class="description">{{i.name}}</div>
-						<div class="share" @click="getBuy(i)" v-if="homepageUrl.type==1">
+						<div class="share" @click="getBuy(i)" v-if="homepageUrl.type==1 || inweixin">
 							<button>立即购买</button>
 						</div>
 						<div class="share" @click="getShare(i)" v-else>
@@ -111,7 +111,8 @@
 				packageDetail: {},
 				giftPackageDTOList: [],
 				homepageUrl: '',
-				detailsPicture: []
+				detailsPicture: [],
+				inweixin:false
 			}
 		},
 		methods: {
@@ -262,6 +263,9 @@
 					}
 				}()
 			};
+			if(this.device.version.MicroMessenger){
+				this.inweixin = true
+			}
 			this.ios = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端
 			let code = this.$route.query.packageCode

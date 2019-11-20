@@ -897,4 +897,11 @@ button.icon {
     .bank-item-add {
         width: 100%;
     }
+    .bank-item-noBg {
+        color: $darkColor;
+        .bank-item-tips {
+            @include borderHalfPxRound(#1A2833, 0);
+            position: absolute;
+        }
+    }
 }

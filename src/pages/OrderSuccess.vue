@@ -27,7 +27,7 @@
 					}
 			}, 1000)
 			setTimeout(() => {
-				this.$router.push("/productDetail")
+				this.$router.push("/productDetail?packageCode=" + sessionStorage.getItem('packageCode'))
 			}, 3000)
 		},
 	}

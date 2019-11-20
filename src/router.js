@@ -94,7 +94,9 @@ export default new Router({
         	path: '/orderSuccess',
             component: orderSuccess,
             name:'orderSuccess'
-        	
         }
-    ]
+    ],
+    scrollBehavior (to, from, savedPosition) {
+        return { x: 0, y: 0 }
+    }
 })

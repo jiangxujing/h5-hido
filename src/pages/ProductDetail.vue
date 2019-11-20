@@ -202,7 +202,7 @@
 				}
 			},
 			getWechat() {
-				let linkUrl = location.href.split('#')[0]
+				let linkUrl = location.href
 				console.log(linkUrl)
 				let reqUrl = {
 					url: encodeURIComponent(linkUrl)
@@ -251,36 +251,6 @@
 		},
 		mounted() {
 			this.getWechat()
-			api.registerHandler('invokeBackPress', function(data) {
-				Toast()
-				alert('1=' + JSON.String(data))
-				console.log(data)
-			})
-			let params = {
-				interceptBack: true
-			}
-			api.setupWebViewJavascriptBridge((bridge) => {
-				bridge.callHandler('callInit', params, (data) => {
-					api.setupWebViewJavascriptBridge((bridge) => {
-						bridge.registerHandler('invokeBackPress', (data) => {
-							api.setupWebViewJavascriptBridge((bridge) => {
-								bridge.callHandler('callFinish', {}, (data) => {
-									Toast('3=' + JSON.String(data))
-								})
-							})
-						})
-					})
-				})
-			})
-			api.setupWebViewJavascriptBridge((bridge) => {
-						bridge.registerHandler('invokeBackPress', (data) => {
-							api.setupWebViewJavascriptBridge((bridge) => {
-								bridge.callHandler('callFinish', {}, (data) => {
-									Toast('3=' + JSON.String(data))
-								})
-							})
-						})
-					})
 			document.title = "礼包详情"
 			let ua = navigator.userAgent;
 			this.device = {
@@ -301,6 +271,29 @@
 			} else {
 				this.getPackageDetail(code)
 			}
+				let params = {
+				interceptBack: true
+			}
+				api.setupWebViewJavascriptBridge((bridge) => {
+				bridge.callHandler('callInit', params, (data) => {
+					api.setupWebViewJavascriptBridge((bridge) => {
+						bridge.registerHandler('invokeBackPress', (data) => {
+							api.setupWebViewJavascriptBridge((bridge) => {
+								bridge.callHandler('callFinish', {}, (data) => {
+								})
+							})
+						})
+					})
+				})
+			})
+		api.setupWebViewJavascriptBridge((bridge) => {
+						bridge.registerHandler('invokeBackPress', (data) => {
+							api.setupWebViewJavascriptBridge((bridge) => {
+								bridge.callHandler('callFinish', {}, (data) => {
+								})
+							})
+						})
+					})
 		},
 	}
 </script>

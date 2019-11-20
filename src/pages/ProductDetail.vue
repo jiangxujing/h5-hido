@@ -124,9 +124,6 @@
 				this.shareWrapperShow = true
 			},
 			shareWeixin() {
-				if(this.device.version.MicroMessenger) {
-					this.getWechat()
-				} else {
 					api.setupWebViewJavascriptBridge((bridge) => {
 						let params = {
 							"sharePlatform": "WechatSession",
@@ -141,12 +138,8 @@
 							console.log(data)
 						})
 					})
-				}
 			},
 			shareFriend() {
-				if(this.device.version.MicroMessenger) {
-					this.getWechat()
-				} else {
 					api.setupWebViewJavascriptBridge((bridge) => {
 						let params = {
 							"sharePlatform": "WechatTimeline",
@@ -161,7 +154,6 @@
 							console.log(data)
 						})
 					})
-				}
 			},
 			urlParse(queryStr) {
 				let arr = queryStr.slice(1).split('&');
@@ -253,7 +245,6 @@
 
 		},
 		mounted() {
-			this.getWechat()
 			document.title = "礼包详情"
 			let ua = navigator.userAgent;
 			this.device = {
@@ -265,6 +256,7 @@
 			};
 			if(this.device.version.MicroMessenger){
 				this.inweixin = true
+				this.getWechat()
 			}
 			this.ios = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端

@@ -132,7 +132,8 @@
 					 Toast('提现金额不能为0', '提示')
 				}else{
 					let req = {
-					mobile:this.moblie
+					mobile:this.moblie,
+					amount:this.money
 				}
 					console.log(this.moblie)
 				api.post(api.getUrl('withdrawalSendSms'), req).then(res => {

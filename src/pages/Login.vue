@@ -88,7 +88,7 @@ export default {
 			if(this.device.version.MicroMessenger){
 				setTimeout(() => {
 					 this.getCode()
-				}, 3000)
+				}, 6000)
 			}
     },
     computed: {

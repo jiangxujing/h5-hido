@@ -120,11 +120,11 @@ export default {
             phone: '',
             checked: false,
             rules: {
+                bankName: [
+                    {required: true, message: '请选择开户行'}
+                ],
                 cardNo: [
                     {required: true, message: '请输入银行卡号'}
-                ],
-                bankName: [
-                    {required: true, message: '请选择银行名称'}
                 ],
                 bankBranch: [
                     {required: true, message: '请输入开户支行'}

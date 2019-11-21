@@ -85,11 +85,11 @@ export default {
 					}
 				}()
 			};
-//			if(this.device.version.MicroMessenger){
-//				setTimeout(() => {
-//					 this.getCode()
-//				}, 6000)
-//			}
+			if(this.device.version.MicroMessenger){
+				setTimeout(() => {
+					 this.getCode()
+				}, 6000)
+			}
     },
     computed: {
         // 监听页面数据

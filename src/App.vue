@@ -16,7 +16,6 @@
             }
         },
         beforeMount () {
-            htmlFontSize()
             resetFontSize(document, window)
             resetWindow()
             window.addEventListener('resize', () => {

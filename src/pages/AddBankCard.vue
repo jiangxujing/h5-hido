@@ -89,6 +89,7 @@
 <script>
 import { Toast, Field, Button, Popup, Checkbox, CheckboxGroup, ActionSheet, NumberKeyboard } from 'vant'
 import api from '../common/api.js'
+import { htmlFontSize, resetFontSize, resetWindow } from '@/common/utils.js'
 
 export default {
     name: 'add-bank-card',
@@ -136,7 +137,7 @@ export default {
                 ],
                 phone: [
                     {required: true, message: '请输入手机号码'}
-                ]
+                ]   
             },
             bankList: [],
             show: false

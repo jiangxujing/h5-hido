@@ -128,6 +128,7 @@
 				})
 			},
 			getWithdraw() {
+				alert(this.moblie)
 				if(parseFloat(this.money) <=0){
 					 Toast('提现金额不能为0', '提示')
 				}else{

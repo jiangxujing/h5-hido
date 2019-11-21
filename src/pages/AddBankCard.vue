@@ -119,26 +119,6 @@ export default {
             idNo: '',
             phone: '',
             checked: false,
-            rules: {
-                cardNo: [
-                    {required: true, message: '请输入银行卡号'}
-                ],
-                bankName: [
-                    {required: true, message: '请选择银行名称'}
-                ],
-                bankBranch: [
-                    {required: true, message: '请输入开户支行'}
-                ],
-                name: [
-                    {required: true, message: '请输入本人姓名'}
-                ],
-                idNo: [
-                    {required: true, message: '请输入身份证号'}
-                ],
-                phone: [
-                    {required: true, message: '请输入手机号码'}
-                ]   
-            },
             bankList: [],
             show: false
         }
@@ -215,7 +195,7 @@ export default {
             const branchReg = /^[\u4e00-\u9fa5]*$/
             const idCardNoReg = /^(^\d{18}$)|(^\d{17}(\d|X|x)$)$/
             if (!this.bankName) {
-                Toast('请选择银行名称')
+                Toast('请选择开户行')
                 return false
             } else if (!this.cardNo) {
                 Toast('请输入银行卡号')

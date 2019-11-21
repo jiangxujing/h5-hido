@@ -143,6 +143,9 @@
 		},
 		mounted() {
 			//this.getJsApiPay()
+			if(sessionStorage.getItem('h5paysuccess')){
+					sessionStorage.removeItem('h5paysuccess')
+				}
 			this.packageCode = this.$route.query.packageCode
 			let ua = navigator.userAgent;
 			this.device = {

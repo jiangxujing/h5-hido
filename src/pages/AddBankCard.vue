@@ -35,12 +35,21 @@
                     placeholder="请输入本人姓名"
                     @clear="clearVerifyCode" />
                 <van-field
+                    :value="idNo"
+                    readonly
+                    clearable
+                    maxlength="18"
+                    label="身份证号"
+                    placeholder="请输入身份证号"
+                    @touchstart.native.stop="keyboardshow = true"
+                    @clear="clearVerifyCode" />
+                <!-- <van-field
                     v-model="idNo"
                     clearable
                     maxlength="18"
                     label="身份证号"
                     placeholder="请输入身份证号"
-                    @clear="clearVerifyCode" />
+                    @clear="clearVerifyCode" /> -->
                 <van-field
                     v-model="phone"
                     clearable
@@ -49,18 +58,18 @@
                     label="预留手机号"
                     placeholder="请输入预留手机号"
                     @clear="clearVerifyCode" />
-                <van-cell-group>
-                    <van-field
-                        v-model="verifyCode"
-                        center
-                        clearable
-                        maxlength="6"
-                        type="number"
-                        label="验证码"
-                        placeholder="请输入验证码">
-                        <van-button class="van-field-btn" slot="button" plain size="small" type="info" :disabled="verifyBtn" @click="getVerify">{{verifyTitle}}</van-button>
-                    </van-field>
-                </van-cell-group>
+                <!-- <van-cell-group> -->
+                <van-field
+                    v-model="verifyCode"
+                    center
+                    clearable
+                    maxlength="6"
+                    type="number"
+                    label="验证码"
+                    placeholder="请输入验证码">
+                    <van-button class="van-field-btn" slot="button" plain size="small" type="info" :disabled="verifyBtn" @click="getVerify">{{verifyTitle}}</van-button>
+                </van-field>
+                <!-- </van-cell-group> -->
             </div>
             <div class="page-protocol">
                 <van-checkbox v-model="checked" checked-color="#FF7B31">
@@ -73,17 +82,19 @@
             <van-button class="next-button" @click="toNext" :disabled="nextBtn">提 交</van-button>
         </div>
         <van-action-sheet v-model="show" :actions="bankList"  @select="onSelect" title="请选择开户行" class="bank-list-sheet" />
+        <van-number-keyboard v-model="idNo" :show="keyboardshow" extra-key="X" :maxlength="18" @blur="keyboardshow=false" />
     </div>            
 </template>
 
 <script>
-import { Toast, Field, Button, Popup, Checkbox, CheckboxGroup, ActionSheet } from 'vant'
+import { Toast, Field, Button, Popup, Checkbox, CheckboxGroup, ActionSheet, NumberKeyboard } from 'vant'
 import api from '../common/api.js'
 
 export default {
     name: 'add-bank-card',
     data () {
         return {
+            keyboardshow:false,
             verifyTitle: '获取验证码',
             loginVerify: 59,
             clock: '',

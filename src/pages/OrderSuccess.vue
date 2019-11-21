@@ -2,9 +2,9 @@
 	<div style="width:100%;height:100%">
 		<div class="order-status">
 			<img src="../assets/images/order-success.png" />
-			<div class="sucess-txt" style="padding-top:3rem;">您的订单已提交成功</div>
-			<div class="sucess-txt" style="padding-top:1.1rem;">会为您尽快安排发货</div>
-			<div style="#8A9399;font-size:1.4rem;padding-top:2rem;">{{second}}s后自动跳转回购买界面</div>
+			<div class="sucess-txt" style="padding-top:3rem;">您的订单已提交</div>
+			<div class="sucess-txt" style="padding-top:1.1rem;">请在我的礼包中查看</div>
+			<div style="#8A9399;font-size:1.4rem;padding-top:2rem;">{{second}}s后自动跳转我的礼包页</div>
 		</div>
 	</div>
 </template>
@@ -27,7 +27,7 @@
 					}
 			}, 1000)
 			setTimeout(() => {
-				this.$router.push("/productDetail?packageCode=" + sessionStorage.getItem('packageCode'))
+				this.$router.push("/giftPackage")
 			}, 3000)
 		},
 	}

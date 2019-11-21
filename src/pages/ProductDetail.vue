@@ -167,9 +167,6 @@
 			},
 
 			getBuy(i) {
-				if(sessionStorage.getItem('h5paysuccess')){
-					sessionStorage.removeItem('h5paysuccess')
-				}
 				if(navigator.userAgent.toLowerCase().indexOf('hido')  !=  -1) {
 					api.setNative('callInit', {
 						interceptBack: false

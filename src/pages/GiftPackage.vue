@@ -65,6 +65,9 @@
 			
 		},
 		mounted() {
+			if(sessionStorage.getItem('h5paysuccess')){
+					sessionStorage.removeItem('h5paysuccess')
+				}
 			document.title='我的礼包'
 			if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
 				api.setNative('callInit', {interceptBack: false})

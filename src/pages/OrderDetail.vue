@@ -66,13 +66,6 @@
 				</div>
 			</div>
 		</div>
-		<div class="orderH5Wrapper" v-if="h5Show">
-			<div class="content">
-				<div class="title">请确认微信支付是否完成</div>
-				<div class="success" @click="getSuccess">已完成支付</div>
-				<div class="error" @click="getError">支付遇到问题，重新支付</div>
-			</div>
-		</div>
 	</div>
 </template>
 
@@ -98,8 +91,7 @@
 				orderDetail: {},
 				type:'',
 				paymethodShow: false,
-				orderShow:true,
-				h5Show:false
+				orderShow:true
 			}
 		},
 		methods: {
@@ -196,9 +188,6 @@
 				if(!this.hasNoAdress) {
 					this.gray = false
 				}
-			}
-			if(sessionStorage.getItem('h5paysuccess')){
-				this.h5Show = true
 			}
 		},
 	}

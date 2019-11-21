@@ -16,7 +16,6 @@
 			</div>
 			<div style="text-align: center;">
 				<button class="buy-now" @click="buyNow">立即支付</button>
-				<a :href=jumpUrl>立即支付</a>
 			</div>
 		<div class="orderH5Wrapper" v-if="h5Show">
 			<div class="content">

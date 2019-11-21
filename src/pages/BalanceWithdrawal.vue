@@ -128,13 +128,13 @@
 				})
 			},
 			getWithdraw() {
-				alert(this.moblie)
 				if(parseFloat(this.money) <=0){
 					 Toast('提现金额不能为0', '提示')
 				}else{
 					let req = {
 					mobile:this.moblie
 				}
+					console.log(this.moblie)
 				api.post(api.getUrl('withdrawalSendSms'), req).then(res => {
 					if(res.code == 0) {
 						this.sendCodeDetail = res.content;
@@ -191,7 +191,8 @@
 				this.bankName = i.bankName
 				this.bankCardNo = i.bankCardNo
 				this.name = i.name
-				this.moblie = i.moblie
+				this.moblie = i.mobile
+				console.log(this.moblie)
 				this.cardId = i.cardId
 				if((parseFloat(this.money) > parseFloat(this.availableBalance)) && parseFloat(this.money) <= 10000) {
 					this.grayShow = true

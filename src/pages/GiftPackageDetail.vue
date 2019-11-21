@@ -9,7 +9,7 @@
 							<div class="van-multi-ellipsis--l2" style="color:#1A2833;font-size:1.5rem">
 								{{giftDetail.productName}}
 							</div>
-							<div class="price">
+							<div class="price" v-if="giftDetail.orderRealAmt">
 								￥{{giftDetail.orderRealAmt/100}}
 							</div>
 						</div>
@@ -86,7 +86,7 @@
 				</div>
 				<div class="good-user order-d">
 					<div>付款时间：</div>
-					<div>{{giftDetail.payTime}}</div>
+					<div>{{$utils.dateFormatter(giftDetail.payTime, "yyyy-MM-dd HH:mm:ss")}}</div>
 				</div>
 				<div class="good-user order-d">
 					<div>支付方式：</div>

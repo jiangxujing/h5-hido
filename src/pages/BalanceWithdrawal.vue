@@ -61,7 +61,7 @@
 			<div class="sendCode-content" @click.stop>
 				<div class="title">{{sendCodeDetail.message}}</div>
 				<div class="send-style">
-					<input type="number" v-model="smsCode" placeholder="输入验证码" />
+					<input type="text" maxlength="6" v-model="smsCode" onkeyup="value=value.replace(/[^\d.]/g,'');value=value.replace(/^\./g,'');value=value.replace(/\.{2,}/g,'.');value=value.replace('.','$#$').replace(/\./g,'').replace('$#$','.');value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3')" placeholder="输入验证码" />
 					<button v-if="codeGrayShow">{{countdown}}s</button>
 					<button @click="sendCode" class="active" v-else>重新发送</button>
 				</div>

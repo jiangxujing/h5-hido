@@ -35,19 +35,7 @@
 		name: 'giftPackage',
 		data() {
 			return {
-				packageList:[{
-					orderTime:'2019/10/15',
-					packageName:'399大礼包',
-					imgurl: require('../assets/images/libao.png'),
-					oderAmount:'399',
-					orderNo:1
-				},{
-					orderTime:'2019/10/15',
-					packageName:'399大礼包',
-					imgurl: require('../assets/images/libao.png'),
-					oderAmount:'399',
-					orderNo:2
-				}],
+				packageList:[],
 				orderTime:'',
 				packageName:''
 			}

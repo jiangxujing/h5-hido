@@ -66,6 +66,13 @@
 				</div>
 			</div>
 		</div>
+		<div class="orderH5Wrapper" v-if="h5Show">
+			<div class="content">
+				<div class="title">请确认微信支付是否完成</div>
+				<div class="success" @click="getSuccess">已完成支付</div>
+				<div class="error" @click="getError">支付遇到问题，重新支付</div>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -91,24 +98,16 @@
 				orderDetail: {},
 				type:'',
 				paymethodShow: false,
-				orderShow:true
+				orderShow:true,
+				h5Show:false
 			}
 		},
 		methods: {
-			getOpenId(code) { // 通过code获取 openId等用户信息
-				let _this = this
-				let req = {
-					code: code,
-					appid: 'wxc20260737b4c8770',
-					secret: '7f3d7817fdb685dc9741fe25e1688514',
-					grant_type: 'authorization_code'
-				}
-				api.get(api.getWeixinUrl('oauth2', 'weixin'), req).then(res => {
-					let openId = res.openid
-					this.getJsApiPay()
-				}).catch((e) => {
-					console.log('失败')
-				})
+			getSuccess(){
+				this.$router.push("/orderSuccess")
+			},
+			getError(){
+				this.$router.push("/paymentMethod")
 			},
 			setAddress() {
 				this.$router.push("/shippingAddress")
@@ -197,6 +196,9 @@
 				if(!this.hasNoAdress) {
 					this.gray = false
 				}
+			}
+			if(sessionStorage.getItem('h5paysuccess')){
+				this.h5Show = true
 			}
 		},
 	}
@@ -380,6 +382,38 @@
 					margin-top: 0.8rem;
 					float: right;
 					margin-right: 1.5rem;
+				}
+			}
+		}
+		.orderH5Wrapper{
+			width:100%;
+			height:100%;
+			background: rgba(0,0,0,.6);
+			position:fixed;
+			left:0;
+			top:0;
+			.content{
+				width:70%;
+				height:20rem;
+				background: #fff;
+				border-radius:1.5rem;
+				margin: 40% auto;
+				.title{
+					color:#1A2833;
+					font-size:1.6rem;
+					font-weight: bold;
+					padding: 2rem 0;
+    				text-align: center;
+				}
+				.success{
+					color:#FE3750;
+				}
+				.success,.error{
+					font-size:1.4rem;
+					text-align: center;
+					border-bottom: 1px solid #eee;
+					padding: 1rem;
+					font-weight: 400;
 				}
 			}
 		}

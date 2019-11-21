@@ -148,11 +148,11 @@ export const resetWindow = () => {
 	resetHeight()
 	window.addEventListener('resize', () => {
 		resetWidth()
-		// resetHeight()
+		resetHeight()
 	})
 	window.addEventListener('orientationchange', () => {
 		resetWidth()
-		// resetHeight()
+		resetHeight()
 	})
 	document.addEventListener('focusout', () => {
 		window.scrollTo(0, 0)

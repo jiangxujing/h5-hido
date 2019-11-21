@@ -599,6 +599,9 @@ button.icon {
     padding-top: 3rem;
     height: 100%;
     background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     .login-h2 {
         margin-left: 2.5rem;
         color: $darkColor;
@@ -612,12 +615,12 @@ button.icon {
         line-height: 2.8rem;
     }
     .page-protocol {
-        position: fixed;
         width: 100%;
-        bottom: 2.5rem;
         text-align: center;
         font-size: 1rem;
         color: $lightColor;
+        padding-bottom: 2.5rem;
+        background: #fff;
         .protocol-a {
             font-size: 1rem;
             line-height: 3rem;
@@ -695,6 +698,7 @@ button.icon {
     }
     .page-button {
         padding: 6rem 2.5rem 5.5rem;
+        background: #fff;
     }
     .page-verify.van-button--disabled {
         color: $lightColor;

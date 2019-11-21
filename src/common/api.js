@@ -313,7 +313,7 @@ const post = (url, data, noLoading, noToken, formData) => {
                     delCookie(k)
                 }
                 let desc = respData['desc'] ? respData['desc'] : '凭证已失效，请重新登录'
-                Toast(desc)
+                //Toast(desc)
                 if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
                     setNative('callLogin', {})
                 } else {
@@ -324,7 +324,7 @@ const post = (url, data, noLoading, noToken, formData) => {
                 }
             } else if (respData['code'] !== 0) {
                 let desc = respData['desc'] ? respData['desc'] : '网络异常，请稍后再试'
-                Toast(desc)
+                //Toast(desc)
             }
             return Promise.resolve(respData)
         } else {
@@ -336,7 +336,7 @@ const post = (url, data, noLoading, noToken, formData) => {
         // alert(JSON.stringify(err))
         // Toast(err)
         let desc = '网络异常，请稍后再试'
-        Toast(desc)
+       //Toast(desc)
     })
 }
 

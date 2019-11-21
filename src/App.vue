@@ -6,7 +6,7 @@
 
 <script>
     import Vue from 'vue'
-    import { resetFontSize, resetWindow } from '@/common/utils.js'
+    import { htmlFontSize, resetFontSize, resetWindow } from '@/common/utils.js'
 
     export default {
         name: 'app',
@@ -16,6 +16,7 @@
             }
         },
         beforeMount () {
+            htmlFontSize()
             resetFontSize(document, window)
             resetWindow()
             window.addEventListener('resize', () => {

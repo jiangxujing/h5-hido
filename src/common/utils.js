@@ -80,6 +80,21 @@ if(/iphone|ipad|ipod/.test(ua)) { //调用设备对象的test方法判断设备�
 	sysPlatform = ''
 }
 
+// 控制页面字体大小
+export const htmlFontSize = () => {
+	let h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+	let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+	let width = w > h ? h : w;
+	width = width > 720 ? 720 : width;
+	let fz = ~~(width*100000/36)/10000;
+	fz = 10;
+	document.getElementsByTagName('html')[0].style.cssText = 'font-size: ' + fz +'px';
+	let realfz = ~~(+window.getComputedStyle(document.getElementsByTagName('html')[0]).fontSize.replace('px','')*10000)/10000;
+	if (fz !== realfz) {
+		document.getElementsByTagName('html')[0].style.cssText = 'font-size: ' + fz * (fz / realfz) +'px';
+	}
+}
+
 export const resetFontSize = (doc, win) => {
 	let docEle = doc.documentElement,
 		// evt = 'orientationchange' in window ? 'orientationchange' : 'resize,
@@ -655,6 +670,7 @@ export const checkTel = () => {
 }
 
 export default {
+	htmlFontSize,
 	validator,
 	dateFormatter,
 	setCookie,

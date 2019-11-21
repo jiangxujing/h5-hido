@@ -9,7 +9,7 @@
 			</div>
 			<div class="borderStyle" style=" margin-left: 1.5rem;margin-top:0"></div>
 			<div class="available-balance" v-if="normal" v-cloak>
-				可用余额<span v-if="withdrawalDetail.freeAmount">{{withdrawalDetail.freeAmount/100}}</span>元&nbsp;&nbsp;<span style="color:#A5A5A5">(最低提现100元)</span>
+				可用余额<span v-if="withdrawalDetail.freeAmount || withdrawalDetail.freeAmount==0">{{withdrawalDetail.freeAmount/100}}</span>元&nbsp;&nbsp;<span style="color:#A5A5A5">(最低提现100元)</span>
 			</div>
 			<div class="available-balance" style="color:#FF0000;" v-else>
 				{{tips}}

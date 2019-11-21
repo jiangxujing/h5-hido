@@ -117,7 +117,7 @@
 				}
 			},
 			submitOrder() {
-				this.$router.push("/paymentMethod")
+				this.$router.push("/paymentMethod?packageCode="+this.packageCode)
 			},
 			goBack() {
 				this.$router.push("/productDetail?packageCode="+this.packageCode)

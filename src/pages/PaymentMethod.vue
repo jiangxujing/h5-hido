@@ -45,7 +45,8 @@
 				this.$router.push("/orderSuccess")
 			},
 			getError(){
-				this.getOrderDetail()
+				let packageCode = this.$route.query.packageCode
+				this.$router.push("/orderDetail?packageCode="+packageCode)
 			},
 			getH5Pay() {
 				let req = {

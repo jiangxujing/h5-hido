@@ -1,40 +1,43 @@
 <template>
     <div class="main-content login">
-        <div class="watchData">{{watchData}}</div>
-        <h2 class="login-h2">您好！</h2>
-        <h3 class="login-h3">欢迎来到HIDO</h3>
-        <div class="page-field">
-            <div class="page-part">
-                <van-cell-group>
-                    <input
+        <div>
+            <div class="watchData">{{watchData}}</div>
+            <h2 class="login-h2">您好！</h2>
+            <h3 class="login-h3">欢迎来到HIDO</h3>
+            <div class="page-field">
+                <div class="page-part">
+                    <van-cell-group>
+                        <input
+                            class="van-cell-group-input"
+                            type="tel"
+                            placeholder="请输入手机号"
+                            v-model="phone"
+                            maxlength="11"
+                            @focus="() => {phone = phone.replace(/\D/g,''), mobileFocus = true}"
+                            @blur="setTimeout('mobileFocus')"/>
+                        <i class="van-cell-group-inputTitle" v-if="phone">手机号</i>
+                        <van-icon class="verify-input-code" v-if="phone && mobileFocus" name="close" @click="phone=''"/>
+                    </van-cell-group>
+                    <van-cell-group>
+                        <input
                         class="van-cell-group-input"
+                        placeholder="请输入验证码"
                         type="tel"
-                        placeholder="请输入手机号"
-                        v-model="phone"
-                        maxlength="11"
-                        @focus="() => {phone = phone.replace(/\D/g,''), mobileFocus = true}"
-                        @blur="setTimeout('mobileFocus')"/>
-                    <i class="van-cell-group-inputTitle" v-if="phone">手机号</i>
-                    <van-icon class="verify-input-code" v-if="phone && mobileFocus" name="close" @click="phone=''"/>
-                </van-cell-group>
-                <van-cell-group>
-                    <input
-                    class="van-cell-group-input"
-                    placeholder="请输入验证码"
-                    type="tel"
-                    v-model="verifyCode"
-                    maxlength="6"
-                    @focus="() => {phone = phone.replace(/\D/g,''), verifyCodeFocus = true}"
-                    @blur="setTimeout('verifyCodeFocus')"/>
-                    <i class="van-cell-group-inputTitle" v-if="verifyCode">验证码</i>
-                    <van-icon v-if="verifyCode && verifyCodeFocus" name="close"  @click="verifyCode = ''"/>
-                </van-cell-group>
-                <van-button class="page-verify" @click="getVerify" :disabled="verifyBtn">{{ verifyTitle }}</van-button>
+                        v-model="verifyCode"
+                        maxlength="6"
+                        @focus="() => {phone = phone.replace(/\D/g,''), verifyCodeFocus = true}"
+                        @blur="setTimeout('verifyCodeFocus')"/>
+                        <i class="van-cell-group-inputTitle" v-if="verifyCode">验证码</i>
+                        <van-icon v-if="verifyCode && verifyCodeFocus" name="close"  @click="verifyCode = ''"/>
+                    </van-cell-group>
+                    <van-button class="page-verify" @click="getVerify" :disabled="verifyBtn">{{ verifyTitle }}</van-button>
+                </div>
+            </div>
+            <div class="page-button">
+                <van-button class="next-button" @click="toNext" :disabled="nextBtn">登 录</van-button>
             </div>
         </div>
-        <div class="page-button">
-            <van-button class="next-button" @click="toNext" :disabled="nextBtn">登 录</van-button>
-        </div>
+        
         <div class="page-protocol">
             <span class="protocol-title">登录即表示我已阅读并同意</span>
             <span class="protocol-title protocol-a" @click="$router.push({name: 'registerProtocol'})">用户注册协议</span><span style="color:$themeColor;">、</span><span class="protocol-title protocol-a" @click="$router.push({name: 'privacyPolicy'})">隐私策略</span>

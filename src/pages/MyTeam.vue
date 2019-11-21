@@ -12,16 +12,17 @@
                             <div class="first-amount">{{'￥' + item.firstAgentAllAmount}}</div>
                         </div>
                     </div>
-                    <van-collapse v-model="item.activeNames">
+                    <van-collapse v-model="activeNames">
                         <van-collapse-item :name="index + '-' + idx" v-for="(child, idx) in item.list" :key="idx" class="team-second">
                             <div slot="title" class="second-no">
                                 <span>二级代理</span>
                                 <span class="second-no-right fl-r">{{item.firstAgentTeamSum + '人'}}</span>
                             </div>
+                            <!-- <div v-if="activeNames.indexOf(index + '-' + idx) > -1"> -->
                             <div>
                                 <div v-for="(second, i) in item.list[0]" :key="i" class="second-child">
                                     <img class="second-img" :src="second.secondAgentPhoto" v-if="second.secondAgentPhoto" />
-                                    <span class="second-img-bg" v-else></span>
+                                    <!-- <span class="second-img-bg" v-else></span> -->
                                     <div class="second-content">
                                         <span class="second-phone">{{second.secondAgentPhone}}</span>
                                         <span class="second-amount fl-r">{{'￥' + second.secondAgentAmount}}</span>
@@ -81,14 +82,25 @@ export default {
                                 list: []
                             }
                             itemObj.firstAgentInfo = item.firstAgentName ? item.firstAgentPhone + '(' + item.firstAgentName + ')' : item.firstAgentPhone
-                            itemObj.list[0] = item.list.map(child => {
+                            // itemObj.list[0] = item.list.map(child => {
+                            //     let childObj = {
+                            //         secondAgentPhone: child.secondAgentPhone,
+                            //         secondAgentPhoto: child.secondAgentPhoto,
+                            //         secondAgentAmount: formatMoney(child.secondAgentAmount, 1)
+                            //     }
+                            //     return childObj
+                            // })
+                            let tempList= []
+                            item.list.forEach(child => {
                                 let childObj = {
                                     secondAgentPhone: child.secondAgentPhone,
                                     secondAgentPhoto: child.secondAgentPhoto,
                                     secondAgentAmount: formatMoney(child.secondAgentAmount, 1)
                                 }
-                                return childObj
+                                tempList.push(childObj)
+                                tempList.push(childObj)
                             })
+                            itemObj.list[0] = tempList
                             return itemObj
                         })
                     } else {

@@ -763,6 +763,10 @@ button.icon {
     .team-first, .second-child {
         display: flex;
     }
+    .second-list {
+        padding: .6rem 1.2rem;
+        margin-bottom: 1.2rem;
+    }
     .second-child {
         padding: .6rem 0;
     }
@@ -807,9 +811,8 @@ button.icon {
     }
     .team-second .van-collapse-item__content {
         background: #FAFAFA;
-        margin-bottom: 1.2rem;
-        margin-bottom: 1.2rem;
-        padding: .6rem 1.2rem;
+        margin-bottom: 0;
+        padding: 0;
         border: none;
         border-radius: 3px;
     }

@@ -18,11 +18,10 @@
                                 <span>二级代理</span>
                                 <span class="second-no-right fl-r">{{item.firstAgentTeamSum + '人'}}</span>
                             </div>
-                            <!-- <div v-if="activeNames.indexOf(index + '-' + idx) > -1"> -->
-                            <div>
+                            <div class="second-list" v-if="activeNames.indexOf(index + '-' + idx) > -1">
                                 <div v-for="(second, i) in item.list[0]" :key="i" class="second-child">
                                     <img class="second-img" :src="second.secondAgentPhoto" v-if="second.secondAgentPhoto" />
-                                    <!-- <span class="second-img-bg" v-else></span> -->
+                                    <span class="second-img-bg" v-else></span>
                                     <div class="second-content">
                                         <span class="second-phone">{{second.secondAgentPhone}}</span>
                                         <span class="second-amount fl-r">{{'￥' + second.secondAgentAmount}}</span>
@@ -82,25 +81,14 @@ export default {
                                 list: []
                             }
                             itemObj.firstAgentInfo = item.firstAgentName ? item.firstAgentPhone + '(' + item.firstAgentName + ')' : item.firstAgentPhone
-                            // itemObj.list[0] = item.list.map(child => {
-                            //     let childObj = {
-                            //         secondAgentPhone: child.secondAgentPhone,
-                            //         secondAgentPhoto: child.secondAgentPhoto,
-                            //         secondAgentAmount: formatMoney(child.secondAgentAmount, 1)
-                            //     }
-                            //     return childObj
-                            // })
-                            let tempList= []
-                            item.list.forEach(child => {
+                            itemObj.list[0] = item.list.map(child => {
                                 let childObj = {
                                     secondAgentPhone: child.secondAgentPhone,
                                     secondAgentPhoto: child.secondAgentPhoto,
                                     secondAgentAmount: formatMoney(child.secondAgentAmount, 1)
                                 }
-                                tempList.push(childObj)
-                                tempList.push(childObj)
+                                return childObj
                             })
-                            itemObj.list[0] = tempList
                             return itemObj
                         })
                     } else {

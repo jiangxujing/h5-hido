@@ -30,7 +30,7 @@
                 <van-field
                     v-model="name"
                     clearable
-                    maxlength="20"
+                    maxlength="16"
                     label="本人姓名"
                     placeholder="请输入本人姓名"
                     @clear="clearVerifyCode" />

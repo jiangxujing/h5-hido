@@ -76,7 +76,8 @@
 					</div>
 				</div>
 			</div>
-			<div class="buy" @click="getBuy" v-if="packageDetail">￥{{$utils.formatMoney(packageDetail.salesPrice,1)}}成为代理</div>
+			<div class="buy" @click="getBuy" v-if="packageDetail && homepageUrl.type==1">￥{{$utils.formatMoney(packageDetail.salesPrice,1)}}成为代理</div>
+			<div class="buy" @click="getBuy" v-else>立即购买</div>
 		</div>
 		<div class="shareWraper" v-show='shareWrapperShow' @click='shareWrapperShow=false'>
 			<div class="share-content">

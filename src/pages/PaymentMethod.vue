@@ -62,7 +62,7 @@
 						this.jumpUrl = sceneInfo.mWebUrl
 						console.log(this.jumpUrl + '&redirect_url=' + linkUrl)
 						setTimeout(() => {
-							location.href = this.jumpUrl + '&redirect_url=' + linkUrl
+							location.href = this.jumpUrl
 						}, 200)
 						
 					}

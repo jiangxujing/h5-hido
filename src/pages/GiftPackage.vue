@@ -3,7 +3,7 @@
 		<div class="gift-package" v-for="(p,index) in packageList" :key="index" @click="goToGiftDetail(p.orderNo)">
 			<div class="time-status">
 				<div class="time">{{$utils.dateFormatter(p.orderTime, "yyyy-MM-dd HH:mm:ss")}}</div>
-				<div class="status">{{getStatusDesc(p.status)}}</div>
+				<div class="status">{{getStatusDesc(p.orderStatus)}}</div>
 			</div>
 			<div class="borderStyle"></div>
 			<div style="overflow:hidden">

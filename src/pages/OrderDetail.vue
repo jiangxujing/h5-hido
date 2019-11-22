@@ -163,7 +163,7 @@
 				api.post(api.getUrl('queryAgent', ), req).then(res => {
 					if(res.code == 0) {
 						this.firstMobile = res.content.firstMobile
-						if(this.device.version.MicroMessenger) {
+						if(this.device.version.MicroMessenger) {						
 							 if(!res.content.firstMobile){
 								if(res.content.mobile){
 									this.recommendPhone = res.content.mobile
@@ -186,7 +186,6 @@
 			
 			this.packageCode = this.$route.query.packageCode
 			this.uid = this.$route.query.uid
-			this.queryAgent()
 			let ua = navigator.userAgent;
 			this.device = {
 				version: function() {
@@ -195,6 +194,7 @@
 					}
 				}()
 			};
+			this.queryAgent()
 			this.ios = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端
 			sessionStorage.setItem('packageCode',this.$route.query.packageCode)

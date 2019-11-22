@@ -20,13 +20,13 @@
                     </van-cell-group>
                     <van-cell-group>
                         <input
-                        class="van-cell-group-input"
-                        placeholder="请输入验证码"
-                        type="tel"
-                        v-model="verifyCode"
-                        maxlength="6"
-                        @focus="() => {phone = phone.replace(/\D/g,''), verifyCodeFocus = true}"
-                        @blur="setTimeout('verifyCodeFocus')"/>
+                            class="van-cell-group-input"
+                            placeholder="请输入验证码"
+                            type="tel"
+                            v-model="verifyCode"
+                            maxlength="6"
+                            @focus="() => {phone = phone.replace(/\D/g,''), verifyCodeFocus = true}"
+                            @blur="setTimeout('verifyCodeFocus')"/>
                         <i class="van-cell-group-inputTitle" v-if="verifyCode">验证码</i>
                         <van-icon v-if="verifyCode && verifyCodeFocus" name="close"  @click="verifyCode = ''"/>
                     </van-cell-group>

@@ -263,18 +263,18 @@
 	[class*=van-hairline]::after {
 		border: none;
 	}
-	input::-webkit-input-placeholder {
-       color: #aab2bd;
-       font-size:3.2rem;
-       font-weight: 300;
-       color:#8A9399;
-    }
 	.van-cell {
 		padding: 0;
 	}
 	
 	.balanceWithdrawal {
 		.balanceWithdrawal-content {
+			input::-webkit-input-placeholder {
+       color: #aab2bd;
+       font-size:3.2rem;
+       font-weight: 300;
+       color:#8A9399;
+    }
 			width: 100%;
 			height: auto;
 			margin-top: 1rem;

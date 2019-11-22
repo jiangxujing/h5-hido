@@ -3,7 +3,7 @@
 		<div class="order-status">
 			<img src="../assets/images/order-success.png" />
 			<div class="sucess-txt" style="padding-top:3rem;">您的订单已提交</div>
-			<div class="sucess-txt" style="padding-top:1.1rem;">请在我的礼包中查看</div>
+			<div class="sucess-txt" style="padding-top:1.1rem;">{{tips}}</div>
 			<div style="#8A9399;font-size:1.4rem;padding-top:2rem;">{{second}}s后自动跳转我的礼包页</div>
 		</div>
 	</div>
@@ -15,11 +15,27 @@
 		name: 'shippingAddress',
 		data() {
 			return {
-				second: 3
+				second: 3,
+				tips:''
 			}
 		},
 		methods: {},
 		mounted() {
+			let ua = navigator.userAgent;
+			this.ios = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端
+			let MicroMessenger = /micromessenger/i.test(ua)
+			if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
+				this.tips = '请在我的礼包中查看'
+			} else if(MicroMessenger){
+				this.tips = '请在我的礼包中查看'
+			}else{
+				if(this.ios){
+					this.tips = '请前往APP我的礼包中查看'
+				}else{
+					this.tips = '请在我的礼包中查看'
+				}
+			}
 			let interval = setInterval(() => {
 				this.second--
 					if(this.second <= 0) {

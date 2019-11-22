@@ -177,6 +177,7 @@
 			this.city = sessionStorage.getItem('city')
 			this.username = sessionStorage.getItem('username')
 			this.phone = sessionStorage.getItem('phone')
+			this.recommendPhone = sessionStorage.getItem('recommendPhone')
 			this.detailAddress = sessionStorage.getItem('detailAddress')
 			let params = {
 				interceptBack: true

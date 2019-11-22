@@ -21,7 +21,7 @@
 					</div>
 				</div>
 				<div style="overflow:hidden;padding-left:1.2rem">
-					<span style="color:#1A2833;font-weight:bold;font-size:1.6rem;float:right;padding-right: 1.5rem;">￥<span>{{p.oderAmount/100}}</span></span>
+					<span style="color:#1A2833;font-weight:bold;font-size:1.6rem;float:right;padding-right: 1.5rem;">￥<span>{{$utils.formatMoney(p.oderAmount,1)}}</span></span>
 				</div>
 			</div>
 		</div>

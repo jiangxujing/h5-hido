@@ -113,17 +113,17 @@
 				giftPackageDTOList: [],
 				homepageUrl: '',
 				detailsPicture: [],
-				inweixin:false
+				inweixin: false
 			}
 		},
 		methods: {
 			getCode() { // 静默授权，没有有弹框
 				const code = _utils.getQueryString('code') // 截取路径中的code，如果没有就去微信授权，如果已经获取到了就直接传code给后台获取openId
-				sessionStorage.setItem('code',code)
+				sessionStorage.setItem('code', code)
 				const local = window.location.href
 				if(code == null || code === '') {
 					window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc20260737b4c8770' + '&redirect_uri=' + encodeURIComponent(local) + '&response_type=code&scope=snsapi_base&state=1#wechat_redirect'
-				} 
+				}
 			},
 			cancleBtn() {
 				this.shareWrapperShow = false
@@ -133,36 +133,36 @@
 				this.shareWrapperShow = true
 			},
 			shareWeixin() {
-					api.setupWebViewJavascriptBridge((bridge) => {
-						let params = {
-							"sharePlatform": "WechatSession",
-							"shareParams": {
-								"shareUrl": location.href,
-								"title": this.shareContent.shareTitle,
-								"shareContent": this.shareContent.shareDesc,
-								"sharePic": this.shareContent.sharePicture
-							}
+				api.setupWebViewJavascriptBridge((bridge) => {
+					let params = {
+						"sharePlatform": "WechatSession",
+						"shareParams": {
+							"shareUrl": location.href,
+							"title": this.shareContent.shareTitle,
+							"shareContent": this.shareContent.shareDesc,
+							"sharePic": this.shareContent.sharePicture
 						}
-						bridge.callHandler('callShareOnly', params, (data) => {
-							console.log(data)
-						})
+					}
+					bridge.callHandler('callShareOnly', params, (data) => {
+						console.log(data)
 					})
+				})
 			},
 			shareFriend() {
-					api.setupWebViewJavascriptBridge((bridge) => {
-						let params = {
-							"sharePlatform": "WechatTimeline",
-							"shareParams": {
-								"shareUrl": location.href,
-								"title": this.shareContent.shareTitle,
-								"shareContent": this.shareContent.shareDesc,
-								"sharePic": this.shareContent.sharePicture
-							}
+				api.setupWebViewJavascriptBridge((bridge) => {
+					let params = {
+						"sharePlatform": "WechatTimeline",
+						"shareParams": {
+							"shareUrl": location.href,
+							"title": this.shareContent.shareTitle,
+							"shareContent": this.shareContent.shareDesc,
+							"sharePic": this.shareContent.sharePicture
 						}
-						bridge.callHandler('callShareOnly', params, (data) => {
-							console.log(data)
-						})
+					}
+					bridge.callHandler('callShareOnly', params, (data) => {
+						console.log(data)
 					})
+				})
 			},
 			urlParse(queryStr) {
 				let arr = queryStr.slice(1).split('&');
@@ -206,9 +206,9 @@
 			getWechat() {
 				let packageDetail = this.packageDetail
 				//let linkUrl = location.href.split('#')[0]
-				let url = location.href.replace("#","&");
-				 let linkUrl = url.split('#')[0]
-				url = linkUrl.replace("&","#")
+				let url = location.href.replace("#", "&");
+				let linkUrl = url.split('#')[0]
+				url = linkUrl.replace("&", "#")
 				console.log(url)
 				let reqUrl = {
 					url: encodeURIComponent(url)
@@ -244,7 +244,7 @@
 							this.detailsPicture = res.content.giftPackageDTODetails.detailsPicture.split(',')
 						}
 						this.homepageUrl = res.content.homepageUrl
-						if(!!res.content.homepageUrl){
+						if(!!res.content.homepageUrl) {
 							let type = res.content.homepageUrl.type
 							sessionStorage.setItem('type', type)
 						}
@@ -265,45 +265,45 @@
 					}
 				}()
 			};
-			if(this.device.version.MicroMessenger){
+			if(this.device.version.MicroMessenger) {
 				this.inweixin = true
 				this.getWechat()
-				 this.getCode()
+				this.getCode()
 			}
 			this.ios = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端
 			let code = this.$route.query.packageCode
-			if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
-				api.setNative('callInit', {interceptBack: false})
+			if(navigator.userAgent.toLowerCase().indexOf('hido')  !=  -1) {
+				api.setNative('callInit', {
+					interceptBack: false
+				})
 				setTimeout(() => {
 					this.getPackageDetail(code)
 				}, 600)
 			} else {
 				this.getPackageDetail(code)
 			}
-				let params = {
+			let params = {
 				interceptBack: true
 			}
-				api.setupWebViewJavascriptBridge((bridge) => {
+			api.setupWebViewJavascriptBridge((bridge) => {
 				bridge.callHandler('callInit', params, (data) => {
 					api.setupWebViewJavascriptBridge((bridge) => {
 						bridge.registerHandler('invokeBackPress', (data) => {
 							api.setupWebViewJavascriptBridge((bridge) => {
-								bridge.callHandler('callFinish', {}, (data) => {
-								})
+								bridge.callHandler('callFinish', {}, (data) => {})
 							})
 						})
 					})
 				})
 			})
-		api.setupWebViewJavascriptBridge((bridge) => {
-						bridge.registerHandler('invokeBackPress', (data) => {
-							api.setupWebViewJavascriptBridge((bridge) => {
-								bridge.callHandler('callFinish', {}, (data) => {
-								})
-							})
-						})
+			api.setupWebViewJavascriptBridge((bridge) => {
+				bridge.registerHandler('invokeBackPress', (data) => {
+					api.setupWebViewJavascriptBridge((bridge) => {
+						bridge.callHandler('callFinish', {}, (data) => {})
 					})
+				})
+			})
 		},
 	}
 </script>

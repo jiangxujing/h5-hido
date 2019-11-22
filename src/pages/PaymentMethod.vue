@@ -135,9 +135,6 @@
 			}
 		},
 		mounted() {
-			if(sessionStorage.getItem('h5paysuccess')){
-				this.h5Show = true
-			}
 			this.province = sessionStorage.getItem('province')
 			this.county = sessionStorage.getItem('county')
 			this.city = sessionStorage.getItem('city')

@@ -21,6 +21,9 @@
 		},
 		methods: {},
 		mounted() {
+			if(sessionStorage.getItem('h5paysuccess')) {
+				sessionStorage.removeItem('h5paysuccess')
+			}
 			let ua = navigator.userAgent;
 			this.ios = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端

@@ -712,9 +712,9 @@ button.icon {
 .add-bank-card {
     padding-top: 1rem;
     height: 100%;
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     .page-protocol {
         margin: .7rem 0 8rem 1.5rem;
     }
@@ -731,19 +731,76 @@ button.icon {
     .van-field__body input {
         font-size: 1.5rem;
     }
-    .bank-list-sheet {
-        border-radius: 1.4rem;
-        margin-bottom: 3rem;
+    input::-webkit-input-placeholder {
+        font-size: 1.5rem;
+    }
+    .card-popup {
+        background: transparent;
         width: 96%;
-        margin: 0 2% 3rem;
-        .van-icon, .van-icon::before {
-            display: none;
-        }
-        .van-action-sheet__header {
-            color: $darkColor;
-            line-height: 54px;
-            font-weight: 600;
-            background: #fff;
+        margin: 0 2%;
+        bottom: 2.9rem;
+        max-height: 65%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        color: $darkColor;
+        text-align: center;
+    }
+    .popup-list {
+        background: #fff;
+        border-radius: 1.4rem;
+        overflow-y: scroll;
+    }
+    .popup-list-title {
+        font-weight: 600;
+        font-size: 1.6rem;
+        line-height: 5.4rem;
+    }
+    .popup-list-item {
+        font-size: 1.4rem;
+        padding: 1.25rem 0;
+        line-height: 4rem;
+        @include borderBottomHalfPx($borderColor, 0);
+        @include borderTopHalfPx($borderColor, 0);
+        display: flex;
+    }
+    .popup-img, .popup-img-bg {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+        margin: 0 1.5rem;
+    }
+    .popup-img-bg {
+        background: $borderColor;
+    }
+    .popur-content {
+        flex: 1;
+        -webkit-box-flex: 1;
+        flex-direction: row;
+        overflow: hidden;
+    }
+    .popup-success {
+        width: 2.2rem;
+        height: 2.2rem;
+        position: absolute;
+        right: 1.5rem;
+        top: 2.1rem;
+    }
+    .theme-color {
+        background: #FAFAFA;
+    }
+    .close-button {
+        width: 100%;
+        border-radius: 1.4rem;
+        margin-top: .8rem;
+        color: $darkColor;
+        font-size: 1.8rem;
+        line-height: 5.6rem;
+        height: 5.6rem;
+    }
+    .van-number-keyboard {
+        .van-key {
+            @include borderHalfPxRound($borderColor, 0);
         }
     }
 }

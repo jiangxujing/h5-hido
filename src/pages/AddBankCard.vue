@@ -1,6 +1,6 @@
 <template>
     <div class="main-content add-bank-card">
-        <!-- <div> -->
+        <div>
             <div class="watchData">{{watchData}}</div>
             <div class="page-field">
                 <van-field
@@ -10,7 +10,7 @@
                     right-icon="arrow"
                     placeholder="请选择开户行"
                     disabled
-                    @click="sheetShow=true" />
+                    @click="popupShow=true" />
                 <van-field
                     v-model="cardNo"
                     clearable
@@ -75,17 +75,28 @@
                     <span class="protocol-title protocol-a" @click="openPage('https://www.baidu.com')">《银行卡快捷支付协议》</span>
                 </van-checkbox>
             </div>
-        <!-- </div> -->
+        </div>
         <div class="page-button">
             <van-button class="next-button" @click="toNext" :disabled="nextBtn">提 交</van-button>
         </div>
-        <van-action-sheet v-model="sheetShow" :actions="bankList"  @select="onSelect" title="请选择开户行" class="bank-list-sheet" />
+        <van-popup v-model="popupShow" position="bottom" class="card-popup">
+            <div class="popup-list">
+                <div class="popup-list-title">选择开户行</div>
+                <div :class="bankName === item.bankName ? 'popup-list-item theme-color' : 'popup-list-item'" v-for="(item, index) in bankList" :key="index" @click="() => {bankName=item.bankName, popupShow=false}">
+                    <img class="popup-img" :src="item.bankPhoto" v-if="item.bankPhoto" />
+                    <span class="popup-img-bg" v-else></span>
+                    <div class="popup-content">{{item.bankName}}</div>
+                    <img class="popup-success" src="../assets/images/gouxuan@2x.png" v-if="bankName === item.bankName" />
+                </div>
+            </div>
+            <van-button class="close-button" @click="popupShow=false">取 消</van-button>
+        </van-popup>
         <van-number-keyboard v-model="idNo" :show="keyboardshow" extra-key="X" :maxlength="18" @blur="keyboardshow=false" />
     </div>            
 </template>
 
 <script>
-import { Toast, Field, Button, Popup, Checkbox, CheckboxGroup, ActionSheet, NumberKeyboard } from 'vant'
+import { Toast, Field, Button, Popup, Checkbox, CheckboxGroup, NumberKeyboard } from 'vant'
 import api from '../common/api.js'
 import { htmlFontSize, resetFontSize, resetWindow } from '@/common/utils.js'
 
@@ -118,7 +129,7 @@ export default {
             phone: '',
             checked: false,
             bankList: [],
-            sheetShow: false
+            popupShow: false
         }
     },
     mounted () {
@@ -158,22 +169,13 @@ export default {
             api.post(api.getUrl('agent-queryBankLimit'), {}).then(resp => {
                 if (!!resp && resp.code === 0) {
                     if (!!resp.content && resp.content.length > 0) {
-                        this.bankList = resp.content.map(item => { 
-                            let data = {}
-                            data.name = item.bankName
-                            return data
-                        })
+                        this.bankList = resp.content.map(item => { return item })
                     } else {
                         this.bankList = []
                         Toast('暂无支持银行')
                     }
                 }
             })
-        },
-        // 选择银行卡
-        onSelect(item) {
-            this.sheetShow = false
-            this.bankName = item.name
         },
         // 跳转协议
         openPage (url) {

@@ -411,6 +411,8 @@
 				padding: 1rem 0;
 				input {
 					border: none;
+					font-size:1.6rem;
+					width:13rem;
 				}
 				button {
 					border: 1px solid #FF7B31;

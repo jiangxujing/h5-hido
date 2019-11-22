@@ -56,13 +56,13 @@
 				api.post(api.getUrl('pay', 'collections'), req).then(res => {
 					if(res.code == 0) {
 						sessionStorage.setItem('h5paysuccess',true)
-						let uri = location.origin + '/h5-hido/index.html#/orderDetail?packageCode='+sessionStorage.getItem('packageCode')
+						let uri = location.origin + '/h5-hido/index.html#/paymentMethod?packageCode='+sessionStorage.getItem('packageCode')
 						let linkUrl = encodeURIComponent(uri)
 						let sceneInfo = JSON.parse(res.content.sceneInfo)
 						this.jumpUrl = sceneInfo.mWebUrl
 						console.log(this.jumpUrl + '&redirect_url=' + linkUrl)
 						setTimeout(() => {
-							location.href = this.jumpUrl
+							location.href = this.jumpUrl+'&redirect_url=' + linkUrl
 						}, 200)
 						
 					}

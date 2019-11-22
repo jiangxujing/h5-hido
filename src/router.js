@@ -17,6 +17,8 @@ import withdrawSucess from '@/pages/WithdrawSucess'
 import privacyPolicy from '@/agreement/PrivacyPolicy'
 import registerProtocol from '@/agreement/RegisterProtocol'
 import orderSuccess from '@/pages/OrderSuccess'
+import couponList from '@/pages/CouponList'
+import addCoupon from '@/pages/AddCoupon'
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
     return originalPush.call(this, location).catch(err => err)
@@ -94,6 +96,14 @@ export default new Router({
         	path: '/orderSuccess',
             component: orderSuccess,
             name:'orderSuccess'
+        },{
+        	path: '/couponList',
+            component: couponList,
+            name:'couponList'
+        },{
+        	path: '/addCoupon',
+            component: addCoupon,
+            name:'addCoupon'
         }
     ],
     scrollBehavior (to, from, savedPosition) {

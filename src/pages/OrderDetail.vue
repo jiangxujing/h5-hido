@@ -170,6 +170,7 @@
 							 if(!res.content.firstMobile){
 								if(res.content.mobile){
 									this.recommendPhone = res.content.mobile
+									sessionStorage.setItem('recommendPhone',this.recommendPhone)
 									this.isDisAble = true
 								}
 							}

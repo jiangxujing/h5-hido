@@ -4,7 +4,7 @@
 				<div class="title">需支付</div>
 				<div class="money">
 					<span>￥</span>
-					<span>{{salesPrice/100}}</span>
+					<span>{{$utils.formatMoney(salesPrice,1)}}</span>
 				</div>
 			</div>
 			<div class="payment-method-list">

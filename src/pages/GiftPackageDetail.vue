@@ -82,11 +82,11 @@
 				</div>
 				<div class="good-user order-d">
 					<div>创建时间：</div>
-					<div>{{$utils.dateFormatter(giftDetail.createTime, "yyyy-MM-dd HH:mm:ss")}}</div>
+					<div>{{giftDetail.createTime?$utils.dateFormatter(giftDetail.createTime, "yyyy-MM-dd HH:mm:ss"):''}}</div>
 				</div>
 				<div class="good-user order-d">
 					<div>付款时间：</div>
-					<div>{{$utils.dateFormatter(giftDetail.payTime, "yyyy-MM-dd HH:mm:ss")}}</div>
+					<div>{{giftDetail.payTime?$utils.dateFormatter(giftDetail.payTime, "yyyy-MM-dd HH:mm:ss"):''}}</div>
 				</div>
 				<div class="good-user order-d">
 					<div>支付方式：</div>

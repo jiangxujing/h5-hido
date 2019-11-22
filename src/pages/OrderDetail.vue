@@ -38,7 +38,7 @@
 							<div class="buynumber">x1</div>
 						</div>
 						<div style="overflow:hidden;padding-left:1.2rem">
-							<span style="color:#FF7B31;font-size:1.6rem;float:right">￥{{orderDetail.salesPrice/100}}</span>
+							<span style="color:#FF7B31;font-size:1.6rem;float:right" v-if="orderDetail.salesPrice">￥{{$utils.formatMoney(orderDetail.salesPrice,1)}}</span>
 						</div>
 					</div>
 				</div>
@@ -50,7 +50,7 @@
 				<div class="submitTxt">
 					<div style="padding:2.2rem 1.5rem;">
 						<span style="color:#1A2833;font-size:1.6rem;">订单金额：</span>
-						<span style="color:#FF7B31;font-size:1.8rem;">￥{{orderDetail.salesPrice/100}}</span>
+						<span style="color:#FF7B31;font-size:1.8rem;" v-if="orderDetail.salesPrice">￥{{$utils.formatMoney(orderDetail.salesPrice,1)}}</span>
 						<button class="submit-gray" v-if="gray">提交</button>
 						<button class="submit-active" v-else @click="submitOrder">提交</button>
 					</div>

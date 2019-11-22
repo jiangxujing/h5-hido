@@ -16,7 +16,7 @@
 			</div>
 			<div class="borderStyle" style="margin-top:0"></div>
 			<div class="payment-method-list" @click="goToBank" v-if="bankNumShow">
-				<img class="weixin" :src="bankImgUrl" />
+				<img class="weixin" :src="bankPhoto" />
 				<div class="bank-name-no">
 					<div>{{bankName}}</div>
 					<div>{{bankCardNo}}</div>
@@ -37,7 +37,7 @@
 			<div class="banklist">
 				<div class="bank" v-for="(b,index) in withdrawalDetail.cardList" :key="index" @click="selectBank(b)" :class="b.active?'active':''">
 					<div style="padding:1rem 1.5rem;overflow:hidden">
-						<img class="bank-logo" :src="b.bankImgUrl" />
+						<img class="bank-logo" :src="b.bankPhoto" />
 						<div class="bank-no">
 							<div style="margin-top:0.2rem">{{b.bankName}}</div>
 							<div style="margin-top:0.8rem">{{b.bankCardNo}}</div>
@@ -96,7 +96,8 @@
 				countdown: 60,
 				codeGrayShow: true,
 				inteval: '',
-				bankNumShow:true
+				bankNumShow:true,
+				bankPhoto:''
 			}
 		},
 		methods: {
@@ -193,6 +194,7 @@
 				this.bankCardNo = i.bankCardNo
 				this.name = i.name
 				this.moblie = i.mobile
+				this.bankPhoto = i.bankPhoto
 				console.log(this.moblie)
 				this.cardId = i.cardId
 				if((parseFloat(this.money) > parseFloat(this.availableBalance)) && parseFloat(this.money) <= 10000) {
@@ -227,6 +229,7 @@
 						this.bankCardNo =  res.content.cardList[0].bankCardNo
 						this.bankImgUrl =  res.content.cardList[0].bankImgUrl
 						this.bankBranch = res.content.cardList[0].bankBranch
+						this.bankPhoto = res.content.cardList[0].bankPhoto
 						this.moblie = res.content.cardList[0].mobile
 						this.name = res.content.cardList[0].name
 						this.cardId = res.content.cardList[0].cardId

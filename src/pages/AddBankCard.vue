@@ -1,6 +1,6 @@
 <template>
     <div class="main-content add-bank-card">
-        <div>
+        <!-- <div> -->
             <div class="watchData">{{watchData}}</div>
             <div class="page-field">
                 <van-field
@@ -10,7 +10,7 @@
                     right-icon="arrow"
                     placeholder="请选择开户行"
                     disabled
-                    @click="show=true" />
+                    @click="sheetShow=true" />
                 <van-field
                     v-model="cardNo"
                     clearable
@@ -75,13 +75,12 @@
                     <span class="protocol-title protocol-a" @click="openPage('https://www.baidu.com')">《银行卡快捷支付协议》</span>
                 </van-checkbox>
             </div>
-        </div>
+        <!-- </div> -->
         <div class="page-button">
             <van-button class="next-button" @click="toNext" :disabled="nextBtn">提 交</van-button>
         </div>
-        <van-action-sheet v-model="show" :actions="bankList"  @select="onSelect" title="请选择开户行" class="bank-list-sheet" />
+        <van-action-sheet v-model="sheetShow" :actions="bankList"  @select="onSelect" title="请选择开户行" class="bank-list-sheet" />
         <van-number-keyboard v-model="idNo" :show="keyboardshow" extra-key="X" :maxlength="18" @blur="keyboardshow=false" />
-        <div class="footer" v-show="hideshow"></div>
     </div>            
 </template>
 
@@ -119,10 +118,7 @@ export default {
             phone: '',
             checked: false,
             bankList: [],
-            show: false,
-            docmHeight: document.documentElement.clientHeight,  //默认屏幕高度
-            showHeight: document.documentElement.clientHeight,   //实时屏幕高度
-            hideshow:true
+            sheetShow: false
         }
     },
     mounted () {
@@ -134,11 +130,6 @@ export default {
             }, 600)
         } else {
             this.getQueryBankLimit()
-        }
-        window.onresize = ()=>{
-            return(()=>{
-                this.showHeight = document.body.clientHeight;
-            })()
         }
     },
     computed: {
@@ -158,15 +149,6 @@ export default {
                 clearInterval(this.clock)
                 this.verifyBtn = false
                 this.verifyTitle = '获取验证码'
-            }
-        }
-    },
-    watch: {
-        showHeight:function() {
-            if(this.docmHeight > this.showHeight){
-                this.hidshow=false
-            }else{
-                this.hidshow=true
             }
         }
     },
@@ -190,7 +172,7 @@ export default {
         },
         // 选择银行卡
         onSelect(item) {
-            this.show = false
+            this.sheetShow = false
             this.bankName = item.name
         },
         // 跳转协议

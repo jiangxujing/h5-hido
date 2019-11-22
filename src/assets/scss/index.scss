@@ -798,12 +798,15 @@ button.icon {
     }
     .close-button {
         width: 100%;
-        border-radius: 1.4rem;
-        margin: .8rem 0 1.6rem;
-        color: $darkColor;
-        font-size: 1.8rem;
-        line-height: 5.6rem;
-        height: 5.6rem;
+        padding: .8rem 0 1.6rem;
+        .van-button {
+            border-radius: 1.4rem;
+            width: 100%;
+            color: $darkColor;
+            font-size: 1.8rem;
+            line-height: 5.6rem;
+            height: 5.6rem;
+        }
     }
     .van-number-keyboard {
         .van-key {

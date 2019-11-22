@@ -1,5 +1,5 @@
 <template>
-    <div class="main-content add-bank-card">
+    <div class="main-content add-bank-card" id="applyCard">
         <div>
             <div class="watchData">{{watchData}}</div>
             <div class="page-field">
@@ -122,6 +122,20 @@ export default {
             bankList: [],
             show: false
         }
+    },
+    created(){
+        var clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
+        window.onresize = function() {
+            var nowClientHeight = document.documentElement.clientHeight || document.body.clientHeight;
+            if (clientHeight - nowClientHeight > 60 ) {//因为ios有自带的底部高度
+                //键盘弹出的事件处理
+                document.getElementById("applyCard").classList.add("focusState");
+            }
+            else {
+                //键盘收起的事件处理
+                document.getElementById("applyCard").classList.remove("focusState");
+            } 
+        };
     },
     mounted () {
         document.title = '添加银行卡'
@@ -322,4 +336,5 @@ export default {
     .van-action-sheet{
         max-height: 50%;
     }
+    .focusState {position: absolute;}
 </style>

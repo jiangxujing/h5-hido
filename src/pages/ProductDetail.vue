@@ -255,8 +255,6 @@
 
 		},
 		mounted() {
-			this.uid = this.$route.query.uid
-			sessionStorage.setItem('uid',this.$route.query.uid)
 			document.title = "礼包详情"
 			let ua = navigator.userAgent;
 			this.device = {
@@ -266,9 +264,17 @@
 					}
 				}()
 			};
+			let url = location.href
 			if(this.device.version.MicroMessenger) {
 				this.inweixin = true
 				this.getWechat()
+				let URL = decodeURIComponent(url)
+				this.uid = this.$route.query.uid
+				sessionStorage.setItem('uid',this.$route.query.uid)
+				console.log(this.uid)
+			}else{
+				this.uid = this.$route.query.uid
+				sessionStorage.setItem('uid',this.$route.query.uid)
 			}
 			this.ios = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端

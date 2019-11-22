@@ -1,5 +1,5 @@
 <template>
-	<div class="orderDetail">
+	<div class="orderDetail" :class="{ 'active': blurstyle }">
 		<div v-if="orderShow">
 			<div v-if="orderDetailShow">
 				<div class="receipt-address">
@@ -44,7 +44,7 @@
 				</div>
 				<div class="recommend" v-if="!firstMobile">
 					<van-cell-group>
-						<van-field v-model="recommendPhone" label="推荐人手机号" placeholder="请输入推荐人手机号" :disabled="isDisAble" clearable type='tel' maxlength='11' @input="checkTel" />
+						<van-field v-model="recommendPhone" label="推荐人手机号" @blur="blurFun" @focus="focusFun" placeholder="请输入推荐人手机号" :disabled="isDisAble" clearable type='tel' maxlength='11' @input="checkTel" />
 					</van-cell-group>
 				</div>
 				<div class="submitTxt">
@@ -102,7 +102,8 @@
 				orderShow:true,
 				h5Show:false,
 				firstMobile:'',
-				isDisAble:false
+				isDisAble:false,
+				blurstyle:''
 			}
 		},
 		methods: {
@@ -120,6 +121,12 @@
 			},
 			setAddress() {
 				this.$router.push("/shippingAddress")
+			},
+			focusFun(){
+				this.blurstyle = 'blurstyle'
+			},
+			blurFun(){
+				this.blurstyle = ''
 			},
 			checkTel() {
 				let strTemp = _utils.checkTel()
@@ -243,6 +250,9 @@
 
 <style lang="scss">
 	@import '../assets/scss/common.scss';
+	.active{
+		height:70remx!important;
+	}
 	.orderDetail {
 		width: 100%;
 		height: 100%;

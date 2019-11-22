@@ -52,7 +52,7 @@
 			<h2>其他礼包</h2>
 			<div class="other-packages" v-for="i in giftPackageDTOList" style="margin-top:1rem">
 				<div>
-					<div style="overflow:hidden">
+					<div style="overflow:hidden" @click="goToDetail(i.packageCode)">
 						<div style="float:left">
 							<img class="libao" :src="i.headPicture" />
 							<div class="package-price">
@@ -120,6 +120,9 @@
 			}
 		},
 		methods: {
+			goToDetail(){
+				this.$router.push("/productDetail?packageCode=" + i.packageCode)
+			},
 			cancleBtn() {
 				this.shareWrapperShow = false
 			},

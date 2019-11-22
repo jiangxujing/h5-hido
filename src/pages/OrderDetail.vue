@@ -125,7 +125,7 @@
 				let tel = this.recommendPhone
 				sessionStorage.setItem('recommendPhone',this.recommendPhone)
 				console.log(tel)
-				if(strTemp.test(tel)) {
+				if(strTemp.test(tel) || !tel) {
 					this.gray = false
 				} else {
 					this.gray = true
@@ -158,7 +158,7 @@
 			},
 			queryAgent(){
 				let req = {
-					agentCode: this.uid
+					agentCode: this.uid || null
 				}
 				api.post(api.getUrl('queryAgent', ), req).then(res => {
 					if(res.code == 0) {

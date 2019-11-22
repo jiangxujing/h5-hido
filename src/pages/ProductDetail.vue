@@ -117,6 +117,14 @@
 			}
 		},
 		methods: {
+			getCode() { // 静默授权，没有有弹框
+				const code = _utils.getQueryString('code') // 截取路径中的code，如果没有就去微信授权，如果已经获取到了就直接传code给后台获取openId
+				sessionStorage.setItem('code',code)
+				const local = window.location.href
+				if(code == null || code === '') {
+					window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc20260737b4c8770' + '&redirect_uri=' + encodeURIComponent(local) + '&response_type=code&scope=snsapi_base&state=1#wechat_redirect'
+				} 
+			},
 			cancleBtn() {
 				this.shareWrapperShow = false
 			},
@@ -260,6 +268,7 @@
 			if(this.device.version.MicroMessenger){
 				this.inweixin = true
 				this.getWechat()
+				 this.getCode()
 			}
 			this.ios = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端

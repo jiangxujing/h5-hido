@@ -133,7 +133,7 @@
 				}else{
 					let req = {
 					mobile:this.moblie,
-					amount:this.money
+					amount:this.money/100
 				}
 					console.log(this.moblie)
 				api.post(api.getUrl('withdrawalSendSms'), req).then(res => {

@@ -1,5 +1,5 @@
 <template>
-    <div class="main-content add-bank-card" id="applyCard">
+    <div class="main-content add-bank-card">
         <div>
             <div class="watchData">{{watchData}}</div>
             <div class="page-field">
@@ -19,8 +19,6 @@
                     label="银行卡号"
                     placeholder="请输入银行卡号"
                     @input="(value) => {cardNo = cardNo.replace(/\D/g,'').replace(/(\S{4})/g, '$1 ').replace(/\s*$/, '')}"
-                    @focus="focusInput"
-                    @blur="blurInput"
                     @clear="clearVerifyCode" />
                 <van-field
                     v-model="bankBranch"
@@ -28,8 +26,6 @@
                     maxlength="20"
                     label="开户支行"
                     placeholder="请输入开户支行"
-                    @focus="focusInput"
-                    @blur="blurInput"
                     @clear="clearVerifyCode" />
                 <van-field
                     v-model="name"
@@ -37,29 +33,23 @@
                     maxlength="16"
                     label="本人姓名"
                     placeholder="请输入本人姓名"
-                    @focus="focusInput"
-                    @blur="blurInput"
                     @clear="clearVerifyCode" />
-                <!-- <van-field
+                <van-field
                     :value="idNo"
                     readonly
                     clearable
                     maxlength="18"
                     label="身份证号"
                     placeholder="请输入身份证号"
-                    @focus="focusInput"
-                    @blur="blurInput"
                     @touchstart.native.stop="keyboardshow = true"
-                    @clear="clearVerifyCode" /> -->
-                <van-field
+                    @clear="clearVerifyCode" />
+                <!-- <van-field
                     v-model="idNo"
                     clearable
                     maxlength="18"
                     label="身份证号"
                     placeholder="请输入身份证号"
-                    @focus="focusInput"
-                    @blur="blurInput"
-                    @clear="clearVerifyCode" />
+                    @clear="clearVerifyCode" /> -->
                 <van-field
                     v-model="phone"
                     clearable
@@ -67,8 +57,6 @@
                     type="number"
                     label="预留手机号"
                     placeholder="请输入预留手机号"
-                    @focus="focusInput"
-                    @blur="blurInput"
                     @clear="clearVerifyCode" />
                 <van-field
                     v-model="verifyCode"
@@ -77,8 +65,6 @@
                     maxlength="6"
                     type="number"
                     label="验证码"
-                    @focus="focusInput"
-                    @blur="blurInput"
                     placeholder="请输入验证码">
                     <van-button class="van-field-btn" slot="button" plain size="small" type="info" :disabled="verifyBtn" @click="getVerify">{{verifyTitle}}</van-button>
                 </van-field>
@@ -95,6 +81,7 @@
         </div>
         <van-action-sheet v-model="show" :actions="bankList"  @select="onSelect" title="请选择开户行" class="bank-list-sheet" />
         <van-number-keyboard v-model="idNo" :show="keyboardshow" extra-key="X" :maxlength="18" @blur="keyboardshow=false" />
+        <div class="footer" v-show="hideshow"></div>
     </div>            
 </template>
 
@@ -132,22 +119,11 @@ export default {
             phone: '',
             checked: false,
             bankList: [],
-            show: false
+            show: false,
+            docmHeight: document.documentElement.clientHeight,  //默认屏幕高度
+            showHeight: document.documentElement.clientHeight,   //实时屏幕高度
+            hideshow:true
         }
-    },
-    created(){
-        var clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
-        window.onresize = function() {
-            var nowClientHeight = document.documentElement.clientHeight || document.body.clientHeight;
-            if (clientHeight - nowClientHeight > 60 ) {//因为ios有自带的底部高度
-                //键盘弹出的事件处理
-                document.getElementById("applyCard").classList.add("focusState");
-            }
-            else {
-                //键盘收起的事件处理
-                document.getElementById("applyCard").classList.remove("focusState");
-            } 
-        };
     },
     mounted () {
         document.title = '添加银行卡'
@@ -158,6 +134,11 @@ export default {
             }, 600)
         } else {
             this.getQueryBankLimit()
+        }
+        window.onresize = ()=>{
+            return(()=>{
+                this.showHeight = document.body.clientHeight;
+            })()
         }
     },
     computed: {
@@ -180,14 +161,16 @@ export default {
             }
         }
     },
+    watch: {
+        showHeight:function() {
+            if(this.docmHeight > this.showHeight){
+                this.hidshow=false
+            }else{
+                this.hidshow=true
+            }
+        }
+    },
     methods: {
-        focusInput(){
-            document.getElementById("apply").classList.add("focusState");
-        },
-        
-        blurInput(){
-            document.getElementById("apply").classList.remove("focusState");
-        },
         // 获取银行卡列表
         getQueryBankLimit () {
             api.post(api.getUrl('agent-queryBankLimit'), {}).then(resp => {
@@ -355,5 +338,4 @@ export default {
     .van-action-sheet{
         max-height: 50%;
     }
-    .focusState {position: absolute;}
 </style>

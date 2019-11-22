@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import { Toast, Field, Button, Popup, Checkbox, CheckboxGroup, ActionSheet, NumberKeyboard } from 'vant'
+import { Toast, Field, Button, Popup, Checkbox, CheckboxGroup, NumberKeyboard } from 'vant'
 import api from '../common/api.js'
 import { htmlFontSize, resetFontSize, resetWindow } from '@/common/utils.js'
 

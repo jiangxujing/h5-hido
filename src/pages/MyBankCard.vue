@@ -25,7 +25,6 @@ export default {
     name: 'my-bank-card',
     data () {
         return {
-            activeNames: ['0'],
             bankCardList: [],
             request: false
         }
@@ -40,9 +39,6 @@ export default {
         } else {
             this.getBankCardList()
         }
-    },
-    computed: {
-
     },
     methods: {
         // 获取银行卡列表

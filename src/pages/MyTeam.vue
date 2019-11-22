@@ -62,9 +62,6 @@ export default {
             this.getMyTeam()
         }
     },
-    computed: {
-
-    },
     methods: {
         // 获取团队信息
         getMyTeam () {

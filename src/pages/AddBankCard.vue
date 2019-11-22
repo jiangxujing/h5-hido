@@ -19,6 +19,8 @@
                     label="银行卡号"
                     placeholder="请输入银行卡号"
                     @input="(value) => {cardNo = cardNo.replace(/\D/g,'').replace(/(\S{4})/g, '$1 ').replace(/\s*$/, '')}"
+                    @focus="focusInput"
+                    @blur="blurInput"
                     @clear="clearVerifyCode" />
                 <van-field
                     v-model="bankBranch"
@@ -26,6 +28,8 @@
                     maxlength="20"
                     label="开户支行"
                     placeholder="请输入开户支行"
+                    @focus="focusInput"
+                    @blur="blurInput"
                     @clear="clearVerifyCode" />
                 <van-field
                     v-model="name"
@@ -33,23 +37,29 @@
                     maxlength="16"
                     label="本人姓名"
                     placeholder="请输入本人姓名"
+                    @focus="focusInput"
+                    @blur="blurInput"
                     @clear="clearVerifyCode" />
-                <van-field
+                <!-- <van-field
                     :value="idNo"
                     readonly
                     clearable
                     maxlength="18"
                     label="身份证号"
                     placeholder="请输入身份证号"
+                    @focus="focusInput"
+                    @blur="blurInput"
                     @touchstart.native.stop="keyboardshow = true"
-                    @clear="clearVerifyCode" />
-                <!-- <van-field
+                    @clear="clearVerifyCode" /> -->
+                <van-field
                     v-model="idNo"
                     clearable
                     maxlength="18"
                     label="身份证号"
                     placeholder="请输入身份证号"
-                    @clear="clearVerifyCode" /> -->
+                    @focus="focusInput"
+                    @blur="blurInput"
+                    @clear="clearVerifyCode" />
                 <van-field
                     v-model="phone"
                     clearable
@@ -57,8 +67,9 @@
                     type="number"
                     label="预留手机号"
                     placeholder="请输入预留手机号"
+                    @focus="focusInput"
+                    @blur="blurInput"
                     @clear="clearVerifyCode" />
-                <!-- <van-cell-group> -->
                 <van-field
                     v-model="verifyCode"
                     center
@@ -66,10 +77,11 @@
                     maxlength="6"
                     type="number"
                     label="验证码"
+                    @focus="focusInput"
+                    @blur="blurInput"
                     placeholder="请输入验证码">
                     <van-button class="van-field-btn" slot="button" plain size="small" type="info" :disabled="verifyBtn" @click="getVerify">{{verifyTitle}}</van-button>
                 </van-field>
-                <!-- </van-cell-group> -->
             </div>
             <div class="page-protocol">
                 <van-checkbox v-model="checked" checked-color="#FF7B31">
@@ -169,6 +181,13 @@ export default {
         }
     },
     methods: {
+        focusInput(){
+            document.getElementById("apply").classList.add("focusState");
+        },
+        
+        blurInput(){
+            document.getElementById("apply").classList.remove("focusState");
+        },
         // 获取银行卡列表
         getQueryBankLimit () {
             api.post(api.getUrl('agent-queryBankLimit'), {}).then(resp => {

@@ -18,7 +18,7 @@
                                 <span>二级代理</span>
                                 <span class="second-no-right fl-r">{{item.firstAgentTeamSum + '人'}}</span>
                             </div>
-                            <div class="second-list" v-if="activeNames.indexOf(index + '-' + idx) > -1">
+                            <div class="second-list" v-if="activeNames.indexOf(index + '-' + idx) > -1 && item.list[0].length > 0">
                                 <div v-for="(second, i) in item.list[0]" :key="i" class="second-child">
                                     <img class="second-img" :src="second.secondAgentPhoto" v-if="second.secondAgentPhoto" />
                                     <span class="second-img-bg" v-else></span>

@@ -145,6 +145,13 @@
 		},
 		mounted() {
 			this.getCountryList()
+			let params = {
+				interceptBack: false
+			}
+			api.setupWebViewJavascriptBridge((bridge) => {
+				bridge.callHandler('callInit', params, (data) => {
+				})
+			})
 		},
 	}
 </script>

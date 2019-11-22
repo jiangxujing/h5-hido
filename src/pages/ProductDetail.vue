@@ -76,8 +76,11 @@
 					</div>
 				</div>
 			</div>
-			<div class="buy" @click="getBuy" v-if="packageDetail && homepageUrl.type==1">￥{{$utils.formatMoney(packageDetail.salesPrice,1)}}成为代理</div>
-			<div class="buy" @click="getBuy" v-else>立即购买</div>
+			<div style="overflow: hidden;">
+				<div class="buy" @click="getBuy" v-if="packageDetail && homepageUrl.type==1">￥{{$utils.formatMoney(packageDetail.salesPrice,1)}}成为代理</div>
+				<div class="buy" @click="getBuy" v-else>立即购买</div>
+				<img src="../assets/images/share.png" class="share-now" @click="getShare(packageDetail)"/>
+			</div>
 		</div>
 		<div class="shareWraper" v-show='shareWrapperShow' @click='shareWrapperShow=false'>
 			<div class="share-content">
@@ -463,10 +466,10 @@
 				}
 			}
 			.buy {
-				margin: 0 auto;
+				margin-left: 1.5rem;
 				margin-top: 1.6rem;
 				text-align: center;
-				width: 92%;
+				width: 74%;
 				height: 46px;
 				background: linear-gradient(132deg, rgba(255, 175, 130, 1) 0%, rgba(255, 123, 49, 1) 100%);
 				border-radius: 29px;
@@ -474,6 +477,13 @@
 				font-weight: 600;
 				color: #fff;
 				line-height: 46px;
+				float: left;
+			}
+			.share-now{
+				width: 5.8rem;
+			    float: right;
+			    padding-right: 1.1rem;
+			    padding-top: 1.6rem;
 			}
 		}
 		.shareWraper {

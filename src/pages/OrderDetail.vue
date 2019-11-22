@@ -66,6 +66,13 @@
 				</div>
 			</div>
 		</div>
+		<div class="orderH5Wrapper" v-show="h5Show">
+			<div class="content">
+				<div class="title">请确认微信支付是否完成</div>
+				<div class="success" @click="getSuccess">已完成支付</div>
+				<div class="error" @click="getError">支付遇到问题，重新支付</div>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -91,15 +98,22 @@
 				orderDetail: {},
 				type:'',
 				paymethodShow: false,
-				orderShow:true
+				orderShow:true,
+				h5Show:false
 			}
 		},
 		methods: {
+//			getError(){
+//				let packageCode = this.$route.query.packageCode
+//				this.$router.push("/orderDetail?packageCode="+packageCode)
+//			},
 			getSuccess(){
 				this.$router.push("/orderSuccess")
 			},
 			getError(){
-				this.$router.push("/paymentMethod")
+				this.h5Show = false
+				//this.$router.push("/paymentMethod?packageCode="+this.packageCode)
+				console.log(this.h5Show)
 			},
 			setAddress() {
 				this.$router.push("/shippingAddress")

@@ -27,12 +27,17 @@
 		name: 'paymentMethod',
 		data() {
 			return {
-				salesPrice: sessionStorage.getItem('salesPrice')
+				salesPrice: sessionStorage.getItem('salesPrice'),
+				buyed:null
 			}
 		},
 		methods: {
 			buyNow() {
-				this.getOrderDetail()
+				if(this.buyed){
+					Toast('请勿提交订单过块！')
+				}else{
+					this.getOrderDetail()
+				}
 			},
 			getH5Pay() {
 				let req = {
@@ -40,6 +45,7 @@
 					payType: 'WX_H5'
 				}
 				api.post(api.getUrl('pay', 'collections'), req).then(res => {
+					this.buyed = null
 					if(res.code == 0) {
 						sessionStorage.setItem('h5paysuccess',true)
 						let uri = location.origin + '/h5-hido/index.html#/orderDetail?packageCode='+sessionStorage.getItem('packageCode')+'&h5paysuccess='+sessionStorage.getItem('h5paysuccess')
@@ -63,10 +69,10 @@
 					payType: 'WX_JS'
 				}
 				api.post(api.getUrl('pay', 'collections'), req).then(res => {
+					this.buyed = null
 					if(res.code == 0) {
 						let sceneInfo = JSON.parse(res.content.sceneInfo)
 						let _this = this
-
 						function onBridgeReady() {
 							WeixinJSBridge.invoke(
 								'getBrandWCPayRequest', {
@@ -116,6 +122,7 @@
 					"secondCommissionRatio": sessionStorage.getItem('secondCommissionRatio')
 				}
 				api.post(api.getUrl('createOrderV2', 'collections'), req).then(res => {
+					this.buyed = 1
 					if(res.code == 0) {
 						this.orderNo = res.content.orderNo
 						if(this.device.version.MicroMessenger) {

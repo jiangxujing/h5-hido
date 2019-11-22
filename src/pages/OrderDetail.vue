@@ -44,7 +44,7 @@
 				</div>
 				<div class="recommend" v-if="!firstMobile">
 					<van-cell-group>
-						<van-field v-model="recommendPhone" label="推荐人手机号" placeholder="请输入推荐人手机号" :disabled="isDisAble" clearable type='number' maxlength='11' @input="checkTel" />
+						<van-field v-model="recommendPhone" label="推荐人手机号" placeholder="请输入推荐人手机号" :disabled="isDisAble" clearable type='tel' maxlength='11' @input="checkTel" />
 					</van-cell-group>
 				</div>
 				<div class="submitTxt">
@@ -160,7 +160,7 @@
 				let req = {
 					agentCode: this.uid || null
 				}
-				api.post(api.getUrl('queryAgent', ), req).then(res => {
+				api.post(api.getUrl('queryAgent'),req).then(res => {
 					if(res.code == 0) {
 						this.firstMobile = res.content.firstMobile
 						if(this.device.version.MicroMessenger) {						

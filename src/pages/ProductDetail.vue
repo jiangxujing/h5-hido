@@ -1,5 +1,5 @@
 <template>
-	<div class="product-detail">
+	<div class="product-detail" v-if="packageDetail">
 		<div class="content1">
 			<div class="content1-header" v-if="packageDetail">
 				<img class="detail-img" :src="packageDetail.headPicture" />

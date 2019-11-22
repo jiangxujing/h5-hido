@@ -313,7 +313,7 @@ const post = (url, data, noLoading, noToken, formData) => {
                     delCookie(k)
                 }
                 let desc = respData['desc'] ? respData['desc'] : '凭证已失效，请重新登录'
-                Toast(desc)
+                respData['code'] === 111?'': Toast(desc)
                 if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
                     setNative('callLogin', {})
                 } else {

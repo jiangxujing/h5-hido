@@ -104,11 +104,12 @@ export default {
     },
     methods: {
     	getCode() { // 静默授权，没有有弹框
+    		let appId = 'wxc20260737b4c8770'
 				const code = getQueryString('code') // 截取路径中的code，如果没有就去微信授权，如果已经获取到了就直接传code给后台获取openId
 				this.code = code
 				const local = window.location.href
 				if(code == null || code === '') {
-					window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc20260737b4c8770' + '&redirect_uri=' + encodeURIComponent(local) + '&response_type=code&scope=snsapi_base&state=1#wechat_redirect'
+					window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+appId + '&redirect_uri=' + encodeURIComponent(local) + '&response_type=code&scope=snsapi_base&state=1#wechat_redirect'
 				}
 			},
         // ipnut 清除

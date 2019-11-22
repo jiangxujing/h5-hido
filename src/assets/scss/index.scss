@@ -737,19 +737,26 @@ button.icon {
     .card-popup {
         background: transparent;
         width: 96%;
-        margin: 0 2%;
-        bottom: 2.9rem;
+        padding: 0 2%;
+        bottom: 0;
+        left: 2%;
         max-height: 65%;
+        color: $darkColor;
+        border-radius: 1.4rem;
+        text-align: center;
+        overflow: hidden;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        color: $darkColor;
-        text-align: center;
     }
     .popup-list {
         background: #fff;
         border-radius: 1.4rem;
-        overflow-y: scroll;
+        // overflow-y: scroll;
+        -webkit-box-flex:1;
+        -webkit-flex:1;
+        flex:1;
+        overflow:auto;
     }
     .popup-list-title {
         font-weight: 600;
@@ -792,7 +799,7 @@ button.icon {
     .close-button {
         width: 100%;
         border-radius: 1.4rem;
-        margin-top: .8rem;
+        margin: .8rem 0 1.6rem;
         color: $darkColor;
         font-size: 1.8rem;
         line-height: 5.6rem;

@@ -6,7 +6,7 @@
 
 <script>
     import Vue from 'vue'
-    import { htmlFontSize, resetFontSize, resetWindow } from '@/common/utils.js'
+    import { resetFontSize, resetWindow } from '@/common/utils.js'
 
     export default {
         name: 'app',

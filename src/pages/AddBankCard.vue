@@ -34,7 +34,7 @@
                     label="本人姓名"
                     placeholder="请输入本人姓名"
                     @clear="clearVerifyCode" />
-                <van-field
+                <!-- <van-field
                     :value="idNo"
                     readonly
                     clearable
@@ -42,14 +42,14 @@
                     label="身份证号"
                     placeholder="请输入身份证号"
                     @touchstart.native.stop="keyboardshow = true"
-                    @clear="clearVerifyCode" />
-                <!-- <van-field
+                    @clear="clearVerifyCode" /> -->
+                <van-field
                     v-model="idNo"
                     clearable
                     maxlength="18"
                     label="身份证号"
                     placeholder="请输入身份证号"
-                    @clear="clearVerifyCode" /> -->
+                    @clear="clearVerifyCode" />
                 <van-field
                     v-model="phone"
                     clearable

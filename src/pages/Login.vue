@@ -127,6 +127,7 @@ export default {
             } else if (!mobileReg.test(this.phone)) {
                 Toast('手机号码格式有误')
             } else {
+            	sessionStorage.setItem('phone',this.phone)
                 let datas = {
                     phone: this.phone
                 }

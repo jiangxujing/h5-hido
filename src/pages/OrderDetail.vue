@@ -79,6 +79,7 @@
 <script>
 	import api from '../common/api.js'
 	import _utils from '../common/utils.js'
+	import { Toast } from 'vant'
 	export default {
 		name: 'orderDetail',
 		data() {
@@ -125,11 +126,13 @@
 				let tel = this.recommendPhone
 				sessionStorage.setItem('recommendPhone',this.recommendPhone)
 				console.log(tel)
-				if(strTemp.test(tel) || !tel) {
+				console.log(sessionStorage.getItem('phone'))
+				if(tel == sessionStorage.getItem('phone')){
+					Toast('推荐人手机号不能是登陆手机号')
+				}else if(strTemp.test(tel) || !tel) {
 					this.gray = false
-				} else {
+				} else{
 					this.gray = true
-					console.log('手机号错误')
 				}
 			},
 			submitOrder() {

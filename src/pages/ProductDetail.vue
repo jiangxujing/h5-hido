@@ -120,8 +120,8 @@
 			}
 		},
 		methods: {
-			goToDetail(){
-				this.$router.push("/productDetail?packageCode=" + i.packageCode)
+			goToDetail(p){
+				this.$router.push("/productDetail?packageCode=" + p)
 			},
 			cancleBtn() {
 				this.shareWrapperShow = false

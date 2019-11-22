@@ -35,8 +35,8 @@
 				<div class="merber-package-price">
 					<div class="package-price-left">会员礼包价</div>
 					<div class="package-price-right">
-						<span style="text-decoration:line-through;">原价￥<span>{{packageDetail.originalPrice/100}}</span></span>
-						<span style="color:#FF7B31;font-size:1.4rem;font-weight:600;">￥{{packageDetail.salesPrice/100}}</span>
+						<span style="text-decoration:line-through;">原价￥<span>{{$utils.formatMoney(packageDetail.originalPrice,1)}}</span></span>
+						<span style="color:#FF7B31;font-size:1.4rem;font-weight:600;">￥{{$utils.formatMoney(packageDetail.salesPrice,1)}}</span>
 					</div>
 				</div>
 			</div>
@@ -205,6 +205,7 @@
 				let reqUrl = {
 					url: encodeURIComponent(url)
 				}
+				console.log(encodeURIComponent(url))
 				api.get(api.getUrl('share'), reqUrl).then(res => {
 					if(res.code == '0000') {
 						var timestamp = res.content.timestamp;
@@ -212,7 +213,7 @@
 						var signature = res.content.signature;
 						var appId = res.content.appid
 						wx.config({
-							debug: false, // 开fff启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+							debug: true, // 开fff启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
 							appId: appId,
 							timestamp: timestamp, // 必填，生成签名的时间戳
 							nonceStr: nonceStr, // 必填，生成签名的随机串

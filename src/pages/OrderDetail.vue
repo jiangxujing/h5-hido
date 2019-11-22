@@ -156,7 +156,9 @@
 			}
 		},
 		mounted() {
-			if(sessionStorage.getItem('h5paysuccess')){
+			this.h5paysuccess = this.$route.query.h5paysuccess
+			console.log(this.h5paysuccess)
+			if(sessionStorage.getItem('h5paysuccess') || this.h5paysuccess){
 				this.h5Show = true
 			}
 			this.packageCode = this.$route.query.packageCode

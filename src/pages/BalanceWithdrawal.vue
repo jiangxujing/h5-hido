@@ -4,7 +4,7 @@
 			<div class="title">提现余额（元）</div>
 			<div>
 				<van-cell-group>
-					<van-field @input="changeMoney" type="number" class="money" v-model="money" placeholder="请输入提现金额" clearable onkeyup="value=value.replace(/[^\d.]/g,'');value=value.replace(/^\./g,'');value=value.replace(/\.{2,}/g,'.');value=value.replace('.','$#$').replace(/\./g,'').replace('$#$','.');value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3')" />
+					<van-field @input="changeMoney" type="tel" class="money" v-model="money" placeholder="请输入提现金额" clearable onkeyup="value=value.replace(/[^\d.]/g,'');value=value.replace(/^\./g,'');value=value.replace(/\.{2,}/g,'.');value=value.replace('.','$#$').replace(/\./g,'').replace('$#$','.');value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3')" />
 				</van-cell-group>
 			</div>
 			<div class="borderStyle" style=" margin-left: 1.5rem;margin-top:0"></div>
@@ -61,7 +61,7 @@
 			<div class="sendCode-content" @click.stop>
 				<div class="title">{{sendCodeDetail.message}}</div>
 				<div class="send-style">
-					<input type="text" maxlength="6" v-model="smsCode" onkeyup="value=value.replace(/[^\d.]/g,'');value=value.replace(/^\./g,'');value=value.replace(/\.{2,}/g,'.');value=value.replace('.','$#$').replace(/\./g,'').replace('$#$','.');value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3')" placeholder="输入验证码" />
+					<input type="tel" maxlength="6" v-model="smsCode" placeholder="输入验证码" />
 					<button v-if="codeGrayShow">{{countdown}}s</button>
 					<button @click="sendCode" class="active" v-else>重新发送</button>
 				</div>
@@ -394,7 +394,7 @@
 			border-radius: 1.5rem;
 			position: fixed;
 			left: 50%;
-			margin-left: -30%;
+			margin-left: -36%;
 			top: 30%;
 			.title {
 				font-size: 1.7rem;

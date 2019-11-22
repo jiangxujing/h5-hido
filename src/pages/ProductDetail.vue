@@ -179,9 +179,9 @@
 							api.setNative('callLogin', {})
 						} else {
 							if(i.packageCode) {
-								this.$router.push("/orderDetail?packageCode=" + i.packageCode)
+								this.$router.push("/orderDetail?packageCode=" + i.packageCode+'&uid='+this.uid)
 							} else {
-								this.$router.push("/orderDetail?packageCode=" + this.$route.query.packageCode)
+								this.$router.push("/orderDetail?packageCode=" + this.$route.query.packageCode+'&uid='+this.uid)
 							}
 						}
 
@@ -191,9 +191,9 @@
 						this.$router.push("/login")
 					} else {
 						if(i.packageCode) {
-							this.$router.push("/orderDetail?packageCode=" + i.packageCode)
+							this.$router.push("/orderDetail?packageCode=" + i.packageCode+'&uid='+this.uid)
 						} else {
-							this.$router.push("/orderDetail?packageCode=" + this.$route.query.packageCode)
+							this.$router.push("/orderDetail?packageCode=" + this.$route.query.packageCode+'&uid='+this.uid)
 						}
 					}
 				}
@@ -252,6 +252,8 @@
 
 		},
 		mounted() {
+			this.uid = this.$route.query.uid
+			sessionStorage.setItem('uid',this.$route.query.uid)
 			document.title = "礼包详情"
 			let ua = navigator.userAgent;
 			this.device = {

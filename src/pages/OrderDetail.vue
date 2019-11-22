@@ -42,9 +42,9 @@
 						</div>
 					</div>
 				</div>
-				<div class="recommend" v-if="type==1">
+				<div class="recommend" v-if="!firstMobile">
 					<van-cell-group>
-						<van-field v-model="recommendPhone" label="推荐人手机号" placeholder="请输入推荐人手机号" clearable type='number' maxlength='11' @input="checkTel" />
+						<van-field v-model="recommendPhone" label="推荐人手机号" placeholder="请输入推荐人手机号" :disabled="isDisAble" clearable type='number' maxlength='11' @input="checkTel" />
 					</van-cell-group>
 				</div>
 				<div class="submitTxt">
@@ -99,7 +99,9 @@
 				type:'',
 				paymethodShow: false,
 				orderShow:true,
-				h5Show:false
+				h5Show:false,
+				firstMobile:'',
+				isDisAble:false
 			}
 		},
 		methods: {
@@ -153,6 +155,26 @@
 				}).catch((e) => {
 
 				})
+			},
+			queryAgent(){
+				let req = {
+					agentCode: this.uid
+				}
+				api.post(api.getUrl('queryAgent', ), req).then(res => {
+					if(res.code == 0) {
+						this.firstMobile = res.content.firstMobile
+						if(this.device.version.MicroMessenger) {
+							 if(!res.content.firstMobile){
+								if(res.content.mobile){
+									this.recommendPhone = res.content.mobile
+									this.isDisAble = true
+								}
+							}
+						}
+					}
+				}).catch((e) => {
+
+				})
 			}
 		},
 		mounted() {
@@ -161,7 +183,10 @@
 			if(sessionStorage.getItem('h5paysuccess') || this.h5paysuccess){
 				this.h5Show = true
 			}
+			
 			this.packageCode = this.$route.query.packageCode
+			this.uid = this.$route.query.uid
+			this.queryAgent()
 			let ua = navigator.userAgent;
 			this.device = {
 				version: function() {

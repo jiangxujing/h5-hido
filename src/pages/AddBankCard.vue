@@ -89,7 +89,9 @@
                     <img class="popup-success" src="../assets/images/gouxuan@2x.png" v-if="bankName === item.bankName" />
                 </div>
             </div>
-            <van-button class="close-button" @click="popupShow=false">取 消</van-button>
+            <div class="close-button">
+                <van-button @click="popupShow=false">取 消</van-button>
+            </div>
         </van-popup>
         <van-number-keyboard v-model="idNo" :show="keyboardshow" extra-key="X" :maxlength="18" @blur="keyboardshow=false" />
     </div>            

@@ -71,7 +71,13 @@
 		methods: {
 			saveAddress() {
 				let packageCode = sessionStorage.getItem('packageCode')
-				this.$router.push("/orderDetail?packageCode=" + packageCode)
+				if(this.username.length<2){
+					this.tipstext = '姓名不能少于两位！'
+				}else if(this.detailAddress.length < 2){
+						this.tipstext = '详细地址不能少于两位！'
+				}else{
+					this.$router.push("/orderDetail?packageCode=" + packageCode)
+				}
 			},
 			checkEmpty(param) {
 				if(this.username && this.phone && this.detailAddress && this.province && this.city && this.county) {
@@ -83,22 +89,21 @@
 				sessionStorage.setItem('phone', this.phone)
 				sessionStorage.setItem('detailAddress', this.detailAddress)
 				if(param == 'name') {
-					console.log('name')
-					var regu = "^[a-zA-Z\u4e00-\u9fa5]+$";
+					var regu = /^[a-zA-Z\u4e00-\u9fa5]{2,15}$/;
 					var re = new RegExp(regu);
 					if(this.username.search(re) != -1 || !this.username) {
 						this.tipShow = false
 					} else {
 						this.tipShow = true
-						this.tipstext = '姓名格式有误，只能输入中英文！'
+						this.tipstext = '姓名格式有误，只能输入中英文,位数在2-15位之间！'
 					}
 				} else if(param == 'detail') {
 					console.log('detail')
-					if(!!this.detailAddress.match(/^[\u4E00-\u9FA5a-zA-Z0-9_]{1,20}$/) || !this.detailAddress ) {
+					if(!!this.detailAddress.match(/^[\u4E00-\u9FA5a-zA-Z0-9_]{2,30}$/) || !this.detailAddress ) {
 						this.tipShow = false
 					}else{
 						this.tipShow = true
-						this.tipstext = '不能包含非法字符，请重新输入!'
+						this.tipstext = '不能包含非法字符，请重新输入，位数在2-30位之间!'
 					}
 				} else if(param == 'tel') {
 					console.log('tel')

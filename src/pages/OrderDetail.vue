@@ -251,7 +251,7 @@
 <style lang="scss">
 	@import '../assets/scss/common.scss';
 	.active{
-		height:70remx!important;
+		height:70rem!important;
 	}
 	.orderDetail {
 		width: 100%;

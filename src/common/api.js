@@ -233,6 +233,7 @@ export const getWechat = (title,desc,linkUrl,imgUrl) => {
         });
     });
     wx.error(function(res){
+    	console.log(JSON.stringify(res))
         //alert("配置項過期！");
     });
 }

@@ -32,8 +32,8 @@
 			</div>
 		</div>
 		<div class="confirmBtn">
-			<button class="withdrawBtn buy-now buy-now-gray" v-if="grayShow">确认提现</button>
-			<button class="withdrawBtn buy-now-active" v-else @click="getWithdraw">确认提现</button>
+			<button class="withdrawBtn buy-now1 buy-now-gray" v-if="grayShow">确认提现</button>
+			<button class="withdrawBtn buy-now-active1" v-else @click="getWithdraw">确认提现</button>
 		</div>
 		<van-popup v-model="bankshow" closeable position="bottom" :style="{ height: '100%' }">
 			<div class="banklist">
@@ -339,8 +339,8 @@
 		.confirmBtn {
 			width: 100%;
 			padding: 8rem 14% 6rem 14%;
-			  .buy-now,.buy-now-active {
-            width: 70%;
+			  .buy-now1,.buy-now-active1 {
+              width: 100%;
             height: 4.5rem;
             background: -webkit-linear-gradient(318deg, #ffaf82 0%, #ff7b31 100%);
             background: -o-linear-gradient(318deg, #ffaf82 0%, #ff7b31 100%);
@@ -349,10 +349,6 @@
             color: #fff;
             font-size: 1.7rem;
             font-weight: 500;
-            position: fixed;
-            bottom: 7rem;
-            left: 50%;
-            margin-left: -35%;
         }
 		}
 		.banklist {

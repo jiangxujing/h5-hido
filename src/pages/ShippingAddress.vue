@@ -3,8 +3,8 @@
 		<div class="title">请填写您的信息</div>
 		<div>
 			<van-cell-group>
-				<van-field v-model="username" type="text" label="收货人姓名" placeholder="请输入用户名" clearable @input="checkEmpty" />
-				<van-field v-model="phone" label="手机号" placeholder="请输入手机号" clearable type='tel' maxlength='11' @input="checkEmpty" />
+				<van-field v-model="username" type="text" label="收货人姓名" placeholder="请输入用户名" clearable @input="checkEmpty('name')" maxLength="15" minLength="2" />
+				<van-field v-model="phone" label="手机号" placeholder="请输入手机号" clearable type='tel' maxlength='11' @input="checkEmpty('tel')" />
 			</van-cell-group>
 		</div>
 		<div class="title">选择所在地区</div>
@@ -15,29 +15,30 @@
 		</div>
 		<div class="borderStyle" style="margin:0 1.5rem 0 1.5rem"></div>
 		<van-popup v-model="show" closeable position="bottom" :style="{ height: '60%' }" class="city-info">
-				<ul>
-					<li class="title-address">省</li>
-					<li v-for="(p,index) in provinceList" :key="index" @click="selectCountry(p)" :class="p.active?'active':''">
-						{{p.provinceName}}
-					</li>
-				</ul>
-				<ul>
-					<li class="title-address">市</li>
-					<li v-for="(c,index) in cityList" :key="index" @click="selectCity(c)" :class="c.active?'active':''">
-						{{c.cityName}}
-					</li>
+			<ul>
+				<li class="title-address">省</li>
+				<li v-for="(p,index) in provinceList" :key="index" @click="selectCountry(p)" :class="p.active?'active':''">
+					{{p.provinceName}}
+				</li>
+			</ul>
+			<ul>
+				<li class="title-address">市</li>
+				<li v-for="(c,index) in cityList" :key="index" @click="selectCity(c)" :class="c.active?'active':''">
+					{{c.cityName}}
+				</li>
 
-				</ul>
-				<ul>
-					<li class="title-address">区</li>
-					<li v-for="(d,index) in districtList" :key="index" @click="selectDistric(d)" :class="d.active?'active':''">
-						{{d.countyName}}
-					</li>
-					</ul>
+			</ul>
+			<ul>
+				<li class="title-address">区</li>
+				<li v-for="(d,index) in districtList" :key="index" @click="selectDistric(d)" :class="d.active?'active':''">
+					{{d.countyName}}
+				</li>
+			</ul>
 		</van-popup>
 		<van-cell-group>
-			<van-field class="big" type="text" v-model="detailAddress" placeholder="详细地址：如道路；门牌号；小区等" @input="checkEmpty" clearable/>
+			<van-field class="big" type="text" v-model="detailAddress" placeholder="详细地址：如道路；门牌号；小区等" @input="checkEmpty('detail')" maxLength="30" minLength="2" clearable/>
 		</van-cell-group>
+		<div v-if="tipShow" style="color:#FF0000;font-size:1.2rem;font-weight:400;padding-top:1.3rem;padding-left:1.5rem">{{tipstext}}</div>
 		<div class="save">
 			<button class="savebtn gray" v-if="gray">保存</button>
 			<button class="savebtn" v-else @click="saveAddress">保存</button>
@@ -62,20 +63,17 @@
 				provinceList: [],
 				cityList: [],
 				districtList: [],
-				gray: true
+				gray: true,
+				tipShow: false,
+				tipstext: '不能包含非法字符，请重新输入'
 			}
 		},
 		methods: {
 			saveAddress() {
 				let packageCode = sessionStorage.getItem('packageCode')
-				const mobileReg = /^(1)+\d{10}$/
-				if(!mobileReg.test(this.phone)){
-					Toast('手机号格式有误！')
-					return false
-				}
 				this.$router.push("/orderDetail?packageCode=" + packageCode)
 			},
-			checkEmpty() {
+			checkEmpty(param) {
 				if(this.username && this.phone && this.detailAddress && this.province && this.city && this.county) {
 					this.gray = false
 				} else {
@@ -84,12 +82,41 @@
 				sessionStorage.setItem('username', this.username)
 				sessionStorage.setItem('phone', this.phone)
 				sessionStorage.setItem('detailAddress', this.detailAddress)
+				if(param == 'name') {
+					console.log('name')
+					var regu = "^[a-zA-Z\u4e00-\u9fa5]+$";
+					var re = new RegExp(regu);
+					if(this.username.search(re) != -1 || !this.username) {
+						this.tipShow = false
+					} else {
+						this.tipShow = true
+						this.tipstext = '姓名格式有误，只能输入中英文！'
+					}
+				} else if(param == 'detail') {
+					console.log('detail')
+					if(!!this.detailAddress.match(/^[\u4E00-\u9FA5a-zA-Z0-9_]{1,20}$/) || !this.detailAddress ) {
+						this.tipShow = false
+					}else{
+						this.tipShow = true
+						this.tipstext = '不能包含非法字符，请重新输入!'
+					}
+				} else if(param == 'tel') {
+					console.log('tel')
+					const  mobileReg  =  /^(1)+\d{10}$/
+					if(mobileReg.test(this.phone) || !this.phone) {
+						this.tipShow = false
+					}else{
+						this.tipShow = true
+						this.tipstext = '手机号格式有误！'
+					}
+				}
+
 			},
 			showPopup() {
 				this.show = true;
 			},
 			getCountryList() {
-				api.post(api.getUrl('queryAdminRegion','collections'), {}).then(res => {
+				api.post(api.getUrl('queryAdminRegion', 'collections'), {}).then(res => {
 					this.provinceList = res.content
 				}).catch(() => {
 					console.log("系统异常")
@@ -155,8 +182,7 @@
 				interceptBack: false
 			}
 			api.setupWebViewJavascriptBridge((bridge) => {
-				bridge.callHandler('callInit', params, (data) => {
-				})
+				bridge.callHandler('callInit', params, (data) => {})
 			})
 		},
 	}
@@ -215,9 +241,9 @@
 				line-height: 2.5rem;
 				font-size: 1.5rem;
 				color: #1A2833;
-				.title-address{
+				.title-address {
 					font-weight: bold;
-					line-height:5rem;
+					line-height: 5rem;
 				}
 			}
 		}

@@ -1,31 +1,94 @@
 <template>
-	<div class="referrerPhone">
-		<div class="title">
-			请输入推荐人手机号
+	<div class="referrer">
+		<div>
+			<div class="title font-28 color-833 DINAlternate-Bold font-weight-500">
+				请输入推荐人手机号
+			</div>
+			<div class="border-style">
+				<van-field @input="changeTel" v-model="phone" type="tel" maxLength='11' placeholder="请输入推荐人手机号" />
+			</div>
 		</div>
-		<van-cell-group>
-		  <van-field v-model="value" placeholder="请输入用户名" />
-		</van-cell-group>
+		<div class="btn">
+			<button class="next font-18 gray" v-if="grayShow">下一步</button>
+			<button class="next font-18" v-else @click="getNext">下一步</button>
+			<div class="jump-over font-16 color-966 font-weight-400" @click="jumpNext">跳过</div>
+		</div>
 	</div>
 </template>
-
-
 <script>
 	import api from '../common/api.js'
 	import _utils from '../common/utils.js'
+	import { Toast } from 'vant'
 	export default {
 		name: '',
 		data() {
 			return {
+				phone: '',
+				grayShow:true
 			}
 		},
 		methods: {
-
+			getNext(){
+				const mobileReg = /^(1)+\d{10}$/
+				if(!mobileReg.test(this.phone)){
+					Toast('手机号格式有误！')
+					return false
+				}
+			},
+			changeTel(){
+				if(this.phone.length == 11){
+					this.grayShow = false
+				}else{
+					this.grayShow = true
+				}
+				
+			},
+			jumpNext(){
+					this.$router.push("/orderDetail?packageCode=" + packageCode)
+				}
 		},
 		mounted() {
+
 		},
 	}
 </script>
-
 <style lang="scss">
+	@import '../assets/scss/common.scss';
+	.referrer {
+		width: 100%;
+		height: 100%;
+		background: #fff;
+		.title {
+			padding-top: 5rem;
+			padding-left: 2.5rem;
+		}
+		.btn {
+			text-align: center;
+			button {
+				width: 86%;
+				height: 4.5rem;
+				background: linear-gradient(132deg, rgba(255, 175, 130, 1) 0%, rgba(255, 123, 49, 1) 100%);
+				border-radius: 2.5rem;
+				color: #fff;
+				font-weight: 400;
+			}
+			.gray {
+				opacity: 0.5;
+			}
+			.next {
+				margin-top: 6rem;
+			}
+			.jump-over {
+				font-size: 1.6rem;
+				margin-top: 2.6rem;
+			}
+		}
+		.border-style {
+			border-bottom: 1px solid #EAEAEA;
+			margin: 0 2.5rem;
+		}
+		.van-cell {
+			padding-left: 0;
+		}
+	}
 </style>

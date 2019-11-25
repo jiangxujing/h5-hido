@@ -286,7 +286,6 @@
 			let url = location.href
 			if(this.device.version.MicroMessenger) {
 				this.inweixin = true
-				this.getWechat()
 				let URL = decodeURIComponent(url)
 				this.uid = this.$route.query.uid
 				sessionStorage.setItem('uid',this.$route.query.uid)

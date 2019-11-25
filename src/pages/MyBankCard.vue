@@ -5,14 +5,14 @@
             <div v-for="(item, index) in bankCardList" :key="index" :class="item.bankGroundUrl ? 'bank-item' : 'bank-item bank-item-noBg'">
                 <span class="bank-item-tips">借记卡</span>
                 <img class="bank-item-bg" :src="item.bankGroundUrl" v-if="item.bankGroundUrl"/>
-                <img class="bank-item-bg" src="../assets/images/myBankCard.png" v-else/>
+                <img class="bank-item-bg" src="../assets/images/bank_card_bg.png" v-else/>
                 <div class="bank-item-content">
                     <img class="bank-item-photo" :src="item.bankPhoto">
                     <span>{{item.bankName}}</span>
                 </div>
                 <div class="bank-item-no">{{'**** **** **** ' + item.bankCardNo}}</div>
             </div>
-            <img class="bank-item-add" src="../assets/images/addBankCard.png" @click="$router.push({name: 'addBankCard'})"/>
+            <img class="bank-item-add" src="../assets/images/bank_card_add.png" @click="$router.push({name: 'addBankCard'})"/>
         </div>
     </div>
 </template>

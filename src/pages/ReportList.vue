@@ -4,7 +4,7 @@
         <div v-if="request">
             <div v-if="reportList && reportList.length > 0">
                 <div v-for="(item, index) in reportList" :key="index" class="report-item"  @click="openPage(item.url)">
-                    <img class="report-img" src="../assets/images/reportIcon.png" />
+                    <img class="report-img" src="../assets/images/report_icon.png" />
                     <div class="report-item-info">
                         <p class="report-item-title">{{item.title}}</p>
                         <p class="report-item-time">{{item.time}}</p>

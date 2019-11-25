@@ -6,12 +6,12 @@
                 <div v-for="(item, index) in orderList" :key="index" class="order-item" @click="openDetail(item)">
                     <div class="order-item-time">{{item.time}}</div>
                     <div class="order-item-content">
-                        <img class="order-img" src="../assets/images/orderIcon.png" />
+                        <img class="order-img" src="../assets/images/order_icon.png" />
                         <div class="order-item-info">
                             <p>{{item.statusShow}}</p>
                             <p class="order-item-amount DINAlternate-Bold"><span>￥</span>{{item.amountShow}}</p>
                         </div>
-                        <img src="../assets/images/arrow.png" class="order-arrow" />
+                        <img class="order-arrow" src="../assets/images/arrow.png" />
                     </div>
                 </div>
             </div>
@@ -85,19 +85,16 @@ export default {
                 orderNo: 111,
                 status: '00',
                 amount: '66600',
-                photo: '',
                 time: '2019/10/15 周三'
             }, {
                 orderNo: 222,
                 status: '01',
                 amount: '111100',
-                photo: '',
                 time: '2019/10/15 周三'
             }, {
                 orderNo: 333,
                 status: '02',
                 amount: '9900',
-                photo: '',
                 time: '2019/10/15 周三'
             }]
             this.orderList = res.content.map(item => {

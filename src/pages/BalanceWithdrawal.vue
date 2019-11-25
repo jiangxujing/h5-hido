@@ -275,6 +275,7 @@
 		flex-direction: column;
 		justify-content: space-between;
 		height: 100%;
+		min-height: 50rem;
 		.balanceWithdrawal-content {
 			input::-webkit-input-placeholder {
 				color: #aab2bd;

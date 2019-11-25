@@ -93,12 +93,13 @@
                 <van-button @click="popupShow=false">取 消</van-button>
             </div>
         </van-popup>
-        <van-number-keyboard v-model="idNo" :show="keyboardshow" extra-key="X" :maxlength="18" @blur="keyboardshow=false" />
+        <!-- <van-number-keyboard v-model="idNo" :show="keyboardshow" extra-key="X" :maxlength="18" @blur="keyboardshow=false" /> -->
     </div>            
 </template>
 
 <script>
-import { Toast, Field, Button, Popup, Checkbox, CheckboxGroup, NumberKeyboard } from 'vant'
+// import { Toast, Field, Button, Popup, Checkbox, CheckboxGroup, NumberKeyboard } from 'vant'
+import { Toast, Field, Button, Popup, Checkbox, CheckboxGroup } from 'vant'
 import api from '../common/api.js'
 import { htmlFontSize, resetFontSize, resetWindow } from '@/common/utils.js'
 

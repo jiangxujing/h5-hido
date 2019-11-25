@@ -471,27 +471,6 @@ export const reAlignArray = (origin, target, direction) => {
 }
 
 /**
- * 金额格式
- **/
-export const amountFormat = x => {
-	if(isNaN(parseFloat(x))) {
-		return false
-	}
-	let f = Math.round(x * 100) / 100,
-		s = f.toString(),
-		rs = s.indexOf('.');
-
-	if(rs < 0) {
-		rs = s.length
-		s += '.'
-	}
-	while(s.length <= rs + 2) {
-		s += '0'
-	}
-	return s
-}
-
-/**
  * 金钱展示
  **/
 export const formatMoney = (amount, fixed) => {
@@ -682,7 +661,6 @@ export default {
 	cookieCan,
 	convertSecondToTime,
 	reAlignArray,
-	amountFormat,
 	formatMoney,
 	emptyFormat,
 	getUrlSearch,

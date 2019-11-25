@@ -15,14 +15,14 @@
                     v-model="deductionAmount"
                     clearable
                     type="tel"
-                    maxlength="10"
+                    maxlength="4"
                     label="抵扣金额"
                     placeholder="请填写抵扣金额" />
                 <van-field
                     v-model="amount"
                     clearable
                     type="tel"
-                    maxlength="10"
+                    maxlength="4"
                     label="支付金额"
                     placeholder="请填写支付金额" />
             </div>
@@ -61,8 +61,21 @@ export default {
         // 创 建
         toNext () {
             const mobileReg = /^(1)+\d{10}$/
+            const amoutReg = /^[1-9]\d*$/
             if (!mobileReg.test(this.agentPhone)) {
-                Toast('手机号码有误')
+                Toast('用户手机号有误')
+                return false
+            } else if (!amoutReg.test(this.deductionAmount)) {
+                Toast('抵扣金额格式有误')
+                return false
+            } else if (this.deductionAmount > 5000) {
+                Toast('填写金额需小于等于5000，请重新输入')
+                return false
+            } else if (!amoutReg.test(this.amount)) {
+                Toast('支付金额格式有误')
+                return false
+            } else if (this.amount > 5000) {
+                Toast('填写金额需小于等于5000，请重新输入')
                 return false
             } else {
                 let datas = {
@@ -71,14 +84,16 @@ export default {
                     agentPhone: this.agentPhone
                 }
                 this.nextBtn = true
-                api.post(api.getUrl('bankCard-v3-bindBankCard', 'user'), datas).then(resp => {
-                    if (resp.code === 0) {
-                        Toast('创建卡券成功')
-                        this.$router.go(-1)
-                    } else {
-                        this.nextBtn = false
-                    }
-                })
+                // api.post(api.getUrl('bankCard-v3-bindBankCard', 'user'), datas).then(resp => {
+                //     if (resp.code === 0) {
+                //         Toast('创建卡券成功')
+                //         this.$router.go(-1)
+                //     } else {
+                //         this.nextBtn = false
+                //     }
+                // })
+                Toast('创建卡券成功')
+                this.$router.go(-1)
             }
         }
     }

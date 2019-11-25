@@ -23,16 +23,18 @@
 				</div>
 				<img class="gouxuan" src="../assets/images/arrow.png" />
 			</div>
-				<div class="bank" @click="addBank" v-else style="height:6.5rem">
-					<div style="padding: 2rem 1rem 0 1.8rem;height:2.4rem;line-height:2.4rem;">
-						<img src="../assets/images/addbank.png" class="bank-add" style="width:2.4rem;"/>
-						<span style="color:#8A9399;font-size:1.4rem;margin-left:1.5rem">添加银行卡</span>
-						<img src="../assets/images/arrowbank.png" class="banklarrow" style="width:2.2rem;float:right"/>
-					</div>
+			<div class="bank" @click="addBank" v-else style="height:6.5rem">
+				<div style="padding: 2rem 1rem 0 1.8rem;height:2.4rem;line-height:2.4rem;">
+					<img src="../assets/images/addbank.png" class="bank-add" style="width:2.4rem;" />
+					<span style="color:#8A9399;font-size:1.4rem;margin-left:1.5rem">添加银行卡</span>
+					<img src="../assets/images/arrowbank.png" class="banklarrow" style="width:2.2rem;float:right" />
 				</div>
+			</div>
 		</div>
-		<button class="withdrawBtn buy-now buy-now-gray" v-if="grayShow">确认提现</button>
-		<button class="withdrawBtn buy-now-active" v-else @click="getWithdraw">确认提现</button>
+		<div class="confirmBtn">
+			<button class="withdrawBtn buy-now buy-now-gray" v-if="grayShow">确认提现</button>
+			<button class="withdrawBtn buy-now-active" v-else @click="getWithdraw">确认提现</button>
+		</div>
 		<van-popup v-model="bankshow" closeable position="bottom" :style="{ height: '100%' }">
 			<div class="banklist">
 				<div class="bank" v-for="(b,index) in withdrawalDetail.cardList" :key="index" @click="selectBank(b)" :class="b.active?'active':''">
@@ -87,7 +89,7 @@
 				bankCardNo: '',
 				money: '',
 				bankshow: false,
-				bankImgUrl:'',
+				bankImgUrl: '',
 				sendCodeDetail: {},
 				withdrawalDetail: {},
 				active: false,
@@ -96,8 +98,8 @@
 				countdown: 60,
 				codeGrayShow: true,
 				inteval: '',
-				bankNumShow:true,
-				bankPhoto:''
+				bankNumShow: true,
+				bankPhoto: ''
 			}
 		},
 		methods: {
@@ -105,64 +107,63 @@
 				this.getWithdraw()
 			},
 			confirmCode() {
-				let amount = this.money*100
+				let amount = this.money * 100
 				let req = {
-					amount:amount,
-					bankBranch:this.bankBranch,
-					bankCardNo:this.bankCardNo,
-					bankName:this.bankName,
-					serialNo:this.serialNo,
-					verificationCode:this.smsCode,
-					mobile:this.moblie,
-					name:this.name,
-					cardId:this.cardId
+					amount: amount,
+					bankBranch: this.bankBranch,
+					bankCardNo: this.bankCardNo,
+					bankName: this.bankName,
+					serialNo: this.serialNo,
+					verificationCode: this.smsCode,
+					mobile: this.moblie,
+					name: this.name,
+					cardId: this.cardId
 				}
 				api.post(api.getUrl('withdrawalAuthSendSms'), req).then(res => {
 					if(res.code == 0) {
 						this.sendCodeShow = false
 						this.$router.push("/withdrawSucess")
-					}else{
-						
+					} else {
+
 					}
 				}).catch((e) => {
 
 				})
 			},
 			getWithdraw() {
-				if(parseFloat(this.money) <=0){
-					 Toast('提现金额不能为0', '提示')
-				}else{
+				if(parseFloat(this.money) <= 0) {
+					Toast('提现金额不能为0', '提示')
+				} else {
 					let req = {
-					mobile:this.moblie,
-					amount:this.money*100
-				}
-					console.log(this.moblie)
-				api.post(api.getUrl('withdrawalSendSms'), req).then(res => {
-					if(res.code == 0) {
-						this.sendCodeDetail = res.content;
-						this.serialNo = res.content.serialNo
-						this.sendCodeShow = true
-						console.log(this.inteval)
-						if(!this.inteval) {
-							this.inteval = setInterval(() => {
-								this.countdown--
-									if(this.countdown <= 0) {
-										clearInterval(this.inteval)
-										this.inteval = ''
-										this.countdown = 60
-										this.codeGrayShow = false
-									} else {
-										this.codeGrayShow = true
-									}
-							}, 1000)
-						}
+						mobile: this.moblie,
+						amount: this.money * 100
 					}
-				}).catch((e) => {
-				})
+					console.log(this.moblie)
+					api.post(api.getUrl('withdrawalSendSms'), req).then(res => {
+						if(res.code == 0) {
+							this.sendCodeDetail = res.content;
+							this.serialNo = res.content.serialNo
+							this.sendCodeShow = true
+							console.log(this.inteval)
+							if(!this.inteval) {
+								this.inteval = setInterval(() => {
+									this.countdown--
+										if(this.countdown <= 0) {
+											clearInterval(this.inteval)
+											this.inteval = ''
+											this.countdown = 60
+											this.codeGrayShow = false
+										} else {
+											this.codeGrayShow = true
+										}
+								}, 1000)
+							}
+						}
+					}).catch((e) => {})
 				}
 			},
 			changeMoney() {
-				if((parseFloat(this.money) > parseFloat(this.withdrawalDetail.freeAmount/100)) && parseFloat(this.money) <= 10000) {
+				if((parseFloat(this.money) > parseFloat(this.withdrawalDetail.freeAmount / 100)) && parseFloat(this.money) <= 10000) {
 					this.normal = false
 					this.tips = '金额已超过可提现余额'
 					this.grayShow = true
@@ -171,11 +172,11 @@
 					this.normal = false
 					this.tips = '单笔最高可提现10000.00元'
 					this.grayShow = true
-				} else if(parseFloat(this.money) < 100){
+				} else if(parseFloat(this.money) < 100) {
 					this.normal = false
 					this.tips = '单笔最低可提现100.00元'
 					this.grayShow = true
-				}else {
+				} else {
 					this.normal = true
 					if(!this.bankCardNo) {
 						this.grayShow = true
@@ -220,14 +221,14 @@
 				api.post(api.getUrl('queryWithdrawal'), {}).then(res => {
 					if(res.code == 0) {
 						this.withdrawalDetail = res.content
-						if(res.content.cardList && res.content.cardList.length>0){
-							this.bankNumShow = true	
-						}else{
+						if(res.content.cardList && res.content.cardList.length > 0) {
+							this.bankNumShow = true
+						} else {
 							this.bankNumShow = false
 						}
-						this.bankName =  res.content.cardList[0].bankName
-						this.bankCardNo =  res.content.cardList[0].bankCardNo
-						this.bankImgUrl =  res.content.cardList[0].bankImgUrl
+						this.bankName = res.content.cardList[0].bankName
+						this.bankCardNo = res.content.cardList[0].bankCardNo
+						this.bankImgUrl = res.content.cardList[0].bankImgUrl
 						this.bankBranch = res.content.cardList[0].bankBranch
 						this.bankPhoto = res.content.cardList[0].bankPhoto
 						this.moblie = res.content.cardList[0].mobile
@@ -242,8 +243,10 @@
 		},
 		mounted() {
 			document.title = "余额提现"
-			if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
-				api.setNative('callInit', {interceptBack: false})
+			if(navigator.userAgent.toLowerCase().indexOf('hido')  !=  -1) {
+				api.setNative('callInit', {
+					interceptBack: false
+				})
 				setTimeout(() => {
 					this.queryWithdrawal()
 				}, 600)
@@ -255,7 +258,6 @@
 </script>
 
 <style lang="scss">
-	@import '../assets/scss/common.scss';
 	.van-popup {
 		background-color: transparent!important;
 	}
@@ -263,18 +265,23 @@
 	[class*=van-hairline]::after {
 		border: none;
 	}
+	
 	.van-cell {
 		padding: 0;
 	}
 	
 	.balanceWithdrawal {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		height: 100%;
 		.balanceWithdrawal-content {
 			input::-webkit-input-placeholder {
-       color: #aab2bd;
-       font-size:3.2rem;
-       font-weight: 300;
-       color:#8A9399;
-    }
+				color: #aab2bd;
+				font-size: 3.2rem;
+				font-weight: 300;
+				color: #8A9399;
+			}
 			width: 100%;
 			height: auto;
 			margin-top: 1rem;
@@ -291,7 +298,7 @@
 				font-weight: 400;
 			}
 			.money {
-				padding:1rem 0 1rem 1.5rem;
+				padding: 1rem 0 1rem 1.5rem;
 			}
 			.available-balance {
 				color: #1A2833;
@@ -328,11 +335,30 @@
 				}
 			}
 		}
+		.confirmBtn {
+			width: 100%;
+			padding: 8rem 14% 6rem 14%;
+			  .buy-now,.buy-now-active {
+            width: 70%;
+            height: 4.5rem;
+            background: -webkit-linear-gradient(318deg, #ffaf82 0%, #ff7b31 100%);
+            background: -o-linear-gradient(318deg, #ffaf82 0%, #ff7b31 100%);
+            background: linear-gradient(132deg, #ffaf82 0%, #ff7b31 100%);
+            border-radius: 23px;
+            color: #fff;
+            font-size: 1.7rem;
+            font-weight: 500;
+            position: fixed;
+            bottom: 7rem;
+            left: 50%;
+            margin-left: -35%;
+        }
+		}
 		.banklist {
 			width: 96%;
 			height: auto;
-			 max-height: 40rem;
-   			 overflow-y: scroll;
+			max-height: 40rem;
+			overflow-y: scroll;
 			background: #fff;
 			position: fixed;
 			bottom: 9rem;
@@ -419,8 +445,8 @@
 				padding: 1rem 0;
 				input {
 					border: none;
-					font-size:1.6rem;
-					width:13rem;
+					font-size: 1.6rem;
+					width: 13rem;
 				}
 				button {
 					border: 1px solid #FF7B31;

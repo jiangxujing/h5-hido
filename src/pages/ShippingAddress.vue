@@ -4,7 +4,7 @@
 		<div>
 			<van-cell-group>
 				<van-field v-model="username" type="text" label="收货人姓名" placeholder="请输入用户名" clearable @input="checkEmpty" />
-				<van-field v-model="phone" label="手机号" placeholder="请输入手机号" clearable type='number' maxlength='11' @input="checkEmpty" />
+				<van-field v-model="phone" label="手机号" placeholder="请输入手机号" clearable type='tel' maxlength='11' @input="checkEmpty" />
 			</van-cell-group>
 		</div>
 		<div class="title">选择所在地区</div>
@@ -47,6 +47,7 @@
 
 <script>
 	import api from '../common/api.js'
+	import { Toast } from 'vant'
 	export default {
 		name: 'shippingAddress',
 		data() {
@@ -67,6 +68,11 @@
 		methods: {
 			saveAddress() {
 				let packageCode = sessionStorage.getItem('packageCode')
+				const mobileReg = /^(1)+\d{10}$/
+				if(!mobileReg.test(this.phone)){
+					Toast('手机号格式有误！')
+					return false
+				}
 				this.$router.push("/orderDetail?packageCode=" + packageCode)
 			},
 			checkEmpty() {

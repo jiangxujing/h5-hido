@@ -4,14 +4,14 @@
         <div class="coupon-add" @click="$router.push({name: 'addCoupon'})">
             <img class="coupon-add-img" src="../assets/images/addbank.png" />创建卡券
         </div>
-        <div v-for="(item, index) in couponList" :key="index" :class="item.status == '00' ? 'coupon-item' : 'coupon-item coupon-item-over'">
+        <div v-for="(item, index) in couponList" :key="index" :class="item.status == '01' || item.status == '02' ? 'coupon-item' : 'coupon-item coupon-item-over'">
             <div class="coupon-item-left">
                 <p class="coupon-item-amount DINAlternate-Bold"><span>￥</span>{{item.amountShow}}</p>
                 <p>{{item.statusShow}}</p>
             </div>
             <div class="coupon-item-right">
                 <p>{{item.deductionAmountShow + '元抵扣券'}}</p>
-                <p class="coupon-item-phone"><span>使用人：</span>{{item.agentPhone}}</p>
+                <p class="coupon-item-phone"><span>使用人：</span>{{item.mobile}}</p>
             </div>
         </div>
     </div>
@@ -19,7 +19,6 @@
 
 <script>
 import { Toast } from 'vant'
-import { formatMoney } from '../common/utils.js'
 import api from '../common/api.js'
 
 export default {
@@ -28,12 +27,18 @@ export default {
         return {
             couponList: [],
             statusList: [{
-                value: '00',
+                value: '01',
                 label: '未消费'
             }, {
-                value: '01',
+                value: '02',
+                label: '未消费'
+            }, {
+                value: '03',
                 label: '已消费'
-            }],
+            }, {
+                value: '04',
+                label: '已过期'
+            }]
         }
     },
     mounted () {
@@ -56,8 +61,8 @@ export default {
             //             this.couponList = res.content.map(item => {
             //                 let data = {}
             //                 data = item
-            //                 data.amountShow = formatMoney(item.amount, 0)
-            //                 data.deductionAmountShow = formatMoney(item.deductionAmount, 0)
+            //                 data.amountShow = Math.round(item.amount/100)
+            //                 data.deductionAmountShow = Math.round(item.deductionAmount/100)
             //                 if (item.status !== '') {
             //                     this.statusList.forEach(status =>{
             //                         status.value == item.status ? data.statusShow = status.label : ''
@@ -74,20 +79,26 @@ export default {
                 content: []
             }
             res.content = [{
-                status: '00',
+                status: '01',
                 amount: '66600',
                 deductionAmount: '99900',
-                agentPhone: '18734342343'
+                mobile: '18734342343'
             }, {
-                status: '00',
+                status: '02',
                 amount: '111100',
                 deductionAmount: '200000',
-                agentPhone: '18734342344'
+                mobile: '18734342344'
             }, {
-                status: '01',
+                status: '03',
                 amount: '9900',
                 deductionAmount: '50000',
-                agentPhone: '18734342345'
+                mobile: '18734342345'
+            }, {
+                status: '04',
+                amount: '22200',
+                deductionAmount: '50000',
+                mobile: '18734342345'
+            
             }]
             this.couponList = res.content.map(item => {
                 let data = {}

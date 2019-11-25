@@ -287,6 +287,14 @@ button.icon {
     font-weight: 500;
 }
 
+.van-field__body input {
+    font-size: 1.5rem;
+}
+
+input::-webkit-input-placeholder {
+    font-size: 1.5rem;
+}
+
 .search-input {
     position: relative;
     // margin-top: 1rem;
@@ -637,10 +645,8 @@ button.icon {
             line-height: 3.8rem;
             font-size: 1.6rem;
             top: 2.7rem;
-            // height: 4rem;
             width: 100%;
             position: absolute;
-            // top: 2rem;
             border: none;
             background-color: #fff;
             color: $normalColor;
@@ -727,12 +733,6 @@ button.icon {
             color: #323233;
             -webkit-text-fill-color: #323233;
         }
-    }
-    .van-field__body input {
-        font-size: 1.5rem;
-    }
-    input::-webkit-input-placeholder {
-        font-size: 1.5rem;
     }
     .card-popup {
         background: transparent;
@@ -1052,5 +1052,18 @@ button.icon {
         .coupon-item-right {
             color:$lightColor;
         }
+    }
+}
+
+// 创建卡券
+.add-coupon {
+    padding-top: 1rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .page-button {
+        width: 100%;
+        padding: 8rem 14.4% 6rem 14.4%;
     }
 }

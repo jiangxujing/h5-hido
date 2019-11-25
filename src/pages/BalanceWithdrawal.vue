@@ -4,7 +4,7 @@
 			<div class="title">提现余额（元）</div>
 			<div>
 				<van-cell-group>
-					<van-field @input="changeMoney" type="tel" class="money" v-model="money" placeholder="请输入提现金额" clearable onkeyup="value=value.replace(/[^\d.]/g,'');value=value.replace(/^\./g,'');value=value.replace(/\.{2,}/g,'.');value=value.replace('.','$#$').replace(/\./g,'').replace('$#$','.');value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3')" />
+					<van-field @input="changeMoney" @clear="clearData" type="tel" class="money" v-model="money" placeholder="请输入提现金额" clearable onkeyup="value=value.replace(/[^\d.]/g,'');value=value.replace(/^\./g,'');value=value.replace(/\.{2,}/g,'.');value=value.replace('.','$#$').replace(/\./g,'').replace('$#$','.');value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3')" />
 				</van-cell-group>
 			</div>
 			<div class="borderStyle" style=" margin-left: 1.5rem;margin-top:0"></div>
@@ -103,6 +103,9 @@
 			}
 		},
 		methods: {
+			clearData(){
+				this.grayShow = true
+			},
 			sendCode() {
 				this.getWithdraw()
 			},
@@ -258,6 +261,7 @@
 </script>
 
 <style lang="scss">
+	@import '../assets/scss/common.scss';
 	.van-popup {
 		background-color: transparent!important;
 	}
@@ -339,17 +343,18 @@
 		.confirmBtn {
 			width: 100%;
 			padding: 8rem 14% 6rem 14%;
-			  .buy-now1,.buy-now-active1 {
-              width: 100%;
-            height: 4.5rem;
-            background: -webkit-linear-gradient(318deg, #ffaf82 0%, #ff7b31 100%);
-            background: -o-linear-gradient(318deg, #ffaf82 0%, #ff7b31 100%);
-            background: linear-gradient(132deg, #ffaf82 0%, #ff7b31 100%);
-            border-radius: 23px;
-            color: #fff;
-            font-size: 1.7rem;
-            font-weight: 500;
-        }
+			.buy-now1,
+			.buy-now-active1 {
+				width: 100%;
+				height: 4.5rem;
+				background: -webkit-linear-gradient(318deg, #ffaf82 0%, #ff7b31 100%);
+				background: -o-linear-gradient(318deg, #ffaf82 0%, #ff7b31 100%);
+				background: linear-gradient(132deg, #ffaf82 0%, #ff7b31 100%);
+				border-radius: 23px;
+				color: #fff;
+				font-size: 1.7rem;
+				font-weight: 500;
+			}
 		}
 		.banklist {
 			width: 96%;

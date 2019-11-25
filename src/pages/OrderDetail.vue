@@ -30,7 +30,7 @@
 									<div class="van-multi-ellipsis--l2" style="color:#1A2833;font-size:1.5rem">
 										{{orderDetail.name}}
 									</div>
-									<div v-for="i in orderDetail.giftPackageDetailList">
+									<div v-for="(i,index) in orderDetail.giftPackageDetailList" :key="index">
 										<span style="font-size:1.4rem;color:#8A9399">{{i.goodsName}}*{{i.goodsCount}}</span>
 									</div>
 								</div>

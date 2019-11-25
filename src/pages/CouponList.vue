@@ -6,7 +6,7 @@
         </div>
         <div v-for="(item, index) in couponList" :key="index" :class="item.status == '00' ? 'coupon-item' : 'coupon-item coupon-item-over'">
             <div class="coupon-item-left">
-                <p class="coupon-item-amount"><span>￥</span>{{item.amountShow}}</p>
+                <p class="coupon-item-amount DINAlternate-Bold"><span>￥</span>{{item.amountShow}}</p>
                 <p>{{item.statusShow}}</p>
             </div>
             <div class="coupon-item-right">
@@ -75,25 +75,25 @@ export default {
             }
             res.content = [{
                 status: '00',
-                amount: '39900',
-                deductionAmount: '50000',
+                amount: '66600',
+                deductionAmount: '99900',
                 agentPhone: '18734342343'
             }, {
                 status: '00',
-                amount: '99900',
+                amount: '111100',
                 deductionAmount: '200000',
                 agentPhone: '18734342344'
             }, {
                 status: '01',
-                amount: '39900',
-                deductionAmount: '30000',
+                amount: '9900',
+                deductionAmount: '50000',
                 agentPhone: '18734342345'
             }]
             this.couponList = res.content.map(item => {
                 let data = {}
                 data = item
-                data.amountShow = formatMoney(item.amount, 0)
-                data.deductionAmountShow = formatMoney(item.deductionAmount, 0)
+                data.amountShow = Math.round(item.amount/100)
+                data.deductionAmountShow = Math.round(item.deductionAmount/100)
                 if (item.status !== '') {
                     this.statusList.forEach(status =>{
                         status.value == item.status ? data.statusShow = status.label : ''

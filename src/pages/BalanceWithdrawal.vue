@@ -291,7 +291,7 @@
 				font-weight: 400;
 			}
 			.money {
-				padding-left: 1.5rem;
+				padding:1rem 0 1rem 1.5rem;
 			}
 			.available-balance {
 				color: #1A2833;

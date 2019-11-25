@@ -19,6 +19,8 @@ import registerProtocol from '@/agreement/RegisterProtocol'
 import orderSuccess from '@/pages/OrderSuccess'
 import couponList from '@/pages/CouponList'
 import addCoupon from '@/pages/AddCoupon'
+import medicalOrderList from '@/pages/MedicalOrderList'
+import medicalOrderDetail from '@/pages/MedicalOrderDetail'
 import referrerPhone from '@/pages/ReferrerPhone'
 
 const originalPush = Router.prototype.push
@@ -106,6 +108,14 @@ export default new Router({
         	path: '/addCoupon',
             component: addCoupon,
             name:'addCoupon'
+        },{
+        	path: '/medicalOrderList',
+            component: medicalOrderList,
+            name:'medicalOrderList'
+        },{
+        	path: '/medicalOrderDetail',
+            component: medicalOrderDetail,
+            name:'medicalOrderDetail'
         },{
         	path: '/referrerPhone',
             component: referrerPhone,

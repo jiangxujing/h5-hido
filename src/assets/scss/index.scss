@@ -1077,3 +1077,46 @@ input::-webkit-input-placeholder {
         padding: 8rem 14.4% 6rem 14.4%;
     }
 }
+
+// 订单列表
+.medical-order-list {
+    padding-top: 1rem;
+    .order-item {
+        background: #fff;
+        margin-bottom: 1rem;
+        padding-left: 1.5rem;
+    }
+    .order-img {
+        width: 5.2rem;
+        height: 5.2rem;
+        border-radius: .3rem;
+    }
+    .order-item-time {
+        @include borderBottomHalfPx(#F0F0F0, 0);
+        line-height: 3.6rem;
+        color: $lightColor;
+        font-size: 1.2rem;
+    }
+    .order-item-content {
+        padding: 1.5rem 1.5rem 1.5rem 0;
+        display: flex;
+    }
+    .order-item-info {
+        flex-grow: 1;
+        padding: .3rem 1.2rem;
+        line-height: 1;
+        color: $darkColor;
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+    .order-item-amount {
+        margin-top: 1.5rem;
+        font-size: 1.8rem;
+        color: $themeColor;
+    }
+    .order-arrow {
+        width: 2.2rem;
+        height: 2.2rem;
+        margin-top: 1.5rem;
+    }
+}

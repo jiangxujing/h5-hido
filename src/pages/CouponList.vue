@@ -19,7 +19,6 @@
 
 <script>
 import { Toast } from 'vant'
-import { formatMoney } from '../common/utils.js'
 import api from '../common/api.js'
 
 export default {
@@ -56,8 +55,8 @@ export default {
             //             this.couponList = res.content.map(item => {
             //                 let data = {}
             //                 data = item
-            //                 data.amountShow = formatMoney(item.amount, 0)
-            //                 data.deductionAmountShow = formatMoney(item.deductionAmount, 0)
+            //                 data.amountShow = Math.round(item.amount/100)
+            //                 data.deductionAmountShow = Math.round(item.deductionAmount/100)
             //                 if (item.status !== '') {
             //                     this.statusList.forEach(status =>{
             //                         status.value == item.status ? data.statusShow = status.label : ''

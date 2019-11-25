@@ -216,13 +216,13 @@
 				}
 				console.log(encodeURIComponent(url))
 				api.get(api.getUrl('share'), reqUrl).then(res => {
-					if(res.code == '0000') {
+					if(res.code == '000') {
 						var timestamp = res.content.timestamp;
 						var nonceStr = res.content.nonceStr;
 						var signature = res.content.signature;
 						var appId = res.content.appid
 						console.log(res)
-						wx.config({
+						wx.config({ 
 							debug: false, // 开fff启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
 							appId: appId,
 							timestamp: timestamp, // 必填，生成签名的时间戳
@@ -230,7 +230,7 @@
 							signature: signature, // 必填，签名，见附录1
 							jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
 						});
-						api.getWechat(packageDetail.shareTitle, packageDetail.shareDesc, url, packageDetail.sharePicture)
+						api.getWechat(this.packageDetail.shareTitle, this.packageDetail.shareDesc, url, this.packageDetail.sharePicture)
 					}
 				})
 			},
@@ -243,6 +243,9 @@
 						console.log('jinl ')
 						this.packageDetail = res.content.giftPackageDTODetails
 						this.giftPackageDTOList = res.content.giftPackageDTOList
+						if(this.device.version.MicroMessenger) {
+								this.getWechat()
+							}
 						if(res.content.giftPackageDTODetails.detailsPicture) {
 							this.detailsPicture = res.content.giftPackageDTODetails.detailsPicture.split(',')
 						}
@@ -253,14 +256,26 @@
 						}
 					}
 				}).catch((e) => {
-
 				})
 			}
-
 		},
 		mounted() {
 			document.title = "礼包详情"
 			let ua = navigator.userAgent;
+			this.ios = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端
+			let code = this.$route.query.packageCode
+			if(navigator.userAgent.toLowerCase().indexOf('hido')  !=  -1) {
+				api.setNative('callInit', {
+					interceptBack: false
+				})
+				setTimeout(() => {
+					this.getPackageDetail(code)
+				}, 600)
+			} else {
+				this.getPackageDetail(code)
+			}
+			
 			this.device = {
 				version: function() {
 					return {
@@ -275,24 +290,11 @@
 				let URL = decodeURIComponent(url)
 				this.uid = this.$route.query.uid
 				sessionStorage.setItem('uid',this.$route.query.uid)
-				console.log(this.uid)
 			}else{
 				this.uid = this.$route.query.uid
 				sessionStorage.setItem('uid',this.$route.query.uid)
 			}
-			this.ios = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端
-			let code = this.$route.query.packageCode
-			if(navigator.userAgent.toLowerCase().indexOf('hido')  !=  -1) {
-				api.setNative('callInit', {
-					interceptBack: false
-				})
-				setTimeout(() => {
-					this.getPackageDetail(code)
-				}, 600)
-			} else {
-				this.getPackageDetail(code)
-			}
+			
 			let params = {
 				interceptBack: true
 			}

@@ -123,7 +123,8 @@
 			goToDetail(p){
 				console.log(p)
 				this.$router.push("/productDetail?packageCode=" + p)
-				this.$router.go(0)
+			window.location.reload(true)
+//				this.$router.go(0)
 			},
 			cancleBtn() {
 				this.shareWrapperShow = false

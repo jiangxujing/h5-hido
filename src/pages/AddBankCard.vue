@@ -54,7 +54,7 @@
                     v-model="phone"
                     clearable
                     maxlength="11"
-                    type="number"
+                    type="tel"
                     label="预留手机号"
                     placeholder="请输入预留手机号"
                     @clear="clearVerifyCode" />
@@ -63,7 +63,7 @@
                     center
                     clearable
                     maxlength="6"
-                    type="number"
+                    type="tel"
                     label="验证码"
                     placeholder="请输入验证码">
                     <van-button class="van-field-btn" slot="button" plain size="small" type="info" :disabled="verifyBtn" @click="getVerify">{{verifyTitle}}</van-button>
@@ -285,8 +285,10 @@ export default {
         toNext () {
             if (!(/^\d+$/).test(this.verifyCode)) {
                 Toast('验证码有误')
+                return false
             } else if (this.phone !== this.checkedPhone) {
                 Toast('请重新获取验证码')
+                return false
             } else if (!this.checked) {
                 Toast('请先阅读并同意相关协议')
                 return false
@@ -303,7 +305,6 @@ export default {
                 }
                 this.nextBtn = true
                 api.post(api.getUrl('bankCard-v3-bindBankCard', 'user'), datas).then(resp => {
-                    
                     if (resp.code === 0) {
                         Toast('银行卡添加成功')
                         clearInterval(this.clock)

@@ -23,6 +23,7 @@ import medicalOrderList from '@/pages/MedicalOrderList'
 import medicalOrderDetail from '@/pages/MedicalOrderDetail'
 import reportList from '@/pages/ReportList'
 import referrerPhone from '@/pages/ReferrerPhone'
+import reservation from '@/pages/Reservation'
 
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
@@ -125,6 +126,10 @@ export default new Router({
         	path: '/referrerPhone',
             component: referrerPhone,
             name:'referrerPhone'
+        },{
+        	path: '/reservation',
+            component: reservation,
+            name:'reservation'
         }
     ],
     scrollBehavior (to, from, savedPosition) {

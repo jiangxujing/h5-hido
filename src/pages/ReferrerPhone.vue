@@ -5,7 +5,7 @@
 				请输入推荐人手机号
 			</div>
 			<div class="border-style">
-				<van-field @input="changeTel" v-model="phone" type="tel" maxLength='11' placeholder="请输入推荐人手机号" />
+				<van-field @input="changeTel" v-model="phone" type="tel" maxLength='11' placeholder="请输入推荐人手机号" clearable/>
 			</div>
 		</div>
 		<div class="btn">

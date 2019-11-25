@@ -223,7 +223,7 @@
 						var appId = res.content.appid
 						console.log(res)
 						wx.config({ 
-							debug: true, // 开fff启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+							debug: false, // 开fff启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
 							appId: appId,
 							timestamp: timestamp, // 必填，生成签名的时间戳
 							nonceStr: nonceStr, // 必填，生成签名的随机串

@@ -4,21 +4,36 @@
         <div class="coupon-add" @click="$router.push({name: 'addCoupon'})">
             <img class="coupon-add-img" src="../assets/images/addbank.png" />创建卡券
         </div>
-        <div v-for="(item, index) in couponList" :key="index" class="coupon-item">
-
+        <div v-for="(item, index) in couponList" :key="index" :class="item.status == '00' ? 'coupon-item' : 'coupon-item coupon-item-over'">
+            <div class="coupon-item-left">
+                <p class="coupon-item-amount"><span>￥</span>{{item.amountShow}}</p>
+                <p>{{item.statusShow}}</p>
+            </div>
+            <div class="coupon-item-right">
+                <p>{{item.deductionAmountShow + '元抵扣券'}}</p>
+                <p class="coupon-item-phone"><span>使用人：</span>{{item.agentPhone}}</p>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 import { Toast } from 'vant'
+import { formatMoney } from '../common/utils.js'
 import api from '../common/api.js'
 
 export default {
     name: 'coupon-list',
     data () {
         return {
-            couponList: []
+            couponList: [],
+            statusList: [{
+                value: '00',
+                label: '未消费'
+            }, {
+                value: '01',
+                label: '已消费'
+            }],
         }
     },
     mounted () {
@@ -41,6 +56,13 @@ export default {
             //             this.couponList = res.content.map(item => {
             //                 let data = {}
             //                 data = item
+            //                 data.amountShow = formatMoney(item.amount, 0)
+            //                 data.deductionAmountShow = formatMoney(item.deductionAmount, 0)
+            //                 if (item.status !== '') {
+            //                     this.statusList.forEach(status =>{
+            //                         status.value == item.status ? data.statusShow = status.label : ''
+            //                     })
+            //                 }
             //                 return data
             //             })
             //         } else {
@@ -48,22 +70,37 @@ export default {
             //         }
             //     }
             // })
-            this.couponList = [{
-                status: '未消费',
+            let res = {
+                content: []
+            }
+            res.content = [{
+                status: '00',
                 amount: '39900',
-                deductionAmount: '30000',
-                agentPhone: '18734342345'
+                deductionAmount: '50000',
+                agentPhone: '18734342343'
             }, {
-                status: '未消费',
-                amount: '39900',
-                deductionAmount: '30000',
-                agentPhone: '18734342345'
+                status: '00',
+                amount: '99900',
+                deductionAmount: '200000',
+                agentPhone: '18734342344'
             }, {
-                status: '未消费',
+                status: '01',
                 amount: '39900',
                 deductionAmount: '30000',
                 agentPhone: '18734342345'
             }]
+            this.couponList = res.content.map(item => {
+                let data = {}
+                data = item
+                data.amountShow = formatMoney(item.amount, 0)
+                data.deductionAmountShow = formatMoney(item.deductionAmount, 0)
+                if (item.status !== '') {
+                    this.statusList.forEach(status =>{
+                        status.value == item.status ? data.statusShow = status.label : ''
+                    })
+                }
+                return data
+            })
         }
     }
 }

@@ -496,7 +496,7 @@ button.icon {
     .van-dropdown-menu {
         height: 5rem;
         .van-dropdown-menu__title {
-            color: #1A2833;
+            color: $darkColor;
         }
     }
     .van-dropdown-menu__item:active {
@@ -983,7 +983,7 @@ button.icon {
     .bank-item-noBg {
         color: $darkColor;
         .bank-item-tips {
-            @include borderHalfPxRound(#1A2833, 0);
+            @include borderHalfPxRound($darkColor, 0);
             position: absolute;
         }
     }
@@ -1007,9 +1007,50 @@ button.icon {
         margin-right: .8rem;
     }
     .coupon-item {
-        height: 9rem;
         margin-top: 1rem;
         background: #fff;
         border-radius: .6rem;
+        display: flex;
+        line-height: 1;
+    }
+    .coupon-item-left {
+        text-align: center;
+        padding: 1.4rem 1.7rem 1.7rem;
+        color: #fff;
+        background: linear-gradient(135deg, $lightThemeColor 0%,$themeColor 100%);
+        border-radius: .6rem 0 0 .6rem;
+        font-size: 1.4rem;
+    }
+    .coupon-item-amount {
+        font-size: 3.8rem;
+        margin: 0 0 .7rem;
+        span {
+            font-size: 1.6rem;
+        }
+    }
+    .coupon-item-right {
+        flex: 1;
+        -webkit-box-flex: 1;
+        flex-direction: row;
+        color: $darkColor;
+        padding: 2rem 0 2rem 2.6rem;
+        font-size: 2rem;
+        font-weight: 500;
+    }
+    .coupon-item-phone {
+        font-size: 1.5rem;
+        margin-top: 1.5rem;
+        font-weight: 400;
+        span {
+            color: $lightColor;
+        }
+    }
+    .coupon-item-over {
+        .coupon-item-left {
+            background: linear-gradient(135deg, #EBEBEB 0%,#A9A9A9 100%);
+        }
+        .coupon-item-right {
+            color:$lightColor;
+        }
     }
 }

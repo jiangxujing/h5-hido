@@ -1107,16 +1107,52 @@ input::-webkit-input-placeholder {
         line-height: 1;
         color: $darkColor;
         font-size: 1.5rem;
-        font-weight: 600;
+        font-weight: 500;
     }
     .order-item-amount {
         margin-top: 1.5rem;
         font-size: 1.8rem;
         color: $themeColor;
+        font-weight: 600;
     }
     .order-arrow {
         width: 2.2rem;
         height: 2.2rem;
         margin-top: 1.5rem;
+    }
+}
+
+// 我的报告
+.report-list {
+    padding-top: 1rem;
+    .report-item {
+        background: #fff;
+        margin-bottom: 1rem;
+        padding: 1.5rem;
+        display: flex;
+    }
+    .report-img {
+        width: 5.2rem;
+        height: 5.2rem;
+        border-radius: .3rem;
+    }
+    .report-arrow {
+        width: 2.2rem;
+        height: 2.2rem;
+        margin-top: 1.5rem;
+    }
+    .report-item-info {
+        flex-grow: 1;
+        padding: .7rem 1.2rem;
+        line-height: 1;
+        color: $darkColor;
+        font-size: 1.5rem;
+        font-weight: 500;
+    }
+    .report-item-time {
+        margin-top: 1.1rem;
+        font-size: 1.2rem;
+        font-weight: 400;
+        color: $lightColor;
     }
 }

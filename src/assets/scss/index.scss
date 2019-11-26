@@ -1024,12 +1024,15 @@ input::-webkit-input-placeholder {
     }
     .coupon-item-left {
         text-align: center;
-        width: 37.7%;
-        padding: 1.4rem 0 1.7rem;
+        width: 30%;
+        // padding: 1.4rem 0 1.7rem;
         color: #fff;
         background: linear-gradient(135deg, $lightThemeColor, $themeColor);
         border-radius: .6rem 0 0 .6rem;
         font-size: 1.4rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     .coupon-item-amount {
         font-size: 3.8rem;
@@ -1038,22 +1041,34 @@ input::-webkit-input-placeholder {
             font-size: 1.6rem;
         }
     }
-    .coupon-item-right {
-        flex: 1;
-        -webkit-box-flex: 1;
-        flex-direction: row;
+    .coupon-item-content {
+        flex-grow: 1;
         color: $darkColor;
-        padding: 2rem 0 2rem 2.6rem;
-        font-size: 2rem;
+        // padding: 1.2rem .4rem 1.2rem .8rem;
+        padding: 1.2rem 0 1.2rem 1.2rem;
+        font-size: 1.8rem;
+        line-height: 2.8rem;
         font-weight: 500;
     }
-    .coupon-item-phone {
-        font-size: 1.5rem;
-        margin-top: 1.5rem;
+    .coupon-item-info {
+        font-size: 1.3rem;
+        line-height: 1.9rem;
         font-weight: 400;
-        span {
-            color: $lightColor;
-        }
+        color: $lightColor;
+    }
+    .coupon-item-right {
+        margin: auto;
+        padding-right: 1rem;
+    }
+    .close-btn {
+        // font-size: 1.4rem;
+        font-size: 14px;
+        width: 5rem;
+        border: 1px solid $themeColor;
+        border-radius: 1.2rem;
+        height: 2.4rem;
+        line-height: 2.4rem;
+        color: $themeColor;
     }
     .coupon-item-over {
         .coupon-item-left {

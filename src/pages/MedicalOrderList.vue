@@ -110,6 +110,7 @@ export default {
             })
             this.request = true
         },
+        // 跳转订单详情
         openDetail (item) {
             if (!item.orderNo) {return false}
             let query = {

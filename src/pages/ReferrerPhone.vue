@@ -4,8 +4,8 @@
 			<div class="title font-28 color-833 DINAlternate-Bold font-weight-500">
 				请输入推荐人手机号
 			</div>
-			<div class="border-style">
-				<van-field @input="changeTel" v-model="phone" type="tel" maxLength='11' placeholder="请输入推荐人手机号" clearable/>
+			<div class="border-style" :class="{borderactive:phone}">
+				<van-field @input="changeTel" v-model="phone" type="tel" maxLength='13' placeholder="请输入推荐人手机号" clearable/>
 			</div>
 		</div>
 		<div class="btn">
@@ -24,31 +24,59 @@
 		data() {
 			return {
 				phone: '',
-				grayShow:true
+				grayShow: true
 			}
 		},
 		methods: {
-			getNext(){
-				const mobileReg = /^(1)+\d{10}$/
-				if(!mobileReg.test(this.phone)){
+			getNext() {
+				const  mobileReg  =  /^(1)+\d{10}$/
+				if(!mobileReg.test(this.phone)) {
 					Toast('请填写正确的手机号')
 					return false
-				}else{
-					sessionStorage.setItem('agentPhone',this.phone)
+				} else {
+					sessionStorage.setItem('agentPhone', this.phone)
 					this.$router.push("/reservation")
 				}
 			},
-			changeTel(){
-				if(this.phone.length == 11){
+			formatMobile(obj1) {               
+				var value = parseInt(obj1);               
+				value = value.replace(/\s*/g, "");               
+				var result = [];               
+				for(var i = 0; i < value.length; i++)                {                 
+					if(i == 3 || i == 7)                  {                   
+						result.push(" " + value.charAt(i));                 
+					}                 
+					else                  {                   
+						result.push(value.charAt(i));                 
+					}               
+				}               
+				obj1.value = result.join("");             
+			},
+			changeTel() {
+				var value = this.phone; 
+				console.log(value)              
+				value = value.replace(/\s*/g, "");               
+				var result = [];               
+				for(var i = 0; i < value.length; i++)                {                 
+					if(i == 3 || i == 7)                  {                   
+						result.push(" " + value.charAt(i));                 
+					}                 
+					else                  {                   
+						result.push(value.charAt(i));                 
+					}               
+				}               
+				this.phone = result.join("");
+				console.log(this.phone.length)
+				if(this.phone.length == 13) {
 					this.grayShow = false
-				}else{
+				} else {
 					this.grayShow = true
 				}
-				
+
 			},
-			jumpNext(){
-					this.$router.push("/reservation")
-				}
+			jumpNext() {
+				this.$router.push("/reservation")
+			}
 		},
 		mounted() {
 
@@ -61,6 +89,9 @@
 		width: 100%;
 		height: 100%;
 		background: #fff;
+		.van-cell {
+			padding: 6rem 1.5rem 1.3rem;
+		}
 		.title {
 			padding-top: 5rem;
 			padding-left: 2.5rem;
@@ -89,6 +120,9 @@
 		.border-style {
 			border-bottom: 1px solid #EAEAEA;
 			margin: 0 2.5rem;
+		}
+		.borderactive {
+			border-bottom: 2px solid #FF7B31;
 		}
 		.van-cell {
 			padding-left: 0;

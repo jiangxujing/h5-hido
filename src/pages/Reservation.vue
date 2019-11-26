@@ -3,29 +3,33 @@
 		<div v-show="advisorysetShow">
 			<div class="font-12 color-399 title">预约信息</div>
 			<div class="list-style" @click="openAdvisoryList('1')">
-				<label for="name" class="font-15 color-833">咨询项目</label>
-				<input type="text" placeholder="请选择" class="advisory-list" v-model="projectName" />
-				<img src="../assets/images/arrow.png" class="right-arrow" />
+				<div class="list-content">
+					<label for="name" class="font-15 color-833">咨询项目</label>
+					<input type="text" placeholder="请选择" class="advisory-list" v-model="projectName" />
+					<img src="../assets/images/arrow.png" class="right-arrow" />
+				</div>
 			</div>
 			<div class="list-style" @click="openAdvisoryList(2)">
-				<label for="name" class="font-15 color-833">医师</label>
-				<input type="text" placeholder="请选择" class="advisory-list" v-model="doctor" />
-				<img src="../assets/images/arrow.png" class="right-arrow" />
+				<div class="list-content">
+					<label for="name" class="font-15 color-833">医师</label>
+					<input type="text" placeholder="请选择" class="advisory-list" v-model="doctor" />
+					<img src="../assets/images/arrow.png" class="right-arrow" />
+				</div>
 			</div>
 			<div class="list-style" @click="openTime">
-				<label for="name" class="font-15 color-833">面诊时间</label>
-				<input type="text" placeholder="请选择" class="advisory-list" v-model="reserveTime" />
-				<img src="../assets/images/arrow.png" class="right-arrow" />
+				<div class="list-content">
+					<label for="name" class="font-15 color-833">面诊时间</label>
+					<input type="text" placeholder="请选择" class="advisory-list" v-model="reserveTime" />
+					<img src="../assets/images/arrow.png" class="right-arrow" />
+				</div>
 			</div>
 			<div class="font-12 color-399 title">预约信息</div>
-			<div class="list-style">
-				<label for="name" class="font-15 color-833">姓名</label>
-				<input type="text" placeholder="请选择" class="advisory-list" v-model="name" @input="checkEmpty" maxlength="20" />
-			</div>
-			<div class="list-style">
-				<label for="name" class="font-15 color-833">手机号</label>
-				<input type="tel" placeholder="请选择" class="advisory-list" maxlength="11" v-model="phone" @input="checkEmpty" />
-			</div>
+			<van-cell-group :border="false">
+				<van-field v-model="name" center clearable label="姓名" placeholder="请选择" maxlength="20" @input="checkEmpty" class="list-style">
+				</van-field>
+				<van-field v-model="phone" center clearable label="手机号" type="tel" placeholder="请选择" @input="checkEmpty" maxlength="11" class="list-style">
+				</van-field>
+			</van-cell-group>
 			<div class="coupon-content" @click="selectDeduction" v-if="couponDetail">
 				<span class="color-B31 font-15">预付{{couponDetail.prepaymentAmount}}元抵扣</span>
 				<span class="DINAlternate-Bold color-B31 font-22">{{couponDetail.deductionAmount}}元</span>
@@ -59,9 +63,9 @@
 				</li>
 			</ul>
 		</div>
-			<van-popup v-model="consultationTimeShow" closeable position="bottom" :style="{ height: '60%' }">
-				<van-datetime-picker v-model="currentDate" type="datetime" @confirm="confirm" @cancel="cancelTime" />
-			</van-popup>
+		<van-popup v-model="consultationTimeShow" closeable position="bottom" :style="{ height: '60%' }">
+			<van-datetime-picker v-model="currentDate" type="datetime" @confirm="confirm" @cancel="cancelTime" />
+		</van-popup>
 		<div class="comfirm-reservation-wrapper" @click="comfirmBox=false" v-show="comfirmBox">
 			<div class="comfirm-reservation">
 				<div class="title font-17 font-weight-500">确认预约</div>
@@ -132,7 +136,7 @@
 				this.reserveTime = val ? _utils.dateFormatter(val, "yyyy-MM-dd HH:mm:ss") : ''
 				sessionStorage.setItem('reserveTime', this.reserveTime)
 			},
-			cancelTime(){
+			cancelTime() {
 				this.consultationTimeShow = false
 				this.advisorysetShow = true
 			},
@@ -151,10 +155,10 @@
 						this.advisorysetShow = false
 						this.advisoryShow = false
 					}
-				} 
+				}
 			},
 			//面诊时间弹框展示
-			openTime(){
+			openTime() {
 				this.consultationTimeShow = true
 			},
 			checkEmpty() {
@@ -335,6 +339,9 @@
 		width: 100%;
 		height: 100%;
 		background: #F8F8F8;
+		.van-cell:not(:last-child)::after{
+			right: 1.5rem;
+		}
 		.title {
 			height: 4rem;
 			padding-left: 1rem;
@@ -345,6 +352,11 @@
 			background: #fff;
 			line-height: 7rem;
 			padding-left: 1.5rem;
+			.list-content {
+				border-bottom: 1px solid #F8F8F8;
+				width: 97%;
+				height: 6rem;
+			}
 			label {
 				width: 10rem;
 				display: inline-block;
@@ -353,12 +365,12 @@
 		.advisory-list {
 			border: none;
 			padding-left: 1rem;
+			font-size: 1.5rem;
 		}
 		.right-arrow {
 			width: 2.2rem;
 			float: right;
 			margin-top: 2.2rem;
-			margin-right: 1.2rem;
 		}
 		.drop-down {
 			background: #fff;

@@ -44,7 +44,7 @@
 				</div>
 				<div class="recommend" v-if="!firstMobile">
 					<van-cell-group>
-						<van-field v-model="recommendPhone" label="推荐人手机号" @blur="blurFun" @focus="focusFun" placeholder="请输入推荐人手机号" :disabled="isDisAble" clearable type='tel' maxlength='11' @input="checkTel" />
+						<van-field v-model="recommendPhone" label="推荐人手机号" @blur="blurFun" @focus="focusFun" placeholder="请输入推荐人手机号" :readonly="isDisAble" clearable type='tel' maxlength='11' @input="checkTel" />
 					</van-cell-group>
 				</div>
 				<div class="submitTxt">

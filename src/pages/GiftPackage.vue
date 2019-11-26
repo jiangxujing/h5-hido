@@ -1,30 +1,33 @@
 <template>
 	<div>
-		<div class="gift-package" v-for="(p,index) in packageList" :key="index" @click="goToGiftDetail(p.orderNo)">
-			<div class="time-status">
-				<div class="time">{{p.orderTime?$utils.dateFormatter(p.orderTime, "yyyy-MM-dd HH:mm:ss"):''}}</div>
-				<div class="status">{{getStatusDesc(p.orderStatus)}}</div>
-			</div>
-			<div class="borderStyle"></div>
-			<div style="overflow:hidden">
-				<img class="libao" :src="p.headPicture" />
-				<div style="overflow:hidden;padding-right: 1.5rem;">
-					<div style="float:left">
-						<div class="package-price">
-							<div class="van-multi-ellipsis--l2" style="color:#1A2833;font-size:1.5rem">
-								{{p.productName}}
-							</div>
-							<div v-for="(l,index) in p.goodsList" :key="index">
-								<span style="font-size:1.4rem;color:#8A9399">{{l.goodsDesc}}*{{l.goodsCount}}</span>
+		<div v-if="packageList && packageList.length>0">
+			<div class="gift-package" v-for="(p,index) in packageList" :key="index" @click="goToGiftDetail(p.orderNo)">
+				<div class="time-status">
+					<div class="time">{{p.orderTime?$utils.dateFormatter(p.orderTime, "yyyy-MM-dd HH:mm:ss"):''}}</div>
+					<div class="status">{{getStatusDesc(p.orderStatus)}}</div>
+				</div>
+				<div class="borderStyle"></div>
+				<div style="overflow:hidden">
+					<img class="libao" :src="p.headPicture" />
+					<div style="overflow:hidden;padding-right: 1.5rem;">
+						<div style="float:left">
+							<div class="package-price">
+								<div class="van-multi-ellipsis--l2" style="color:#1A2833;font-size:1.5rem">
+									{{p.productName}}
+								</div>
+								<div v-for="(l,index) in p.goodsList" :key="index">
+									<span style="font-size:1.4rem;color:#8A9399">{{l.goodsDesc}}*{{l.goodsCount}}</span>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div style="overflow:hidden;padding-left:1.2rem">
-					<span style="color:#1A2833;font-weight:bold;font-size:1.6rem;float:right;padding-right: 1.5rem;">￥<span>{{$utils.formatMoney(p.oderAmount,1)}}</span></span>
+					<div style="overflow:hidden;padding-left:1.2rem">
+						<span style="color:#1A2833;font-weight:bold;font-size:1.6rem;float:right;padding-right: 1.5rem;">￥<span>{{$utils.formatMoney(p.oderAmount,1)}}</span></span>
+					</div>
 				</div>
 			</div>
 		</div>
+		<div v-else class="nopackage">当前暂无礼包哦！</div>
 	</div>
 </template>
 
@@ -146,5 +149,11 @@
 			color: #475966;
 			margin-top: 1.7rem;
 		}
+	}
+	.nopackage {
+		font-size: 2.2rem;
+		text-align: center;
+		padding-top: 8rem;
+		font-weight: 500;
 	}
 </style>

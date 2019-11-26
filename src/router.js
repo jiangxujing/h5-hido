@@ -24,6 +24,7 @@ import medicalOrderDetail from '@/pages/MedicalOrderDetail'
 import reportList from '@/pages/ReportList'
 import reportDetail from '@/pages/ReportDetail'
 import referrerPhone from '@/pages/ReferrerPhone'
+import reserveDetail from '@/pages/ReserveDetail'
 import reservation from '@/pages/Reservation'
 import reservationStatus from '@/pages/ReservationStatus'
 import paymentList from '@/pages/PaymentList'
@@ -135,6 +136,10 @@ export default new Router({
         	path: '/referrerPhone',
             component: referrerPhone,
             name:'referrerPhone'
+        },{
+        	path: '/reserveDetail',
+            component: reserveDetail,
+            name:'reserveDetail'
         },{
         	path: '/reservation',
             component: reservation,

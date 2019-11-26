@@ -48,7 +48,7 @@
                                 <span class="fl-r">{{orderForm.payType}}</span>
                             </p>
                             <p class="detail-info-item">
-                                <span class="fl-l">支付世间：</span>
+                                <span class="fl-l">支付时间：</span>
                                 <span class="fl-r">{{orderForm.payTime}}</span>
                             </p>
                         </div>
@@ -83,7 +83,6 @@ export default {
                 doctorName: '',
                 time: '',
                 remark: '',
-                deductionAmount: null,
                 totalFees: null,
                 totalOffer: null
             }
@@ -150,7 +149,6 @@ export default {
                 doctorName: '宋一刀',
                 time: '2019-10-23 09:00:00',
                 remark: '局麻化验套餐',
-                deductionAmount: 11100,
                 totalFees: 39900,
                 totalOffer: 62000
             }
@@ -179,7 +177,7 @@ export default {
                         price: formatMoney(content[key], 1)
                     }
                     this.orderForm['chargeItem'].push(data)
-                } else if (key == 'deductionAmount' || key == 'totalFees' || key == 'totalOffer') {
+                } else if (key == 'totalFees' || key == 'totalOffer') {
                     this.orderForm[key] = formatMoney(content[key], 1)
                 } else {
                     this.orderForm[key] = content[key]

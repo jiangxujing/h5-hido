@@ -25,6 +25,8 @@ import reportList from '@/pages/ReportList'
 import reportDetail from '@/pages/ReportDetail'
 import referrerPhone from '@/pages/ReferrerPhone'
 import reservation from '@/pages/Reservation'
+import reservationStatus from '@/pages/ReservationStatus'
+
 
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
@@ -135,6 +137,10 @@ export default new Router({
         	path: '/reservation',
             component: reservation,
             name:'reservation'
+        },{
+        	path: '/reservationStatus',
+            component: reservationStatus,
+            name:'reservationStatus'
         }
     ],
     scrollBehavior (to, from, savedPosition) {

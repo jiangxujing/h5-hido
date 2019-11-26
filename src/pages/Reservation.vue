@@ -12,7 +12,7 @@
 				<input type="text" placeholder="请选择" class="advisory-list" v-model="doctor" />
 				<img src="../assets/images/arrow.png" class="right-arrow" />
 			</div>
-			<div class="list-style" @click="openAdvisoryList(3)">
+			<div class="list-style" @click="openTime">
 				<label for="name" class="font-15 color-833">面诊时间</label>
 				<input type="text" placeholder="请选择" class="advisory-list" v-model="reserveTime" />
 				<img src="../assets/images/arrow.png" class="right-arrow" />
@@ -59,9 +59,9 @@
 				</li>
 			</ul>
 		</div>
-		<div class="drop-down" v-if="consultationTimeShow">
-			<van-datetime-picker v-model="currentDate" type="datetime" @confirm="confirm" @change="change" />
-		</div>
+			<van-popup v-model="consultationTimeShow" closeable position="bottom" :style="{ height: '60%' }">
+				<van-datetime-picker v-model="currentDate" type="datetime" @confirm="confirm" @cancel="cancelTime" />
+			</van-popup>
 		<div class="comfirm-reservation-wrapper" @click="comfirmBox=false" v-show="comfirmBox">
 			<div class="comfirm-reservation">
 				<div class="title font-17 font-weight-500">确认预约</div>
@@ -92,6 +92,7 @@
 	import api from '../common/api.js'
 	import _utils from '../common/utils.js'
 	import { Toast } from 'vant'
+	import { Popup } from 'vant';
 	export default {
 		name: 'reservation',
 		data() {
@@ -131,9 +132,9 @@
 				this.reserveTime = val ? _utils.dateFormatter(val, "yyyy-MM-dd HH:mm:ss") : ''
 				sessionStorage.setItem('reserveTime', this.reserveTime)
 			},
-
-			change(e) {
-				console.log(e.getValues()) // 打印出了选中的时间，是个数组
+			cancelTime(){
+				this.consultationTimeShow = false
+				this.advisorysetShow = true
 			},
 			openAdvisoryList(params) {
 				//咨询项目
@@ -150,11 +151,11 @@
 						this.advisorysetShow = false
 						this.advisoryShow = false
 					}
-				} else if(params == 3) {
-					this.consultationTimeShow = true
-					this.advisorysetShow = false
-					this.doctorShow = false
-				}
+				} 
+			},
+			//面诊时间弹框展示
+			openTime(){
+				this.consultationTimeShow = true
 			},
 			checkEmpty() {
 				if(this.phone.length == 11 && this.projectName && this.doctor && this.reserveTime && this.name) {

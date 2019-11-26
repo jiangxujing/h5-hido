@@ -6,12 +6,18 @@
         </div>
         <div v-for="(item, index) in couponList" :key="index" :class="item.status == '01' || item.status == '02' ? 'coupon-item' : 'coupon-item coupon-item-over'">
             <div class="coupon-item-left">
-                <p class="coupon-item-amount DINAlternate-Bold"><span>￥</span>{{item.amountShow}}</p>
-                <p>{{item.statusShow}}</p>
+                <div>
+                    <p class="coupon-item-amount DINAlternate-Bold"><span>￥</span>{{item.amountShow}}</p>
+                    <p>{{item.statusShow}}</p>
+                </div>
+            </div>
+            <div class="coupon-item-content">
+                <p>{{item.deductionAmountShow + '元抵扣券'}}</p>
+                <p class="coupon-item-info">{{'使用人:' + item.mobile}}</p>
+                <p class="coupon-item-info">{{'有效期至' + item.time}}</p>
             </div>
             <div class="coupon-item-right">
-                <p>{{item.deductionAmountShow + '元抵扣券'}}</p>
-                <p class="coupon-item-phone"><span>使用人：</span>{{item.mobile}}</p>
+                <van-button class="close-btn" @click="closeCoupon(item)" v-if="item.status == '01' || item.status == '02'">取消</van-button>
             </div>
         </div>
     </div>
@@ -79,25 +85,33 @@ export default {
                 content: []
             }
             res.content = [{
+                coupopNo: '2521',
                 status: '01',
-                amount: '66600',
-                deductionAmount: '99900',
-                mobile: '18734342343'
+                amount: '39900',
+                deductionAmount: '30000',
+                mobile: '18734342343',
+                time: '2019-11-29'
             }, {
+                coupopNo: '2222',
                 status: '02',
-                amount: '111100',
-                deductionAmount: '200000',
-                mobile: '18734342344'
+                amount: '222200',
+                deductionAmount: '500000',
+                mobile: '18734342344',
+                time: '2019-11-29'
             }, {
+                coupopNo: '454',
                 status: '03',
                 amount: '9900',
                 deductionAmount: '50000',
-                mobile: '18734342345'
+                mobile: '18734342345',
+                time: '2019-11-29'
             }, {
+                coupopNo: '543555',
                 status: '04',
                 amount: '22200',
                 deductionAmount: '50000',
-                mobile: '18734342345'
+                mobile: '18734342345',
+                time: '2019-11-29'
             
             }]
             this.couponList = res.content.map(item => {
@@ -112,6 +126,25 @@ export default {
                 }
                 return data
             })
+        },
+        // 取消优惠券
+        closeCoupon (item) {
+            if (!item.coupopNo) {return false}
+            // let datas = {
+            //     coupopNo: item.coupopNo
+            // }
+            // api.post(api.getUrl('customer-orderDetail'), datas).then(res => {
+            //     if (!!res && res.code === 0) {
+            //         this.request = true
+            //         if (!!res.content) {
+            //             Toast('优惠券取消成功')
+            //             this.getCoupopList()
+            //         }
+            //     }
+            // })
+            item.status = '04'
+            item.statusShow = '已过期'
+            Toast('优惠券取消成功')
         }
     }
 }

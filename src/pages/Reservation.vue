@@ -129,9 +129,9 @@
 				this.advisorysetShow = true
 				console.log(val) // 打印出了时间
 				this.reserveTime = val ? _utils.dateFormatter(val, "yyyy-MM-dd HH:mm:ss") : ''
-				sessionStorage.setItem('reserveTime',this.reserveTime)
+				sessionStorage.setItem('reserveTime', this.reserveTime)
 			},
-			
+
 			change(e) {
 				console.log(e.getValues()) // 打印出了选中的时间，是个数组
 			},
@@ -168,8 +168,8 @@
 			selectDeduction() {
 				this.checked = !this.checked
 				this.isHasPrepayment = this.checked
-				sessionStorage.setItem('isHasPrepayment',this.isHasPrepayment)
-				if(this.projectName && this.doctor && this.reserveTime && this.name && this.phone.length==11) {
+				sessionStorage.setItem('isHasPrepayment', this.isHasPrepayment)
+				if(this.projectName && this.doctor && this.reserveTime && this.name && this.phone.length == 11) {
 					this.gray = false
 				}
 			},
@@ -182,7 +182,7 @@
 					this.advisorysetShow = true
 				}
 			},
-			
+
 			//选择项目列表和医师列表方法
 			selectadvisory(index, params, i, list) {
 				if(params == 1) {
@@ -197,9 +197,9 @@
 						this.projectItemNo = ''
 						this.projectactive = -1;
 					}
-					sessionStorage.setItem('projectName',this.projectName)
-					sessionStorage.setItem('projectItemNo',this.projectItemNo)
-					sessionStorage.setItem('projectactive',this.projectactive)
+					sessionStorage.setItem('projectName', this.projectName)
+					sessionStorage.setItem('projectItemNo', this.projectItemNo)
+					sessionStorage.setItem('projectactive', this.projectactive)
 				} else if(params == 2) {
 					this.doctorShow = false
 					this.advisorysetShow = true
@@ -212,11 +212,11 @@
 						this.doctor = ''
 						this.doctorNo = ''
 					}
-					sessionStorage.setItem('doctor',this.doctor)
-					sessionStorage.setItem('doctorNo',this.doctorNo)
-					sessionStorage.setItem('doctoractive',this.doctoractive)
+					sessionStorage.setItem('doctor', this.doctor)
+					sessionStorage.setItem('doctorNo', this.doctorNo)
+					sessionStorage.setItem('doctoractive', this.doctoractive)
 				}
-				if(this.projectName && this.doctor && this.reserveTime && this.name && this.phone.length==11) {
+				if(this.projectName && this.doctor && this.reserveTime && this.name && this.phone.length == 11) {
 					this.gray = false
 				}
 			},
@@ -224,14 +224,14 @@
 				this.comfirmBox = true
 			},
 			comfirmReservation() {
-				sessionStorage.setItem('visitName',this.name)
+				sessionStorage.setItem('visitName', this.name)
 				const  mobileReg  =  /^(1)+\d{10}$/
 				if(!mobileReg.test(this.phone)) {
 					Toast('请填写正确的手机号')
-				} else if(this.name.length < 4) {
+				} else if(_utils.getByteLen(this.name) < 4) {
 					Toast('请至少输入2位汉字')
 				} else {
-					sessionStorage.setItem('visitPhone',this.phone)
+					sessionStorage.setItem('visitPhone', this.phone)
 					let req = {}
 					if(!this.isHasPrepayment) {
 						req = {
@@ -264,22 +264,22 @@
 					}
 					api.post(api.getUrl('reserveDoctor'), req).then(res => {
 						if(res.code == 0) {
-							if(!this.isHasPrepayment){
+							if(!this.isHasPrepayment) {
 								this.$router.push("/reservationStatus")
-							}else{
+							} else {
 								this.$router.push("/PaymentMethod")
 							}
-							
-						}else{
+
+						} else {
 							Toast('预约失败，请重新提交')
 						}
 
 					}).catch(() => {
-						if(!this.isHasPrepayment){
-								this.$router.push("/reservationStatus")
-							}else{
-								this.$router.push("/paymentList")
-							}
+						if(!this.isHasPrepayment) {
+							this.$router.push("/reservationStatus")
+						} else {
+							this.$router.push("/paymentList")
+						}
 					})
 				}
 			},
@@ -321,9 +321,9 @@
 			this.checked = sessionStorage.getItem('isHasPrepayment') || false
 			this.projectactive = sessionStorage.getItem('projectactive') || null
 			this.doctoractive = sessionStorage.getItem('doctoractive') || null
-			if(this.projectName && this.doctor && this.reserveTime && this.name && this.phone.length==11) {
-					this.gray = false
-				}
+			if(this.projectName && this.doctor && this.reserveTime && this.name && this.phone.length == 11) {
+				this.gray = false
+			}
 		},
 	}
 </script>

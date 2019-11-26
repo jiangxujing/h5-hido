@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import md5 from 'js-md5'
 
-
 const ua = navigator.userAgent.toLowerCase(), //判断浏览器类型 
 	arrExp = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2], // 加权因子
 	arrValid = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2']; // 校验码
@@ -86,12 +85,12 @@ export const htmlFontSize = () => {
 	var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 	var width = w > h ? h : w;
 	width = width > 720 ? 720 : width;
-	var fz = ~~(width*100000/36)/10000;
+	var fz = ~~(width * 100000 / 36) / 10000;
 	fz = 10;
-	document.getElementsByTagName('html')[0].style.cssText = 'font-size: ' + fz +'px';
-	var realfz = ~~(+window.getComputedStyle(document.getElementsByTagName('html')[0]).fontSize.replace('px','')*10000)/10000;
-	if (fz !== realfz) {
-		document.getElementsByTagName('html')[0].style.cssText = 'font-size: ' + fz * (fz / realfz) +'px';
+	document.getElementsByTagName('html')[0].style.cssText = 'font-size: ' + fz + 'px';
+	var realfz = ~~(+window.getComputedStyle(document.getElementsByTagName('html')[0]).fontSize.replace('px', '') * 10000) / 10000;
+	if(fz !== realfz) {
+		document.getElementsByTagName('html')[0].style.cssText = 'font-size: ' + fz * (fz / realfz) + 'px';
 	}
 	document.getElementsByTagName('html')[0].style.cssText = 'font-size: 10px'
 }
@@ -474,31 +473,31 @@ export const reAlignArray = (origin, target, direction) => {
  * 金钱展示
  **/
 export const formatMoney = (amount, fixed) => {
-//  /* 千分位方法，支持小数*/
-    const toThousands = num => {
-        let arr = [],
-            result = '';
+	//  /* 千分位方法，支持小数*/
+	const toThousands = num => {
+		let arr = [],
+			result = '';
 
-        num = (num || 0).toString()
-        if (num.indexOf('.') != -1) {
-            arr = num.split('.')
-            num = arr[0]
-        }
-        while (num.length > 3) {
-            result = ',' + num.slice(-3) + result
-            num = num.slice(0, num.length - 3)
-        }
-        num ? result = num + result : ''
-        arr.length > 0 ? result += '.' + arr[1] : ''
-        return result
-    }
-    if (~~(amount) === 0) {
-        return '0.00'
-    }
-    fixed = fixed || 0
-    
-    let tmpNumber = fixed == 1 ? (amount / 100).toFixed(2) : parseInt(amount / 100, 10)
-    return tmpNumber >= 1000 ? toThousands(tmpNumber) : tmpNumber
+		num = (num || 0).toString()
+		if(num.indexOf('.') != -1) {
+			arr = num.split('.')
+			num = arr[0]
+		}
+		while(num.length > 3) {
+			result = ',' + num.slice(-3) + result
+			num = num.slice(0, num.length - 3)
+		}
+		num ? result = num + result : ''
+		arr.length > 0 ? result += '.' + arr[1] : ''
+		return result
+	}
+	if(~~(amount) === 0) {
+		return '0.00'
+	}
+	fixed = fixed || 0
+
+	let tmpNumber = fixed == 1 ? (amount / 100).toFixed(2) : parseInt(amount / 100, 10)
+	return tmpNumber >= 1000 ? toThousands(tmpNumber) : tmpNumber
 }
 /**
  * 表格处理 空 为 '/'
@@ -590,7 +589,6 @@ export const getToolType = () => {
 	return toolType
 }
 
-
 /**
  * 显示遮罩层
  **/
@@ -648,6 +646,19 @@ export const checkTel = () => {
 	let strTemp = /^1[3|4|5|6|7|8|9][0-9]{9}$/;
 	return strTemp
 }
+export const getByteLen = (val) => {
+	var len = 0;
+	for(var i = 0; i < val.length; i++) {
+		var a = val.charAt(i);
+		if(a.match(/[^\x00-\xff]/ig) != null) {
+			len += 2;
+		} else {
+			len += 1;
+		}
+	}
+	console.log(len)
+	return len;
+}
 
 export default {
 	htmlFontSize,
@@ -670,5 +681,6 @@ export default {
 	timeInterval,
 	resetFontSize,
 	resetWindow,
-	checkTel
+	checkTel,
+	getByteLen
 }

@@ -55,6 +55,7 @@
 </script>
 
 <style lang="scss">
+		@import '../assets/scss/common.scss';
 	.reservationStatus{
 		width:100%;
 		height:100%;

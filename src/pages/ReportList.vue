@@ -3,11 +3,11 @@
     <div class="main-content report-list">
         <div v-if="request">
             <div v-if="reportList && reportList.length > 0">
-                <div v-for="(item, index) in reportList" :key="index" class="report-item"  @click="openPage(item.url)">
+                <div v-for="(item, index) in reportList" :key="index" class="report-item"  @click="openDetail(item)">
                     <img class="report-img" src="../assets/images/report_icon.png" />
                     <div class="report-item-info">
-                        <p class="report-item-title">{{item.title}}</p>
-                        <p class="report-item-time">{{item.time}}</p>
+                        <p class="report-item-title">{{item.reportTitle}}</p>
+                        <p class="report-item-time">{{item.reportTime}}</p>
                     </div>
                     <img class="report-arrow" src="../assets/images/arrow.png" />
                 </div>
@@ -44,7 +44,7 @@ export default {
     methods: {
         // 获取报告列表
         getReportList () {
-            // api.post(api.getUrl('agent-queryBindBankList'), {}).then(res => {
+            // api.post(api.getUrl('customer-myReports'), {}).then(res => {
             //     if (!!res && res.code === 0) {
             //         this.request = true
             //         if (!!res.content && res.content.length > 0) {
@@ -58,24 +58,32 @@ export default {
                 content: []
             }
             res.content = [{
-                title: '入院记录',
-                time: '2019-10-10 21:00:00',
-                url: 'https://www.baidu.com/'
+                reportNo: '1111',
+                reportTitle: '入院记录',
+                reportTime: '2019-10-10 21:00:00'
             }, {
-                title: '手术患者与病房交接记录单',
-                time: '2019-10-10 21:00:00',
-                url: 'https://www.baidu.com/'
+                reportNo: '3333',
+                reportTitle: '手术患者与病房交接记录单',
+                reportTime: '2019-10-10 21:00:00'
             }, {
-                title: '手术记录',
-                time: '2019-10-10 21:00:00',
-                url: 'https://www.baidu.com/'
+                reportNo: '3333',
+                reportTitle: '手术记录',
+                reportTime: '2019-10-10 21:00:00'
             }]
             this.reportList = res.content.map(item => {return item})
             this.request = true
         },
-        // 查看报告
-        openPage (url) {
-            window.location.href = url
+        // 跳转报告详情
+        openDetail (item) {
+            if (!item.reportNo) {return false}
+            let query = {
+                reportNo: item.reportNo
+            }
+            let pageName = '/reportDetail'
+            this.$router.push({
+                path: pageName,
+                query: query
+            })
         }
     }
 }

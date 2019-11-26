@@ -26,12 +26,14 @@
     "queryWithdrawal":"/agent/queryWithdrawal",
     "withdrawalSendSms":"/agent/withdrawalSendSms",
     "withdrawalAuthSendSms":"/agent/withdrawalAuthSendSms",
+    "queryAgent":"/agent/queryAgent",
+
     "queryPurchasedPackageList":"/mall/queryPurchasedPackage",
     "queryPackageOrderDetail":"/mall/queryPackageOrder",
     "queryPackage":"/mall/queryPackageDetails",
-    "queryAgent":"/agent/queryAgent",
+   
     "queryAdminRegion":"/area/queryAll",
     "oauth2":"/oauth2/access_token",
-    "unifiedorder":"/unifiedorder",
-    "share":"/test/wechatShare"
+    "share":"/test/wechatShare",
+    "unifiedorder":"/unifiedorder"
 }

@@ -55,7 +55,7 @@ export default {
     methods: {
         // 获取折扣券列表
         getCoupopList () {
-            // api.post(api.getUrl('agent-queryBindBankList'), {}).then(res => {
+            // api.post(api.getUrl('agent-myCoupon'), {}).then(res => {
             //     if (!!res && res.code === 0) {
             //         if (!!res.content && res.content.length > 0) {
             //             this.couponList = res.content.map(item => {

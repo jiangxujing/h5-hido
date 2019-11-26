@@ -22,6 +22,7 @@ import addCoupon from '@/pages/AddCoupon'
 import medicalOrderList from '@/pages/MedicalOrderList'
 import medicalOrderDetail from '@/pages/MedicalOrderDetail'
 import reportList from '@/pages/ReportList'
+import reportDetail from '@/pages/ReportDetail'
 import referrerPhone from '@/pages/ReferrerPhone'
 import reservation from '@/pages/Reservation'
 
@@ -122,6 +123,10 @@ export default new Router({
         	path: '/reportList',
             component: reportList,
             name:'reportList'
+        },{
+        	path: '/reportDetail',
+            component: reportDetail,
+            name:'reportDetail'
         },{
         	path: '/referrerPhone',
             component: referrerPhone,

@@ -2,12 +2,12 @@
 	<div class="reservation">
 		<div v-show="advisorysetShow">
 			<div class="font-12 color-399 title">预约信息</div>
-			<div class="list-style" @click="openAdvisoryList">
+			<div class="list-style" @click="openAdvisoryList('1')">
 				<label for="name" class="font-15 color-833">咨询项目</label>
 				<input type="text" placeholder="请选择" class="advisory-list" />
 				<img src="../assets/images/arrow.png" class="right-arrow" />
 			</div>
-			<div class="list-style">
+			<div class="list-style" @click="openAdvisoryList(2)">
 				<label for="name" class="font-15 color-833">医师</label>
 				<input type="text" placeholder="请选择" class="advisory-list" />
 				<img src="../assets/images/arrow.png" class="right-arrow" />
@@ -47,7 +47,7 @@
 				<li class="font-15 color-833">鼻综合</li>
 			</ul>
 		</div>
-		<div class="comfirm-reservation-wrapper">
+		<div class="comfirm-reservation-wrapper" @click="comfirmBox=false" v-show="comfirmBox">
 			<div class="comfirm-reservation">
 				<div class="title font-17 font-weight-500">确认预约</div>
 				<div class="project-list">
@@ -67,7 +67,7 @@
 					<span class="project-right font-16 color-833">50元</span><span class="color-B31 font-12">（实际付款抵扣500元）</span>
 				</div>
 				<div class="borderStyle"></div>
-				<div class="comfirmBtn color-B31 font-17 font-weight-400">确认预约</div>
+				<div class="comfirmBtn color-B31 font-17 font-weight-400" @click="comfirmReservation">确认预约</div>
 			</div>
 		</div>
 	</div>
@@ -85,20 +85,30 @@
 				grayShow: true,
 				advisoryShow: false,
 				advisorysetShow: true,
-				gray: true
+				gray: true,
+				comfirmBox:false
 			}
 		},
 		methods: {
-			openAdvisoryList() {
-				this.advisoryShow = true
-				this.advisorysetShow = false
+			openAdvisoryList(params) {
+				//咨询项目
+				if(params == 1){
+					this.advisoryShow = true
+					this.advisorysetShow = false
+				}else if(params == 1){
+					
+				}
+				
 			},
 			selectadvisory() {
 				this.advisoryShow = false
 				this.advisorysetShow = true
 			},
 			getReservation() {
-
+				this.comfirmBox = true
+			},
+			comfirmReservation(){
+				this.$router.push("/reservationStatus")
 			}
 		},
 		mounted() {
@@ -123,10 +133,14 @@
 			background: #fff;
 			line-height: 7rem;
 			padding-left: 1.5rem;
+			label{
+				width:10rem;
+				display: inline-block;
+			}
 		}
 		.advisory-list {
 			border: none;
-			padding-left: 5.5rem;
+			padding-left:1rem;
 		}
 		.right-arrow {
 			width: 2.2rem;

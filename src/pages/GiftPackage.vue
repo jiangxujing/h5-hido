@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-if="loadingEnd">
 		<div v-if="packageList && packageList.length>0">
 			<div class="gift-package" v-for="(p,index) in packageList" :key="index" @click="goToGiftDetail(p.orderNo)">
 				<div class="time-status">
@@ -40,13 +40,15 @@
 			return {
 				packageList: [],
 				orderTime: '',
-				packageName: ''
+				packageName: '',
+				loadingEnd:false
 			}
 		},
 		methods: {
 			getGiftList() {
 				api.post(api.getUrl('queryPurchasedPackageList', 'collections'), {}).then(res => {
 					if(res.code == '0000') {
+						this.loadingEnd = true
 						this.packageList = res.content
 					}
 				})

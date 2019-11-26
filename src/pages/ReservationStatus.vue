@@ -2,7 +2,7 @@
 	<div class="reservationStatus">
 		<img src="../assets/images/order-success.png" class="reservation-img"/>
 		<div class="title1 color-833 font-18 font-weight-600">预约成功</div>
-		<div class="title2 color-833 font-16">请按时前往医院就诊哦</div>
+		<div class="title2 color-833 font-16 font-weight-400">请按时前往医院就诊哦</div>
 		<button class="font-17 font-weight-500">查看预约详情</button>
 	</div>
 </template>

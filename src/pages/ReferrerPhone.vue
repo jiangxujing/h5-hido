@@ -30,34 +30,21 @@
 		methods: {
 			getNext() {
 				const  mobileReg  =  /^(1)+\d{10}$/
-				if(!mobileReg.test(this.phone)) {
+				   let phone =  this.phone.replace(/\s+/g, "")
+				   console.log(phone)
+				if(!mobileReg.test(phone)) {
 					Toast('请填写正确的手机号')
 					return false
 				} else {
-					sessionStorage.setItem('agentPhone', this.phone)
+					sessionStorage.setItem('agentPhone',phone)
 					this.$router.push("/reservation")
 				}
 			},
-			formatMobile(obj1) {               
-				var value = parseInt(obj1);               
-				value = value.replace(/\s*/g, "");               
-				var result = [];               
-				for(var i = 0; i < value.length; i++)                {                 
-					if(i == 3 || i == 7)                  {                   
-						result.push(" " + value.charAt(i));                 
-					}                 
-					else                  {                   
-						result.push(value.charAt(i));                 
-					}               
-				}               
-				obj1.value = result.join("");             
-			},
 			changeTel() {
 				var value = this.phone; 
-				console.log(value)              
 				value = value.replace(/\s*/g, "");               
 				var result = [];               
-				for(var i = 0; i < value.length; i++)                {                 
+				for(var i = 0; i < value.length; i++){                 
 					if(i == 3 || i == 7)                  {                   
 						result.push(" " + value.charAt(i));                 
 					}                 

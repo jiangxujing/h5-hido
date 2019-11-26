@@ -35,5 +35,10 @@
     "queryAdminRegion":"/area/queryAll",
     "oauth2":"/oauth2/access_token",
     "share":"/test/wechatShare",
-    "unifiedorder":"/unifiedorder"
+    "unifiedorder":"/unifiedorder",
+    
+    "medicineItemsList":"/customer/medicineItemsList",
+    "doctorsList":"/customer/doctorsList",
+    "reserveDoctor":"/customer/reserveDoctor",
+    "queryCoupon":"/customer/queryCoupon"
 }

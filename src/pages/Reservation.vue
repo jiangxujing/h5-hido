@@ -280,11 +280,6 @@
 						}
 
 					}).catch(() => {
-						if(!this.isHasPrepayment) {
-							this.$router.push("/reservationStatus")
-						} else {
-							this.$router.push("/paymentList")
-						}
 					})
 				}
 			},

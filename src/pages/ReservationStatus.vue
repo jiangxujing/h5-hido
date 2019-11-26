@@ -36,7 +36,20 @@
 			}
 		},
 		mounted() {
-
+			let params = {
+				interceptBack: true
+			}
+			api.setupWebViewJavascriptBridge((bridge) => {
+				bridge.callHandler('callInit', params, (data) => {
+					api.setupWebViewJavascriptBridge((bridge) => {
+						bridge.registerHandler('invokeBackPress', (data) => {
+							api.setupWebViewJavascriptBridge((bridge) => {
+								bridge.callHandler('callFinish', {}, (data) => {})
+							})
+						})
+					})
+				})
+			})
 		},
 	}
 </script>

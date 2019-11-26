@@ -31,8 +31,11 @@
 			getNext(){
 				const mobileReg = /^(1)+\d{10}$/
 				if(!mobileReg.test(this.phone)){
-					Toast('手机号格式有误！')
+					Toast('请填写正确的手机号')
 					return false
+				}else{
+					sessionStorage.setItem('agentPhone',this.phone)
+					this.$router.push("/reservation")
 				}
 			},
 			changeTel(){
@@ -44,7 +47,7 @@
 				
 			},
 			jumpNext(){
-					this.$router.push("/orderDetail?packageCode=" + packageCode)
+					this.$router.push("/reservation")
 				}
 		},
 		mounted() {

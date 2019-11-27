@@ -1,8 +1,8 @@
 <template>
 	<div class="product-detail" v-if="packageDetail">
 		<div class="content1">
-			<div class="content1-header" v-if="packageDetail">
-				<img class="detail-img" :src="packageDetail.headPicture" />
+			<div class="content1-header" v-if="packageDetail" style="min-height:20rem">
+				<img class="detail-img" :src="packageDetail.headPicture"/>
 				<div class="tips">
 					<div class="header-tips">
 						<img src="../assets/images/gou.png" />
@@ -20,7 +20,7 @@
 			<h2>礼包说明</h2>
 			<div class="content2-detail">
 				<h3>{{packageDetail.name}}</h3>
-				<div class="package" v-for="g in packageDetail.giftPackageDetailList">
+				<div class="package" v-for="(g,index) in packageDetail.giftPackageDetailList" :key="index">
 					<div class="package-l">
 						<img src="../assets/images/double.png" />
 						<span>{{g.goodsName}}</span>
@@ -40,7 +40,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="advantage" v-for="i in detailsPicture">
+			<div class="advantage" v-for="(i,index) in detailsPicture" :key="index">
 				<img :src="i" />
 			</div>
 		</div>
@@ -50,7 +50,7 @@
 		</div>
 		<div class="content1 content2 content3 content4">
 			<h2>其他礼包</h2>
-			<div class="other-packages" v-for="i in giftPackageDTOList" style="margin-top:1rem">
+			<div class="other-packages" v-for="(i,index) in giftPackageDTOList" style="margin-top:1rem" :key="index">
 				<div>
 					<div style="overflow:hidden" @click="goToDetail(i.packageCode)">
 						<div style="float:left">

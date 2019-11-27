@@ -25,11 +25,13 @@ import reservation from '@/pages/Reservation'
 import reservationStatus from '@/pages/ReservationStatus'
 import paymentList from '@/pages/PaymentList'
 import confirmedReserve from '@/pages/ConfirmedReserve'
+import medicalOrderStatus from '@/pages/MedicalOrderStatus'
 
 import commonProblem from '@/agreement/CommonProblem'
 import privacyPolicy from '@/agreement/PrivacyPolicy'
 import registerProtocol from '@/agreement/RegisterProtocol'
 import helpCenter from '@/agreement/HelpCenter'
+
 
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
@@ -156,6 +158,10 @@ export default new Router({
         	path: '/helpCenter',
             component: helpCenter,
             name:'helpCenter'
+        },{
+        	path: '/medicalOrderStatus',
+            component: medicalOrderStatus,
+            name:'medicalOrderStatus'
         }
     ],
     scrollBehavior (to, from, savedPosition) {

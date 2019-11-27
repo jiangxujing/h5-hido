@@ -92,8 +92,6 @@ export default {
                         this.nextBtn = false
                     }
                 })
-                // Toast('创建卡券成功')
-                // this.$router.go(-1)
             }
         }
     }

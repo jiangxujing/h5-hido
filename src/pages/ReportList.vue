@@ -58,20 +58,20 @@ export default {
                 content: []
             }
             res.content = [{
-                reportUrl: 'http://kfb.mxfvip.com/upload/case/47593/c_1564401361.html',
+                reportUrl: 'kfb.mxfvip.com/upload/case/47593/c_1564401361.html',
                 reportTitle: '长期 头孢 静脉 脂肪',
                 reportTime: '2019-07-29 19:56:03'
             
             }, {
-                reportUrl: 'http://kfb.mxfvip.com/upload/case/47593/c_1564401358.html',
+                reportUrl: 'kfb.mxfvip.com/upload/case/47593/c_1564401358.html',
                 reportTitle: '临时 头孢 静脉 脂肪',
                 reportTime: '2019-07-29 19:56:51'
             }, {
-                reportUrl: 'http://kfb.mxfvip.com/upload/case/47593/c_1564401365.html',
+                reportUrl: 'kfb.mxfvip.com/upload/case/47593/c_1564401365.html',
                 reportTitle: '体温单',
                 reportTime: '2019-07-29 19:57:50'
             }, {
-                reportUrl: 'http://kfb.mxfvip.com/upload/case/47593/c_1564401374.html',
+                reportUrl: 'kfb.mxfvip.com/upload/case/47593/c_1564401374.html',
                 reportTitle: '手术患者与病房交接记录单',
                 reportTime: '2019-07-29 19:59:09'
             }]

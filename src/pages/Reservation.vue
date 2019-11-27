@@ -240,23 +240,23 @@
 							agentPhone: sessionStorage.getItem('agentPhone') || null, //推荐人手机号,
 							doctorName: this.doctor || null,
 							doctorNo: this.doctorNo || null,
-							projectItemNo: this.projectItemNo || null, //项目编号
-							projectName: this.projectName || null,
-							reserveTime: new Date(this.reserveTime).getTime() || null,
-							visitName: this.name || null,
-							visitPhone: this.phone || null
+							medicineItemNo: this.projectItemNo || null, //项目编号
+							medicineItemName: this.projectName || null,
+							appointmentDate: new Date(this.reserveTime).getTime() || null,
+							customerName: this.name || null,
+							customerPhone: this.phone || null
 						}
 					} else {
 						req = {
 							agentPhone: sessionStorage.getItem('agentPhone') || null, //推荐人手机号,
-							deductionCode: this.couponDetail.couponNo || null, //抵扣券码
+							couponCode: this.couponDetail.couponNo || null, //抵扣券码
 							doctorName: this.doctor || null,
 							doctorNo: this.doctorNo || null,
-							projectItemNo: this.projectItemNo || null, //项目编号
-							projectName: this.projectName || null,
-							reserveTime: new Date(this.reserveTime).getTime() || null,
-							visitName: this.name || null,
-							visitPhone: this.phone || null
+							medicineItemNo: this.projectItemNo || null, //项目编号
+							medicineItemName: this.projectName || null,
+							appointmentDate: new Date(this.reserveTime).getTime() || null,
+							customerName: this.name || null,
+							customerPhone: this.phone || null
 						}
 					}
 					api.post(api.getUrl('reserveDoctor'), req).then(res => {
@@ -281,7 +281,7 @@
 			},
 			getDoctorsList() {
 				let req = {
-					projectItemNo: this.projectItemNo
+					medicineItemNo: this.projectItemNo
 				}
 				api.post(api.getUrl('doctorsList'), req).then(res => {
 					this.doctorsList = res.content

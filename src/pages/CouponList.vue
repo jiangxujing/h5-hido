@@ -25,6 +25,7 @@
 
 <script>
 import { Toast } from 'vant'
+import { dateFormatter } from '../common/utils.js'
 import api from '../common/api.js'
 
 export default {
@@ -69,9 +70,9 @@ export default {
                             data = item
                             data.amountShow = Math.round(item.amount/100)
                             data.deductionAmountShow = Math.round(item.deductionAmount/100)
-                            data.expiryTime = item.expiryTime || ' -'
+                            data.expiryTime = item.expiryTime ? dateFormatter(item.expiryTime,  'yyyy-MM-dd') : ''
                             if (item.status !== '') {
-                                this.statusList.forEach(status =>{
+                                this.statusList.forEach(status => {
                                     status.value == item.status ? data.statusShow = status.label : ''
                                 })
                             }

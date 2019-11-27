@@ -12,6 +12,7 @@
     "customer-orderList": "/customer/orderList",
     "customer-orderDetail": "/customer/orderDetail",
     "customer-reserveDetail": "/customer/reserveDetail",
+    "customer-createFeeOrder": "/customer/createFeeOrder",
 
     "agent-queryMyteam":"/agent/queryMyteam",
     "agent-queryBills":"/agent/queryBills",

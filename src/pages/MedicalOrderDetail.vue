@@ -2,7 +2,7 @@
     <!-- 订单详情 -->
     <div class="main-content medical-order-detail">
         <div class="main-content-request" v-if="request">
-            <div class="order-detail" v-if="orderForm.status == '00' || orderForm.status == '01'">
+            <div class="order-detail">
                 <div>
                     <div class="detail-item">
                         <p class="detail-item-title">收费项目</p>
@@ -40,7 +40,7 @@
                             </p>
                         </div>
                     </div>
-                    <div class="detail-item" v-if="orderForm.status == '01'">
+                    <div class="detail-item" v-if="!!businessNo">
                         <p class="detail-item-title">支付信息</p>
                         <div class="detail-info">
                             <p class="detail-info-item">
@@ -54,19 +54,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="order-detail-foot" v-if="orderForm.status == '00'">
+                <div class="order-detail-foot" v-if="!!meiyaOrderNo && !businessNo">
                     <span class="foot-total-fees DINAlternate-Bold">{{'￥' + orderForm.totalFees}}</span>{{'已优惠￥' + orderForm.totalOffer}}
                     <van-button class="pay-button fl-r" @click="confirmPay">确认支付</van-button>
                 </div>
             </div>
-            <p v-else>{{'订单No: ' + orderForm.meiyaOrderNo}}</p>
         </div>
     </div>
 </template>
 
 <script>
 import { Toast } from 'vant'
-import { getQueryString, formatMoney } from '../common/utils.js'
+import { dateFormatter, getQueryString, formatMoney } from '../common/utils.js'
 import api from '../common/api.js'
 
 export default {
@@ -74,11 +73,12 @@ export default {
     data () {
         return {
             request: false,
+            businessNo: '',
+            meiyaOrderNo: '',
             orderForm: {
-                meiyaOrderNo: '',
                 status: '',
                 orderItemList: [],
-                gift: {},
+                packageWriteoffs: [],
                 meiyaOrderNo: '',
                 meiyaOrderWriter: '',
                 meiyaOrderOpenTime: '',
@@ -89,7 +89,9 @@ export default {
         }
     },
     mounted () {
-        this.orderForm.meiyaOrderNo = getQueryString('meiyaOrderNo') ? getQueryString('meiyaOrderNo') : null
+        this.meiyaOrderNo = getQueryString('meiyaOrderNo') ? getQueryString('meiyaOrderNo') : null
+        this.businessNo = getQueryString('businessNo') ? getQueryString('businessNo') : null
+        document.title = !!this.businessNo ? '订单详情' : '等待支付'
         if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
             api.setNative('callInit', {interceptBack: false})
             setTimeout(() => {
@@ -103,7 +105,7 @@ export default {
         // 获取订单详情
         getOrderDetail () {
             // let datas = {
-            //     meiyaOrderNo: this.orderForm.meiyaOrderNo
+            //     businessNo: this.orderForm.businessNo
             // }
             // api.post(api.getUrl('customer-orderDetail'), datas).then(res => {
             //     if (!!res && res.code === 0) {
@@ -117,7 +119,6 @@ export default {
                 content: {}
             }
             res.content = {
-                meiyaOrderNo: '',
                 status: '00',
                 orderItemList: [{
                     itemName: '血常规',
@@ -148,8 +149,10 @@ export default {
                 couponDeductionAmount: 11000,
                 meiyaOrderNo: '1284738585',
                 meiyaOrderWriter: '宋一刀',
-                meiyaOrderOpenTime: '2019-10-23 09:00:00',
+                meiyaOrderOpenTime: 1574840600563,
                 meiyaOrderMemo: '局麻化验套餐',
+                payTime: 1574940600563,
+                payType: '微信',
                 totalFees: 39900,
                 totalOffer: 62000
             }
@@ -190,15 +193,16 @@ export default {
                     }
                     totalOffer += content[key]
                     this.orderForm['orderItemList'].push(data)
-                } else if (key == 'totalFees' || key == 'totalOffer') {
+                } else if (key == 'meiyaOrderOpenTime' || key == 'payTime') {
                 //     this.orderForm[key] = formatMoney(content[key], 1)
+                    this.orderForm[key] = content[key] ? dateFormatter(new Date(content[key]), 'yyyy-MM-dd hh:mm:ss') : ''
                 } else {
                     this.orderForm[key] = content[key]
                 }
             }
             this.orderForm.totalFees = formatMoney(totalFees, 1)
             this.orderForm.totalOffer = formatMoney(totalOffer, 1)
-            document.title = this.orderForm.status == '00' ? '等待支付' : '订单详情'
+            
             this.request = true
         },
         // 确认支付
@@ -206,7 +210,7 @@ export default {
             // let datas = {
             //     meiyaOrderNo: this.orderForm.meiyaOrderNo
             // }
-            // api.post(api.getUrl('customer-orderDetail'), datas).then(res => {
+            // api.post(api.getUrl('customer-createFeeOrder'), datas).then(res => {
             //     if (!!res && res.code === 0) {
             //         this.request = true
             //         if (!!res.content) {
@@ -214,10 +218,12 @@ export default {
             //         }
             //     }
             // })
-            this.orderForm.status = '01'
-            document.title = '订单详情'
-            this.orderForm.payType = '微信支付'
-            this.orderForm.payTime = '2019-10-23 09:00:00'
+            Toast('暂无接口！')
+            this.meiyaOrderNo = ''
+            this.$router.push({
+                path: '/medicalOrderDetail',
+                query: {businessNo: this.orderForm.meiyaOrderNo}
+            })
         }
     }
 }

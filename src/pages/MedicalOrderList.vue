@@ -4,7 +4,7 @@
         <div v-if="request">
             <div v-if="orderList && orderList.length > 0">
                 <div v-for="(item, index) in orderList" :key="index" class="order-item" @click="openDetail(item)">
-                    <div class="order-item-time">{{item.time}}</div>
+                    <div class="order-item-time">{{item.timeShow}}</div>
                     <div class="order-item-content">
                         <img class="order-img" src="../assets/images/order_icon.png" />
                         <div class="order-item-info">
@@ -22,6 +22,7 @@
 
 <script>
 import { Toast } from 'vant'
+import { dateFormatter } from '../common/utils.js'
 import api from '../common/api.js'
 
 export default {
@@ -65,24 +66,30 @@ export default {
                 content: []
             }
             res.content = [{
-                orderNo: 111,
+                businessNo: 111,
                 amount: '66600',
-                time: '2019/10/15 周三',
-                title: '预付折扣券'
+                time: 1575540600563,
+                title: '预付折扣券',
+                type: 'RES'
             }, {
-                orderNo: 222,
+                businessNo: 222,
                 amount: '111100',
-                time: '2019/10/15 周三',
-                title: '项目收费'
+                time: 1574990600563,
+                title: '项目收费',
+                type: 'PAY'
             }, {
-                orderNo: 333,
+                businessNo: 333,
                 amount: '9900',
-                time: '2019/10/15 周三',
-                title: '项目收费-有退费'
+                time: 1574840600563,
+                title: '项目收费-有退费',
+                type: 'PAY'
             }]
+            const weekDay = [' 周日', ' 周一', ' 周二', ' 周三', ' 周四', ' 周五', ' 周六']
             this.orderList = res.content.map(item => {
                 let data = {}
                 data = item
+                data.time = item.time ? dateFormatter(new Date(item.time), 'yyyy/MM/dd') : ''
+                data.timeShow = data.time + weekDay[new Date(Date.parse(data.time)).getDay()]
                 data.amountShow = Math.round(item.amount/100)
                 return data
             })
@@ -90,11 +97,11 @@ export default {
         },
         // 跳转订单详情
         openDetail (item) {
-            if (!item.orderNo) {return false}
+            if (!item.businessNo) {return false}
             let query = {
-                meiyaOrderNo: item.orderNo
+                businessNo: item.businessNo
             }
-            let pageName = '/medicalOrderDetail'
+            let pageName = item.type == 'RES' ? '/reserveDetail' : '/medicalOrderDetail'
             this.$router.push({
                 path: pageName,
                 query: query

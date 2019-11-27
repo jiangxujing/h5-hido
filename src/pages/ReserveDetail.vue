@@ -53,7 +53,7 @@ export default {
     },
     mounted () {
         document.title = '预约详情'
-        this.orderForm.businessNo = getQueryString('orderNo') ? getQueryString('orderNo') : null
+        this.orderForm.businessNo = getQueryString('businessNo') ? getQueryString('businessNo') : null
         if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
             api.setNative('callInit', {interceptBack: false})
             setTimeout(() => {

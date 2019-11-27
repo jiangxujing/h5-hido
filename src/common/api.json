@@ -11,9 +11,6 @@
     "customer-myReportDetail": "/customer/myReportDetail",
     "customer-orderList": "/customer/orderList",
     "customer-orderDetail": "/customer/orderDetail",
-    "customer-queryCoupon": "/customer/queryCoupon",
-    "customer-medicineItemsList": "/customer/medicineItemsList",
-    "customer-reserveDoctor": "/customer/reserveDoctor",
     "customer-reserveDetail": "/customer/reserveDetail",
 
     "agent-queryMyteam":"/agent/queryMyteam",

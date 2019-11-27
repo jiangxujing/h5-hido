@@ -6,7 +6,6 @@ import orderDetail from '@/pages/OrderDetail'
 import shippingAddress from '@/pages/ShippingAddress'
 import giftPackage from '@/pages/GiftPackage'
 import giftPackageDetail from '@/pages/GiftPackageDetail'
-import commonProblem from '@/pages/CommonProblem'
 import addBankCard from '@/pages/AddBankCard'
 import paymentMethod from '@/pages/PaymentMethod'
 import balanceWithdrawal from '@/pages/BalanceWithdrawal'
@@ -14,8 +13,6 @@ import myTeam from '@/pages/MyTeam'
 import myBankCard from '@/pages/MyBankCard'
 import accountBalance from '@/pages/AccountBalance'
 import withdrawSucess from '@/pages/WithdrawSucess'
-import privacyPolicy from '@/agreement/PrivacyPolicy'
-import registerProtocol from '@/agreement/RegisterProtocol'
 import orderSuccess from '@/pages/OrderSuccess'
 import couponList from '@/pages/CouponList'
 import addCoupon from '@/pages/AddCoupon'
@@ -29,7 +26,10 @@ import reservation from '@/pages/Reservation'
 import reservationStatus from '@/pages/ReservationStatus'
 import paymentList from '@/pages/PaymentList'
 
-
+import commonProblem from '@/agreement/CommonProblem'
+import privacyPolicy from '@/agreement/PrivacyPolicy'
+import registerProtocol from '@/agreement/RegisterProtocol'
+import helpCenter from '@/agreement/HelpCenter'
 
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
@@ -65,10 +65,6 @@ export default new Router({
             component: giftPackageDetail,
             name:'giftPackageDetail'
         },{
-        	path: '/commonProblem',
-            component: commonProblem,
-            name:'commonProblem'
-        },{
         	path: '/addBankCard',
             component: addBankCard,
             name:'addBankCard'
@@ -96,14 +92,6 @@ export default new Router({
         	path: '/withdrawSucess',
             component: withdrawSucess,
             name:'withdrawSucess'
-        },{
-        	path: '/privacyPolicy',
-            component: privacyPolicy,
-            name:'privacyPolicy'	
-        },{
-        	path: '/registerProtocol',
-            component: registerProtocol,
-            name:'registerProtocol'
         },{
         	path: '/orderSuccess',
             component: orderSuccess,
@@ -152,6 +140,22 @@ export default new Router({
          	path: '/paymentList',
             component: paymentList,
             name:'paymentList'
+        },{
+        	path: '/commonProblem',
+            component: commonProblem,
+            name:'commonProblem'
+        },{
+        	path: '/privacyPolicy',
+            component: privacyPolicy,
+            name:'privacyPolicy'	
+        },{
+        	path: '/registerProtocol',
+            component: registerProtocol,
+            name:'registerProtocol'
+        },{
+        	path: '/helpCenter',
+            component: helpCenter,
+            name:'helpCenter'
         }
     ],
     scrollBehavior (to, from, savedPosition) {

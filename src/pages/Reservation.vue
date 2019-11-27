@@ -81,9 +81,9 @@
 					<span class="project-left font-14 color-399">预约时间：</span>
 					<span class="project-right font-16 color-833">{{reserveTime}}</span>
 				</div>
-				<div class="project-list">
+				<div class="project-list" v-if="couponDetail">
 					<span class="project-left font-14 color-399">预付金：</span>
-					<span class="project-right font-16 color-833">{{couponDetail.payAmount/100}}元</span><span class="color-B31 font-12">（实际付款抵扣{{couponDetail.deductionAmount/100}}元）</span>
+					<span class="project-right font-16 color-833">{{couponDetail.payAmount/100}}元</span><span class="color-B31 font-12" v-if="checked">（实际付款抵扣{{couponDetail.deductionAmount/100}}元）</span>
 				</div>
 				<div class="borderStyle"></div>
 				<div class="comfirmBtn color-B31 font-17 font-weight-400" @click="comfirmReservation">确认预约</div>
@@ -119,7 +119,7 @@
 				doctorsList: [],
 				projectactive: -1,
 				doctoractive: -1,
-				couponDetail: {},
+				couponDetail:null,
 				couponDetailShow:false
 			}
 		},
@@ -168,8 +168,7 @@
 			//是否选择抵扣券方法
 			selectDeduction() {
 				this.checked = !this.checked
-				this.isHasPrepayment = this.checked
-				sessionStorage.setItem('isHasPrepayment', this.isHasPrepayment)
+				sessionStorage.setItem('checked', this.checked)
 				if(this.projectName && this.doctor && this.reserveTime && this.name && this.phone.length == 11) {
 					this.gray = false
 				}
@@ -222,7 +221,6 @@
 				}
 			},
 			getReservation() {
-				
 				const  mobileReg  =  /^(1)+\d{10}$/
 				if(!mobileReg.test(this.phone)) {
 					Toast('请填写正确的手机号')
@@ -233,42 +231,37 @@
 				}
 			},
 			comfirmReservation() {
+				console.log(this.couponDetail.couponNo)
 				sessionStorage.setItem('visitName', this.name)
-				
 					sessionStorage.setItem('visitPhone', this.phone)
 					let req = {}
-					if(!this.isHasPrepayment) {
+					if(!this.checked) {
 						req = {
 							agentPhone: sessionStorage.getItem('agentPhone') || null, //推荐人手机号,
-							doctorName: this.doctorName || null,
+							doctorName: this.doctor || null,
 							doctorNo: this.doctorNo || null,
-							isHasPrepayment: this.isHasPrepayment || false, //	是否有预付金boolean
 							projectItemNo: this.projectItemNo || null, //项目编号
 							projectName: this.projectName || null,
-							reserveTime: this.reserveTime || null,
+							reserveTime: new Date(this.reserveTime).getTime() || null,
 							visitName: this.name || null,
 							visitPhone: this.phone || null
 						}
 					} else {
-						console.log(this.couponDetail)
 						req = {
 							agentPhone: sessionStorage.getItem('agentPhone') || null, //推荐人手机号,
-							deductionAmount: this.couponDetail.deductionAmount || null, //抵扣金
 							deductionCode: this.couponDetail.couponNo || null, //抵扣券码
-							doctorName: this.doctorName || null,
+							doctorName: this.doctor || null,
 							doctorNo: this.doctorNo || null,
-							isHasPrepayment: this.isHasPrepayment || false, //	是否有预付金boolean
-							prepaymentAmount: this.couponDetail.payAmount || null, //预付金
 							projectItemNo: this.projectItemNo || null, //项目编号
 							projectName: this.projectName || null,
-							reserveTime: this.reserveTime || null,
+							reserveTime: new Date(this.reserveTime).getTime() || null,
 							visitName: this.name || null,
 							visitPhone: this.phone || null
 						}
 					}
 					api.post(api.getUrl('reserveDoctor'), req).then(res => {
 						if(res.code == 0) {
-							if(!this.isHasPrepayment) {
+							if(!this.checked) {
 								this.$router.push("/reservationStatus")
 							} else {
 								this.$router.push("/PaymentMethod")
@@ -306,6 +299,7 @@
 			},
 		},
 		mounted() {
+			console.log(this.couponDetail)
 			this.getMedicineItemsList() //咨询项目列表
 			if(sessionStorage.getItem('agentPhone')) {
 				this.couponDetailShow = true
@@ -321,17 +315,19 @@
 			this.projectItemNo = sessionStorage.getItem('projectItemNo') || null
 			this.doctorNo = sessionStorage.getItem('doctorNo') || null
 			this.doctor = sessionStorage.getItem('doctor') || null
-			this.checked = sessionStorage.getItem('isHasPrepayment') || false
+			this.checked = sessionStorage.getItem('checked') || false
 			this.projectactive = sessionStorage.getItem('projectactive') || null
 			this.doctoractive = sessionStorage.getItem('doctoractive') || null
 			if(this.projectName && this.doctor && this.reserveTime && this.name && this.phone && this.phone.length == 11) {
 				this.gray = false
 			}
 			document.title = "预约"
-			if(!_utils.getCookie('mmTicket')){
-				console.log('gggggggggg')
-				this.$router.push("/login")
-			}
+			console.log(typeof(_utils.getCookie('mmTicket')))
+			console.log(typeof(null))
+//			if(!_utils.getCookie('mmTicket')){
+//				console.log('gggggggggg')
+//				this.$router.push("/login")
+//			}
 		},
 	}
 </script>

@@ -20,7 +20,7 @@
 		<div class="project-detail">
 			<h2>核销券号</h2>
 			<div class="borderStyle"></div>
-			<div class="project" v-for="g in giftDetail.virtualGoods">
+			<div class="project" v-for="(g,index) in giftDetail.virtualGoods" :key="index">
 				<div class="project-content">
 					<div class="project-name">{{g.goodsDesc}}</div>
 					<div class="project-num">
@@ -46,7 +46,7 @@
 				<div>{{status}}</div>
 			</div>
 			<div class="borderStyle"></div>
-			<div class="goods-title" v-for="i in giftDetail.shipGoods">
+			<div class="goods-title" v-for="(i,index) in giftDetail.shipGoods" :key="index">
 				{{i.goodsDesc}}*{{i.goodsCount}}
 			</div>
 			<div class="good-user-detail">

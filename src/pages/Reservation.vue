@@ -23,7 +23,7 @@
 					<img src="../assets/images/arrow.png" class="right-arrow" />
 				</div>
 			</div>
-			<div class="font-12 color-399 title">预约信息</div>
+			<div class="font-12 color-399 title">就诊人信息</div>
 			<van-cell-group :border="false">
 				<van-field v-model="name" center clearable label="姓名" placeholder="请选择" maxlength="20" @input="checkEmpty" class="list-style">
 				</van-field>
@@ -31,14 +31,14 @@
 				</van-field>
 			</van-cell-group>
 			<div class="coupon-content" @click="selectDeduction" v-if="couponDetail">
-				<span class="color-B31 font-15">预付{{couponDetail.prepaymentAmount}}元抵扣</span>
-				<span class="DINAlternate-Bold color-B31 font-22">{{couponDetail.deductionAmount}}元</span>
+				<span class="color-B31 font-15">预付{{couponDetail.payAmount/100}}元抵扣</span>
+				<span class="DINAlternate-Bold color-B31 font-22">{{couponDetail.deductionAmount/100}}元</span>
 				<img src="../assets/images/radio-checked.png" class="radioChecked" v-if="checked" />
 				<img src="../assets/images/radio-no.png" class="radioChecked" v-else/>
 			</div>
-			<div style="text-align: center;padding-top:5rem;">
-				<button class="reservation-btn opacity-style" v-if="gray">预约</button>
-				<button class="reservation-btn" v-else @click="getReservation">预约</button>
+			<div style="text-align: center;padding-top:5rem;width:100%;position:fixed;bottom:2.5rem;">
+				<button class="reservation-btn opacity-style font-17" v-if="gray">预约</button>
+				<button class="reservation-btn font-17" v-else @click="getReservation">预约</button>
 			</div>
 		</div>
 		<div class="drop-down" v-if="advisoryShow">
@@ -83,7 +83,7 @@
 				</div>
 				<div class="project-list">
 					<span class="project-left font-14 color-399">预付金：</span>
-					<span class="project-right font-16 color-833">{{couponDetail.prepaymentAmount}}元</span><span class="color-B31 font-12">（实际付款抵扣{{couponDetail.deductionAmount}}元）</span>
+					<span class="project-right font-16 color-833">{{couponDetail.payAmount/100}}元</span><span class="color-B31 font-12">（实际付款抵扣{{couponDetail.deductionAmount/100}}元）</span>
 				</div>
 				<div class="borderStyle"></div>
 				<div class="comfirmBtn color-B31 font-17 font-weight-400" @click="comfirmReservation">确认预约</div>
@@ -96,7 +96,6 @@
 	import api from '../common/api.js'
 	import _utils from '../common/utils.js'
 	import { Toast } from 'vant'
-	import { Popup } from 'vant';
 	export default {
 		name: 'reservation',
 		data() {
@@ -120,11 +119,8 @@
 				doctorsList: [],
 				projectactive: -1,
 				doctoractive: -1,
-				couponDetail: {
-					"deductionAmount": "5000",
-					"deductionCode": "1111111",
-					"prepaymentAmount": "50"
-				}
+				couponDetail: {},
+				couponDetailShow:false
 			}
 		},
 		methods: {
@@ -162,7 +158,7 @@
 				this.consultationTimeShow = true
 			},
 			checkEmpty() {
-				if(this.phone.length == 11 && this.projectName && this.doctor && this.reserveTime && this.name) {
+				if(this.phone && this.phone.length == 11 && this.projectName && this.doctor && this.reserveTime && this.name) {
 					this.gray = false
 				} else {
 					this.gray = true
@@ -226,16 +222,19 @@
 				}
 			},
 			getReservation() {
-				this.comfirmBox = true
-			},
-			comfirmReservation() {
-				sessionStorage.setItem('visitName', this.name)
+				
 				const  mobileReg  =  /^(1)+\d{10}$/
 				if(!mobileReg.test(this.phone)) {
 					Toast('请填写正确的手机号')
 				} else if(_utils.getByteLen(this.name) < 4) {
 					Toast('请至少输入2位汉字')
-				} else {
+				} else{
+					this.comfirmBox = true
+				}
+			},
+			comfirmReservation() {
+				sessionStorage.setItem('visitName', this.name)
+				
 					sessionStorage.setItem('visitPhone', this.phone)
 					let req = {}
 					if(!this.isHasPrepayment) {
@@ -255,11 +254,11 @@
 						req = {
 							agentPhone: sessionStorage.getItem('agentPhone') || null, //推荐人手机号,
 							deductionAmount: this.couponDetail.deductionAmount || null, //抵扣金
-							deductionCode: this.couponDetail.deductionCode || null, //抵扣券码
+							deductionCode: this.couponDetail.couponNo || null, //抵扣券码
 							doctorName: this.doctorName || null,
 							doctorNo: this.doctorNo || null,
 							isHasPrepayment: this.isHasPrepayment || false, //	是否有预付金boolean
-							prepaymentAmount: this.couponDetail.prepaymentAmount || null, //预付金
+							prepaymentAmount: this.couponDetail.payAmount || null, //预付金
 							projectItemNo: this.projectItemNo || null, //项目编号
 							projectName: this.projectName || null,
 							reserveTime: this.reserveTime || null,
@@ -281,7 +280,6 @@
 
 					}).catch(() => {
 					})
-				}
 			},
 			getMedicineItemsList() {
 				api.post(api.getUrl('medicineItemsList'), {}).then(res => {
@@ -301,14 +299,19 @@
 					agentPhone: sessionStorage.getItem('agentPhone')
 				}
 				api.post(api.getUrl('queryCoupon'), req).then(res => {
-					this.couponDetail = res.content
+					if(res.code == '000'){
+						this.couponDetail = res.content
+					}
 				}).catch(() => {})
 			},
 		},
 		mounted() {
 			this.getMedicineItemsList() //咨询项目列表
 			if(sessionStorage.getItem('agentPhone')) {
+				this.couponDetailShow = true
 				this.getDueryCoupon()
+			}else{
+				this.couponDetailShow = false
 			}
 			this.phone = sessionStorage.getItem('visitPhone') || null
 			this.name = sessionStorage.getItem('visitName') || null
@@ -321,8 +324,13 @@
 			this.checked = sessionStorage.getItem('isHasPrepayment') || false
 			this.projectactive = sessionStorage.getItem('projectactive') || null
 			this.doctoractive = sessionStorage.getItem('doctoractive') || null
-			if(this.projectName && this.doctor && this.reserveTime && this.name && this.phone.length == 11) {
+			if(this.projectName && this.doctor && this.reserveTime && this.name && this.phone && this.phone.length == 11) {
 				this.gray = false
+			}
+			document.title = "预约"
+			if(!_utils.getCookie('mmTicket')){
+				console.log('gggggggggg')
+				this.$router.push("/login")
 			}
 		},
 	}

@@ -40,6 +40,6 @@
     "medicineItemsList":"/customer/medicineItemsList",
     "doctorsList":"/customer/doctorsList",
     "reserveDoctor":"/customer/reserveDoctor",
-    "queryCoupon":"/customer/queryCoupon",
+    "queryCoupon":"/customer/getCoupon",
     "paymentType":"/customer/paymentType"
 }

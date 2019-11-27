@@ -84,16 +84,16 @@ export default {
                     mobile: this.mobile
                 }
                 this.nextBtn = true
-                // api.post(api.getUrl('agent-createCoupon'), datas).then(resp => {
-                //     if (resp.code === 0) {
-                //         Toast('创建卡券成功')
-                //         this.$router.go(-1)
-                //     } else {
-                //         this.nextBtn = false
-                //     }
-                // })
-                Toast('创建卡券成功')
-                this.$router.go(-1)
+                api.post(api.getUrl('agent-createCoupon'), datas).then(resp => {
+                    if (resp.code === 0) {
+                        Toast('创建卡券成功')
+                        this.$router.go(-1)
+                    } else {
+                        this.nextBtn = false
+                    }
+                })
+                // Toast('创建卡券成功')
+                // this.$router.go(-1)
             }
         }
     }

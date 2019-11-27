@@ -24,6 +24,7 @@ import reserveDetail from '@/pages/ReserveDetail'
 import reservation from '@/pages/Reservation'
 import reservationStatus from '@/pages/ReservationStatus'
 import paymentList from '@/pages/PaymentList'
+import confirmedReserve from '@/pages/ConfirmedReserve'
 
 import commonProblem from '@/agreement/CommonProblem'
 import privacyPolicy from '@/agreement/PrivacyPolicy'
@@ -135,6 +136,10 @@ export default new Router({
          	path: '/paymentList',
             component: paymentList,
             name:'paymentList'
+        },{
+            path: '/confirmedReserve',
+           component: confirmedReserve,
+           name:'confirmedReserve'
         },{
         	path: '/commonProblem',
             component: commonProblem,

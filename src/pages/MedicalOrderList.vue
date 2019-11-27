@@ -92,7 +92,7 @@ export default {
         openDetail (item) {
             if (!item.orderNo) {return false}
             let query = {
-                orderNo: item.orderNo
+                meiyaOrderNo: item.orderNo
             }
             let pageName = '/medicalOrderDetail'
             this.$router.push({

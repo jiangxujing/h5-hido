@@ -1188,7 +1188,7 @@ input::-webkit-input-placeholder {
         width: 44%;
         text-align: right;
     }
-    .originalPrice {
+    .original-amount {
         color: $lightColor;
         text-decoration: line-through;
     }
@@ -1231,8 +1231,8 @@ input::-webkit-input-placeholder {
     }
 }
 
-// 预约详情
-.reserve-detail {
+// 首页--预约详情
+.confirmed-reserve {
     padding-top: 1rem;
     font-size: 1.5em;
     height: 100%;
@@ -1284,6 +1284,34 @@ input::-webkit-input-placeholder {
     .page-button {
         width: 100%;
         padding: 2.5rem 14.4%;
+    }
+}
+
+// 订单列表--预约详情
+.reserve-detail {
+    padding-top: 1rem;
+    font-size: 1.4em;
+    line-height: 2.8rem;
+    height: 100%;
+    color: $darkColor;
+    .detail-info {
+        background: #fff;
+        padding-left: 1.5rem;
+    }
+    .detail-info-item {
+        overflow: hidden;
+        padding-right: 1.5rem;
+        font-size: 1.1em;
+        line-height: 3.5rem;
+        color: #8A9399;
+        @include borderBottomHalfPx(#F0F0F0, 0);
+    }
+    .detail-content {
+        background: #fff;
+        padding: 1.3rem 1.5rem;
+    }
+    .detail-content-item {
+        overflow: hidden;
     }
 }
 

@@ -27,7 +27,7 @@
 			<van-cell-group :border="false">
 				<van-field v-model="name" center clearable label="姓名" placeholder="请选择" maxlength="20" @input="checkEmpty()" class="list-style">
 				</van-field>
-				<van-field v-model="phone" center clearable label="手机号" type="tel" placeholder="请选择" @input="checkEmpty()" maxlength="11" class="list-style">
+				<van-field v-model="phone" center :readonly=true clearable label="手机号" type="tel" placeholder="请选择" @input="checkEmpty()" maxlength="11" class="list-style">
 				</van-field>
 			</van-cell-group>
 			<div class="coupon-content" @click="selectDeduction" v-if="couponDetail">
@@ -100,7 +100,6 @@
 		name: 'reservation',
 		data() {
 			return {
-				phone: '',
 				grayShow: true,
 				advisoryShow: false, //咨询项目弹框
 				advisorysetShow: true, //初始进来应该显示的内容
@@ -113,7 +112,7 @@
 				projectName: '',
 				doctor: '',
 				name: '',
-				phone: '',
+				phone: sessionStorage.getItem('phone') || null,
 				checked: false, //抵扣券是否选中，
 				consultingList: [],
 				doctorsList: [],
@@ -303,7 +302,6 @@
 			},
 		},
 		mounted() {
-			console.log(this.couponDetail)
 			this.getMedicineItemsList() //咨询项目列表
 			if(sessionStorage.getItem('agentPhone')) {
 				this.couponDetailShow = true
@@ -311,7 +309,7 @@
 			}else{
 				this.couponDetailShow = false
 			}
-			this.phone = sessionStorage.getItem('visitPhone') || null
+			this.phone = sessionStorage.getItem('phone') || null
 			this.name = sessionStorage.getItem('visitName') || null
 			this.reserveTime = sessionStorage.getItem('reserveTime') || null
 			this.doctor = sessionStorage.getItem('doctor') || null

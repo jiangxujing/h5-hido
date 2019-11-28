@@ -18,6 +18,7 @@
 <script>
 	import api from '../common/api.js'
 	import _utils from '../common/utils.js'
+	import router from '../router.js'
 	import { Toast } from 'vant'
 	export default {
 		name: '',
@@ -66,6 +67,13 @@
 			}
 		},
 		mounted() {
+			if(!_utils.getCookie('mmTicket')){
+				console.log('进来了么')
+				 router.replace({
+				          name:"login",
+				          query: {redirect: router.currentRoute.fullPath}
+				        })
+			}
 
 		},
 	}

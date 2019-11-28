@@ -2,7 +2,7 @@
 	<div class="product-detail" v-if="packageDetail">
 		<div class="content1">
 			<div class="content1-header" v-if="packageDetail" style="min-height:20rem">
-				<img class="detail-img" :src="packageDetail.headPicture"/>
+				<img class="detail-img" :src="packageDetail.headPicture" />
 				<div class="tips">
 					<div class="header-tips">
 						<img src="../assets/images/gou.png" />
@@ -51,7 +51,28 @@
 		<div class="content1 content2 content3 content4">
 			<h2>其他礼包</h2>
 			<div class="other-packages" v-for="(i,index) in giftPackageDTOList" style="margin-top:1rem" :key="index">
-				<div>
+				<div v-if="homepageUrl.type==1 || inweixin" @click="goToDetail(i.packageCode)">
+					<div style="overflow:hidden">
+						<div style="float:left">
+							<img class="libao" :src="i.headPicture" />
+							<div class="package-price">
+								<div style="color:#FF7B31;max-width: 15rem;overflow: hidden;text-overflow: ellipsis">
+									<span style="font-size:1.6rem;">￥<span style="font-size:2.1rem;font-weight: bold;">{{$utils.formatMoney(i.salesPrice,1)}}</span></span>
+									<span style="font-size:1.4rem;">会员礼包</span>
+								</div>
+								<div style="color:#8A9399;font-size:1.7rem;font-weight: 400;">原价￥<span>{{$utils.formatMoney(i.originalPrice,1)}}</span></div>
+							</div>
+						</div>
+						<div class="buynumber">{{i.initSalesCount}}人购买</div>
+					</div>
+					<div>
+						<div class="description">{{i.name}}</div>
+						<div class="share">
+							<button>立即购买</button>
+						</div>
+					</div>
+				</div>
+				<div v-else>
 					<div style="overflow:hidden" @click="goToDetail(i.packageCode)">
 						<div style="float:left">
 							<img class="libao" :src="i.headPicture" />
@@ -67,10 +88,7 @@
 					</div>
 					<div>
 						<div class="description">{{i.name}}</div>
-						<div class="share" @click="getBuy(i)" v-if="homepageUrl.type==1 || inweixin">
-							<button>立即购买</button>
-						</div>
-						<div class="share" @click="getShare(i)" v-else>
+						<div class="share" @click="getShare(i)">
 							<button>立即分享</button>
 						</div>
 					</div>
@@ -79,7 +97,7 @@
 			<div style="overflow: hidden;">
 				<div class="buy" @click="getBuy" v-if="packageDetail && homepageUrl.type==1">￥{{$utils.formatMoney(packageDetail.salesPrice,1)}}成为代理</div>
 				<div class="buy" @click="getBuy" v-else>立即购买</div>
-				<img src="../assets/images/share.png" class="share-now" @click="getShare(packageDetail)"/>
+				<img src="../assets/images/share.png" class="share-now" @click="getShare(packageDetail)" />
 			</div>
 		</div>
 		<div class="shareWraper" v-show='shareWrapperShow' @click='shareWrapperShow=false'>
@@ -120,11 +138,11 @@
 			}
 		},
 		methods: {
-			goToDetail(p){
+			goToDetail(p) {
 				console.log(p)
 				this.$router.push("/productDetail?packageCode=" + p)
-			window.location.reload(true)
-//				this.$router.go(0)
+				window.location.reload(true)
+				//				this.$router.go(0)
 			},
 			cancleBtn() {
 				this.shareWrapperShow = false
@@ -185,9 +203,9 @@
 							api.setNative('callLogin', {})
 						} else {
 							if(i.packageCode) {
-								this.$router.push("/orderDetail?packageCode=" + i.packageCode+'&uid='+this.uid)
+								this.$router.push("/orderDetail?packageCode=" + i.packageCode + '&uid=' + this.uid)
 							} else {
-								this.$router.push("/orderDetail?packageCode=" + this.$route.query.packageCode+'&uid='+this.uid)
+								this.$router.push("/orderDetail?packageCode=" + this.$route.query.packageCode + '&uid=' + this.uid)
 							}
 						}
 
@@ -197,9 +215,9 @@
 						this.$router.push("/login")
 					} else {
 						if(i.packageCode) {
-							this.$router.push("/orderDetail?packageCode=" + i.packageCode+'&uid='+this.uid)
+							this.$router.push("/orderDetail?packageCode=" + i.packageCode + '&uid=' + this.uid)
 						} else {
-							this.$router.push("/orderDetail?packageCode=" + this.$route.query.packageCode+'&uid='+this.uid)
+							this.$router.push("/orderDetail?packageCode=" + this.$route.query.packageCode + '&uid=' + this.uid)
 						}
 					}
 				}
@@ -222,7 +240,7 @@
 						var signature = res.content.signature;
 						var appId = res.content.appid
 						console.log(res)
-						wx.config({ 
+						wx.config({
 							debug: false, // 开fff启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
 							appId: appId,
 							timestamp: timestamp, // 必填，生成签名的时间戳
@@ -244,8 +262,8 @@
 						this.packageDetail = res.content.giftPackageDTODetails
 						this.giftPackageDTOList = res.content.giftPackageDTOList
 						if(this.device.version.MicroMessenger) {
-								this.getWechat()
-							}
+							this.getWechat()
+						}
 						if(res.content.giftPackageDTODetails.detailsPicture) {
 							this.detailsPicture = res.content.giftPackageDTODetails.detailsPicture.split(',')
 						}
@@ -255,8 +273,7 @@
 							sessionStorage.setItem('type', type)
 						}
 					}
-				}).catch((e) => {
-				})
+				}).catch((e) => {})
 			}
 		},
 		mounted() {
@@ -275,7 +292,7 @@
 			} else {
 				this.getPackageDetail(code)
 			}
-			
+
 			this.device = {
 				version: function() {
 					return {
@@ -288,12 +305,12 @@
 				this.inweixin = true
 				let URL = decodeURIComponent(url)
 				this.uid = this.$route.query.uid
-				sessionStorage.setItem('uid',this.$route.query.uid)
-			}else{
+				sessionStorage.setItem('uid', this.$route.query.uid)
+			} else {
 				this.uid = this.$route.query.uid
-				sessionStorage.setItem('uid',this.$route.query.uid)
+				sessionStorage.setItem('uid', this.$route.query.uid)
 			}
-			
+
 			let params = {
 				interceptBack: true
 			}
@@ -495,11 +512,11 @@
 				line-height: 46px;
 				float: left;
 			}
-			.share-now{
+			.share-now {
 				width: 5.8rem;
-			    float: right;
-			    padding-right: 1.1rem;
-			    padding-top: 1.6rem;
+				float: right;
+				padding-right: 1.1rem;
+				padding-top: 1.6rem;
 			}
 		}
 		.shareWraper {

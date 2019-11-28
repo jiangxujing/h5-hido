@@ -1,5 +1,5 @@
 <template>
-    <!-- 我的折扣券 -->
+    <!-- 我的卡券 -->
     <div class="main-content coupon-list">
         <div v-if="request">
             <div class="coupon-add" @click="$router.push({name: 'addCoupon'})">
@@ -53,7 +53,7 @@ export default {
         }
     },
     mounted () {
-        document.title = '我的折扣券'
+        document.title = '我的卡券'
         if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
             api.setNative('callInit', {interceptBack: false})
             setTimeout(() => {

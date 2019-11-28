@@ -231,7 +231,6 @@
 				}
 			},
 			comfirmReservation() {
-				console.log(this.couponDetail.couponNo)
 				sessionStorage.setItem('visitName', this.name)
 					sessionStorage.setItem('visitPhone', this.phone)
 					let req = {}

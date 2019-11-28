@@ -1058,10 +1058,8 @@ input::-webkit-input-placeholder {
     }
     .close-btn {
         font-size: 1.4rem;
-        padding: 0 1.2rem;
-        border-radius: 1.2rem;
-        height: 2.4rem;
-        line-height: 2.4rem;
+        padding: .6rem 1.2rem;
+        line-height: 1;
         color: $themeColor;
         @include borderHalfPxRound(#ff7b31, 1.2rem);
         position: absolute;

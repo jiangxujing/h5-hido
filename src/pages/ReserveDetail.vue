@@ -11,7 +11,7 @@
             <div class="detail-content">
                 <p class="detail-content-item">
                     <span class="fl-l">预约项目：</span>
-                    <span class="fl-r">{{orderForm.projectName}}</span>
+                    <span class="fl-r">{{orderForm.medicineItemName}}</span>
                 </p>
                 <p class="detail-content-item">
                     <span class="fl-l">医生：</span>
@@ -19,7 +19,7 @@
                 </p>
                 <p class="detail-content-item">
                     <span class="fl-l">面诊时间：</span>
-                    <span class="fl-r">{{orderForm.reserveTime}}</span>
+                    <span class="fl-r">{{orderForm.appointmentDate}}</span>
                 </p>
                 <p class="detail-content-item" v-if="orderForm.payAmount">
                     <span class="fl-l">预付金：</span>
@@ -42,9 +42,9 @@ export default {
             request: false,
             orderForm: {
                 businessNo: '',
-                projectName: '',
+                medicineItemName: '',
                 doctorName: '',
-                reserveTime: '',
+                appointmentDate: '',
                 createTime: '',
                 payAmount: null,
                 deductionAmount: null
@@ -66,52 +66,52 @@ export default {
     methods: {
         // 获取订单详情
         getOrderDetail () {
-            // let datas = {
-            //     businessNo: this.orderForm.businessNo
-            // }
-            // api.post(api.getUrl('customer-orderDetail'), datas).then(res => {
-            //     if (!!res && res.code === 0) {
-            //         this.request = true
-            //         if (!!res.content) {
-            //             let content = res.content
-            //             for (let key in content) {
-            //                 if (key == 'deductionAmount' || key == 'payAmount') {
-            //                     this.orderForm[key] = formatMoney(content[key], 1)
-            //                 } else if (key == 'createTime' || key == 'reserveTime') {
-            //                     this.orderForm[key] = content[key] ? dateFormatter(new Date(content[key]), 'yyyy-MM-dd hh:mm:ss') : ''
-            //                 } else {
-            //                     this.orderForm[key] = content[key]
-            //                 }
-            //             }
-            //             this.orderForm.amount = !!content.payAmount && content.payAmount > 0 ? '预付￥' + this.orderForm.payAmount + '抵￥' + this.orderForm.deductionAmount : ''
-            //         }
-            //     }
-            // })
-            let res = {
-                content: {}
+            let datas = {
+                businessNo: this.orderForm.businessNo
             }
-            res.content = {
-                projectName: '鼻综合',
-                doctorName: '宋一刀',
-                businessNo: '4838488888574848',
-                createTime: 1574840600563,
-                reserveTime: 1575040600563,
-                deductionAmount: 50000,
-                payAmount: 5000
-            }
-            let content = res.content
-            for (let key in content) {
-                if (key == 'deductionAmount' || key == 'payAmount') {
-                    // this.orderForm[key] = Math.round(content[key]/100)
-                    this.orderForm[key] = formatMoney(content[key], 1)
-                } else if (key == 'createTime' || key == 'reserveTime') {
-                    this.orderForm[key] = content[key] ? dateFormatter(new Date(content[key]), 'yyyy-MM-dd hh:mm:ss') : ''
-                } else {
-                    this.orderForm[key] = content[key]
+            api.post(api.getUrl('customer-reserveDetail'), datas).then(res => {
+                if (!!res && res.code === 0) {
+                    this.request = true
+                    if (!!res.content) {
+                        let content = res.content
+                        for (let key in content) {
+                            if (key == 'deductionAmount' || key == 'payAmount') {
+                                this.orderForm[key] = formatMoney(content[key], 1)
+                            } else if (key == 'createTime' || key == 'appointmentDate') {
+                                this.orderForm[key] = content[key] ? dateFormatter(new Date(content[key]), 'yyyy-MM-dd hh:mm:ss') : ''
+                            } else {
+                                this.orderForm[key] = content[key]
+                            }
+                        }
+                        this.orderForm.amount = !!content.payAmount && content.payAmount > 0 ? '预付￥' + this.orderForm.payAmount + '抵￥' + this.orderForm.deductionAmount : ''
+                    }
                 }
-            }
-            this.orderForm.amount = !!content.payAmount && content.payAmount > 0 ? '预付￥' + this.orderForm.payAmount + '抵￥' + this.orderForm.deductionAmount : ''
-            this.request = true
+            })
+            // let res = {
+            //     content: {}
+            // }
+            // res.content = {
+            //     medicineItemName: '鼻综合',
+            //     doctorName: '宋一刀',
+            //     businessNo: '4838488888574848',
+            //     createTime: 1574840600563,
+            //     appointmentDate: 1575040600563,
+            //     deductionAmount: 50000,
+            //     payAmount: 5000
+            // }
+            // let content = res.content
+            // for (let key in content) {
+            //     if (key == 'deductionAmount' || key == 'payAmount') {
+            //         // this.orderForm[key] = Math.round(content[key]/100)
+            //         this.orderForm[key] = formatMoney(content[key], 1)
+            //     } else if (key == 'createTime' || key == 'appointmentDate') {
+            //         this.orderForm[key] = content[key] ? dateFormatter(new Date(content[key]), 'yyyy-MM-dd hh:mm:ss') : ''
+            //     } else {
+            //         this.orderForm[key] = content[key]
+            //     }
+            // }
+            // this.orderForm.amount = !!content.payAmount && content.payAmount > 0 ? '预付￥' + this.orderForm.payAmount + '抵￥' + this.orderForm.deductionAmount : ''
+            // this.request = true
         }
     }
 }

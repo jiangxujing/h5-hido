@@ -1035,7 +1035,7 @@ input::-webkit-input-placeholder {
         align-items: center;
     }
     .coupon-item-amount {
-        font-size: 3.8rem;
+        font-size: 3.6rem;
         margin: 0 0 .7rem;
         span {
             font-size: 1.6rem;
@@ -1044,14 +1044,13 @@ input::-webkit-input-placeholder {
     .coupon-item-content {
         flex-grow: 1;
         color: $darkColor;
-        // padding: 1.2rem .4rem 1.2rem .8rem;
-        padding: 1.2rem 0 1.2rem 1.2rem;
-        font-size: 1.8rem;
-        line-height: 2.8rem;
+        padding: 1rem 0 1rem 1.5rem;
+        font-size: 1.6rem;
+        line-height: 2.9rem;
         font-weight: 500;
     }
     .coupon-item-info {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         line-height: 1.9rem;
         font-weight: 400;
         color: $lightColor;

@@ -236,7 +236,7 @@
 			},
 			comfirmReservation() {
 				sessionStorage.setItem('visitName', this.name)
-					sessionStorage.setItem('visitPhone', this.phone)
+					sessionStorage.setItem('phone', this.phone)
 					let req = {}
 					if(!this.checked) {
 						req = {
@@ -265,6 +265,7 @@
 					api.post(api.getUrl('reserveDoctor'), req).then(res => {
 						if(res.code == 0) {
 							if(!this.checked) {
+								sessionStorage.setItem('reservation',1)
 								this.$router.push("/reservationStatus")
 							} else {
 								this.$router.push("/PaymentMethod")

@@ -243,7 +243,7 @@ export const getWechat = (title, desc, linkUrl, imgUrl) => {
  * noToken: 不需要校验token
  * formData: 传参方式为 formData
  **/
-const post = (url, data, noLoading, noToken, formData) => {
+const post = (url, data, noBox,noLoading, noToken,formData) => {
 	// 超时
 	const sec = 6000
 	// body 入参
@@ -347,8 +347,10 @@ const post = (url, data, noLoading, noToken, formData) => {
 				      }
 				}
 			} else if(respData['code'] !== 0) {
-				let desc = respData['desc'] ? respData['desc'] : '网络异常，请稍后再试'
-				Toast(desc)
+				if(!noBox){
+					let desc = respData['desc'] ? respData['desc'] : '网络异常，请稍后再试'
+					Toast(desc)
+				}
 			}
 			return Promise.resolve(respData)
 		} else {

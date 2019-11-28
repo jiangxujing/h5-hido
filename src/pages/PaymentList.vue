@@ -9,7 +9,7 @@
 			</div>
 			<div class="payment-method-list">
 				<div v-for="(p,index) in payTypeList" :key="index" @click="selectPayType(p)">
-					<img class="weixin" src="../assets/images/weixin-pay.png" />
+					<img class="weixin" :src="p.icon" />
 					<span>{{p.payTypeDesc}}</span>
 					<img class="gouxuan" src="../assets/images/gouxuan@2x.png" v-if="p.active"/>
 				</div>
@@ -27,12 +27,15 @@
 		data() {
 			return {
 				payTypeList:[{
+					"icon":require('../assets/images/weixin-pay.png'),
 		            "payTypeCode": "1111",
 		            "payTypeDesc": "微信"
 		        },{
+		        	"icon":require('../assets/images/weixin-pay.png'),
 		            "payTypeCode": "2222",
 		            "payTypeDesc": "银行卡支付"
 		        },{
+		        	"icon":require('../assets/images/weixin-pay.png'),
 		            "payTypeCode": "3333",
 		            "payTypeDesc": "么么钱包"
 		        }],

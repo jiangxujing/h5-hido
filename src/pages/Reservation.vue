@@ -296,9 +296,11 @@
 				let req = {
 					agentPhone: sessionStorage.getItem('agentPhone')
 				}
-				api.post(api.getUrl('queryCoupon'), req).then(res => {
+				api.post(api.getUrl('queryCoupon'), req,true).then(res => {
 					if(res.code == '000'){
 						this.couponDetail = res.content
+					}else{
+						sessionStorage.removeItem('agentPhone')
 					}
 				}).catch(() => {})
 			},
@@ -326,12 +328,6 @@
 				this.gray = false
 			}
 			document.title = "预约"
-			console.log(typeof(_utils.getCookie('mmTicket')))
-			console.log(typeof(null))
-//			if(!_utils.getCookie('mmTicket')){
-//				console.log('gggggggggg')
-//				this.$router.push("/login")
-//			}
 		},
 	}
 </script>

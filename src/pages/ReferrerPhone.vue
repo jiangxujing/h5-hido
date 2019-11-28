@@ -13,6 +13,15 @@
 			<button class="next font-18" v-else @click="getNext">下一步</button>
 			<div class="jump-over font-16 color-966 font-weight-400" @click="jumpNext">跳过</div>
 		</div>
+		<div class="orderWrapper" v-if="invalidShow">
+				<div class="order-content">
+					<div class="title">提示</div>
+					<div style="color:#353535;font-size:1.5rem;">该手机号不是代理哦~</div>
+					<div class="borderStyle"></div>
+					<button class="canle" @click="invalidShow=false">取消</button>
+					<button class="confirm" @click="jumpNext">继续</button>
+				</div>
+			</div>
 	</div>
 </template>
 <script>
@@ -25,7 +34,8 @@
 		data() {
 			return {
 				phone: '',
-				grayShow: true
+				grayShow: true,
+				invalidShow:false
 			}
 		},
 		methods: {
@@ -38,7 +48,7 @@
 					return false
 				} else {
 					sessionStorage.setItem('agentPhone',phone)
-					this.$router.push("/reservation")
+					this.getDueryCoupon()
 				}
 			},
 			changeTel() {
@@ -62,18 +72,34 @@
 				}
 
 			},
+			getDueryCoupon() {
+				let req = {
+					agentPhone: sessionStorage.getItem('agentPhone')
+				}
+				api.post(api.getUrl('queryCoupon'), req,true).then(res => {
+					sessionStorage.removeItem('checked')
+					if(res.code == '000'){
+						console.log('ggggg')
+						this.$router.push("/reservation")
+					}else{
+						console.log('hhhhhh')
+						this.invalidShow = true
+					}
+				}).catch(() => {})
+			},
 			jumpNext() {
 				this.$router.push("/reservation")
 			}
 		},
 		mounted() {
-			if(!_utils.getCookie('mmTicket')){
-				console.log('进来了么')
-				 router.replace({
-				          name:"login",
-				          query: {redirect: router.currentRoute.fullPath}
-				        })
-			}
+			
+//			if(!_utils.getCookie('mmTicket')){
+//				console.log('进来了么')
+//				 router.replace({
+//				          name:"login",
+//				          query: {redirect: router.currentRoute.fullPath}
+//				        })
+//			}
 
 		},
 	}
@@ -121,6 +147,51 @@
 		}
 		.van-cell {
 			padding-left: 0;
+		}
+		.orderWrapper {
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.6);
+			position: fixed;
+			left: 0;
+			top: 0;
+			.order-content {
+				width: 72%;
+				margin: 50% auto 0;
+				height: auto;
+				background: #fff;
+				border-radius: 1.4rem;
+				text-align: center;
+				.title {
+					color: #4B464D;
+					padding: 2rem 0;
+					font-weight: 500;
+					font-size: 1.7rem;
+				}
+				.borderStyle {
+					width: 100%d;
+					height: 1px;
+					background: #E0E0E0;
+					margin-top: 2rem;
+				}
+				button {
+					border: none;
+					background: none;
+					font-size: 1.6rem;
+					width: 100%;
+					height: 4.5rem;
+					line-height: 4.5rem;
+					font-weight: 400;
+				}
+				.canle {
+					width: 49%;
+					border-right: 1px solid #E0E0E0;
+				}
+				.confirm {
+					width: 49%;
+					color: #FF7B31;
+				}
+			}
 		}
 	}
 </style>

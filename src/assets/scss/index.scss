@@ -575,7 +575,7 @@ input::-webkit-input-placeholder {
     .next-button.van-button--disabled {
         color: #fff;
         // background: $disabledBg;
-        background: linear-gradient(to right, #ffaf82, #ff7b31);
+        background: linear-gradient(to right, $lightThemeColor, $themeColor);
         opacity: .5;
     }
 
@@ -1035,7 +1035,7 @@ input::-webkit-input-placeholder {
         align-items: center;
     }
     .coupon-item-amount {
-        font-size: 3.8rem;
+        font-size: 3.6rem;
         margin: 0 0 .7rem;
         span {
             font-size: 1.6rem;
@@ -1044,14 +1044,13 @@ input::-webkit-input-placeholder {
     .coupon-item-content {
         flex-grow: 1;
         color: $darkColor;
-        // padding: 1.2rem .4rem 1.2rem .8rem;
-        padding: 1.2rem 0 1.2rem 1.2rem;
-        font-size: 1.8rem;
-        line-height: 2.8rem;
+        padding: 1rem 0 1rem 1.5rem;
+        font-size: 1.6rem;
+        line-height: 2.9rem;
         font-weight: 500;
     }
     .coupon-item-info {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         line-height: 1.9rem;
         font-weight: 400;
         color: $lightColor;
@@ -1061,9 +1060,8 @@ input::-webkit-input-placeholder {
         padding-right: 1rem;
     }
     .close-btn {
-        // font-size: 1.4rem;
-        font-size: 14px;
-        width: 5rem;
+        font-size: 1.4rem;
+        padding: 0 1.2rem;
         border: 1px solid $themeColor;
         border-radius: 1.2rem;
         height: 2.4rem;
@@ -1303,7 +1301,7 @@ input::-webkit-input-placeholder {
         padding-right: 1.5rem;
         font-size: 1.1rem;
         line-height: 3.5rem;
-        color: #8A9399;
+        color: $lightColor;
         @include borderBottomHalfPx(#F0F0F0, 0);
     }
     .detail-content {

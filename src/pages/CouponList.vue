@@ -17,9 +17,6 @@
                 <p class="coupon-item-info">{{'有效期至' + item.expiryTime}}</p>
             </div>
             <div class="close-btn" @click="closeCoupon(item)" v-if="item.status == '00' || item.status == '01'">取消</div>
-            <!-- <div class="coupon-item-right">
-                <van-button class="close-btn" @click="closeCoupon(item)" v-if="item.status == '00' || item.status == '01'">取消</van-button>
-            </div> -->
         </div>
     </div>
 </template>

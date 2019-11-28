@@ -264,9 +264,9 @@
 					}
 					api.post(api.getUrl('reserveDoctor'), req).then(res => {
 						if(res.code == 0) {
+							sessionStorage.setItem('reservation',1)
 							if(!this.checked) {
 								sessionStorage.setItem('businessNo',res.content.businessNo)
-								sessionStorage.setItem('reservation',1)
 								this.$router.push("/reservationStatus")
 							} else {
 								this.$router.push("/PaymentMethod")

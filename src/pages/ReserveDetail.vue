@@ -1,7 +1,7 @@
 <template>
     <!-- 预约详情 -->
     <div class="main-content reserve-detail">
-        <div class="main-content-request" v-if="request">
+        <div v-if="request">
             <div class="detail-info">
                 <p class="detail-info-item">
                     <span class="fl-l">{{'订单号:' + orderForm.businessNo}}</span>

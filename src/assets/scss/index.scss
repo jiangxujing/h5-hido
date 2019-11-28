@@ -998,7 +998,7 @@ input::-webkit-input-placeholder {
     }
 }
 
-// 我的折扣券
+// 我的卡券
 .coupon-list {
     padding: 1rem 1.5rem;
     .coupon-add {
@@ -1238,12 +1238,6 @@ input::-webkit-input-placeholder {
     font-size: 1.5em;
     height: 100%;
     color: $darkColor;
-    .main-content-request {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
     .detail-item {
         background: #fff;
         margin: 1rem 0;
@@ -1280,11 +1274,7 @@ input::-webkit-input-placeholder {
         line-height: 2.2rem;
         color: $lightColor;
         font-size: 1.2rem;
-        padding-left: 1.5rem;
-    }
-    .page-button {
-        width: 100%;
-        padding: 2.5rem 14.4%;
+        padding : 0 1.5rem 5rem;
     }
 }
 

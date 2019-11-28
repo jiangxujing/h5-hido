@@ -37,7 +37,8 @@
                 <p class="detail-tips" v-if="orderForm.isToday">温馨提示：请按照预约时间及时到店就诊</p>
             </div>
             <div class="page-button" v-if="orderForm.isToday">
-                <van-button class="next-button" @click="confirmPay" :disabled="orderForm.status == '04'">确认到店</van-button>
+                <!-- <van-button class="next-button" @click="confirmPay" :disabled="orderForm.status == '04'">确认到店</van-button> -->
+                <van-button class="next-button" @click="confirmPay" :disabled="orderForm.status !== '01'">确认到店</van-button>
             </div>
         </div>
     </div>
@@ -106,20 +107,16 @@ export default {
         },
         // 确认到店
         confirmPay () {
-            // let datas = {
-            //     businessNo: this.orderForm.businessNo
-            // }
-            // api.post(api.getUrl('customer-confirmVisit'), datas).then(res => {
-            //     if (!!res && res.code === 0) {
-            //         this.request = true
-            //         if (!!res.content) {
-            //             Toast('确认到店成功')
-            //             this.getOrderDetail()
-            //         }
-            //     }
-            // })
-            Toast('确认到店成功(暂无接口！)')
-            this.orderForm.status = '04'
+            let datas = {
+                businessNo: this.orderForm.businessNo
+            }
+            api.post(api.getUrl('customer-confirmVisit'), datas).then(res => {
+                if (!!res && res.code === 0) {
+                    this.request = true
+                    Toast('确认到店成功')
+                    this.getOrderDetail()
+                }
+            })
         }
     }
 }

@@ -575,7 +575,7 @@ input::-webkit-input-placeholder {
     .next-button.van-button--disabled {
         color: #fff;
         // background: $disabledBg;
-        background: linear-gradient(to right, #ffaf82, #ff7b31);
+        background: linear-gradient(to right, $lightThemeColor, $themeColor);
         opacity: .5;
     }
 
@@ -1060,9 +1060,8 @@ input::-webkit-input-placeholder {
         padding-right: 1rem;
     }
     .close-btn {
-        // font-size: 1.4rem;
-        font-size: 14px;
-        width: 5rem;
+        font-size: 1.4rem;
+        padding: 0 1.2rem;
         border: 1px solid $themeColor;
         border-radius: 1.2rem;
         height: 2.4rem;
@@ -1302,7 +1301,7 @@ input::-webkit-input-placeholder {
         padding-right: 1.5rem;
         font-size: 1.1rem;
         line-height: 3.5rem;
-        color: #8A9399;
+        color: $lightColor;
         @include borderBottomHalfPx(#F0F0F0, 0);
     }
     .detail-content {

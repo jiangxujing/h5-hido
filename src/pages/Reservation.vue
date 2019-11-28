@@ -25,9 +25,9 @@
 			</div>
 			<div class="font-12 color-399 title">就诊人信息</div>
 			<van-cell-group :border="false">
-				<van-field v-model="name" center clearable label="姓名" placeholder="请选择" maxlength="20" @input="checkEmpty" class="list-style">
+				<van-field v-model="name" center clearable label="姓名" placeholder="请选择" maxlength="20" @input="checkEmpty()" class="list-style">
 				</van-field>
-				<van-field v-model="phone" center clearable label="手机号" type="tel" placeholder="请选择" @input="checkEmpty" maxlength="11" class="list-style">
+				<van-field v-model="phone" center clearable label="手机号" type="tel" placeholder="请选择" @input="checkEmpty()" maxlength="11" class="list-style">
 				</van-field>
 			</van-cell-group>
 			<div class="coupon-content" @click="selectDeduction" v-if="couponDetail">
@@ -222,13 +222,18 @@
 			},
 			getReservation() {
 				const  mobileReg  =  /^(1)+\d{10}$/
+				const regu = /^[a-zA-Z\u4e00-\u9fa5]{2,15}$/;
+				const re = new RegExp(regu);
 				if(!mobileReg.test(this.phone)) {
 					Toast('请填写正确的手机号')
 				} else if(_utils.getByteLen(this.name) < 4) {
 					Toast('请至少输入2位汉字')
+				}else if(this.name.search(re) < 0) {
+					Toast('姓名格式有误，只能输入中英文')
 				} else{
 					this.comfirmBox = true
 				}
+					
 			},
 			comfirmReservation() {
 				sessionStorage.setItem('visitName', this.name)

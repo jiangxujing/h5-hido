@@ -32,7 +32,7 @@
 		},
 		methods: {
 			goReservationDetail() {
-				this.$router.push("/confirmedReserve?businessNo="+111111111111)
+				this.$router.push("/confirmedReserve?businessNo="+sessionStorage.getItem('businessNo'))
 			},
 			goOrderDetail(){
 				this.$router.push("/orderDetail")

@@ -1021,6 +1021,7 @@ input::-webkit-input-placeholder {
         border-radius: .6rem;
         display: flex;
         line-height: 1;
+        position: relative;
     }
     .coupon-item-left {
         text-align: center;
@@ -1062,11 +1063,19 @@ input::-webkit-input-placeholder {
     .close-btn {
         font-size: 1.4rem;
         padding: 0 1.2rem;
-        border: 1px solid $themeColor;
         border-radius: 1.2rem;
         height: 2.4rem;
         line-height: 2.4rem;
         color: $themeColor;
+        @include borderHalfPxRound(#ff7b31, 1.2rem);
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -webkit-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
     }
     .coupon-item-over {
         .coupon-item-left {

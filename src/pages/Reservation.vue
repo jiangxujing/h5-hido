@@ -211,11 +211,9 @@
 				this.consultationTimeShow = false
 				this.frontendTime = t.split('-')[0]+':00'
 				let time = this.dateTime+' '+this.frontendTime
-				this.appointmentDate = new Date(time)
-				console.log(this.appointmentDate)
-				sessionStorage.setItem('reserveTime', this.appointmentDate)
-				console.log(this.appointmentDate)
-				console.log(t.split('-')[0])
+				this.appointmentDate = _utils.dateFormatter(new Date(time),"yyyy-MM-dd HH:mm")
+				sessionStorage.setItem('reserveTime',this.reserveTime)//显示时间
+				sessionStorage.setItem('appointmentDate',this.appointmentDate)
 				if(index != this.timeindex) {
 						this.timeindex = index;
 					} else {
@@ -275,6 +273,7 @@
 				sessionStorage.setItem('visitName', this.name)
 				sessionStorage.setItem('phone', this.phone)
 				let req = {}
+				console.log(_utils.dateFormatter(new Date(this.appointmentDate), "yyyy-MM-dd HH:mm") )
 				if(!this.checked) {
 					req = {
 						agentPhone: sessionStorage.getItem('agentPhone') || null, //推荐人手机号,
@@ -328,7 +327,9 @@
 					}
 					this.consultingList = res.content
 					this.name = sessionStorage.getItem('visitName') || null
-					this.reserveTime = sessionStorage.getItem('reserveTime') || null
+					this.reserveTime = this.appointmentDate = sessionStorage.getItem('reserveTime') || null
+					this.appointmentDate = sessionStorage.getItem('appointmentDate') || null
+					console.log(this.appointmentDate)
 					this.doctor = sessionStorage.getItem('doctor') || null
 					this.projectName = sessionStorage.getItem('projectName') || this.projectName
 					this.projectItemNo = sessionStorage.getItem('projectItemNo') || this.projectItemNo

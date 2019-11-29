@@ -39,6 +39,12 @@
 			}
 		},
 		mounted() {
+			if(parseFloat(sessionStorage.getItem('reservation'))){
+				document.title = '预约成功'
+			}else{
+				document.title = '支付成功'
+			}
+			
 			let params = {
 				interceptBack: true
 			}

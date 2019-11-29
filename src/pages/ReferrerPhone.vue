@@ -92,7 +92,7 @@
 			}
 		},
 		mounted() {
-			
+			document.title = "输入推荐人手机号"
 //			if(!_utils.getCookie('mmTicket')){
 //				console.log('进来了么')
 //				 router.replace({

@@ -189,6 +189,7 @@
 			}
 		},
 		mounted() {
+			document.title="订单提交"
 			this.h5paysuccess = this.$route.query.h5paysuccess
 			console.log(this.h5paysuccess)
 			if(sessionStorage.getItem('h5paysuccess') || this.h5paysuccess){

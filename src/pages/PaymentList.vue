@@ -63,6 +63,7 @@
 			}
 		},
 		mounted() {
+			document.title = "选择支付方式"
 //				this.withdrawalDetail.cardList.forEach((i) => {
 //					this.$set(i, "active", false);
 //				});

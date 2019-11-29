@@ -143,6 +143,7 @@
 			}
 		},
 		mounted() {
+			document.title = "选择支付方式"
 			this.province = sessionStorage.getItem('province')
 			this.county = sessionStorage.getItem('county')
 			this.city = sessionStorage.getItem('city')

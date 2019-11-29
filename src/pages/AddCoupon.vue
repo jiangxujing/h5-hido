@@ -12,19 +12,20 @@
                     label="用户手机号"
                     placeholder="请填写用户手机号" />
                 <van-field
-                    v-model="amount"
-                    clearable
-                    type="tel"
-                    maxlength="4"
-                    label="抵扣金额"
-                    placeholder="请填写抵扣金额" />
-                <van-field
                     v-model="payAmount"
                     clearable
                     type="tel"
                     maxlength="4"
                     label="支付金额"
+                    @input="value => {amount = null}"
                     placeholder="请填写支付金额" />
+                <van-field
+                    v-model="amount"
+                    clearable
+                    type="tel"
+                    maxlength="4"
+                    label="抵扣金额"
+                    :placeholder="amountPlaceholder" />
             </div>
         </div>
         <div class="page-button">
@@ -44,38 +45,54 @@ export default {
             nextBtn: true,
             payAmount: '',
             amount: '',
-            mobile: ''
+            mobile: '',
+            couponsProportion: 1,
+            amountPlaceholder: '请填写抵扣金额'
         }
     },
     mounted () {
         document.title = '创建卡券'
+        this.getCoupopList()
     },
     computed:{
         // 监听页面数据
         watchData: function () {
             // 下一步按钮
             this.nextBtn = this.payAmount && this.amount && this.mobile ? false : true
+            this.amountPlaceholder = !(this.payAmount * this.couponsProportion) ? '请填写抵扣金额' : '最大可抵扣' + this.payAmount * this.couponsProportion + '元'
         }
     },
     methods: {
-        // 创 建
+        // 获取折扣券列表
+        getCoupopList () {
+            api.post(api.getUrl('agent-myCoupon'), {}).then(res => {
+                if (!!res && res.code === 0) {
+                    this.request = true
+                    if (!!res.content && !!res.content.couponsProportion) {
+                        this.couponsProportion = res.content.couponsProportion
+                    }
+                }
+            })
+        },
+        // 创建
         toNext () {
             const mobileReg = /^(1)+\d{10}$/
             const amoutReg = /^[1-9]\d*$/
             if (!mobileReg.test(this.mobile)) {
                 Toast('用户手机号有误')
                 return false
-            } else if (!amoutReg.test(this.amount)) {
-                Toast('抵扣金额格式有误')
-                return false
-            } else if (this.amount > 5000) {
-                Toast('填写金额需小于等于5000，请重新输入')
-                return false
             } else if (!amoutReg.test(this.payAmount)) {
                 Toast('支付金额格式有误')
                 return false
             } else if (this.payAmount > 5000) {
                 Toast('填写金额需小于等于5000，请重新输入')
+                return false
+            } else if (!amoutReg.test(this.amount)) {
+                Toast('抵扣金额格式有误')
+                return false
+            } else if (this.amount > this.payAmount * this.couponsProportion) {
+                Toast('填写金额有误')
+                this.amount = null
                 return false
             } else {
                 let datas = {

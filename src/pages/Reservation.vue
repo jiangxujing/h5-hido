@@ -280,7 +280,7 @@
 				console.log(_utils.dateFormatter(new Date(this.appointmentDate), "yyyy-MM-dd HH:mm") )
 				if(!this.checked) {
 					req = {
-						agentPhone: sessionStorage.getItem('agentPhone') || null, //推荐人手机号,
+						agentPhone: sessionStorage.getItem('agentPhone') || this.agentPhone, //推荐人手机号,
 						doctorName: this.doctor || null,
 						doctorNo: this.doctorNo || null,
 						medicineItemNo: this.projectItemNo || null, //项目编号
@@ -291,7 +291,7 @@
 					}
 				} else {
 					req = {
-						agentPhone: sessionStorage.getItem('agentPhone') || null, //推荐人手机号,
+						agentPhone: sessionStorage.getItem('agentPhone') || this.agentPhone, //推荐人手机号,
 						couponCode: this.couponDetail.couponNo || null, //抵扣券码
 						doctorName: this.doctor || null,
 						doctorNo: this.doctorNo || null,
@@ -369,7 +369,7 @@
 			},
 			getDueryCoupon() {
 				let req = {
-					agentPhone: sessionStorage.getItem('agentPhone')
+					agentPhone: sessionStorage.getItem('agentPhone') || this.agentPhone
 				}
 				api.post(api.getUrl('queryCoupon'), req, true).then(res => {
 					if(res.code == '000') {
@@ -383,6 +383,13 @@
 				api.post(api.getUrl('isHasParentAgent'), {}).then(res => {
 					if(res.code == '000') {
 						this.phone = res.content.customerPhone
+						this.agentPhone = res.content.agentPhone
+						if(this.agentPhone){
+							this.couponDetailShow = true
+							this.getDueryCoupon()
+						} else {
+							this.couponDetailShow = false
+						}
 						this.getMedicineItemsList() //咨询项目列表
 					} else {
 						sessionStorage.removeItem('agentPhone')

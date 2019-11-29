@@ -104,14 +104,63 @@ export default {
     methods: {
         // 获取订单详情
         getOrderDetail () {
-            // let datas = {
-            //     businessNo: this.orderForm.businessNo
-            // }
-            // api.post(api.getUrl('customer-orderDetail'), datas).then(res => {
+            if (!this.meiyaOrderNo && !this.businessNo) {
+                return false
+            }
+            // let datas = {}
+            // let apiUrl = ''
+            // !!this.meiyaOrderNo ?
+            //     (datas.meiyaOrderNo = this.meiyaOrderNo, apiUrl = 'customer-feeOrderPreview') :
+            //     (datas.businessNo = this.businessNo, apiUrl = 'customer-feeOrderDetail')
+            // api.post(api.getUrl(apiUrl), datas).then(res => {
             //     if (!!res && res.code === 0) {
             //         this.request = true
             //         if (!!res.content) {
-                        
+            //             let content = res.content
+            //             let totalFees = 0
+            //             let totalOffer = 0
+            //             for (let key in content) {
+            //                 if (key == 'orderItemList') {
+            //                     let orderItemList = content[key]
+            //                     orderItemList.forEach(item => {
+            //                         let data = {
+            //                             itemNo: item.itemNo,
+            //                             itemName: item.itemName,
+            //                             itemCount: item.itemCount,
+            //                             amount: formatMoney(item.amount, 1),
+            //                             originalAmount: formatMoney(item.originalAmount, 1)
+            //                         }
+            //                         totalFees += item.amount
+            //                         item.originalAmount > item.amount ? totalOffer += (item.originalAmount - item.amount) : ''
+            //                         this.orderForm[key].push(data)
+            //                     })
+            //                 } else if (key == 'packageWriteoffs') {
+            //                     let packageWriteoffs = content[key]
+            //                     packageWriteoffs.forEach(item => {
+            //                         let data = {
+            //                             itemNo: item.itemNo,
+            //                             itemName: item.itemName,
+            //                             writeoffAmount: formatMoney(item.writeoffAmount, 1)
+            //                         }
+            //                         totalFees = totalFees - item.writeoffAmount
+            //                         totalOffer += item.writeoffAmount
+            //                         this.orderForm['orderItemList'].push(data)
+            //                     })
+            //                 } else if (key == 'couponDeductionAmount') {
+            //                     let data = {
+            //                         itemName: '预付金抵扣',
+            //                         writeoffAmount: formatMoney(content[key], 1)
+            //                     }
+            //                     totalOffer += content[key]
+            //                     this.orderForm['orderItemList'].push(data)
+            //                 } else if (key == 'meiyaOrderOpenTime' || key == 'payTime') {
+            //                     this.orderForm[key] = content[key] ? dateFormatter(new Date(content[key]), 'yyyy-MM-dd hh:mm:ss') : ''
+            //                 } else {
+            //                     this.orderForm[key] = content[key]
+            //                 }
+            //             }
+            //             this.orderForm.totalFees = formatMoney(totalFees, 1)
+            //             this.orderForm.totalOffer = formatMoney(totalOffer, 1)
             //         }
             //     }
             // })
@@ -194,7 +243,6 @@ export default {
                     totalOffer += content[key]
                     this.orderForm['orderItemList'].push(data)
                 } else if (key == 'meiyaOrderOpenTime' || key == 'payTime') {
-                //     this.orderForm[key] = formatMoney(content[key], 1)
                     this.orderForm[key] = content[key] ? dateFormatter(new Date(content[key]), 'yyyy-MM-dd hh:mm:ss') : ''
                 } else {
                     this.orderForm[key] = content[key]
@@ -214,16 +262,10 @@ export default {
             //     if (!!res && res.code === 0) {
             //         this.request = true
             //         if (!!res.content) {
-            //             this.getOrderDetail()
             //         }
             //     }
             // })
             Toast('暂无接口！')
-            this.meiyaOrderNo = ''
-            this.$router.push({
-                path: '/medicalOrderDetail',
-                query: {businessNo: this.orderForm.meiyaOrderNo}
-            })
         }
     }
 }

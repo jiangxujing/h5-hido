@@ -201,7 +201,7 @@ export default {
                 meiyaOrderOpenTime: 1574840600563,
                 meiyaOrderMemo: '局麻化验套餐',
                 payTime: 1574940600563,
-                payType: '微信',
+                payType: 'WX',
                 totalFees: 39900,
                 totalOffer: 62000
             }
@@ -244,6 +244,10 @@ export default {
                     this.orderForm['orderItemList'].push(data)
                 } else if (key == 'meiyaOrderOpenTime' || key == 'payTime') {
                     this.orderForm[key] = content[key] ? dateFormatter(new Date(content[key]), 'yyyy-MM-dd hh:mm:ss') : ''
+                } else if (key == 'payType') {
+                    api.payType.forEach(item => {
+                        item.value == content[key] ? this.orderForm[key] = item.label : '' 
+                    })
                 } else {
                     this.orderForm[key] = content[key]
                 }

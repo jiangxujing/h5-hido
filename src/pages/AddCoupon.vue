@@ -96,7 +96,7 @@ export default {
         // 创建
         toNext () {
             const mobileReg = /^(1)+\d{10}$/
-            const amoutReg = /^[1-9]\d*$/
+            // const amoutReg = /^[1-9]\d*$/
             if (!mobileReg.test(this.mobile)) {
                 Toast('用户手机号有误')
                 return false

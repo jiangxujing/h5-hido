@@ -385,7 +385,7 @@
 				}).catch(() => {})
 			},
 			isHasParentAgent() {
-				api.post(api.getUrl('isHasParentAgent'), {},false).then(res => {
+				api.post(api.getUrl('isHasParentAgent'), {},true).then(res => {
 					if(res.code == '000') {
 						this.phone = res.content.customerPhone
 						this.agentPhone = res.content.agentPhone

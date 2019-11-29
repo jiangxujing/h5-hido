@@ -65,7 +65,7 @@
 
 <script>
 import { Toast } from 'vant'
-import { dateFormatter, getQueryString, formatMoney } from '../common/utils.js'
+import { dateFormatter, getQueryString, formatMoney, getpPayType } from '../common/utils.js'
 import api from '../common/api.js'
 
 export default {
@@ -245,9 +245,7 @@ export default {
                 } else if (key == 'meiyaOrderOpenTime' || key == 'payTime') {
                     this.orderForm[key] = content[key] ? dateFormatter(new Date(content[key]), 'yyyy-MM-dd hh:mm:ss') : ''
                 } else if (key == 'payType') {
-                    api.payType.forEach(item => {
-                        item.value == content[key] ? this.orderForm[key] = item.label : '' 
-                    })
+                    this.orderForm[key] = getpPayType(content[key])
                 } else {
                     this.orderForm[key] = content[key]
                 }

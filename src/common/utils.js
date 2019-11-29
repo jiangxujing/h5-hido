@@ -646,6 +646,7 @@ export const checkTel = () => {
 	let strTemp = /^1[3|4|5|6|7|8|9][0-9]{9}$/;
 	return strTemp
 }
+
 export const getByteLen = (val) => {
 	var len = 0;
 	for(var i = 0; i < val.length; i++) {
@@ -658,6 +659,30 @@ export const getByteLen = (val) => {
 	}
 	console.log(len)
 	return len;
+}
+
+/*
+ * 获取支付方式名称
+ */
+export const getpPayType = (value) => {
+	let label = 'value'
+	const payType = [{
+		value: 'WX',
+		label: '微信'
+	}, {
+		value: 'ALIPAY',
+		label: '支付宝'
+	}, {
+		value: 'MM_INSTALMENT',
+		label: '米么分期'
+	}, {
+		value: 'BANK',
+		label: '银行卡支付'
+	}]
+	payType.forEach(item => {
+		item.value == value ? label = item.label : '' 
+	})
+	return label
 }
 
 export default {
@@ -682,5 +707,6 @@ export default {
 	resetFontSize,
 	resetWindow,
 	checkTel,
-	getByteLen
+	getByteLen,
+	getpPayType
 }

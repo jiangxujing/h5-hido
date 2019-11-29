@@ -25,7 +25,7 @@
 			</div>
 			<div class="font-12 color-399 title">就诊人信息</div>
 			<van-cell-group :border="false">
-				<van-field v-model="name" center clearable label="姓名" placeholder="请选择" maxlength="20" @input="checkEmpty()" class="list-style">
+				<van-field v-model="name" center clearable label="姓名" placeholder="请输入姓名" maxlength="20" @input="checkEmpty()" class="list-style">
 				</van-field>
 				<van-field v-model="phone" center :readonly=true clearable label="手机号" type="tel" placeholder="请选择" @input="checkEmpty()" maxlength="11" class="list-style">
 				</van-field>

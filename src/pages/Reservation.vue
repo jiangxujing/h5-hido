@@ -65,12 +65,7 @@
 		</div>
 		<van-popup v-model="consultationTimeShow" closeable position="bottom" :style="{ height: '60%' }">
 			<!--<van-datetime-picker v-model="currentDate" type="datetime" @confirm="confirm" @cancel="cancelTime" :min-date="minDate"/>-->
-			<van-datetime-picker
-			  v-model="currentDate"
-			  type="date"
-			  :min-date="minDate"
-			  @confirm="confirm" @cancel="cancelTime"
-			/>
+			<van-datetime-picker v-model="currentDate" type="date" :min-date="minDate" @confirm="confirm" @cancel="cancelTime" />
 		</van-popup>
 		<div class="comfirm-reservation-wrapper" @click="comfirmBox=false" v-show="comfirmBox">
 			<div class="comfirm-reservation">
@@ -166,6 +161,7 @@
 			checkEmpty() {
 				if(this.phone && this.phone.length == 11 && this.projectName && this.doctor && this.reserveTime && this.name) {
 					this.gray = false
+					sessionStorage.setItem('visitName', this.name)
 				} else {
 					this.gray = true
 				}
@@ -287,14 +283,18 @@
 					medicineItemNo: this.itemNo || null
 				}
 				api.post(api.getUrl('medicineItemsList'), req).then(res => {
+					if(this.itemNo) {
+						this.projectItemNo = res.content.itemNo
+						this.projectName = res.content.itemName
+						sessionStorage.setItem('projectName', this.projectName)
+						sessionStorage.setItem('projectItemNo', this.projectItemNo)
+					}
 					this.consultingList = res.content
-					this.projectItemNo = res.content.itemNo
-					this.projectName = res.content.itemName
 					this.name = sessionStorage.getItem('visitName') || null
 					this.reserveTime = sessionStorage.getItem('reserveTime') || null
 					this.doctor = sessionStorage.getItem('doctor') || null
 					this.projectName = sessionStorage.getItem('projectName') || this.projectName
-					this.projectItemNo = sessionStorage.getItem('projectItemNo') || null
+					this.projectItemNo = sessionStorage.getItem('projectItemNo') || this.projectItemNo
 					this.doctorNo = sessionStorage.getItem('doctorNo') || null
 					this.doctor = sessionStorage.getItem('doctor') || null
 					this.checked = sessionStorage.getItem('checked') || false
@@ -325,10 +325,11 @@
 					}
 				}).catch(() => {})
 			},
-			isHasParentAgent(){
+			isHasParentAgent() {
 				api.post(api.getUrl('isHasParentAgent'), {}).then(res => {
 					if(res.code == '000') {
 						this.phone = res.content.customerPhone
+						this.getMedicineItemsList() //咨询项目列表
 					} else {
 						sessionStorage.removeItem('agentPhone')
 					}
@@ -337,7 +338,6 @@
 		},
 		mounted() {
 			this.itemNo = this.$route.query.itemNo
-			this.getMedicineItemsList() //咨询项目列表
 			this.isHasParentAgent()
 			if(sessionStorage.getItem('agentPhone')) {
 				this.couponDetailShow = true

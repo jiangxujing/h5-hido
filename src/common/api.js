@@ -56,6 +56,21 @@ function filterNull(o) {
 	return o
 }
 
+
+const payType = [{
+	value: 'WX',
+	label: '微信'
+}, {
+	value: 'ALIPAY',
+	label: '支付宝'
+}, {
+	value: 'MM_INSTALMENT',
+	label: '米么分期'
+}, {
+	value: 'BANK',
+	label: '银行卡支付'
+}]
+
 const _parseJSON = str => {
 	if(typeof str === 'object') {
 		return str
@@ -368,6 +383,7 @@ const post = (url, data, noBox,noLoading, noToken,formData) => {
 
 // 返回在vue模板中的调用接口
 export default {
+	payType,
 	getUrl,
 	getWeixinUrl,
 	get,

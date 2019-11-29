@@ -30,7 +30,7 @@
 				<van-field v-model="phone" center :readonly=true clearable label="手机号" type="tel" placeholder="请选择" @input="checkEmpty()" maxlength="11" class="list-style">
 				</van-field>
 			</van-cell-group>
-			<div class="coupon-content" @click="selectDeduction" v-if="couponDetail">
+			<div class="coupon-content" @click="selectDeduction" v-if="couponDetailShow">
 				<span class="color-B31 font-15">预付{{couponDetail.payAmount/100}}元抵扣</span>
 				<span class="DINAlternate-Bold color-B31 font-22">{{couponDetail.deductionAmount/100}}元</span>
 				<img src="../assets/images/radio-checked.png" class="radioChecked" v-if="checked" />
@@ -64,15 +64,10 @@
 			</ul>
 		</div>
 		<van-popup v-model="consultationTimeShow" closeable position="bottom" :style="{ height: '60%' }">
-			<!--<van-datetime-picker v-model="currentDate" type="date" @confirm="confirm" @cancel="cancelTime" :min-date="minDate"/>-->
 			<div v-show="dateShow">
 				<van-datetime-picker v-model="currentDate" type="date" @confirm="confirm" @cancel="cancelTime" :min-date="minDate"/>
 			</div>
 			<ul v-show="timeShow">
-				<!--<div style="display: flex;height:4rem;background: #fff;line-height:4rem;color:#1989fa;text-align: center;font-size:14px;">
-					<div style="flex:1" @click="timeShow=false,consultationTimeShow=false">取消</div>
-					<div style="flex:1" @click="confirmAllTime">确定</div>
-				</div>-->
 				<li  v-for="(t,index) in time" :key="index" class="time" @click="selectTime(index,t)" :class="timeindex == index?'active-time':''">{{t}}</li>
 			</ul>
 		</van-popup>
@@ -134,6 +129,7 @@
 				timeShow:false,
 				timeindex:-1,
 				minDate:new Date(),
+				couponDetailShow:false,
 				time:['9:00-10:00','10:00-11:00','11:00-12:00','12:00-13:00','13:00-14:00','14:00-15:00','15:00-16:00','16:00-17:00','17:00-18:00','18:00-19:00']
 			}
 		},
@@ -374,26 +370,29 @@
 				api.post(api.getUrl('queryCoupon'), req, true).then(res => {
 					if(res.code == '000') {
 						this.couponDetail = res.content
-					} else {
-						sessionStorage.removeItem('agentPhone')
+						if(this.couponDetail.couponNo){
+							console.log('ggggggg')
+							this.couponDetailShow = true
+						}else{
+							console.log('43333')
+							this.couponDetailShow = false
+						}
 					}
 				}).catch(() => {})
 			},
 			isHasParentAgent() {
-				api.post(api.getUrl('isHasParentAgent'), {}).then(res => {
+				api.post(api.getUrl('isHasParentAgent'), {},false).then(res => {
 					if(res.code == '000') {
 						this.phone = res.content.customerPhone
 						this.agentPhone = res.content.agentPhone
-						if(this.agentPhone){
-							this.couponDetailShow = true
+						if(!sessionStorage.getItem('agentPhone') && this.agentPhone){
+							console.log('1111111111111')
 							this.getDueryCoupon()
 						} else {
 							this.couponDetailShow = false
 						}
 						this.getMedicineItemsList() //咨询项目列表
-					} else {
-						sessionStorage.removeItem('agentPhone')
-					}
+					} 
 				}).catch(() => {})
 			}
 		},
@@ -401,7 +400,7 @@
 			this.itemNo = this.$route.query.itemNo
 			this.isHasParentAgent()
 			if(sessionStorage.getItem('agentPhone')) {
-				this.couponDetailShow = true
+				console.log('22222222222')
 				this.getDueryCoupon()
 			} else {
 				this.couponDetailShow = false
@@ -521,9 +520,12 @@
 			}
 		}
 		.time{
-			font-size:1.9rem;
+			font-size:16px;
 			line-height:4rem;
 			padding-left:5rem;
+			&:first-child{
+				padding-top:2rem;
+			}
 		}
 		.active-time{
 			color:#1989fa;

@@ -69,8 +69,8 @@ export default {
             api.post(api.getUrl('agent-myCoupon'), {}).then(res => {
                 if (!!res && res.code === 0) {
                     this.request = true
-                    if (!!res.content && res.content.length > 0) {
-                        this.couponList = res.content.map(item => {
+                    if (!!res.content && !!res.content.couponCodeBaseInfo && res.content.couponCodeBaseInfo.length > 0) {
+                        this.couponList = res.content.couponCodeBaseInfo.map(item => {
                             let data = {}
                             data = item
                             data.amountShow = Math.round(item.amount/100)

@@ -233,6 +233,10 @@
 						this.projectItemNo = ''
 						this.projectactive = -1;
 					}
+					this.doctor = ''
+					sessionStorage.removeItem('doctoractive')
+					sessionStorage.removeItem('doctor')
+					sessionStorage.removeItem('doctorNo')
 					sessionStorage.setItem('projectName', this.projectName)
 					sessionStorage.setItem('projectItemNo', this.projectItemNo)
 					sessionStorage.setItem('projectactive', this.projectactive)
@@ -309,7 +313,7 @@
 						}
 
 					} else {
-						Toast('预约失败，请重新提交')
+						Toast(res.desc)
 					}
 
 				}).catch(() => {})
@@ -432,7 +436,7 @@
 			.list-content {
 				border-bottom: 1px solid #F8F8F8;
 				width: 97%;
-				height: 6rem;
+				height: 4rem;
 			}
 			label {
 				width: 10rem;
@@ -443,6 +447,7 @@
 			border: none;
 			padding-left: 1rem;
 			font-size: 1.5rem;
+			width:20rem;
 		}
 		.right-arrow {
 			width: 2.2rem;

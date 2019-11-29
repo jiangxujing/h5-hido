@@ -26,14 +26,12 @@
 </template>
 <script>
 	import api from '../common/api.js'
-	import _utils from '../common/utils.js'
-	import router from '../router.js'
 	import { Toast } from 'vant'
 	export default {
 		name: '',
 		data() {
 			return {
-				phone: '',
+				phone:'',
 				grayShow: true,
 				invalidShow:false
 			}
@@ -93,14 +91,8 @@
 		},
 		mounted() {
 			document.title = "输入推荐人手机号"
-//			if(!_utils.getCookie('mmTicket')){
-//				console.log('进来了么')
-//				 router.replace({
-//				          name:"login",
-//				          query: {redirect: router.currentRoute.fullPath}
-//				        })
-//			}
-
+			this.phone = sessionStorage.getItem('agentPhone')
+			this.changeTel()
 		},
 	}
 </script>

@@ -64,7 +64,8 @@
 			</ul>
 		</div>
 		<van-popup v-model="consultationTimeShow" closeable position="bottom" :style="{ height: '60%' }">
-			<van-datetime-picker v-model="currentDate" type="datetime" @confirm="confirm" @cancel="cancelTime" />
+			<van-datetime-picker v-model="currentDate" type="datetime" @confirm="confirm" @cancel="cancelTime" :min-date="minDate"  :min-hour="9"
+  :max-hour="20" :formatter="formatter"/>
 		</van-popup>
 		<div class="comfirm-reservation-wrapper" @click="comfirmBox=false" v-show="comfirmBox">
 			<div class="comfirm-reservation">
@@ -118,11 +119,22 @@
 				doctorsList: [],
 				projectactive: -1,
 				doctoractive: -1,
-				couponDetail:null,
-				couponDetailShow:false
+				couponDetail: null,
+				couponDetailShow: false,
+				minDate: new Date()
 			}
 		},
 		methods: {
+			  formatter(type, value) {
+          　　if (type === 'year') {
+            　　return `${value}年`;
+          　　} else if (type === 'month') {
+          　　  return `${value}月`
+          　　} else if (type === 'day') {
+            　　return `${value}日`
+          　　} 
+          　　return value;
+        　　},
 			//选择面诊时间方法
 			confirm(val) {
 				this.consultationTimeShow = false
@@ -227,61 +239,65 @@
 					Toast('请填写正确的手机号')
 				} else if(_utils.getByteLen(this.name) < 4) {
 					Toast('请至少输入2位汉字')
-				}else if(this.name.search(re) < 0) {
+				} else if(this.name.search(re) < 0) {
 					Toast('姓名格式有误，只能输入中英文')
-				} else{
+				} else {
 					this.comfirmBox = true
 				}
-					
+
 			},
 			comfirmReservation() {
 				sessionStorage.setItem('visitName', this.name)
-					sessionStorage.setItem('phone', this.phone)
-					let req = {}
-					if(!this.checked) {
-						req = {
-							agentPhone: sessionStorage.getItem('agentPhone') || null, //推荐人手机号,
-							doctorName: this.doctor || null,
-							doctorNo: this.doctorNo || null,
-							medicineItemNo: this.projectItemNo || null, //项目编号
-							medicineItemName: this.projectName || null,
-							appointmentDate: new Date(this.reserveTime).getTime() || null,
-							customerName: this.name || null,
-							customerPhone: this.phone || null
-						}
-					} else {
-						req = {
-							agentPhone: sessionStorage.getItem('agentPhone') || null, //推荐人手机号,
-							couponCode: this.couponDetail.couponNo || null, //抵扣券码
-							doctorName: this.doctor || null,
-							doctorNo: this.doctorNo || null,
-							medicineItemNo: this.projectItemNo || null, //项目编号
-							medicineItemName: this.projectName || null,
-							appointmentDate: new Date(this.reserveTime).getTime() || null,
-							customerName: this.name || null,
-							customerPhone: this.phone || null
-						}
+				sessionStorage.setItem('phone', this.phone)
+				let req = {}
+				if(!this.checked) {
+					req = {
+						agentPhone: sessionStorage.getItem('agentPhone') || null, //推荐人手机号,
+						doctorName: this.doctor || null,
+						doctorNo: this.doctorNo || null,
+						medicineItemNo: this.projectItemNo || null, //项目编号
+						medicineItemName: this.projectName || null,
+						appointmentDate: new Date(this.reserveTime).getTime() || null,
+						customerName: this.name || null,
+						customerPhone: this.phone || null
 					}
-					api.post(api.getUrl('reserveDoctor'), req).then(res => {
-						if(res.code == 0) {
-							sessionStorage.setItem('reservation',1)
-							if(!this.checked) {
-								sessionStorage.setItem('businessNo',res.content.businessNo)
-								this.$router.push("/reservationStatus")
-							} else {
-								this.$router.push("/PaymentMethod")
-							}
-
+				} else {
+					req = {
+						agentPhone: sessionStorage.getItem('agentPhone') || null, //推荐人手机号,
+						couponCode: this.couponDetail.couponNo || null, //抵扣券码
+						doctorName: this.doctor || null,
+						doctorNo: this.doctorNo || null,
+						medicineItemNo: this.projectItemNo || null, //项目编号
+						medicineItemName: this.projectName || null,
+						appointmentDate: new Date(this.reserveTime).getTime() || null,
+						customerName: this.name || null,
+						customerPhone: this.phone || null
+					}
+				}
+				api.post(api.getUrl('reserveDoctor'), req).then(res => {
+					if(res.code == 0) {
+						sessionStorage.setItem('reservation', 1)
+						if(!this.checked) {
+							sessionStorage.setItem('businessNo', res.content.businessNo)
+							this.$router.push("/reservationStatus")
 						} else {
-							Toast('预约失败，请重新提交')
+							this.$router.push("/PaymentMethod")
 						}
 
-					}).catch(() => {
-					})
+					} else {
+						Toast('预约失败，请重新提交')
+					}
+
+				}).catch(() => {})
 			},
 			getMedicineItemsList() {
-				api.post(api.getUrl('medicineItemsList'), {}).then(res => {
+				let req = {
+					medicineItemNo: this.itemNo || null
+				}
+				api.post(api.getUrl('medicineItemsList'), req).then(res => {
 					this.consultingList = res.content
+					this.projectItemNo = res.content.itemNo
+					this.projectName = res.content.itemName
 				}).catch(() => {})
 			},
 			getDoctorsList() {
@@ -296,24 +312,27 @@
 				let req = {
 					agentPhone: sessionStorage.getItem('agentPhone')
 				}
-				api.post(api.getUrl('queryCoupon'), req,true).then(res => {
-					if(res.code == '000'){
+				api.post(api.getUrl('queryCoupon'), req, true).then(res => {
+					if(res.code == '000') {
 						this.couponDetail = res.content
-					}else{
+					} else {
 						sessionStorage.removeItem('agentPhone')
 					}
 				}).catch(() => {})
 			},
 		},
 		mounted() {
+			this.itemNo = this.$route.query.itemNo
+
 			this.getMedicineItemsList() //咨询项目列表
 			if(sessionStorage.getItem('agentPhone')) {
 				this.couponDetailShow = true
 				this.getDueryCoupon()
-			}else{
+			} else {
 				this.couponDetailShow = false
 			}
 			this.phone = sessionStorage.getItem('phone') || null
+			this.phone =  _utils.getCookie('phone')
 			this.name = sessionStorage.getItem('visitName') || null
 			this.reserveTime = sessionStorage.getItem('reserveTime') || null
 			this.doctor = sessionStorage.getItem('doctor') || null
@@ -338,7 +357,7 @@
 		width: 100%;
 		height: 100%;
 		background: #F8F8F8;
-		.van-cell:not(:last-child)::after{
+		.van-cell:not(:last-child)::after {
 			right: 1.5rem;
 		}
 		.title {

@@ -193,6 +193,7 @@ export default {
                         setCookie('accessToken', res.accessToken, 7)
                         setCookie('mmTicket', res.accessToken, 7)
                         setCookie('channel', 'hido_h5', 7)
+                         setCookie('phone', this.phone, 7)
                         // this.$router.go(-1) // 哪来回哪去
                         this.$router.push(this.$route.query.redirect || '/')
                     }

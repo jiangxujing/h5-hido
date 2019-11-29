@@ -41,5 +41,5 @@
     "reserveDoctor":"/customer/reserveDoctor",
     "queryCoupon":"/customer/getCoupon",
     "paymentType":"/customer/paymentType",
-    "isHasParentAgent":"/customer/isHasParentAgent"
+    "isHasParentAgent":"/customer/hasParentAgent"
 }

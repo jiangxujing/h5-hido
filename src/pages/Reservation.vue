@@ -64,10 +64,16 @@
 			</ul>
 		</div>
 		<van-popup v-model="consultationTimeShow" closeable position="bottom" :style="{ height: '60%' }">
-			<!--<van-datetime-picker v-model="currentDate" type="datetime" @confirm="confirm" @cancel="cancelTime" :min-date="minDate"/>-->
-			<van-datetime-picker v-model="currentDate" type="date" :min-date="minDate" @confirm="confirm" @cancel="cancelTime" />
-			<ul>
-				<li v-for="t in time" class="time">{{t}}</li>
+			<!--<van-datetime-picker v-model="currentDate" type="date" @confirm="confirm" @cancel="cancelTime" :min-date="minDate"/>-->
+			<div v-show="dateShow">
+				<van-datetime-picker v-model="currentDate" type="date" @confirm="confirm" @cancel="cancelTime" :min-date="minDate"/>
+			</div>
+			<ul v-show="timeShow">
+				<!--<div style="display: flex;height:4rem;background: #fff;line-height:4rem;color:#1989fa;text-align: center;font-size:14px;">
+					<div style="flex:1" @click="timeShow=false,consultationTimeShow=false">取消</div>
+					<div style="flex:1" @click="confirmAllTime">确定</div>
+				</div>-->
+				<li  v-for="(t,index) in time" :key="index" class="time" @click="selectTime(index,t)" :class="timeindex == index?'active-time':''">{{t}}</li>
 			</ul>
 		</van-popup>
 		<div class="comfirm-reservation-wrapper" @click="comfirmBox=false" v-show="comfirmBox">
@@ -124,18 +130,27 @@
 				doctoractive: -1,
 				couponDetail: null,
 				couponDetailShow: false,
-				minDate: new Date(),
+				dateShow:true,
+				timeShow:false,
+				timeindex:-1,
+				minDate:new Date(),
 				time:['9:00-10:00','10:00-11:00','11:00-12:00','12:00-13:00','13:00-14:00','14:00-15:00','15:00-16:00','16:00-17:00','17:00-18:00','18:00-19:00']
 			}
 		},
 		methods: {
 			//选择面诊时间方法
 			confirm(val) {
-				this.consultationTimeShow = false
+				//this.consultationTimeShow = false
+				this.dateShow = false
+				this.timeShow = true
 				this.advisorysetShow = true
 				console.log(val) // 打印出了时间
-				this.reserveTime = val ? _utils.dateFormatter(val, "yyyy-MM-dd") : ''
-				sessionStorage.setItem('reserveTime', this.reserveTime)
+				this.dateTime = val ? _utils.dateFormatter(val, "yyyy-MM-dd") : ''
+				
+			},
+			confirmAllTime(){
+				this.reserveTime = this.dateTime +' '+this.timehour
+				this.consultationTimeShow = false
 			},
 			cancelTime() {
 				this.consultationTimeShow = false
@@ -161,6 +176,8 @@
 			//面诊时间弹框展示
 			openTime() {
 				this.consultationTimeShow = true
+				this.timeShow = false
+				this.dateShow = true
 			},
 			checkEmpty() {
 				if(this.phone && this.phone.length == 11 && this.projectName && this.doctor && this.reserveTime && this.name) {
@@ -188,7 +205,23 @@
 					this.advisorysetShow = true
 				}
 			},
-
+			selectTime(index,t){
+				this.timehour = t
+				this.reserveTime = this.dateTime +' '+this.timehour
+				this.consultationTimeShow = false
+				this.frontendTime = t.split('-')[0]+':00'
+				let time = this.dateTime+' '+this.frontendTime
+				this.appointmentDate = new Date(time)
+				console.log(this.appointmentDate)
+				sessionStorage.setItem('reserveTime', this.appointmentDate)
+				console.log(this.appointmentDate)
+				console.log(t.split('-')[0])
+				if(index != this.timeindex) {
+						this.timeindex = index;
+					} else {
+						this.timeindex = -1;
+					}
+			},
 			//选择项目列表和医师列表方法
 			selectadvisory(index, params, i, list) {
 				if(params == 1) {
@@ -249,7 +282,7 @@
 						doctorNo: this.doctorNo || null,
 						medicineItemNo: this.projectItemNo || null, //项目编号
 						medicineItemName: this.projectName || null,
-						appointmentDate: new Date(this.reserveTime).getTime() || null,
+						appointmentDate: new Date(this.appointmentDate).getTime() || null,
 						customerName: this.name || null,
 						customerPhone: this.phone || null
 					}
@@ -261,7 +294,7 @@
 						doctorNo: this.doctorNo || null,
 						medicineItemNo: this.projectItemNo || null, //项目编号
 						medicineItemName: this.projectName || null,
-						appointmentDate: new Date(this.reserveTime).getTime() || null,
+						appointmentDate: new Date(this.appointmentDate).getTime() || null,
 						customerName: this.name || null,
 						customerPhone: this.phone || null
 					}
@@ -440,7 +473,6 @@
 			left: 0;
 			.comfirm-reservation {
 				width: 72%;
-				height: 25rem;
 				background: #fff;
 				border-radius: 1.4rem;
 				margin: 22rem auto 0;
@@ -451,7 +483,7 @@
 				}
 				.project-list {
 					line-height: 3rem;
-					padding-left: 1.8rem;
+					padding-left: 1.2rem;
 					.project-left {}
 					.project-right {
 						padding-left: 0.5rem;
@@ -460,8 +492,17 @@
 				.comfirmBtn {
 					text-align: center;
 					padding-top: 1.4rem;
+					padding-bottom:1.5rem;
 				}
 			}
+		}
+		.time{
+			font-size:1.9rem;
+			line-height:4rem;
+			padding-left:5rem;
+		}
+		.active-time{
+			color:#1989fa;
 		}
 	}
 </style>

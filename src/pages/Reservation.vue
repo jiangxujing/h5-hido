@@ -146,7 +146,6 @@
 				this.advisorysetShow = true
 				console.log(val) // 打印出了时间
 				this.dateTime = val ? _utils.dateFormatter(val, "yyyy-MM-dd") : ''
-				
 			},
 			confirmAllTime(){
 				this.reserveTime = this.dateTime +' '+this.timehour
@@ -162,6 +161,7 @@
 					this.advisoryShow = true
 					this.advisorysetShow = false
 					this.doctorShow = false
+					this.getMedicineItemsTotalList()
 				} else if(params == 2) {
 					if(!this.projectName) {
 						Toast('咨询项目不能为空')
@@ -219,6 +219,9 @@
 					} else {
 						this.timeindex = -1;
 					}
+				if(this.projectName && this.doctor && this.reserveTime && this.name && this.phone.length == 11) {
+					this.gray = false
+				}
 			},
 			//选择项目列表和医师列表方法
 			selectadvisory(index, params, i, list) {
@@ -237,6 +240,7 @@
 					sessionStorage.setItem('projectName', this.projectName)
 					sessionStorage.setItem('projectItemNo', this.projectItemNo)
 					sessionStorage.setItem('projectactive', this.projectactive)
+					sessionStorage.setItem('selectItem',1)
 				} else if(params == 2) {
 					this.doctorShow = false
 					this.advisorysetShow = true
@@ -314,18 +318,30 @@
 
 				}).catch(() => {})
 			},
+			getMedicineItemsTotalList() {
+				api.post(api.getUrl('medicineItemsList'), {}).then(res => {
+					this.consultingList = res.content
+					this.consultingList.forEach((i,k) => {
+						console.log(i)
+						console.log(k)
+						if(i.itemNo == this.projectItemNo){
+							sessionStorage.setItem('projectactive',k)
+							this.projectactive = k
+						}
+				});
+				}).catch(() => {})
+			},
 			getMedicineItemsList() {
 				let req = {
 					medicineItemNo: this.itemNo || null
 				}
 				api.post(api.getUrl('medicineItemsList'), req).then(res => {
-					if(this.itemNo) {
-						this.projectItemNo = res.content.itemNo
-						this.projectName = res.content.itemName
+					if(this.itemNo && sessionStorage.getItem('selectItem')!=1) {
+						this.projectItemNo = res.content[0].itemNo
+						this.projectName = res.content[0].itemName
 						sessionStorage.setItem('projectName', this.projectName)
 						sessionStorage.setItem('projectItemNo', this.projectItemNo)
 					}
-					this.consultingList = res.content
 					this.name = sessionStorage.getItem('visitName') || null
 					this.reserveTime = this.appointmentDate = sessionStorage.getItem('reserveTime') || null
 					this.appointmentDate = sessionStorage.getItem('appointmentDate') || null

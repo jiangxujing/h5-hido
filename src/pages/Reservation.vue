@@ -63,7 +63,7 @@
 				</li>
 			</ul>
 		</div>
-		<van-popup v-model="consultationTimeShow" closeable position="bottom" :style="{ height: '60%' }">
+			<van-popup v-model="consultationTimeShow" closeable position="bottom" :style="{ height: '60%',background:'#fff!important' }">
 			<div v-show="dateShow">
 				<van-datetime-picker v-model="currentDate" type="date" @confirm="confirm" @cancel="cancelTime" :min-date="minDate"/>
 			</div>
@@ -427,7 +427,7 @@
 		.list-style {
 			height: 6rem;
 			background: #fff;
-			line-height: 7rem;
+			padding-top:2rem;
 			padding-left: 1.5rem;
 			.list-content {
 				border-bottom: 1px solid #F8F8F8;
@@ -447,7 +447,6 @@
 		.right-arrow {
 			width: 2.2rem;
 			float: right;
-			margin-top: 2.2rem;
 		}
 		.drop-down {
 			background: #fff;

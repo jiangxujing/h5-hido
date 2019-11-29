@@ -17,20 +17,20 @@
 		<van-popup v-model="show" closeable position="bottom" :style="{ height: '60%' }" class="city-info">
 			<ul>
 				<li class="title-address">省</li>
-				<li v-for="(p,index) in provinceList" :key="index" @click="selectCountry(p)" :class="p.active?'active':''">
+				<li v-for="(p,index) in provinceList" :key="index" @click="selectCountry(p)" class="city-list" :class="p.active?'active-address':''">
 					{{p.provinceName}}
 				</li>
 			</ul>
 			<ul>
 				<li class="title-address">市</li>
-				<li v-for="(c,index) in cityList" :key="index" @click="selectCity(c)" :class="c.active?'active':''">
+				<li v-for="(c,index) in cityList" :key="index" @click="selectCity(c)" class="city-list" :class="c.active?'active-address':''">
 					{{c.cityName}}
 				</li>
 
 			</ul>
 			<ul>
 				<li class="title-address">区</li>
-				<li v-for="(d,index) in districtList" :key="index" @click="selectDistric(d)" :class="d.active?'active':''">
+				<li v-for="(d,index) in districtList" :key="index" @click="selectDistric(d)" class="city-list" :class="d.active?'active-address':''">
 					{{d.countyName}}
 				</li>
 			</ul>
@@ -182,6 +182,7 @@
 			}
 		},
 		mounted() {
+			document.title="添加收货地址"
 			this.getCountryList()
 			let params = {
 				interceptBack: false
@@ -249,10 +250,17 @@
 				.title-address {
 					font-weight: bold;
 					line-height: 5rem;
+					position:fixed;
+					height:5rem;
+					width:33.3%;
+					background:#fff;
+				}
+				li:nth-child(2){
+					padding-top:5rem;
 				}
 			}
 		}
-		.active {
+		.active-address {
 			color: red
 		}
 	}

@@ -66,6 +66,9 @@
 		<van-popup v-model="consultationTimeShow" closeable position="bottom" :style="{ height: '60%' }">
 			<!--<van-datetime-picker v-model="currentDate" type="datetime" @confirm="confirm" @cancel="cancelTime" :min-date="minDate"/>-->
 			<van-datetime-picker v-model="currentDate" type="date" :min-date="minDate" @confirm="confirm" @cancel="cancelTime" />
+			<ul>
+				<li v-for="t in time" class="time">{{t}}</li>
+			</ul>
 		</van-popup>
 		<div class="comfirm-reservation-wrapper" @click="comfirmBox=false" v-show="comfirmBox">
 			<div class="comfirm-reservation">
@@ -121,7 +124,8 @@
 				doctoractive: -1,
 				couponDetail: null,
 				couponDetailShow: false,
-				minDate: new Date()
+				minDate: new Date(),
+				time:['9:00-10:00','10:00-11:00','11:00-12:00','12:00-13:00','13:00-14:00','14:00-15:00','15:00-16:00','16:00-17:00','17:00-18:00','18:00-19:00']
 			}
 		},
 		methods: {

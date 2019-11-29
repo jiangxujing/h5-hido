@@ -68,7 +68,10 @@ export default {
             } else if (!!this.amount && !amoutReg.test(this.amount)) {
                 Toast('抵扣金额格式有误')
                 this.amount = null
-            } else if (this.amount > this.payAmount * this.couponsProportion) {
+            } else if (!this.payAmount && this.amount > 5000) {
+                Toast('抵扣金额要小于等于5000')
+                this.amount = null
+            } else if (!!this.payAmount && (this.amount > this.payAmount * this.couponsProportion)) {
                 let amountTips = '抵扣金额有误，请填写小于等于' + this.payAmount * this.couponsProportion + '的金额'
                 Toast(amountTips)
                 this.amount = null

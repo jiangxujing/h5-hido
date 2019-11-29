@@ -69,6 +69,7 @@
 			  v-model="currentDate"
 			  type="date"
 			  :min-date="minDate"
+			  @confirm="confirm" @cancel="cancelTime"
 			/>
 		</van-popup>
 		<div class="comfirm-reservation-wrapper" @click="comfirmBox=false" v-show="comfirmBox">
@@ -134,7 +135,7 @@
 				this.consultationTimeShow = false
 				this.advisorysetShow = true
 				console.log(val) // 打印出了时间
-				this.reserveTime = val ? _utils.dateFormatter(val, "yyyy-MM-dd HH:mm:ss") : ''
+				this.reserveTime = val ? _utils.dateFormatter(val, "yyyy-MM-dd") : ''
 				sessionStorage.setItem('reserveTime', this.reserveTime)
 			},
 			cancelTime() {
@@ -289,6 +290,19 @@
 					this.consultingList = res.content
 					this.projectItemNo = res.content.itemNo
 					this.projectName = res.content.itemName
+					this.name = sessionStorage.getItem('visitName') || null
+					this.reserveTime = sessionStorage.getItem('reserveTime') || null
+					this.doctor = sessionStorage.getItem('doctor') || null
+					this.projectName = sessionStorage.getItem('projectName') || this.projectName
+					this.projectItemNo = sessionStorage.getItem('projectItemNo') || null
+					this.doctorNo = sessionStorage.getItem('doctorNo') || null
+					this.doctor = sessionStorage.getItem('doctor') || null
+					this.checked = sessionStorage.getItem('checked') || false
+					this.projectactive = sessionStorage.getItem('projectactive') || null
+					this.doctoractive = sessionStorage.getItem('doctoractive') || null
+					if(this.projectName && this.doctor && this.reserveTime && this.name && this.phone && this.phone.length == 11) {
+						this.gray = false
+					}
 				}).catch(() => {})
 			},
 			getDoctorsList() {
@@ -330,19 +344,6 @@
 				this.getDueryCoupon()
 			} else {
 				this.couponDetailShow = false
-			}
-			this.name = sessionStorage.getItem('visitName') || null
-			this.reserveTime = sessionStorage.getItem('reserveTime') || null
-			this.doctor = sessionStorage.getItem('doctor') || null
-			this.projectName = sessionStorage.getItem('projectName') || null
-			this.projectItemNo = sessionStorage.getItem('projectItemNo') || null
-			this.doctorNo = sessionStorage.getItem('doctorNo') || null
-			this.doctor = sessionStorage.getItem('doctor') || null
-			this.checked = sessionStorage.getItem('checked') || false
-			this.projectactive = sessionStorage.getItem('projectactive') || null
-			this.doctoractive = sessionStorage.getItem('doctoractive') || null
-			if(this.projectName && this.doctor && this.reserveTime && this.name && this.phone && this.phone.length == 11) {
-				this.gray = false
 			}
 			document.title = "预约"
 		},

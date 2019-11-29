@@ -64,8 +64,12 @@
 			</ul>
 		</div>
 		<van-popup v-model="consultationTimeShow" closeable position="bottom" :style="{ height: '60%' }">
-			<van-datetime-picker v-model="currentDate" type="datetime" @confirm="confirm" @cancel="cancelTime" :min-date="minDate"  :min-hour="9"
-  :max-hour="20" :formatter="formatter"/>
+			<!--<van-datetime-picker v-model="currentDate" type="datetime" @confirm="confirm" @cancel="cancelTime" :min-date="minDate"/>-->
+			<van-datetime-picker
+			  v-model="currentDate"
+			  type="date"
+			  :min-date="minDate"
+			/>
 		</van-popup>
 		<div class="comfirm-reservation-wrapper" @click="comfirmBox=false" v-show="comfirmBox">
 			<div class="comfirm-reservation">
@@ -125,16 +129,6 @@
 			}
 		},
 		methods: {
-			  formatter(type, value) {
-          　　if (type === 'year') {
-            　　return `${value}年`;
-          　　} else if (type === 'month') {
-          　　  return `${value}月`
-          　　} else if (type === 'day') {
-            　　return `${value}日`
-          　　} 
-          　　return value;
-        　　},
 			//选择面诊时间方法
 			confirm(val) {
 				this.consultationTimeShow = false
@@ -232,12 +226,9 @@
 				}
 			},
 			getReservation() {
-				const  mobileReg  =  /^(1)+\d{10}$/
 				const regu = /^[a-zA-Z\u4e00-\u9fa5]{2,15}$/;
 				const re = new RegExp(regu);
-				if(!mobileReg.test(this.phone)) {
-					Toast('请填写正确的手机号')
-				} else if(_utils.getByteLen(this.name) < 4) {
+				if(_utils.getByteLen(this.name) < 4) {
 					Toast('请至少输入2位汉字')
 				} else if(this.name.search(re) < 0) {
 					Toast('姓名格式有误，只能输入中英文')
@@ -320,19 +311,26 @@
 					}
 				}).catch(() => {})
 			},
+			isHasParentAgent(){
+				api.post(api.getUrl('isHasParentAgent'), {}).then(res => {
+					if(res.code == '000') {
+						this.phone = res.content.customerPhone
+					} else {
+						sessionStorage.removeItem('agentPhone')
+					}
+				}).catch(() => {})
+			}
 		},
 		mounted() {
 			this.itemNo = this.$route.query.itemNo
-
 			this.getMedicineItemsList() //咨询项目列表
+			this.isHasParentAgent()
 			if(sessionStorage.getItem('agentPhone')) {
 				this.couponDetailShow = true
 				this.getDueryCoupon()
 			} else {
 				this.couponDetailShow = false
 			}
-			this.phone = sessionStorage.getItem('phone') || null
-			this.phone =  _utils.getCookie('phone')
 			this.name = sessionStorage.getItem('visitName') || null
 			this.reserveTime = sessionStorage.getItem('reserveTime') || null
 			this.doctor = sessionStorage.getItem('doctor') || null

@@ -54,7 +54,7 @@
 
 <script>
 import { Toast, Field, Button, Popup } from 'vant'
-import { setCookie,getQueryString } from '../common/utils.js'
+import { setCookie, getQueryString, checkRules } from '../common/utils.js'
 import api from '../common/api.js'
 
 export default {
@@ -120,11 +120,9 @@ export default {
         },
         // 获取验证码
         getVerify () {
-            // const mobileReg = /^((13[0-9])|(14[0-9])|(15[0-9])|(17[0-9])|(18[0-9])|166|198|199)+\d{8}$/
-            const mobileReg = /^(1)+\d{10}$/
             if (!this.phone) {
                 Toast('请输入手机号')
-            } else if (!mobileReg.test(this.phone)) {
+            } else if (!checkRules(this.phone, 'mobileReg')) {
                 Toast('手机号码格式有误')
             } else {
             	sessionStorage.setItem('phone',this.phone)
@@ -161,7 +159,7 @@ export default {
         },
         // 登录
         toNext () {
-            if (!(/^\d+$/).test(this.verifyCode)) {
+            if (!checkRules(this.verifyCode, 'integerReg')) {
                 Toast('验证码有误')
             } else if (this.phone !== this.checkedPhone) {
                 Toast('请重新获取验证码')

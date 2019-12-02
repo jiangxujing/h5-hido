@@ -664,17 +664,22 @@ export const checkTel = () => {
 //		return
 //	}
 //}
-  export const  getByteLen =(value) =>{
-        let cnReg = /([\u4e00-\u9fa5]|[\u3000-\u303F]|[\uFF00-\uFF60])/g
-        let mat = value.match(cnReg)
-        let length
-        if (mat) {
-          length = (mat.length + (value.length - mat.length) * 0.5)
-          return length
-        } else {
-          return value.length * 0.5
-        }
-      }
+
+/*
+ * 设置中文字符输入长度
+ */
+export const getByteLen = (value) => {
+	let cnReg = /([\u4e00-\u9fa5]|[\u3000-\u303F]|[\uFF00-\uFF60])/g
+	let mat = value.match(cnReg)
+	let length
+	if (mat) {
+		length = (mat.length + (value.length - mat.length) * 0.5)
+	} else {
+		length = value.length * 0.5
+	}
+	return length
+}
+
 /*
  * 获取支付方式名称
  */
@@ -697,6 +702,26 @@ export const getpPayType = (value) => {
 		item.value == value ? label = item.label : '' 
 	})
 	return label
+}
+
+
+/*
+ * 校验
+ */
+export const checkRules = (value, type) => {
+	const rules = {
+		// mobileReg: /^((13[0-9])|(14[0-9])|(15[0-9])|(17[0-9])|(18[0-9])|166|198|199)+\d{8}$/,								// 手机号
+		mobileReg: /^(1)+\d{10}$/,								// 手机号
+		nameReg: /^[\u4e00-\u9fa5]+(·[\u4e00-\u9fa5]+)*$/,		// 中文姓名
+		chineseReg: /^[\u4e00-\u9fa5]*$/,						// 中文
+		idCardNoReg: /^(^\d{18}$)|(^\d{17}(\d|X|x)$)$/,			// 身份证
+		positiveIntegerReg: /^[1-9]\d*$/,						// 正整数
+		integerReg: /^\d+$/										// 整数
+	}
+	if (!rules[type]) {
+		return false
+	}
+	return rules[type].test(value)
 }
 
 export default {
@@ -722,5 +747,6 @@ export default {
 	resetWindow,
 	checkTel,
 	getByteLen,
-	getpPayType
+	getpPayType,
+	checkRules
 }

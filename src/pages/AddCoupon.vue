@@ -37,6 +37,7 @@
 <script>
 import { Toast } from 'vant'
 import api from '../common/api.js'
+import { checkRules } from '../common/utils.js'
 
 export default {
     name: 'add-coupon',
@@ -57,15 +58,14 @@ export default {
     computed:{
         // 监听页面数据
         watchData: function () {
-            const amoutReg = /^[1-9]\d*$/
-            if (!!this.payAmount && !amoutReg.test(this.payAmount)) {
+            if (!!this.payAmount && !checkRules(this.payAmount, 'positiveIntegerReg')) {
                 Toast('支付金额格式有误')
                 this.payAmount = null
             } else if (this.payAmount > 5000/this.couponsProportion) {
                 let payAmountTips = '支付金额有误，请填写小于等于' + parseInt(5000/this.couponsProportion) + '的金额'
                 Toast(payAmountTips)
                 this.payAmount = null
-            } else if (!!this.amount && !amoutReg.test(this.amount)) {
+            } else if (!!this.amount && !checkRules(this.amount, 'positiveIntegerReg')) {
                 Toast('抵扣金额格式有误')
                 this.amount = null
             } else if (!this.payAmount && this.amount > 5000) {
@@ -95,17 +95,9 @@ export default {
         },
         // 创建
         toNext () {
-            const mobileReg = /^(1)+\d{10}$/
-            // const amoutReg = /^[1-9]\d*$/
-            if (!mobileReg.test(this.mobile)) {
+            if (!checkRules(this.mobile, 'mobileReg')) {
                 Toast('用户手机号有误')
                 return false
-            // } else if (!amoutReg.test(this.payAmount)) {
-            //     Toast('支付金额格式有误')
-            //     return false
-            // } else if (!amoutReg.test(this.amount)) {
-            //     Toast('抵扣金额格式有误')
-            //     return false
             } else {
                 let datas = {
                     payAmount: this.payAmount*100,

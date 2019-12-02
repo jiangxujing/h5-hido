@@ -39,7 +39,8 @@
 			}
 		},
 		mounted() {
-			if(parseFloat(sessionStorage.getItem('reservation'))){
+			 this.$route.query.reservation==1?this.reservationShow = true:this.reservationShow = false
+			if(parseFloat(sessionStorage.getItem('reservation')) || this.$route.query.reservation==1){
 				document.title = '预约成功'
 			}else{
 				document.title = '支付成功'

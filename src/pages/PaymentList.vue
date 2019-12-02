@@ -71,7 +71,7 @@
 				this.$set(i, "active", true);
 			},
 			getSuccess(){
-				this.$router.push("/reservationStatus")
+				this.$router.push("/reservationStatus?businessNo="+this.businessNo+'&reservation='+1)
 			},
 			getError(){
 				this.h5Show = false
@@ -86,7 +86,7 @@
 					this.buyed = null
 					if(res.code == '000') {
 						sessionStorage.setItem('h5paysuccess',true)
-						let uri = location.origin + '/h5-hido/index.html#/paymentList&h5paysuccess='+sessionStorage.getItem('h5paysuccess')+'&salesPrice='+sessionStorage.getItem('reservationMoney')+'&businessNo='+sessionStorage.getItem('businessNo')
+						let uri = location.origin + '/h5-hido/index.html#/paymentList?h5paysuccess='+sessionStorage.getItem('h5paysuccess')+'&salesPrice='+sessionStorage.getItem('reservationMoney')+'&businessNo='+sessionStorage.getItem('businessNo')
 						let linkUrl = encodeURIComponent(uri)
 						let sceneInfo = JSON.parse(res.content.respExt)
 						this.jumpUrl = sceneInfo.mWebUrl

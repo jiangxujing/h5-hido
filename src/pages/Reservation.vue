@@ -131,7 +131,7 @@
 				dateShow:true,
 				timeShow:false,
 				timeindex:-1,
-				minDate:new Date(),
+				minDate:new Date(new Date().getTime() + 24*60*60*1000),
 				number:20,
 				nameLong:false,
 				projectName:'请选择',

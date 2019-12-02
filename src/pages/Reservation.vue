@@ -284,7 +284,6 @@
 			comfirmReservation() {
 				sessionStorage.setItem('visitName', this.name)
 				sessionStorage.setItem('phone', this.phone)
-				Toast(this.appointmentDate)
 				let req = {}
 				if(!this.checked) {
 					req = {

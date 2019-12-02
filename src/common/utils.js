@@ -647,24 +647,6 @@ export const checkTel = () => {
 	return strTemp
 }
 
-//export const getByteLen = (val) => {
-//	var len = 0;
-//	for(var i = 0; i < val.length; i++) {
-//		var a = val.charAt(i);
-//		if(a.match(/[^\x00-\xff]/ig) != null) {
-//			len += 2;
-//		} else {
-//			len += 1;
-//		}
-//	}
-//	
-//	if(len<=10){
-//		return len
-//	}else{
-//		return
-//	}
-//}
-
 /*
  * 设置中文字符输入长度
  */

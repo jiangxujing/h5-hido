@@ -61,14 +61,14 @@ export default {
             if (!!this.payAmount && !checkRules(this.payAmount, 'positiveIntegerReg')) {
                 Toast('支付金额格式有误')
                 this.payAmount = null
-            } else if (this.payAmount > 5000/this.couponsProportion) {
-                let payAmountTips = '支付金额有误，请填写小于等于' + parseInt(5000/this.couponsProportion) + '的金额'
+            } else if (this.payAmount > 5000) {
+                let payAmountTips = '支付金额有误，请填写小于等于5000的金额'
                 Toast(payAmountTips)
                 this.payAmount = null
             } else if (!!this.amount && !checkRules(this.amount, 'positiveIntegerReg')) {
                 Toast('抵扣金额格式有误')
                 this.amount = null
-            } else if (!this.payAmount && this.amount > 5000) {
+            } else if (this.amount > 5000) {
                 Toast('抵扣金额要小于等于5000')
                 this.amount = null
             } else if (!!this.payAmount && (this.amount > this.payAmount * this.couponsProportion)) {
@@ -76,7 +76,9 @@ export default {
                 Toast(amountTips)
                 this.amount = null
             }
-            this.amountPlaceholder = !(this.payAmount * this.couponsProportion) ? '请填写抵扣金额' : '最大可抵扣' + this.payAmount * this.couponsProportion + '元'
+            this.amountPlaceholder = !(this.payAmount * this.couponsProportion) ?
+                '请填写抵扣金额' :
+                this.payAmount * this.couponsProportion > 5000 ? '最大可抵扣5000元' : '最大可抵扣' + this.payAmount * this.couponsProportion + '元'
             // 下一步按钮
             this.nextBtn = this.payAmount && this.amount && this.mobile ? false : true
         }

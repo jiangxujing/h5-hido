@@ -319,11 +319,10 @@
 				}
 				api.post(api.getUrl('reserveDoctor'), req).then(res => {
 					if(res.code == 0) {
-						sessionStorage.setItem('reservation', 1)
 							sessionStorage.setItem('businessNo', res.content.businessNo)
 							this.couponDetail?sessionStorage.setItem('reservationMoney', this.couponDetail.payAmount):''
 						if(!this.checked) {
-							this.$router.push("/reservationStatus")
+							this.$router.push("/reservationStatus?reservation="+1)
 						} else {
 							this.$router.push("/paymentList")
 						}

@@ -4,8 +4,8 @@
 			<div class="title font-28 color-833 DINAlternate-Bold font-weight-500">
 				请输入推荐人手机号
 			</div>
-			<div class="border-style" :class="{borderactive:phone}">
-				<van-field @input="changeTel" v-model="phone" type="tel" maxLength='13' placeholder="请输入推荐人手机号" clearable/>
+			<div class="border-style" :class="{borderactive:agentPhone}">
+				<van-field @input="changeTel" v-model="agentPhone" type="tel" maxLength='13' placeholder="请输入推荐人手机号" clearable/>
 			</div>
 		</div>
 		<div class="btn">
@@ -14,14 +14,14 @@
 			<div class="jump-over font-16 color-966 font-weight-400" @click="jumpNext">跳过</div>
 		</div>
 		<div class="orderWrapper" v-if="invalidShow">
-				<div class="order-content">
-					<div class="title">提示</div>
-					<div style="color:#353535;font-size:1.5rem;">该手机号不是代理哦~</div>
-					<div class="borderStyle"></div>
-					<button class="canle" @click="invalidShow=false">取消</button>
-					<button class="confirm" @click="jumpNext">继续</button>
-				</div>
+			<div class="order-content">
+				<div class="title">提示</div>
+				<div style="color:#353535;font-size:1.5rem;">该手机号不是代理哦~</div>
+				<div class="borderStyle"></div>
+				<button class="canle" @click="invalidShow=false">取消</button>
+				<button class="confirm" @click="jumpNext">继续</button>
 			</div>
+		</div>
 	</div>
 </template>
 <script>
@@ -31,29 +31,34 @@
 		name: '',
 		data() {
 			return {
-				phone:'',
+				agentPhone: '',
 				grayShow: true,
-				invalidShow:false
+				invalidShow: false
 			}
 		},
 		methods: {
 			getNext() {
 				const  mobileReg  =  /^(1)+\d{10}$/
-				   let phone =  this.phone.replace(/\s+/g, "")
-				   console.log(phone)
-				if(!mobileReg.test(phone)) {
+				let agentPhone =  this.agentPhone.replace(/\s+/g, "")
+				console.log(agentPhone)
+				if(!mobileReg.test(agentPhone)) {
 					Toast('请填写正确的手机号')
 					return false
 				} else {
-					sessionStorage.setItem('agentPhone',phone)
-					this.getDueryCoupon()
+					if(this.customerPhone == agentPhone){
+						Toast('推荐人手机号不能与登陆手机号为同一个')
+					}else{
+						sessionStorage.setItem('agentPhone', agentPhone)
+						this.getDueryCoupon()
+					}
+				
 				}
 			},
 			changeTel() {
-				var value = this.phone; 
+				var value = this.agentPhone; 
 				value = value.replace(/\s*/g, "");               
 				var result = [];               
-				for(var i = 0; i < value.length; i++){                 
+				for(var i = 0; i < value.length; i++) {                 
 					if(i == 3 || i == 7)                  {                   
 						result.push(" " + value.charAt(i));                 
 					}                 
@@ -61,9 +66,9 @@
 						result.push(value.charAt(i));                 
 					}               
 				}               
-				this.phone = result.join("");
-				console.log(this.phone.length)
-				if(this.phone.length == 13) {
+				this.agentPhone = result.join("");
+				console.log(this.agentPhone.length)
+				if(this.agentPhone.length == 13) {
 					this.grayShow = false
 				} else {
 					this.grayShow = true
@@ -74,12 +79,12 @@
 				let req = {
 					agentPhone: sessionStorage.getItem('agentPhone')
 				}
-				api.post(api.getUrl('queryCoupon'), req,true).then(res => {
+				api.post(api.getUrl('queryCoupon'), req, true).then(res => {
 					sessionStorage.removeItem('checked')
-					if(res.code == '000'){
+					if(res.code == '000') {
 						console.log('ggggg')
 						this.$router.push("/reservation")
-					}else{
+					} else {
 						console.log('hhhhhh')
 						this.invalidShow = true
 					}
@@ -87,12 +92,20 @@
 			},
 			jumpNext() {
 				this.$router.push("/reservation")
+			},
+			isHasParentAgent() {
+				api.post(api.getUrl('isHasParentAgent'), {}, true).then(res => {
+					if(res.code == '000') {
+						this.customerPhone = res.content.customerPhone
+					}
+				}).catch(() => {})
 			}
 		},
 		mounted() {
 			document.title = "输入推荐人手机号"
-			this.phone = sessionStorage.getItem('agentPhone') || null
-			if(this.phone){
+			this.isHasParentAgent()
+			this.agentPhone = sessionStorage.getItem('agentPhone') || null
+			if(this.agentPhone) {
 				this.changeTel()
 			}
 		},

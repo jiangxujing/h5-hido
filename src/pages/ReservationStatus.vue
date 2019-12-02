@@ -27,7 +27,7 @@
 				advisoryShow: false,
 				advisorysetShow: true,
 				gray: true,
-				reservationShow:parseFloat(sessionStorage.getItem('reservation'))
+				reservationShow:this.$route.query.reservation
 			}
 		},
 		methods: {
@@ -35,12 +35,12 @@
 				this.$router.push("/confirmedReserve?businessNo="+sessionStorage.getItem('businessNo'))
 			},
 			goOrderDetail(){
-				this.$router.push("/orderDetail")
+				this.$router.push("/orderDetail?orderNo="+sessionStorage.getItem('orderNo'))
 			}
 		},
 		mounted() {
-			 this.$route.query.reservation==1 || parseFloat(sessionStorage.getItem('reservation'))?this.reservationShow = true:this.reservationShow = false
-			if(parseFloat(sessionStorage.getItem('reservation')) || this.$route.query.reservation==1){
+			 this.$route.query.reservation==1?this.reservationShow = true:this.reservationShow = false
+			if(this.$route.query.reservation==1){
 				document.title = '预约成功'
 			}else{
 				document.title = '支付成功'

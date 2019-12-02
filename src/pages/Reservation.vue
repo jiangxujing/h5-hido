@@ -25,7 +25,7 @@
 			</div>
 			<div class="font-12 color-399 title">就诊人信息</div>
 			<van-cell-group :border="false">
-				<van-field v-model="name" center clearable label="姓名" placeholder="请输入姓名" maxlength="20" @input="checkEmpty()" class="list-style">
+				<van-field v-model="name" type="text" center clearable label="姓名" :maxLength=number placeholder="请输入姓名" @input="checkEmpty('name')" class="list-style">
 				</van-field>
 				<van-field v-model="phone" center :readonly=true clearable label="手机号" type="tel" placeholder="请选择" @input="checkEmpty()" maxlength="11" class="list-style">
 				</van-field>
@@ -116,7 +116,7 @@
 				reserveTime: '',
 				projectName: '',
 				doctor: '',
-				name: '',
+				name:'',
 				phone: sessionStorage.getItem('phone') || null,
 				checked: false, //抵扣券是否选中，
 				consultingList: [],
@@ -130,6 +130,7 @@
 				timeindex:-1,
 				minDate:new Date(),
 				couponDetailShow:false,
+				number:20,
 				time:['9:00-10:00','10:00-11:00','11:00-12:00','12:00-13:00','13:00-14:00','14:00-15:00','15:00-16:00','16:00-17:00','17:00-18:00','18:00-19:00']
 			}
 		},
@@ -175,7 +176,14 @@
 				this.timeShow = false
 				this.dateShow = true
 			},
-			checkEmpty() {
+			checkEmpty(params) {
+				if(params == 'name'){
+					if(_utils.getByteLen(this.name) >= 10){
+						this.number = _utils.getByteLen(this.name)
+					}else{
+						this.number = 20
+					}
+				}
 				if(this.phone && this.phone.length == 11 && this.projectName && this.doctor && this.reserveTime && this.name) {
 					this.gray = false
 					sessionStorage.setItem('visitName', this.name)

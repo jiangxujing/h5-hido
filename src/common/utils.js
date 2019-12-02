@@ -647,20 +647,34 @@ export const checkTel = () => {
 	return strTemp
 }
 
-export const getByteLen = (val) => {
-	var len = 0;
-	for(var i = 0; i < val.length; i++) {
-		var a = val.charAt(i);
-		if(a.match(/[^\x00-\xff]/ig) != null) {
-			len += 2;
-		} else {
-			len += 1;
-		}
-	}
-	console.log(len)
-	return len;
-}
-
+//export const getByteLen = (val) => {
+//	var len = 0;
+//	for(var i = 0; i < val.length; i++) {
+//		var a = val.charAt(i);
+//		if(a.match(/[^\x00-\xff]/ig) != null) {
+//			len += 2;
+//		} else {
+//			len += 1;
+//		}
+//	}
+//	
+//	if(len<=10){
+//		return len
+//	}else{
+//		return
+//	}
+//}
+  export const  getByteLen =(value) =>{
+        let cnReg = /([\u4e00-\u9fa5]|[\u3000-\u303F]|[\uFF00-\uFF60])/g
+        let mat = value.match(cnReg)
+        let length
+        if (mat) {
+          length = (mat.length + (value.length - mat.length) * 0.5)
+          return length
+        } else {
+          return value.length * 0.5
+        }
+      }
 /*
  * 获取支付方式名称
  */

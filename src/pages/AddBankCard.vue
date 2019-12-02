@@ -33,7 +33,7 @@
                     :maxlength="nameMaxlength"
                     label="本人姓名"
                     placeholder="请输入本人姓名"
-                    @input="(value) => {nameMaxlength = $utils.getByteLen(value) >= 9.5 ? $utils.getByteLen(value) : 20}"
+                    @input="(value) => {nameMaxlength = $utils.getByteLen(value) >= 9.5 ? $utils.getByteLen(value) : 20, name = name.slice(0, 10)}"
                     @clear="clearVerifyCode" />
                 <van-field
                     v-model="idNo"

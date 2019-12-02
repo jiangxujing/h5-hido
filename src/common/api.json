@@ -14,6 +14,8 @@
     "customer-reserveDetail": "/customer/reserveDetail",
     "customer-createFeeOrder": "/customer/createFeeOrder",
     "customer-confirmVisit": "/customer/confirmVisit",
+    "customer-feeOrderDetail": "/customer/feeOrderDetail",
+    "customer-feeOrderPreview": "/customer/feeOrderPreview",
 
     "agent-queryMyteam":"/agent/queryMyteam",
     "agent-queryBills":"/agent/queryBills",

@@ -283,8 +283,11 @@
 			comfirmReservation() {
 				sessionStorage.setItem('visitName', this.name)
 				sessionStorage.setItem('phone', this.phone)
+				alert(this.appointmentDate)
+				alert(new Date(this.appointmentDate).getTime())
+				Toast(this.appointmentDate)
+				Toast(new Date(this.appointmentDate).getTime())
 				let req = {}
-				console.log(_utils.dateFormatter(new Date(this.appointmentDate), "yyyy/MM/dd HH:mm") )
 				if(!this.checked) {
 					req = {
 						agentPhone: sessionStorage.getItem('agentPhone') || this.agentPhone, //推荐人手机号,

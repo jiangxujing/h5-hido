@@ -214,7 +214,7 @@
 				this.consultationTimeShow = false
 				this.frontendTime = t.split('-')[0]+':00'
 				let time = this.dateTime+' '+this.frontendTime
-				this.appointmentDate = _utils.dateFormatter(new Date(time),"yyyy-MM-dd HH:mm")
+				this.appointmentDate = _utils.dateFormatter(new Date(time),"yyyy/MM/dd HH:mm")
 				sessionStorage.setItem('reserveTime',this.reserveTime)//显示时间
 				sessionStorage.setItem('appointmentDate',this.appointmentDate)
 				if(index != this.timeindex) {
@@ -284,7 +284,7 @@
 				sessionStorage.setItem('visitName', this.name)
 				sessionStorage.setItem('phone', this.phone)
 				let req = {}
-				console.log(_utils.dateFormatter(new Date(this.appointmentDate), "yyyy-MM-dd HH:mm") )
+				console.log(_utils.dateFormatter(new Date(this.appointmentDate), "yyyy/MM/dd HH:mm") )
 				if(!this.checked) {
 					req = {
 						agentPhone: sessionStorage.getItem('agentPhone') || this.agentPhone, //推荐人手机号,

@@ -72,8 +72,7 @@
 			buyNow(){
 				let req = {
 					businessNo: sessionStorage.getItem('businessNo'),
-					payType: 'WX_H5',
-					clientIp:'99.48.46.69'
+					payType: 'WX_H5'
 				}
 				api.post(api.getUrl('reservePay'), req).then(res => {
 					this.buyed = null

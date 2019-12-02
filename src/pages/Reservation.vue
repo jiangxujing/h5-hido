@@ -214,7 +214,8 @@
 				this.consultationTimeShow = false
 				this.frontendTime = t.split('-')[0]+':00'
 				let time = this.dateTime+' '+this.frontendTime
-				this.appointmentDate = _utils.dateFormatter(new Date(time),"yyyy/MM/dd HH:mm")
+				this.appointmentDate = new Date(time.replace(/-/g, '/')).getTime()
+				alert(this.appointmentDate)
 				sessionStorage.setItem('reserveTime',this.reserveTime)//显示时间
 				sessionStorage.setItem('appointmentDate',this.appointmentDate)
 				if(index != this.timeindex) {
@@ -283,10 +284,7 @@
 			comfirmReservation() {
 				sessionStorage.setItem('visitName', this.name)
 				sessionStorage.setItem('phone', this.phone)
-				alert(this.appointmentDate)
-				alert(new Date(this.appointmentDate).getTime())
 				Toast(this.appointmentDate)
-				Toast(new Date(this.appointmentDate).getTime())
 				let req = {}
 				if(!this.checked) {
 					req = {
@@ -295,7 +293,7 @@
 						doctorNo: this.doctorNo || null,
 						medicineItemNo: this.projectItemNo || null, //项目编号
 						medicineItemName: this.projectName || null,
-						appointmentDate: new Date(this.appointmentDate).getTime() || null,
+						appointmentDate:this.appointmentDate || null,
 						customerName: this.name || null,
 						customerPhone: this.phone || null
 					}
@@ -307,7 +305,7 @@
 						doctorNo: this.doctorNo || null,
 						medicineItemNo: this.projectItemNo || null, //项目编号
 						medicineItemName: this.projectName || null,
-						appointmentDate: new Date(this.appointmentDate).getTime() || null,
+						appointmentDate: this.appointmentDate || null,
 						customerName: this.name || null,
 						customerPhone: this.phone || null
 					}

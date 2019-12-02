@@ -30,19 +30,10 @@
                 <van-field
                     v-model="name"
                     clearable
-                    maxlength="16"
+                    maxlength="20"
                     label="本人姓名"
                     placeholder="请输入本人姓名"
                     @clear="clearVerifyCode" />
-                <!-- <van-field
-                    :value="idNo"
-                    readonly
-                    clearable
-                    maxlength="18"
-                    label="身份证号"
-                    placeholder="请输入身份证号"
-                    @touchstart.native.stop="keyboardshow = true"
-                    @clear="clearVerifyCode" /> -->
                 <van-field
                     v-model="idNo"
                     clearable
@@ -93,15 +84,13 @@
                 <van-button @click="popupShow=false">取 消</van-button>
             </div>
         </van-popup>
-        <!-- <van-number-keyboard v-model="idNo" :show="keyboardshow" extra-key="X" :maxlength="18" @blur="keyboardshow=false" /> -->
     </div>            
 </template>
 
 <script>
-// import { Toast, Field, Button, Popup, Checkbox, CheckboxGroup, NumberKeyboard } from 'vant'
 import { Toast, Field, Button, Popup, Checkbox, CheckboxGroup } from 'vant'
 import api from '../common/api.js'
-import { htmlFontSize, resetFontSize, resetWindow } from '@/common/utils.js'
+import { checkRules } from '../common/utils.js'
 
 export default {
     name: 'add-bank-card',
@@ -193,10 +182,6 @@ export default {
         },
         // 表单校验
         checkForm () {
-            const mobileReg = /^(1)+\d{10}$/
-            const nameReg = /^[\u4e00-\u9fa5]+(·[\u4e00-\u9fa5]+)*$/
-            const branchReg = /^[\u4e00-\u9fa5]*$/
-            const idCardNoReg = /^(^\d{18}$)|(^\d{17}(\d|X|x)$)$/
             if (!this.bankName) {
                 Toast('请选择开户行')
                 return false
@@ -209,7 +194,7 @@ export default {
             } else if (!this.bankBranch) {
                 Toast('请输入开户支行')
                 return false
-            } else if (!branchReg.test(this.bankBranch) || this.bankBranch.replace(/\s/g, '').length < 4) {
+            } else if (!checkRules(this.bankBranch, 'chineseReg') || this.bankBranch.replace(/\s/g, '').length < 4) {
                 Toast('支行信息格式错误')
                 return false
             } else if (!this.name) {
@@ -217,19 +202,19 @@ export default {
                 return false
             } else if (this.name.length < 2) {
                 Toast('本人姓名至少输入2位汉字')
-            } else if (!nameReg.test(this.name)) {
+            } else if (!checkRules(this.name, 'nameReg')) {
                 Toast('请输入中文姓名')
                 return false
             } else if (!this.idNo) {
                 Toast('请输入身份证号')
                 return false
-            } else if (!idCardNoReg.test(this.idNo)) {
+            } else if (!checkRules(this.idNo, 'idCardNoReg')) {
                 Toast('身份证号输入有误')
                 return false
             } else if (!this.phone) {
                 Toast('请输入手机号码')
                 return false
-            } else if (!mobileReg.test(this.phone)) {
+            } else if (!checkRules(this.phone, 'mobileReg')) {
                 Toast('手机号码有误')
                 return false
             } else {
@@ -284,7 +269,7 @@ export default {
         },
         // 提交
         toNext () {
-            if (!(/^\d+$/).test(this.verifyCode)) {
+            if (!checkRules(this.verifyCode, 'integerReg')) {
                 Toast('验证码有误')
                 return false
             } else if (this.phone !== this.checkedPhone) {

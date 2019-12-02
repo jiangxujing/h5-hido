@@ -91,31 +91,6 @@ export default {
                     }
                 }
             })
-            // let res = {
-            //     content: {}
-            // }
-            // res.content = {
-            //     medicineItemName: '鼻综合',
-            //     doctorName: '宋一刀',
-            //     businessNo: '4838488888574848',
-            //     createTime: 1574840600563,
-            //     appointmentDate: 1575040600563,
-            //     deductionAmount: 50000,
-            //     payAmount: 5000
-            // }
-            // let content = res.content
-            // for (let key in content) {
-            //     if (key == 'deductionAmount' || key == 'payAmount') {
-            //         // this.orderForm[key] = Math.round(content[key]/100)
-            //         this.orderForm[key] = formatMoney(content[key], 1)
-            //     } else if (key == 'createTime' || key == 'appointmentDate') {
-            //         this.orderForm[key] = content[key] ? dateFormatter(new Date(content[key]), 'yyyy-MM-dd HH:mm:ss') : ''
-            //     } else {
-            //         this.orderForm[key] = content[key]
-            //     }
-            // }
-            // this.orderForm.amount = !!content.payAmount && content.payAmount > 0 ? '预付￥' + this.orderForm.payAmount + '抵￥' + this.orderForm.deductionAmount : ''
-            // this.request = true
         }
     }
 }

@@ -99,20 +99,7 @@ export default {
                     }
                 }
             })
-        },
-        // // 确认到店
-        // confirmPay () {
-        //     let datas = {
-        //         businessNo: this.orderForm.businessNo
-        //     }
-        //     api.post(api.getUrl('customer-confirmVisit'), datas).then(res => {
-        //         if (!!res && res.code === 0) {
-        //             this.request = true
-        //             Toast('确认到店成功')
-        //             this.getOrderDetail()
-        //         }
-        //     })
-        // }
+        }
     }
 }
 </script>

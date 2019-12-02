@@ -154,7 +154,7 @@ export default {
             //                     totalOffer += content[key]
             //                     this.orderForm['orderItemList'].push(data)
             //                 } else if (key == 'meiyaOrderOpenTime' || key == 'payTime') {
-            //                     this.orderForm[key] = content[key] ? dateFormatter(new Date(content[key]), 'yyyy-MM-dd hh:mm:ss') : ''
+            //                     this.orderForm[key] = content[key] ? dateFormatter(new Date(content[key]), 'yyyy-MM-dd HH:mm:ss') : ''
             //                 } else {
             //                     this.orderForm[key] = content[key]
             //                 }
@@ -243,7 +243,7 @@ export default {
                     totalOffer += content[key]
                     this.orderForm['orderItemList'].push(data)
                 } else if (key == 'meiyaOrderOpenTime' || key == 'payTime') {
-                    this.orderForm[key] = content[key] ? dateFormatter(new Date(content[key]), 'yyyy-MM-dd hh:mm:ss') : ''
+                    this.orderForm[key] = content[key] ? dateFormatter(new Date(content[key]), 'yyyy-MM-dd HH:mm:ss') : ''
                 } else if (key == 'payType') {
                     this.orderForm[key] = getpPayType(content[key])
                 } else {

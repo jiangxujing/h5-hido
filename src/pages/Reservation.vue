@@ -130,6 +130,7 @@
 				timeindex:-1,
 				minDate:new Date(),
 				number:20,
+				nameLong:false,
 				time:['9:00-10:00','10:00-11:00','11:00-12:00','12:00-13:00','13:00-14:00','14:00-15:00','15:00-16:00','16:00-17:00','17:00-18:00','18:00-19:00']
 			}
 		},
@@ -179,11 +180,14 @@
 				if(params == 'name'){
 					if(_utils.getByteLen(this.name) >= 10){
 						this.number = _utils.getByteLen(this.name)
+						Toast('姓名长度不能大于20')
+						this.nameLong = true
 					}else{
 						this.number = 20
+						this.nameLong = false
 					}
 				}
-				if(this.phone && this.phone.length == 11 && this.projectName && this.doctor && this.reserveTime && this.name) {
+				if(this.phone && this.phone.length == 11 && this.projectName && this.doctor && this.reserveTime && this.name && !this.nameLong) {
 					this.gray = false
 					sessionStorage.setItem('visitName', this.name)
 				} else {
@@ -215,7 +219,6 @@
 				this.frontendTime = t.split('-')[0]+':00'
 				let time = this.dateTime+' '+this.frontendTime
 				this.appointmentDate = new Date(time.replace(/-/g, '/')).getTime()
-				alert(this.appointmentDate)
 				sessionStorage.setItem('reserveTime',this.reserveTime)//显示时间
 				sessionStorage.setItem('appointmentDate',this.appointmentDate)
 				if(index != this.timeindex) {

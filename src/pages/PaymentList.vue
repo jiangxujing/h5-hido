@@ -47,7 +47,8 @@
 		            "payTypeDesc": "么么钱包"
 		        }],
 		        salesPrice: sessionStorage.getItem('reservationMoney'),
-		        h5Show:false
+		        h5Show:false,
+		        buyed:null
 			}
 		},
 		methods: {
@@ -69,32 +70,53 @@
 				})
 				this.$set(i, "active", true);
 			},
-			buyNow(){
+			getSuccess(){
+				this.$router.push("/reservationStatus")
+			},
+			getError(){
+				this.h5Show = false
+				console.log(this.h5Show)
+			},
+			payH5(){
 				let req = {
-					businessNo: sessionStorage.getItem('businessNo'),
+					businessNo: sessionStorage.getItem('businessNo') || this.businessNo,
 					payType: 'WX_H5'
 				}
 				api.post(api.getUrl('reservePay'), req).then(res => {
 					this.buyed = null
 					if(res.code == '000') {
 						sessionStorage.setItem('h5paysuccess',true)
-						let uri = location.origin + '/h5-hido/index.html#/paymentList&h5paysuccess='+sessionStorage.getItem('h5paysuccess')
+						let uri = location.origin + '/h5-hido/index.html#/paymentList&h5paysuccess='+sessionStorage.getItem('h5paysuccess')+'&salesPrice='+sessionStorage.getItem('reservationMoney')+'&businessNo='+sessionStorage.getItem('businessNo')
 						let linkUrl = encodeURIComponent(uri)
 						let sceneInfo = JSON.parse(res.content.respExt)
 						this.jumpUrl = sceneInfo.mWebUrl
 						console.log('99999999999999='+this.jumpUrl)
 						setTimeout(() => {
-							location.href = this.jumpUrl
+							location.href = this.jumpUrl+'&redirect_url=' + linkUrl
 						}, 200)
 						
 					}
 				}).catch((e) => {
 
 				})
+			},
+			buyNow(){
+				if(this.buyed){
+					Toast('请勿提交订单过块！')
+				}else{
+					this.payH5()
+				}
+				
 			}
 		},
 		mounted() {
 			document.title = "选择支付方式"
+			this.h5paysuccess = this.$route.query.h5paysuccess
+			 this.$route.query.salesPrice?this.salesPrice = this.$route.query.salesPrice:this.salesPrice = sessionStorage.getItem('reservationMoney')
+				this.$route.query.businessNo?this.businessNo = this.$route.query.businessNo:this.businessNo=sessionStorage.getItem('businessNo')
+			if(sessionStorage.getItem('h5paysuccess') || this.h5paysuccess){
+				this.h5Show = true
+			}
 //				this.withdrawalDetail.cardList.forEach((i) => {
 //					this.$set(i, "active", false);
 //				});

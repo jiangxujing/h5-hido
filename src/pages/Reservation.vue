@@ -86,7 +86,7 @@
 					<span class="project-left font-14 color-399">预约时间：</span>
 					<span class="project-right font-16 color-833">{{reserveTime}}</span>
 				</div>
-				<div class="project-list" v-if="couponDetail">
+				<div class="project-list" v-if="couponDetail && checked">
 					<span class="project-left font-14 color-399">预付金：</span>
 					<span class="project-right font-16 color-833">{{couponDetail.payAmount/100}}元</span><span class="color-B31 font-12" v-if="checked">（实际付款抵扣{{couponDetail.deductionAmount/100}}元）</span>
 				</div>
@@ -371,7 +371,7 @@
 				let req = {
 					agentPhone: sessionStorage.getItem('agentPhone') || this.agentPhone
 				}
-				api.post(api.getUrl('queryCoupon'), req, true).then(res => {
+				api.post(api.getUrl('queryCoupon'), req).then(res => {
 					if(res.code == '000') {
 						this.couponDetail = res.content
 						if(this.couponDetail.couponNo){

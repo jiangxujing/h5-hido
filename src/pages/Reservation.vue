@@ -129,7 +129,6 @@
 				timeShow:false,
 				timeindex:-1,
 				minDate:new Date(),
-				couponDetailShow:false,
 				number:20,
 				time:['9:00-10:00','10:00-11:00','11:00-12:00','12:00-13:00','13:00-14:00','14:00-15:00','15:00-16:00','16:00-17:00','17:00-18:00','18:00-19:00']
 			}
@@ -272,7 +271,7 @@
 			getReservation() {
 				const regu = /^[a-zA-Z\u4e00-\u9fa5]{2,15}$/;
 				const re = new RegExp(regu);
-				if(_utils.getByteLen(this.name) < 4) {
+				if(_utils.getByteLen(this.name) < 2) {
 					Toast('请至少输入2位汉字')
 				} else if(this.name.search(re) < 0) {
 					Toast('姓名格式有误，只能输入中英文')
@@ -313,11 +312,12 @@
 				api.post(api.getUrl('reserveDoctor'), req).then(res => {
 					if(res.code == 0) {
 						sessionStorage.setItem('reservation', 1)
-						if(!this.checked) {
 							sessionStorage.setItem('businessNo', res.content.businessNo)
+							sessionStorage.setItem('reservationMoney', this.couponDetail.payAmount)
+						if(!this.checked) {
 							this.$router.push("/reservationStatus")
 						} else {
-							this.$router.push("/PaymentMethod")
+							this.$router.push("/paymentList")
 						}
 
 					} else {

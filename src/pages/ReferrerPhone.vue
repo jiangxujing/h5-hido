@@ -92,7 +92,9 @@
 		mounted() {
 			document.title = "输入推荐人手机号"
 			this.phone = sessionStorage.getItem('agentPhone') || null
-			this.changeTel()
+			if(this.phone){
+				this.changeTel()
+			}
 		},
 	}
 </script>

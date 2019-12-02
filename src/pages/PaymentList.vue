@@ -39,7 +39,7 @@
 		            "payTypeCode": "3333",
 		            "payTypeDesc": "么么钱包"
 		        }],
-		        salesPrice:'1000'
+		        salesPrice: sessionStorage.getItem('reservationMoney'),
 			}
 		},
 		methods: {
@@ -60,6 +60,31 @@
 					this.$set(i, "active", false);
 				})
 				this.$set(i, "active", true);
+			},
+			buyNow(){
+				let req = {
+					businessNo: sessionStorage.getItem('businessNo'),
+					payType: 'WX_H5',
+					clientIp:'kh26482ip'
+				}
+				api.post(api.getUrl('pay', 'collections'), req).then(res => {
+					this.buyed = null
+					if(res.code == 0) {
+						sessionStorage.setItem('h5paysuccess',true)
+						let uri = location.origin + '/h5-hido/index.html#/orderDetail?packageCode='+sessionStorage.getItem('packageCode')+'&h5paysuccess='+sessionStorage.getItem('h5paysuccess')
+						let linkUrl = encodeURIComponent(uri)
+						let sceneInfo = JSON.parse(res.content.sceneInfo)
+						console.log(uri)
+						this.jumpUrl = sceneInfo.mWebUrl
+						console.log(this.jumpUrl + '&redirect_url=' + linkUrl)
+						setTimeout(() => {
+							location.href = this.jumpUrl+'&redirect_url=' + linkUrl
+						}, 200)
+						
+					}
+				}).catch((e) => {
+
+				})
 			}
 		},
 		mounted() {
@@ -67,7 +92,7 @@
 //				this.withdrawalDetail.cardList.forEach((i) => {
 //					this.$set(i, "active", false);
 //				});
-			this.getPaymentList()
+			//this.getPaymentList()
 			
 		},
 	}

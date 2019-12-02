@@ -30,10 +30,9 @@
                 <van-field
                     v-model="name"
                     clearable
-                    :maxlength="nameMaxlength"
+                    maxlength="20"
                     label="本人姓名"
                     placeholder="请输入本人姓名"
-                    @input="(value) => {nameMaxlength = $utils.getByteLen(value) >= 9.5 ? ($utils.getByteLen(value), name = name.slice(0, 10)) : 20}"
                     @clear="clearVerifyCode" />
                 <van-field
                     v-model="idNo"
@@ -122,8 +121,7 @@ export default {
             phone: '',
             checked: false,
             bankList: [],
-            popupShow: false,
-            nameMaxlength: 20
+            popupShow: false
         }
     },
     mounted () {

@@ -1,18 +1,19 @@
 <template>
 	<div class="reservation">
 		<div v-show="advisorysetShow">
-			<div class="font-12 color-399 title">预约信息</div>
+			<div>
+				<div class="font-12 color-399 title">预约信息</div>
 			<div class="list-style" @click="openAdvisoryList('1')">
 				<div class="list-content">
 					<label for="name" class="font-15 color-833">咨询项目</label>
-					<input type="text" placeholder="请选择" class="advisory-list" v-model="projectName" />
+					<input type="text" placeholder="请选择" class="advisory-list" v-model="projectName" disabled="true"/>
 					<img src="../assets/images/arrow.png" class="right-arrow" />
 				</div>
 			</div>
 			<div class="list-style" @click="openAdvisoryList(2)">
 				<div class="list-content">
 					<label for="name" class="font-15 color-833">医师</label>
-					<input type="text" placeholder="请选择" class="advisory-list" v-model="doctor" />
+					<input type="text" placeholder="请选择" class="advisory-list" v-model="doctor" disabled="true"/>
 					<img src="../assets/images/arrow.png" class="right-arrow" />
 				</div>
 			</div>
@@ -36,7 +37,8 @@
 				<img src="../assets/images/radio-checked.png" class="radioChecked" v-if="checked" />
 				<img src="../assets/images/radio-no.png" class="radioChecked" v-else/>
 			</div>
-			<div style="text-align: center;padding-top:5rem;width:100%;position:fixed;bottom:2.5rem;">
+			</div>
+			<div style="text-align: center;padding-top:5rem;width: 100%;padding: 8rem 14% 6rem 14%">
 				<button class="reservation-btn opacity-style font-17" v-if="gray">预约</button>
 				<button class="reservation-btn font-17" v-else @click="getReservation">预约</button>
 			</div>
@@ -431,6 +433,11 @@
 		width: 100%;
 		height: 100%;
 		background: #F8F8F8;
+			display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		height: 100%;
+		min-height: 50rem;
 		.van-cell:not(:last-child)::after {
 			right: 1.5rem;
 		}
@@ -456,6 +463,7 @@
 		}
 		.advisory-list {
 			border: none;
+			background: none;
 			padding-left: 1rem;
 			font-size: 1.5rem;
 			width:20rem;
@@ -496,7 +504,7 @@
 			}
 		}
 		.reservation-btn {
-			width: 71%;
+			width: 100%;
 			height: 4.5rem;
 			background: linear-gradient(132deg, rgba(255, 175, 130, 1) 0%, rgba(255, 123, 49, 1) 100%);
 			border-radius: 2.3rem;

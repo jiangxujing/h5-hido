@@ -11,7 +11,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/hido-core/**': {
-        target: 'http://192.168.199.66:8080',
+        target: 'http://99.48.46.67:8080',
         secure: false,
         changeOrigin: false,
       },

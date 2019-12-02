@@ -17,6 +17,13 @@
 			<div style="text-align: center;">
 				<button class="buy-now" @click="buyNow">立即支付</button>
 			</div>
+			<div class="orderH5Wrapper" v-show="h5Show">
+			<div class="content">
+				<div class="title">请确认微信支付是否完成</div>
+				<div class="success" @click="getSuccess">已完成支付</div>
+				<div class="error" @click="getError">支付遇到问题，重新支付</div>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -40,6 +47,7 @@
 		            "payTypeDesc": "么么钱包"
 		        }],
 		        salesPrice: sessionStorage.getItem('reservationMoney'),
+		        h5Show:false
 			}
 		},
 		methods: {
@@ -65,20 +73,19 @@
 				let req = {
 					businessNo: sessionStorage.getItem('businessNo'),
 					payType: 'WX_H5',
-					clientIp:'kh26482ip'
+					clientIp:'99.48.46.69'
 				}
-				api.post(api.getUrl('pay', 'collections'), req).then(res => {
+				api.post(api.getUrl('reservePay'), req).then(res => {
 					this.buyed = null
-					if(res.code == 0) {
+					if(res.code == '000') {
 						sessionStorage.setItem('h5paysuccess',true)
-						let uri = location.origin + '/h5-hido/index.html#/orderDetail?packageCode='+sessionStorage.getItem('packageCode')+'&h5paysuccess='+sessionStorage.getItem('h5paysuccess')
+						let uri = location.origin + '/h5-hido/index.html#/paymentList&h5paysuccess='+sessionStorage.getItem('h5paysuccess')
 						let linkUrl = encodeURIComponent(uri)
-						let sceneInfo = JSON.parse(res.content.sceneInfo)
-						console.log(uri)
+						let sceneInfo = JSON.parse(res.content.respExt)
 						this.jumpUrl = sceneInfo.mWebUrl
-						console.log(this.jumpUrl + '&redirect_url=' + linkUrl)
+						console.log('99999999999999='+this.jumpUrl)
 						setTimeout(() => {
-							location.href = this.jumpUrl+'&redirect_url=' + linkUrl
+							location.href = this.jumpUrl
 						}, 200)
 						
 					}
@@ -150,6 +157,38 @@
 				margin-top: 0.8rem;
 				float: right;
 				margin-right: 1.5rem;
+			}
+		}
+		.orderH5Wrapper{
+			width:100%;
+			height:100%;
+			background: rgba(0,0,0,.6);
+			position:fixed;
+			left:0;
+			top:0;
+			.content{
+				width:70%;
+				height:20rem;
+				background: #fff;
+				border-radius:1.5rem;
+				margin: 40% auto;
+				.title{
+					color:#1A2833;
+					font-size:1.6rem;
+					font-weight: bold;
+					padding: 2rem 0;
+    				text-align: center;
+				}
+				.success{
+					color:#FE3750;
+				}
+				.success,.error{
+					font-size:1.4rem;
+					text-align: center;
+					border-bottom: 1px solid #eee;
+					padding: 1rem;
+					font-weight: 400;
+				}
 			}
 		}
 	}

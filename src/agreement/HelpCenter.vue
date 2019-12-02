@@ -1,7 +1,8 @@
 <template>
 	<div class="agreement help-center">
-        <h5 class="agreement-title">帮助中心</h5>
-		<div class="agreement-main">
+		<div class="agreement-content">
+			<h5 class="agreement-title">帮助中心</h5>
+			<div class="agreement-main"></div>
 		</div>
 	</div>
 </template>
@@ -24,15 +25,14 @@ export default {
 </script>
 
 <style lang="scss" scope>
-	body {
+	.agreement {
 		background-color: #F5F5F5;
 		padding-top: 1rem;
-	}
-
-	.agreement {
-		width: 100%;
-		background-color:#fff;
-		padding: 8px 20px 28px;
+		.agreement-content {
+			width: 100%;
+			background-color:#fff;
+			padding: 8px 20px 28px;
+		}
 		p {
 			margin-bottom: 6px;
 		}

@@ -60,6 +60,7 @@
 					})
 				})
 			})
+			sessionStorage.getItem('h5paysuccess')?sessionStorage.removeItem('h5paysuccess'):''
 		}
 	}
 </script>

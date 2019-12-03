@@ -1176,7 +1176,7 @@ input::-webkit-input-placeholder {
         line-height: 2.8rem;
     }
     .item-info-name {
-        width: 44%;
+        width: 46%;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -1186,7 +1186,7 @@ input::-webkit-input-placeholder {
         text-align: center;
     }
     .item-info-price {
-        width: 44%;
+        width: 46%;
         text-align: right;
     }
     .original-amount {
@@ -1204,7 +1204,13 @@ input::-webkit-input-placeholder {
     }
     .detail-info-item {
         overflow: hidden;
-        line-height: 2.8rem;
+        display: flex;
+        line-height: 2rem;
+        padding: .4rem 0;
+    }
+    .detail-info-r {
+        text-align: right;
+        flex: 1;
     }
     .order-detail-foot {
         width: 100%;

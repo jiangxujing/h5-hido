@@ -11,7 +11,7 @@
                                 <div class="item-info-name">{{item.itemName}}</div>
                                 <div class="item-info-count">{{item.itemCount ? 'X' + item.itemCount : ''}}</div>
                                 <div class="item-info-price">
-                                    <span v-if="item.salesAmount">{{'￥' + $utils.formatMoney(item.salesAmount, 1)}}</span>
+                                    <span v-if="item.salesAmount !== null ">{{'￥' + $utils.formatMoney(item.salesAmount, 1)}}</span>
                                     <span class="original-amount" v-if="!!item.originalPrice && item.originalPrice !== item.salesAmount">{{'￥' + $utils.formatMoney(item.originalPrice, 1)}}</span>
                                     <span class="theme-color" v-if="item.writeoffAmount">{{'-￥' + $utils.formatMoney(item.writeoffAmount, 1)}}</span>
                                 </div>
@@ -23,20 +23,20 @@
                         <p class="detail-item-title">订单信息</p>
                         <div class="detail-info">
                             <p class="detail-info-item">
-                                <span class="fl-l">开单号：</span>
-                                <span class="fl-r">{{orderForm.meiyaOrderNo}}</span>
+                                <span class="detail-info-l">开单号：</span>
+                                <span class="detail-info-r">{{orderForm.meiyaOrderNo}}</span>
                             </p>
                             <p class="detail-info-item">
-                                <span class="fl-l">开单人：</span>
-                                <span class="fl-r">{{orderForm.meiyaOrderWriter}}</span>
+                                <span class="detail-info-l">开单人：</span>
+                                <span class="detail-info-r">{{orderForm.meiyaOrderWriter}}</span>
                             </p>
                             <p class="detail-info-item">
-                                <span class="fl-l">开单时间：</span>
-                                <span class="fl-r">{{orderForm.meiyaOrderOpenTime}}</span>
+                                <span class="detail-info-ll">开单时间：</span>
+                                <span class="detail-info-r">{{orderForm.meiyaOrderOpenTime}}</span>
                             </p>
                             <p class="detail-info-item">
-                                <span class="fl-l">备注：</span>
-                                <span class="fl-r">{{orderForm.meiyaOrderMemo}}</span>
+                                <span class="detail-info-l">备注：</span>
+                                <span class="detail-info-r">{{orderForm.meiyaOrderMemo}}</span>
                             </p>
                         </div>
                     </div>
@@ -44,12 +44,12 @@
                         <p class="detail-item-title">支付信息</p>
                         <div class="detail-info">
                             <p class="detail-info-item">
-                                <span class="fl-l">支付方式：</span>
-                                <span class="fl-r">{{orderForm.payType}}</span>
+                                <span class="detail-info-l">支付方式：</span>
+                                <span class="detail-info-r">{{orderForm.payType}}</span>
                             </p>
                             <p class="detail-info-item">
-                                <span class="fl-l">支付时间：</span>
-                                <span class="fl-r">{{orderForm.payTime}}</span>
+                                <span class="detail-info-l">支付时间：</span>
+                                <span class="detail-info-r">{{orderForm.payTime}}</span>
                             </p>
                         </div>
                     </div>
@@ -83,8 +83,8 @@ export default {
                 meiyaOrderWriter: '',
                 meiyaOrderOpenTime: '',
                 meiyaOrderMemo: '',
-                totalFees: null,
-                totalOffer: null
+                totalFees: 0,
+                totalOffer: 0
             }
         }
     },
@@ -121,7 +121,7 @@ export default {
                         let totalOffer = 0
                         for (let key in content) {
                             if (key == 'orderItemList') {
-                                let orderItemList = content[key]
+                                let orderItemList = content[key] ? content[key] : []
                                 orderItemList.forEach(item => {
                                     let data = {
                                         itemNo: item.itemNo,
@@ -135,125 +135,38 @@ export default {
                                     this.orderForm[key].push(data)
                                 })
                             } else if (key == 'packageWriteoffs') {
-                                let packageWriteoffs = content[key]
+                                let packageWriteoffs = content[key] ? content[key] : []
                                 packageWriteoffs.forEach(item => {
                                     let data = {
                                         itemNo: item.itemNo,
                                         itemName: item.itemName,
-                                        writeoffAmount: item.writeoffAmount
+                                        writeoffAmount: item.writeoffAmount,
+                                        salesAmount: null
                                     }
                                     totalFees = totalFees - item.writeoffAmount
                                     totalOffer += item.writeoffAmount
                                     this.orderForm['orderItemList'].push(data)
                                 })
-                            } else if (key == 'deductionAmount') {
+                            } else if (key == 'deductionAmount' && content[key]) {
                                 let data = {
                                     itemName: '预付金抵扣',
-                                    writeoffAmount: content[key]
+                                    writeoffAmount: content[key],
+                                    salesAmount: null
                                 }
+                                totalFees = totalFees - content[key]
                                 totalOffer += content[key]
                                 this.orderForm['orderItemList'].push(data)
-                            } else if (key == 'meiyaOrderOpenTime' || key == 'payTime') {
-                                this.orderForm[key] = content[key] ? dateFormatter(new Date(content[key]), 'yyyy-MM-dd HH:mm:ss') : ''
+                            // } else if (key == 'meiyaOrderOpenTime' || key == 'payTime') {
+                            //     this.orderForm[key] = content[key] ? dateFormatter(new Date(content[key]), 'yyyy-MM-dd HH:mm:ss') : ''
                             } else {
                                 this.orderForm[key] = content[key]
                             }
                         }
-                        
+                        this.orderForm.totalFees = totalFees
+                        this.orderForm.totalOffer = totalOffer
                     }
                 }
-                this.orderForm.totalFees = totalFees
-                this.orderForm.totalOffer = totalOffer
             })
-            let res = {
-                content: {}
-            }
-            res.content = {
-                status: '00',
-                orderItemList: [{
-                    itemName: '血常规',
-                    itemCount: 1,
-                    originalPrice: 10000,
-                    salesAmount: 8000
-                }, {
-                    itemName: '乙肝表面抗原',
-                    itemCount: 1,
-                    originalPrice: 22200,
-                    salesAmount: 22200
-                }, {
-                    itemName: '名字贼长贼长贼长贼长贼长贼长贼长还不够长还要长长长',
-                    itemCount: 1,
-                    originalPrice: 0,
-                    salesAmount: 88000
-                }, {
-                    itemName: '束身衣',
-                    itemCount: 1,
-                    originalPrice: 50000,
-                    salesAmount: 50000
-                }],
-                packageWriteoffs: [{
-                    itemName: '束身衣(礼包)',
-                    itemNo: '9574122',
-                    writeoffAmount: 66600
-                }],
-                deductionAmount: 666600,
-                meiyaOrderNo: '1284738585',
-                meiyaOrderWriter: '宋一刀',
-                meiyaOrderOpenTime: 1574840600563,
-                meiyaOrderMemo: '局麻化验套餐',
-                payTime: 1574940600563,
-                payType: 'WX',
-                totalFees: 39900,
-                totalOffer: 62000
-            }
-            let content = res.content
-            let totalFees = 0
-            let totalOffer = 0
-            for (let key in content) {
-                if (key == 'orderItemList') {
-                    let orderItemList = content[key]
-                    orderItemList.forEach(item => {
-                        let data = {
-                            itemNo: item.itemNo,
-                            itemName: item.itemName,
-                            itemCount: item.itemCount,
-                            salesAmount: item.salesAmount,
-                            originalPrice: item.originalPrice
-                        }
-                        totalFees += item.salesAmount
-                        item.originalPrice > item.salesAmount ? totalOffer += (item.originalPrice - item.salesAmount) : ''
-                        this.orderForm[key].push(data)
-                    })
-                } else if (key == 'packageWriteoffs') {
-                    let packageWriteoffs = content[key]
-                    packageWriteoffs.forEach(item => {
-                        let data = {
-                            itemNo: item.itemNo,
-                            itemName: item.itemName,
-                            writeoffAmount: item.writeoffAmount
-                        }
-                        totalFees = totalFees - item.writeoffAmount
-                        totalOffer += item.writeoffAmount
-                        this.orderForm['orderItemList'].push(data)
-                    })
-                } else if (key == 'deductionAmount') {
-                    let data = {
-                        itemName: '预付金抵扣',
-                        writeoffAmount: content[key]
-                    }
-                    totalOffer += content[key]
-                    this.orderForm['orderItemList'].push(data)
-                } else if (key == 'meiyaOrderOpenTime' || key == 'payTime') {
-                    this.orderForm[key] = content[key] ? dateFormatter(new Date(content[key]), 'yyyy-MM-dd HH:mm:ss') : ''
-                } else if (key == 'payType') {
-                    this.orderForm[key] = getpPayType(content[key])
-                } else {
-                    this.orderForm[key] = content[key]
-                }
-            }
-            this.orderForm.totalFees = totalFees
-            this.orderForm.totalOffer = totalOffer
-            this.request = true
         },
         // 确认支付
         confirmPay () {
@@ -265,7 +178,7 @@ export default {
                     this.request = true
                     if (!!res.content) {
                         let query = {
-                            orderAmount: res.content.orderAmount,
+                            orderAmount: res.content.actualAmount,
                             orderNo: res.content.businessNo,
                             fromOrder: 1
                         }
@@ -276,18 +189,6 @@ export default {
                         })
                     }
                 }
-            })
-            Toast('暂无接口！')
-            if (!this.meiyaOrderNo) {return false}
-            let query = {
-                orderAmount: this.orderForm.totalFees,
-                fromOrder: 1,
-                orderNo: '956145355335'
-            }
-            let pageName = '/paymentList'
-            this.$router.push({
-                path: pageName,
-                query: query
             })
         }
     }

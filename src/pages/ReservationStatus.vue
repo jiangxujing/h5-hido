@@ -32,10 +32,10 @@
 		},
 		methods: {
 			goReservationDetail() {
-				this.$router.push("/confirmedReserve?businessNo="+sessionStorage.getItem('businessNo'))
+				this.$router.push("/confirmedReserve?businessNo="+this.$route.query.businessNo)
 			},
 			goOrderDetail(){
-				this.$router.push("/orderDetail?orderNo="+sessionStorage.getItem('orderNo'))
+				this.$router.push("/medicalOrderDetail?businessNo="+this.$route.query.orderNo)
 			}
 		},
 		mounted() {

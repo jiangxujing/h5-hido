@@ -319,12 +319,12 @@
 				}
 				api.post(api.getUrl('reserveDoctor'), req).then(res => {
 					if(res.code == 0) {
-							sessionStorage.setItem('businessNo', res.content.businessNo)
-							this.couponDetail?sessionStorage.setItem('reservationMoney', this.couponDetail.payAmount):''
+							//sessionStorage.setItem('businessNo', res.content.businessNo)
+							//this.couponDetail?sessionStorage.setItem('reservationMoney', this.couponDetail.payAmount):''
 						if(!this.checked) {
-							this.$router.push("/reservationStatus?reservation="+1)
+							this.$router.push("/reservationStatus?reservation="+1+'&businessNo='+res.content.businessNo)
 						} else {
-							this.$router.push("/paymentList")
+							this.$router.push("/paymentList?salesPrice="+this.couponDetail.payAmount+'&businessNo='+res.content.businessNo)
 						}
 
 					} else {

@@ -51,7 +51,7 @@
 //					"payTypeCode": "3333",
 //					"payTypeDesc": "么么钱包"
 //				}],
-				salesPrice: sessionStorage.getItem('reservationMoney'),
+				salesPrice: '',
 				h5Show: false,
 				buyed: null
 			}
@@ -90,12 +90,12 @@
 				let req = {}
 				if(this.fromOrder) {
 						req = {
-						orderNo: sessionStorage.getItem('orderNo') || this.orderNo,
+						orderNo: this.orderNo,
 						payType: 'WX_H5'
 					}
 				} else {
 					req = {
-						businessNo: sessionStorage.getItem('businessNo') || this.businessNo,
+						businessNo:this.businessNo,
 						payType: 'WX_H5'
 					}
 				}
@@ -105,9 +105,9 @@
 						sessionStorage.setItem('h5paysuccess', true)
 						let uri = ''
 						if(this.fromOrder) {
-							uri = location.origin + '/h5-hido/index.html#/paymentList?h5paysuccess=' + sessionStorage.getItem('h5paysuccess') + '&salesPrice=' + sessionStorage.getItem('reservationMoney') + '&orderNo=' + sessionStorage.getItem('orderNo')
+							uri = location.origin + '/h5-hido/index.html#/paymentList?h5paysuccess=' + sessionStorage.getItem('h5paysuccess') + '&orderAmount=' + this.salesPrice + '&orderNo=' + this.orderNo
 						}else{
-							uri = location.origin + '/h5-hido/index.html#/paymentList?h5paysuccess=' + sessionStorage.getItem('h5paysuccess') + '&salesPrice=' + sessionStorage.getItem('reservationMoney') + '&businessNo=' + sessionStorage.getItem('businessNo')
+							uri = location.origin + '/h5-hido/index.html#/paymentList?h5paysuccess=' + sessionStorage.getItem('h5paysuccess') + '&salesPrice=' + this.salesPrice + '&businessNo=' + this.businessNo
 						}
 						
 						let linkUrl = encodeURIComponent(uri)
@@ -136,9 +136,18 @@
 			document.title = "选择支付方式"
 			this.h5paysuccess = this.$route.query.h5paysuccess
 			this.fromOrder = this.$route.query.fromOrder
-			this.$route.query.salesPrice ? this.salesPrice = this.$route.query.salesPrice : this.salesPrice = sessionStorage.getItem('reservationMoney')
-			this.$route.query.businessNo ? this.businessNo = this.$route.query.businessNo : this.businessNo = sessionStorage.getItem('businessNo')
-			this.$route.query.orderNo ? this.orderNo = this.$route.query.orderNo : this.orderNo = sessionStorage.getItem('orderNo')
+			this.orderNo = this.$route.query.orderNo
+			if(this.fromOrder){
+				//订单来的
+				 this.salesPrice = this.$route.query.orderAmount
+				 this.orderNo = this.$route.query.orderNo
+			}else{
+				//预约来的
+				this.salesPrice = this.$route.query.salesPrice
+				 this.businessNo = this.$route.query.businessNo 
+			}
+			
+		
 			if(sessionStorage.getItem('h5paysuccess') || this.h5paysuccess) {
 				this.h5Show = true
 			}

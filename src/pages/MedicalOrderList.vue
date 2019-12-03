@@ -47,21 +47,21 @@ export default {
     methods: {
         // 获取订单列表
         getOrderList () {
-            // api.post(api.getUrl('customer-orderList'), {}).then(res => {
-            //     if (!!res && res.code === 0) {
-            //         this.request = true
-            //         if (!!res.content && res.content.length > 0) {
-            //             this.orderList = res.content.map(item => {
-            //                 let data = {}
-            //                 data = item
-            //                 data.amountShow = Math.round(item.amount/100)
-            //                 return data
-            //             })
-            //         } else {
-            //             this.orderList = []
-            //         }
-            //     }
-            // })
+            api.post(api.getUrl('customer-orderList'), {}).then(res => {
+                if (!!res && res.code === 0) {
+                    this.request = true
+                    if (!!res.content && res.content.length > 0) {
+                        this.orderList = res.content.map(item => {
+                            let data = {}
+                            data = item
+                            data.amountShow = Math.round(item.amount/100)
+                            return data
+                        })
+                    } else {
+                        this.orderList = []
+                    }
+                }
+            })
             let res = {
                 content: []
             }

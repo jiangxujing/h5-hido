@@ -83,7 +83,11 @@
 					sessionStorage.removeItem('checked')
 					if(res.code == '000') {
 						console.log('ggggg')
-						this.$router.push("/reservation")
+						if(this.$route.query.itemNo){
+							this.$router.push("/reservation?itemNo="+this.$route.query.itemNo)
+						}else{
+							this.$router.push("/reservation")
+						}
 					} else {
 						console.log('hhhhhh')
 						this.invalidShow = true
@@ -91,7 +95,11 @@
 				}).catch(() => {})
 			},
 			jumpNext() {
-				this.$router.push("/reservation")
+				if(this.$route.query.itemNo){
+					this.$router.push("/reservation?itemNo="+this.$route.query.itemNo+'&jump='+1)
+				}else{
+					this.$router.push("/reservation?jump="+1)
+				}
 			},
 			isHasParentAgent() {
 				api.post(api.getUrl('isHasParentAgent'), {}, true).then(res => {

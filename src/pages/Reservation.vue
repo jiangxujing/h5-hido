@@ -356,14 +356,14 @@
 						this.projectName = res.content[0].itemName
 						sessionStorage.setItem('projectName', this.projectName)
 						sessionStorage.setItem('projectItemNo', this.projectItemNo)
+					}else{
+						this.projectName = sessionStorage.getItem('projectName') || this.projectName
+						this.projectItemNo = sessionStorage.getItem('projectItemNo') || this.projectItemNo
 					}
 					this.name = sessionStorage.getItem('visitName') || null
 					this.reserveTime = this.appointmentDate = sessionStorage.getItem('reserveTime') || '请选择'
 					this.appointmentDate = sessionStorage.getItem('appointmentDate') || null
 					console.log(this.appointmentDate)
-					this.doctor = sessionStorage.getItem('doctor') || null
-					this.projectName = sessionStorage.getItem('projectName') || this.projectName
-					this.projectItemNo = sessionStorage.getItem('projectItemNo') || this.projectItemNo
 					this.doctorNo = sessionStorage.getItem('doctorNo') || null
 					this.doctor = sessionStorage.getItem('doctor') || '请选择'
 					this.checked = sessionStorage.getItem('checked') || false
@@ -405,7 +405,6 @@
 						this.phone = res.content.customerPhone
 						this.agentPhone = res.content.agentPhone
 						if(!sessionStorage.getItem('agentPhone') && this.agentPhone){
-							console.log('1111111111111')
 							this.getDueryCoupon()
 						} else {
 							this.couponDetailShow = false
@@ -417,9 +416,11 @@
 		},
 		mounted() {
 			this.itemNo = this.$route.query.itemNo
-			this.isHasParentAgent()
+			this.jump = this.$route.query.jump
+			if(!this.jump){
+				this.isHasParentAgent()
+			}
 			if(sessionStorage.getItem('agentPhone')) {
-				console.log('22222222222')
 				this.getDueryCoupon()
 			} else {
 				this.couponDetailShow = false

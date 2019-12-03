@@ -5,7 +5,7 @@
 				请输入推荐人手机号
 			</div>
 			<div class="border-style" :class="{borderactive:agentPhone}">
-				<van-field  @input="changeTel" @blur="blurFun" v-model="agentPhone" type="tel" maxLength='11' placeholder="请输入推荐人手机号" clearable/>
+				<van-field  @input="changeTel" v-model="agentPhone" type="tel" maxLength='11' placeholder="请输入推荐人手机号" clearable/>
 			</div>
 		</div>
 		<div class="btn">
@@ -54,26 +54,26 @@
 				
 				}
 			},
-			blurFun(){
-				var value = this.agentPhone; 
-				value = value.replace(/\s*/g, "");               
-				var result = [];               
-				for(var i = 0; i < value.length; i++) {                 
-					if(i == 3 || i == 7)                  {                   
-						result.push(" " + value.charAt(i));                 
-					}                 
-					else                  {                   
-						result.push(value.charAt(i));                 
-					}               
-				}               
-				this.agentPhone = result.join("");
-				console.log(this.agentPhone.length)
-				if(this.agentPhone.length == 13) {
-					this.grayShow = false
-				} else {
-					this.grayShow = true
-				}
-			},
+//			blurFun(){
+//				var value = this.agentPhone; 
+//				value = value.replace(/\s*/g, "");               
+//				var result = [];               
+//				for(var i = 0; i < value.length; i++) {                 
+//					if(i == 3 || i == 7)                  {                   
+//						result.push(" " + value.charAt(i));                 
+//					}                 
+//					else                  {                   
+//						result.push(value.charAt(i));                 
+//					}               
+//				}               
+//				this.agentPhone = result.join("");
+//				console.log(this.agentPhone.length)
+//				if(this.agentPhone.length == 13) {
+//					this.grayShow = false
+//				} else {
+//					this.grayShow = true
+//				}
+//			},
 			changeTel() {
 				if(this.agentPhone.length == 11) {
 					this.grayShow = false

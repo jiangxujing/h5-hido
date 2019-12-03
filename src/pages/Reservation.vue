@@ -120,7 +120,7 @@
 				currentDate: new Date(),
 				reserveTime: '请选择',
 				name:'',
-				phone: sessionStorage.getItem('phone') || null,
+				phone:'',
 				checked: false, //抵扣券是否选中，
 				consultingList: [],
 				doctorsList: [],
@@ -291,7 +291,6 @@
 			},
 			comfirmReservation() {
 				sessionStorage.setItem('visitName', this.name)
-				sessionStorage.setItem('phone', this.phone)
 				let req = {}
 				if(!this.checked) {
 					req = {

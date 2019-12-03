@@ -11,13 +11,13 @@
                                 <div class="item-info-name">{{item.itemName}}</div>
                                 <div class="item-info-count">{{item.itemCount ? 'X' + item.itemCount : ''}}</div>
                                 <div class="item-info-price">
-                                    <span v-if="item.amount">{{'￥' + item.amount}}</span>
-                                    <span class="original-amount" v-if="!!item.originalAmount && item.originalAmount !== item.amount">{{'￥' + item.originalAmount}}</span>
-                                    <span class="theme-color" v-if="item.writeoffAmount">{{'-￥' + item.writeoffAmount}}</span>
+                                    <span v-if="item.salesAmount">{{'￥' + $utils.formatMoney(item.salesAmount, 1)}}</span>
+                                    <span class="original-amount" v-if="!!item.originalPrice && item.originalPrice !== item.salesAmount">{{'￥' + $utils.formatMoney(item.originalPrice, 1)}}</span>
+                                    <span class="theme-color" v-if="item.writeoffAmount">{{'-￥' + $utils.formatMoney(item.writeoffAmount, 1)}}</span>
                                 </div>
                             </div>
                         </div>
-                        <p class="total-fees"><span class="fl-l">小计</span><span class="fl-r">{{'￥' + orderForm.totalFees}}</span></p>
+                        <p class="total-fees"><span class="fl-l">小计</span><span class="fl-r">{{'￥' + $utils.formatMoney(orderForm.totalFees, 1)}}</span></p>
                     </div>
                     <div class="detail-item">
                         <p class="detail-item-title">订单信息</p>
@@ -55,7 +55,7 @@
                     </div>
                 </div>
                 <div class="order-detail-foot" v-if="!!meiyaOrderNo && !businessNo">
-                    <span class="foot-total-fees DINAlternate-Bold">{{'￥' + orderForm.totalFees}}</span>{{'已优惠￥' + orderForm.totalOffer}}
+                    <span class="foot-total-fees DINAlternate-Bold">{{'￥' + $utils.formatMoney(orderForm.totalFees, 1)}}</span>{{'已优惠￥' + $utils.formatMoney(orderForm.totalOffer, 1)}}
                     <van-button class="pay-button fl-r" @click="confirmPay">确认支付</van-button>
                 </div>
             </div>
@@ -127,11 +127,11 @@ export default {
                                         itemNo: item.itemNo,
                                         itemName: item.itemName,
                                         itemCount: item.itemCount,
-                                        amount: formatMoney(item.amount, 1),
-                                        originalAmount: formatMoney(item.originalAmount, 1)
+                                        salesAmount: item.salesAmount,
+                                        originalPrice: item.originalPrice
                                     }
-                                    totalFees += item.amount
-                                    item.originalAmount > item.amount ? totalOffer += (item.originalAmount - item.amount) : ''
+                                    totalFees += item.salesAmount
+                                    item.originalPrice > item.salesAmount ? totalOffer += (item.originalPrice - item.salesAmount) : ''
                                     this.orderForm[key].push(data)
                                 })
                             } else if (key == 'packageWriteoffs') {
@@ -140,16 +140,16 @@ export default {
                                     let data = {
                                         itemNo: item.itemNo,
                                         itemName: item.itemName,
-                                        writeoffAmount: formatMoney(item.writeoffAmount, 1)
+                                        writeoffAmount: item.writeoffAmount
                                     }
                                     totalFees = totalFees - item.writeoffAmount
                                     totalOffer += item.writeoffAmount
                                     this.orderForm['orderItemList'].push(data)
                                 })
-                            } else if (key == 'couponDeductionAmount') {
+                            } else if (key == 'deductionAmount') {
                                 let data = {
                                     itemName: '预付金抵扣',
-                                    writeoffAmount: formatMoney(content[key], 1)
+                                    writeoffAmount: content[key]
                                 }
                                 totalOffer += content[key]
                                 this.orderForm['orderItemList'].push(data)
@@ -159,10 +159,11 @@ export default {
                                 this.orderForm[key] = content[key]
                             }
                         }
-                        this.orderForm.totalFees = formatMoney(totalFees, 1)
-                        this.orderForm.totalOffer = formatMoney(totalOffer, 1)
+                        
                     }
                 }
+                this.orderForm.totalFees = totalFees
+                this.orderForm.totalOffer = totalOffer
             })
             let res = {
                 content: {}
@@ -172,30 +173,30 @@ export default {
                 orderItemList: [{
                     itemName: '血常规',
                     itemCount: 1,
-                    originalAmount: 10000,
-                    amount: 8000
+                    originalPrice: 10000,
+                    salesAmount: 8000
                 }, {
                     itemName: '乙肝表面抗原',
                     itemCount: 1,
-                    originalAmount: 8000,
-                    amount: 8000
+                    originalPrice: 22200,
+                    salesAmount: 22200
                 }, {
                     itemName: '名字贼长贼长贼长贼长贼长贼长贼长还不够长还要长长长',
                     itemCount: 1,
-                    originalAmount: 8000,
-                    amount: 8000
+                    originalPrice: 0,
+                    salesAmount: 88000
                 }, {
                     itemName: '束身衣',
                     itemCount: 1,
-                    originalAmount: 50000,
-                    amount: 50000
+                    originalPrice: 50000,
+                    salesAmount: 50000
                 }],
                 packageWriteoffs: [{
                     itemName: '束身衣(礼包)',
                     itemNo: '9574122',
-                    writeoffAmount: 50000
+                    writeoffAmount: 66600
                 }],
-                couponDeductionAmount: 11000,
+                deductionAmount: 666600,
                 meiyaOrderNo: '1284738585',
                 meiyaOrderWriter: '宋一刀',
                 meiyaOrderOpenTime: 1574840600563,
@@ -216,11 +217,11 @@ export default {
                             itemNo: item.itemNo,
                             itemName: item.itemName,
                             itemCount: item.itemCount,
-                            amount: formatMoney(item.amount, 1),
-                            originalAmount: formatMoney(item.originalAmount, 1)
+                            salesAmount: item.salesAmount,
+                            originalPrice: item.originalPrice
                         }
-                        totalFees += item.amount
-                        item.originalAmount > item.amount ? totalOffer += (item.originalAmount - item.amount) : ''
+                        totalFees += item.salesAmount
+                        item.originalPrice > item.salesAmount ? totalOffer += (item.originalPrice - item.salesAmount) : ''
                         this.orderForm[key].push(data)
                     })
                 } else if (key == 'packageWriteoffs') {
@@ -229,16 +230,16 @@ export default {
                         let data = {
                             itemNo: item.itemNo,
                             itemName: item.itemName,
-                            writeoffAmount: formatMoney(item.writeoffAmount, 1)
+                            writeoffAmount: item.writeoffAmount
                         }
                         totalFees = totalFees - item.writeoffAmount
                         totalOffer += item.writeoffAmount
                         this.orderForm['orderItemList'].push(data)
                     })
-                } else if (key == 'couponDeductionAmount') {
+                } else if (key == 'deductionAmount') {
                     let data = {
                         itemName: '预付金抵扣',
-                        writeoffAmount: formatMoney(content[key], 1)
+                        writeoffAmount: content[key]
                     }
                     totalOffer += content[key]
                     this.orderForm['orderItemList'].push(data)
@@ -250,24 +251,44 @@ export default {
                     this.orderForm[key] = content[key]
                 }
             }
-            this.orderForm.totalFees = formatMoney(totalFees, 1)
-            this.orderForm.totalOffer = formatMoney(totalOffer, 1)
-            
+            this.orderForm.totalFees = totalFees
+            this.orderForm.totalOffer = totalOffer
             this.request = true
         },
         // 确认支付
         confirmPay () {
-            // let datas = {
-            //     meiyaOrderNo: this.orderForm.meiyaOrderNo
-            // }
-            // api.post(api.getUrl('customer-createFeeOrder'), datas).then(res => {
-            //     if (!!res && res.code === 0) {
-            //         this.request = true
-            //         if (!!res.content) {
-            //         }
-            //     }
-            // })
+            let datas = {
+                meiyaOrderNo: this.orderForm.meiyaOrderNo
+            }
+            api.post(api.getUrl('customer-createFeeOrder'), datas).then(res => {
+                if (!!res && res.code === 0) {
+                    this.request = true
+                    if (!!res.content) {
+                        let query = {
+                            orderAmount: res.content.orderAmount,
+                            orderNo: res.content.businessNo,
+                            fromOrder: 1
+                        }
+                        let pageName = '/paymentList'
+                        this.$router.push({
+                            path: pageName,
+                            query: query
+                        })
+                    }
+                }
+            })
             Toast('暂无接口！')
+            if (!this.meiyaOrderNo) {return false}
+            let query = {
+                orderAmount: this.orderForm.totalFees,
+                fromOrder: 1,
+                orderNo: '956145355335'
+            }
+            let pageName = '/paymentList'
+            this.$router.push({
+                path: pageName,
+                query: query
+            })
         }
     }
 }

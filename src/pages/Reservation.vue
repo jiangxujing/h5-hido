@@ -165,7 +165,7 @@
 					this.doctorShow = false
 					this.getMedicineItemsTotalList()
 				} else if(params == 2) {
-					if(!this.projectName) {
+					if(!this.projectName || this.projectName=='请选择') {
 						Toast('咨询项目不能为空')
 					} else {
 						this.getDoctorsList() //医师列表

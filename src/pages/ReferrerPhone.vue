@@ -103,10 +103,17 @@
 		},
 		mounted() {
 			document.title = "输入推荐人手机号"
-			this.isHasParentAgent()
 			this.agentPhone = sessionStorage.getItem('agentPhone') || null
 			if(this.agentPhone) {
 				this.changeTel()
+			}
+			if(navigator.userAgent.toLowerCase().indexOf('hido')  !=  -1) {
+				api.setNative('callInit', {
+					interceptBack: false
+				})
+				setTimeout(() => {
+					this.isHasParentAgent()
+				}, 600)
 			}
 		},
 	}

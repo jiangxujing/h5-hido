@@ -5,7 +5,7 @@
 				请输入推荐人手机号
 			</div>
 			<div class="border-style" :class="{borderactive:agentPhone}">
-				<van-field @input="changeTel" id="agentPhone" v-model="agentPhone" type="tel" maxLength='13' placeholder="请输入推荐人手机号" clearable/>
+				<van-field  @input="changeTel" @blur="blurFun" v-model="agentPhone" type="tel" maxLength='11' placeholder="请输入推荐人手机号" clearable/>
 			</div>
 		</div>
 		<div class="btn">
@@ -48,13 +48,13 @@
 					if(this.customerPhone == agentPhone){
 						Toast('推荐人手机号不能与登陆手机号为同一个')
 					}else{
-						sessionStorage.setItem('agentPhone', agentPhone)
+						//sessionStorage.setItem('agentPhone', agentPhone)
 						this.getDueryCoupon()
 					}
 				
 				}
 			},
-			changeTel() {
+			blurFun(){
 				var value = this.agentPhone; 
 				value = value.replace(/\s*/g, "");               
 				var result = [];               
@@ -73,16 +73,12 @@
 				} else {
 					this.grayShow = true
 				}
-				let obj = document.getElementById('agentPhone')
-				obj.focus()
-				let len = this.agentPhone.length;
-				if(document.selection){
-					var sel = obj.createTextRange()
-					sel.moveStart('character',len)
-					sel.collapse()
-					sel.select()
-				}else if(typeof obj.selectionStart == 'number' && typeof obj.selectionEnd == 'number'){
-					obj.selectionStart = obj.selectionEnd = len
+			},
+			changeTel() {
+				if(this.agentPhone.length == 11) {
+					this.grayShow = false
+				} else {
+					this.grayShow = true
 				}
 			},
 			getDueryCoupon() {
@@ -121,10 +117,10 @@
 		},
 		mounted() {
 			document.title = "输入推荐人手机号"
-			this.agentPhone = sessionStorage.getItem('agentPhone') || null
-			if(this.agentPhone) {
-				this.changeTel()
-			}
+			//this.agentPhone = sessionStorage.getItem('agentPhone') || null
+//			if(this.agentPhone) {
+//				this.changeTel()
+//			}
 			if(navigator.userAgent.toLowerCase().indexOf('hido')  !=  -1) {
 				api.setNative('callInit', {
 					interceptBack: false

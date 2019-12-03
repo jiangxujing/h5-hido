@@ -466,7 +466,7 @@
 			display: inline-block;
 			padding-left: 1rem;
 			font-size: 1.5rem;
-			width:25rem;
+			width:24rem;
 		}
 		.activegray{
 			color:#1A2833!important;

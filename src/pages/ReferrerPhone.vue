@@ -83,7 +83,7 @@
 			},
 			getDueryCoupon() {
 				let req = {
-					agentPhone: sessionStorage.getItem('agentPhone')
+					agentPhone: this.agentPhone
 				}
 				api.post(api.getUrl('queryCoupon'), req, true).then(res => {
 					sessionStorage.removeItem('checked')

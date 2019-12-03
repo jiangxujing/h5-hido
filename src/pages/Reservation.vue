@@ -417,7 +417,16 @@
 		},
 		mounted() {
 			this.itemNo = this.$route.query.itemNo
-			this.isHasParentAgent()
+			if(navigator.userAgent.toLowerCase().indexOf('hido')  !=  -1) {
+				api.setNative('callInit', {
+					interceptBack: false
+				})
+				setTimeout(() => {
+					this.isHasParentAgent()
+				}, 600)
+			}else{
+				this.isHasParentAgent()
+			}
 			document.title = "预约"
 		},
 	}

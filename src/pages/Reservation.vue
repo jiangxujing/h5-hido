@@ -403,8 +403,10 @@
 				api.post(api.getUrl('isHasParentAgent'), {},true).then(res => {
 					if(res.code == '000') {
 						this.phone = res.content.customerPhone
-						this.agentPhone = res.content.agentPhone
+						this.agentPhone = res.content.agentPhone 
 						if(!sessionStorage.getItem('agentPhone') && this.agentPhone){
+							this.getDueryCoupon()
+						}else if(sessionStorage.getItem('agentPhone')){
 							this.getDueryCoupon()
 						} else {
 							this.couponDetailShow = false
@@ -416,15 +418,7 @@
 		},
 		mounted() {
 			this.itemNo = this.$route.query.itemNo
-			this.jump = this.$route.query.jump
-			if(!this.jump){
-				this.isHasParentAgent()
-			}
-			if(sessionStorage.getItem('agentPhone')) {
-				this.getDueryCoupon()
-			} else {
-				this.couponDetailShow = false
-			}
+			this.isHasParentAgent()
 			document.title = "预约"
 		},
 	}

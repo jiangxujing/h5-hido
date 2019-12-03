@@ -96,9 +96,9 @@
 			},
 			jumpNext() {
 				if(this.$route.query.itemNo){
-					this.$router.push("/reservation?itemNo="+this.$route.query.itemNo+'&jump='+1)
+					this.$router.push("/reservation?itemNo="+this.$route.query.itemNo)
 				}else{
-					this.$router.push("/reservation?jump="+1)
+					this.$router.push("/reservation")
 				}
 			},
 			isHasParentAgent() {

@@ -5,7 +5,7 @@
 				请输入推荐人手机号
 			</div>
 			<div class="border-style" :class="{borderactive:agentPhone}">
-				<van-field @input="changeTel" v-model="agentPhone" type="tel" maxLength='13' placeholder="请输入推荐人手机号" clearable/>
+				<van-field @input="changeTel" id="agentPhone" v-model="agentPhone" type="tel" maxLength='13' placeholder="请输入推荐人手机号" clearable/>
 			</div>
 		</div>
 		<div class="btn">
@@ -73,7 +73,17 @@
 				} else {
 					this.grayShow = true
 				}
-
+				let obj = document.getElementById('agentPhone')
+				obj.focus()
+				let len = this.agentPhone.length;
+				if(document.selection){
+					var sel = obj.createTextRange()
+					sel.moveStart('character',len)
+					sel.collapse()
+					sel.select()
+				}else if(typeof obj.selectionStart == 'number' && typeof obj.selectionEnd == 'number'){
+					obj.selectionStart = obj.selectionEnd = len
+				}
 			},
 			getDueryCoupon() {
 				let req = {

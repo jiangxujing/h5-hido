@@ -247,6 +247,8 @@
 				line-height: 2.5rem;
 				font-size: 1.5rem;
 				color: #1A2833;
+				height:100%;
+				overflow:scroll;
 				.title-address {
 					font-weight: bold;
 					line-height: 5rem;

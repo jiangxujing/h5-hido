@@ -3,43 +3,43 @@
 		<div v-show="advisorysetShow">
 			<div>
 				<div class="font-12 color-399 title">预约信息</div>
-			<div class="list-style" @click="openAdvisoryList('1')">
-				<div class="list-content">
-					<label for="name" class="font-15 color-833">咨询项目</label>
-					<!--<input type="text" placeholder="请选择" class="advisory-list" v-model="projectName" disabled="true"/>-->
-					<div class="advisory-list" style="padding-left:4rem;color:#BBB" :class="{'activegray':projectName && projectName != '请选择'}">{{projectName}}</div>
-					<img src="../assets/images/arrow.png" class="right-arrow" />
+				<div class="list-style" @click="openAdvisoryList('1')">
+					<div class="list-content">
+						<label for="name" class="font-15 color-833">咨询项目</label>
+						<!--<input type="text" placeholder="请选择" class="advisory-list" v-model="projectName" disabled="true"/>-->
+						<div class="advisory-list" style="padding-left:4rem;color:#BBB" :class="{'activegray':projectName && projectName != '请选择'}">{{projectName}}</div>
+						<img src="../assets/images/arrow.png" class="right-arrow" />
+					</div>
 				</div>
-			</div>
-			<div class="list-style" @click="openAdvisoryList(2)">
-				<div class="list-content">
-					<label for="name" class="font-15 color-833">医师&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-					<!--<input type="text" placeholder="请选择" class="advisory-list" v-model="doctor" disabled="true"/>-->
-					<div class="advisory-list" style="padding-left:4rem;color:#BBB" :class="{'activegray':doctor && doctor!='请选择'}">{{doctor}}</div>
-					<img src="../assets/images/arrow.png" class="right-arrow" />
+				<div class="list-style" @click="openAdvisoryList(2)">
+					<div class="list-content">
+						<label for="name" class="font-15 color-833">医师&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+						<!--<input type="text" placeholder="请选择" class="advisory-list" v-model="doctor" disabled="true"/>-->
+						<div class="advisory-list" style="padding-left:4rem;color:#BBB" :class="{'activegray':doctor && doctor!='请选择'}">{{doctor}}</div>
+						<img src="../assets/images/arrow.png" class="right-arrow" />
+					</div>
 				</div>
-			</div>
-			<div class="list-style" @click="openTime">
-				<div class="list-content">
-					<label for="name" class="font-15 color-833">面诊时间</label>
-					<!--<input type="text" placeholder="请选择" class="advisory-list" v-model="reserveTime" disabled="true"/>-->
-					<div class="advisory-list" style="padding-left:4rem;color:#BBB" :class="{'activegray':reserveTime && reserveTime!= '请选择'}">{{reserveTime}}</div>
-					<img src="../assets/images/arrow.png" class="right-arrow" />
+				<div class="list-style" @click="openTime">
+					<div class="list-content">
+						<label for="name" class="font-15 color-833">面诊时间</label>
+						<!--<input type="text" placeholder="请选择" class="advisory-list" v-model="reserveTime" disabled="true"/>-->
+						<div class="advisory-list" style="padding-left:4rem;color:#BBB" :class="{'activegray':reserveTime && reserveTime!= '请选择'}">{{reserveTime}}</div>
+						<img src="../assets/images/arrow.png" class="right-arrow" />
+					</div>
 				</div>
-			</div>
-			<div class="font-12 color-399 title">就诊人信息</div>
-			<van-cell-group :border="false">
-				<van-field v-model="name" type="text" center clearable label="姓名" :maxLength=number placeholder="请输入姓名" @input="checkEmpty('name')" class="list-style">
-				</van-field>
-				<van-field v-model="phone" center :readonly=true clearable label="手机号" type="tel" placeholder="请选择" @input="checkEmpty()" maxlength="11" class="list-style">
-				</van-field>
-			</van-cell-group>
-			<div class="coupon-content" @click="selectDeduction" v-if="couponDetailShow">
-				<span class="color-B31 font-15">预付{{couponDetail.payAmount/100}}元抵扣</span>
-				<span class="DINAlternate-Bold color-B31 font-22">{{couponDetail.deductionAmount/100}}元</span>
-				<img src="../assets/images/radio-checked.png" class="radioChecked" v-if="checked" />
-				<img src="../assets/images/radio-no.png" class="radioChecked" v-else/>
-			</div>
+				<div class="font-12 color-399 title">就诊人信息</div>
+				<van-cell-group :border="false">
+					<van-field v-model="name" type="text" center clearable label="姓名" :maxLength=number placeholder="请输入姓名" @input="checkEmpty('name')" class="list-style">
+					</van-field>
+					<van-field v-model="phone" center :readonly=true clearable label="手机号" type="tel" placeholder="请选择" @input="checkEmpty()" maxlength="11" class="list-style">
+					</van-field>
+				</van-cell-group>
+				<div class="coupon-content" @click="selectDeduction" v-if="couponDetailShow">
+					<span class="color-B31 font-15">预付{{couponDetail.payAmount/100}}元抵扣</span>
+					<span class="DINAlternate-Bold color-B31 font-22">{{couponDetail.deductionAmount/100}}元</span>
+					<img src="../assets/images/radio-checked.png" class="radioChecked" v-if="checked" />
+					<img src="../assets/images/radio-no.png" class="radioChecked" v-else/>
+				</div>
 			</div>
 			<div style="text-align: center;padding-top:5rem;width: 100%;padding: 8rem 14% 6rem 14%">
 				<button class="reservation-btn opacity-style font-17" v-if="gray">预约</button>
@@ -68,12 +68,12 @@
 				</li>
 			</ul>
 		</div>
-			<van-popup v-model="consultationTimeShow" closeable position="bottom" :style="{ height: '60%',background:'#fff!important' }">
+		<van-popup v-model="consultationTimeShow" closeable position="bottom" :style="{ height: '60%',background:'#fff!important' }">
 			<div v-show="dateShow">
-				<van-datetime-picker v-model="currentDate" type="date" @confirm="confirm" @cancel="cancelTime" :min-date="minDate"/>
+				<van-datetime-picker v-model="currentDate" type="date" @confirm="confirm" @cancel="cancelTime" :min-date="minDate" />
 			</div>
 			<ul v-show="timeShow">
-				<li  v-for="(t,index) in time" :key="index" class="time" @click="selectTime(index,t)" :class="timeindex == index?'active-time':''">{{t}}</li>
+				<li v-for="(t,index) in time" :key="index" class="time" @click="selectTime(index,t)" :class="timeindex == index?'active-time':''">{{t}}</li>
 			</ul>
 		</van-popup>
 		<div class="comfirm-reservation-wrapper" @click="comfirmBox=false" v-show="comfirmBox">
@@ -119,8 +119,8 @@
 				comfirmBox: false,
 				currentDate: new Date(),
 				reserveTime: '请选择',
-				name:'',
-				phone:'',
+				name: '',
+				phone: '',
 				checked: false, //抵扣券是否选中，
 				consultingList: [],
 				doctorsList: [],
@@ -128,15 +128,15 @@
 				doctoractive: -1,
 				couponDetail: null,
 				couponDetailShow: false,
-				dateShow:true,
-				timeShow:false,
-				timeindex:-1,
-				minDate:new Date(new Date().getTime() + 24*60*60*1000),
-				number:20,
-				nameLong:false,
-				projectName:'请选择',
-				doctor:'请选择',
-				time:['9:00-10:00','10:00-11:00','11:00-12:00','12:00-13:00','13:00-14:00','14:00-15:00','15:00-16:00','16:00-17:00','17:00-18:00','18:00-19:00']
+				dateShow: true,
+				timeShow: false,
+				timeindex: -1,
+				minDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+				number: 20,
+				nameLong: false,
+				projectName: '请选择',
+				doctor: '请选择',
+				time: ['9:00-10:00', '10:00-11:00', '11:00-12:00', '12:00-13:00', '13:00-14:00', '14:00-15:00', '15:00-16:00', '16:00-17:00', '17:00-18:00', '18:00-19:00']
 			}
 		},
 		methods: {
@@ -149,8 +149,8 @@
 				console.log(val) // 打印出了时间
 				this.dateTime = val ? _utils.dateFormatter(val, "yyyy-MM-dd") : ''
 			},
-			confirmAllTime(){
-				this.reserveTime = this.dateTime +' '+this.timehour
+			confirmAllTime() {
+				this.reserveTime = this.dateTime + ' ' + this.timehour
 				this.consultationTimeShow = false
 			},
 			cancelTime() {
@@ -165,7 +165,7 @@
 					this.doctorShow = false
 					this.getMedicineItemsTotalList()
 				} else if(params == 2) {
-					if(!this.projectName || this.projectName=='请选择') {
+					if(!this.projectName || this.projectName == '请选择') {
 						Toast('咨询项目不能为空')
 					} else {
 						this.getDoctorsList() //医师列表
@@ -182,17 +182,17 @@
 				this.dateShow = true
 			},
 			checkEmpty(params) {
-				if(params == 'name'){
-					if(_utils.getByteLen(this.name) >= 10){
+				if(params == 'name') {
+					if(_utils.getByteLen(this.name) >= 10) {
 						this.number = _utils.getByteLen(this.name)
 						Toast('姓名长度不能大于20')
 						this.nameLong = true
-					}else{
+					} else {
 						this.number = 20
 						this.nameLong = false
 					}
 				}
-				if(this.phone && this.phone.length == 11 && this.projectName && this.projectName!= '请选择' && this.doctor != '请选择' && this.doctor && this.reserveTime && this.reserveTime!= '请选择' && this.name && !this.nameLong) {
+				if(this.phone && this.phone.length == 11 && this.projectName && this.projectName != '请选择' && this.doctor != '请选择' && this.doctor && this.reserveTime && this.reserveTime != '请选择' && this.name && !this.nameLong) {
 					this.gray = false
 					sessionStorage.setItem('visitName', this.name)
 				} else {
@@ -204,7 +204,7 @@
 			selectDeduction() {
 				this.checked = !this.checked
 				sessionStorage.setItem('checked', this.checked)
-				if(this.projectName && this.projectName != '请选择' && this.doctor && this.doctor!='请选择' && this.reserveTime!= '请选择' && this.reserveTime && this.name && this.phone.length == 11) {
+				if(this.projectName && this.projectName != '请选择' && this.doctor && this.doctor != '请选择' && this.reserveTime != '请选择' && this.reserveTime && this.name && this.phone.length == 11) {
 					this.gray = false
 				}
 			},
@@ -217,21 +217,21 @@
 					this.advisorysetShow = true
 				}
 			},
-			selectTime(index,t){
+			selectTime(index, t) {
 				this.timehour = t
-				this.reserveTime = this.dateTime +' '+this.timehour
+				this.reserveTime = this.dateTime + ' ' + this.timehour
 				this.consultationTimeShow = false
-				this.frontendTime = t.split('-')[0]+':00'
-				let time = this.dateTime+' '+this.frontendTime
+				this.frontendTime = t.split('-')[0] + ':00'
+				let time = this.dateTime + ' ' + this.frontendTime
 				this.appointmentDate = new Date(time.replace(/-/g, '/')).getTime()
-				sessionStorage.setItem('reserveTime',this.reserveTime)//显示时间
-				sessionStorage.setItem('appointmentDate',this.appointmentDate)
+				sessionStorage.setItem('reserveTime', this.reserveTime) //显示时间
+				sessionStorage.setItem('appointmentDate', this.appointmentDate)
 				if(index != this.timeindex) {
-						this.timeindex = index;
-					} else {
-						this.timeindex = -1;
-					}
-				if(this.projectName && this.projectName!='请选择' && this.doctor && this.doctor!= '请选择' && this.reserveTime && this.reserveTime!= '请选择' && this.name && this.phone.length == 11) {
+					this.timeindex = index;
+				} else {
+					this.timeindex = -1;
+				}
+				if(this.projectName && this.projectName != '请选择' && this.doctor && this.doctor != '请选择' && this.reserveTime && this.reserveTime != '请选择' && this.name && this.phone.length == 11) {
 					this.gray = false
 				}
 			},
@@ -256,7 +256,7 @@
 					sessionStorage.setItem('projectName', this.projectName)
 					sessionStorage.setItem('projectItemNo', this.projectItemNo)
 					sessionStorage.setItem('projectactive', this.projectactive)
-					sessionStorage.setItem('selectItem',1)
+					sessionStorage.setItem('selectItem', 1)
 				} else if(params == 2) {
 					this.doctorShow = false
 					this.advisorysetShow = true
@@ -273,7 +273,7 @@
 					sessionStorage.setItem('doctorNo', this.doctorNo)
 					sessionStorage.setItem('doctoractive', this.doctoractive)
 				}
-				if(this.projectName && this.doctor && this.reserveTime && this.reserveTime!= '请选择' && this.name && this.phone.length == 11) {
+				if(this.projectName && this.doctor && this.reserveTime && this.reserveTime != '请选择' && this.name && this.phone.length == 11) {
 					this.gray = false
 				}
 			},
@@ -299,7 +299,7 @@
 						doctorNo: this.doctorNo || null,
 						medicineItemNo: this.projectItemNo || null, //项目编号
 						medicineItemName: this.projectName || null,
-						appointmentDate:this.appointmentDate || null,
+						appointmentDate: this.appointmentDate || null,
 						customerName: this.name || null,
 						customerPhone: this.phone || null
 					}
@@ -318,12 +318,12 @@
 				}
 				api.post(api.getUrl('reserveDoctor'), req).then(res => {
 					if(res.code == 0) {
-							//sessionStorage.setItem('businessNo', res.content.businessNo)
-							//this.couponDetail?sessionStorage.setItem('reservationMoney', this.couponDetail.payAmount):''
+						//sessionStorage.setItem('businessNo', res.content.businessNo)
+						//this.couponDetail?sessionStorage.setItem('reservationMoney', this.couponDetail.payAmount):''
 						if(!this.checked) {
-							this.$router.push("/reservationStatus?reservation="+1+'&businessNo='+res.content.businessNo)
+							this.$router.push("/reservationStatus?reservation=" + 1 + '&businessNo=' + res.content.businessNo)
 						} else {
-							this.$router.push("/paymentList?salesPrice="+this.couponDetail.payAmount+'&businessNo='+res.content.businessNo)
+							this.$router.push("/paymentList?salesPrice=" + this.couponDetail.payAmount + '&businessNo=' + res.content.businessNo)
 						}
 
 					} else {
@@ -335,14 +335,14 @@
 			getMedicineItemsTotalList() {
 				api.post(api.getUrl('medicineItemsList'), {}).then(res => {
 					this.consultingList = res.content
-					this.consultingList.forEach((i,k) => {
+					this.consultingList.forEach((i, k) => {
 						console.log(i)
 						console.log(k)
-						if(i.itemNo == this.projectItemNo){
-							sessionStorage.setItem('projectactive',k)
+						if(i.itemNo == this.projectItemNo) {
+							sessionStorage.setItem('projectactive', k)
 							this.projectactive = k
 						}
-				});
+					});
 				}).catch(() => {})
 			},
 			getMedicineItemsList() {
@@ -350,12 +350,12 @@
 					medicineItemNo: this.itemNo || null
 				}
 				api.post(api.getUrl('medicineItemsList'), req).then(res => {
-					if(this.itemNo && sessionStorage.getItem('selectItem')!=1) {
+					if(this.itemNo && sessionStorage.getItem('selectItem') != 1) {
 						this.projectItemNo = res.content[0].itemNo
 						this.projectName = res.content[0].itemName
 						sessionStorage.setItem('projectName', this.projectName)
 						sessionStorage.setItem('projectItemNo', this.projectItemNo)
-					}else{
+					} else {
 						this.projectName = sessionStorage.getItem('projectName') || this.projectName
 						this.projectItemNo = sessionStorage.getItem('projectItemNo') || this.projectItemNo
 					}
@@ -368,7 +368,7 @@
 					this.checked = sessionStorage.getItem('checked') || false
 					this.projectactive = sessionStorage.getItem('projectactive') || null
 					this.doctoractive = sessionStorage.getItem('doctoractive') || null
-					if(this.projectName && this.projectName!='请选择' && this.doctor!= '请选择' && this.doctor && this.reserveTime && this.reserveTime!= '请选择' && this.name && this.phone && this.phone.length == 11) {
+					if(this.projectName && this.projectName != '请选择' && this.doctor != '请选择' && this.doctor && this.reserveTime && this.reserveTime != '请选择' && this.name && this.phone && this.phone.length == 11) {
 						this.gray = false
 					}
 				}).catch(() => {})
@@ -382,16 +382,23 @@
 				}).catch(() => {})
 			},
 			getDueryCoupon() {
-				let req = {
-					agentPhone: sessionStorage.getItem('agentPhone') || this.agentPhone
+				let req = {}
+				if(this.$route.query.fromReferrerPhone) {
+					req = {
+						agentPhone:sessionStorage.getItem('agentPhone')
+					}
+				}else{
+					req = {
+						agentPhone:this.agentPhone
+					}
 				}
 				api.post(api.getUrl('queryCoupon'), req).then(res => {
 					if(res.code == '000') {
 						this.couponDetail = res.content
-						if(this.couponDetail.couponNo){
+						if(this.couponDetail.couponNo) {
 							console.log('ggggggg')
 							this.couponDetailShow = true
-						}else{
+						} else {
 							console.log('43333')
 							this.couponDetailShow = false
 						}
@@ -399,19 +406,29 @@
 				}).catch(() => {})
 			},
 			isHasParentAgent() {
-				api.post(api.getUrl('isHasParentAgent'), {},true).then(res => {
+				api.post(api.getUrl('isHasParentAgent'), {}, true).then(res => {
 					if(res.code == '000') {
 						this.phone = res.content.customerPhone
-						this.agentPhone = res.content.agentPhone 
-						if(!sessionStorage.getItem('agentPhone') && this.agentPhone){
-							this.getDueryCoupon()
-						}else if(sessionStorage.getItem('agentPhone')){
-							this.getDueryCoupon()
-						} else {
-							this.couponDetailShow = false
+						this.agentPhone = res.content.agentPhone
+						//代表从推荐列表过来的
+						if(this.$route.query.fromReferrerPhone) {
+							if(!this.$route.query.jump && this.agentPhone) {
+								this.getDueryCoupon()
+							} else if(sessionStorage.getItem('agentPhone')) {
+								this.getDueryCoupon()
+							} else {
+								this.couponDetailShow = false
+							}
+						}else{
+							if(this.agentPhone){
+								this.getDueryCoupon()
+							}else{
+								this.couponDetailShow = false
+							}
 						}
+
 						this.getMedicineItemsList() //咨询项目列表
-					} 
+					}
 				}).catch(() => {})
 			}
 		},
@@ -424,7 +441,7 @@
 				setTimeout(() => {
 					this.isHasParentAgent()
 				}, 600)
-			}else{
+			} else {
 				this.isHasParentAgent()
 			}
 			document.title = "预约"
@@ -438,7 +455,7 @@
 		width: 100%;
 		height: 100%;
 		background: #F8F8F8;
-			display: flex;
+		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
 		height: 100%;
@@ -454,7 +471,7 @@
 		.list-style {
 			height: 6rem;
 			background: #fff;
-			padding-top:2rem;
+			padding-top: 2rem;
 			padding-left: 1.5rem;
 			.list-content {
 				border-bottom: 1px solid #F8F8F8;
@@ -466,10 +483,10 @@
 			display: inline-block;
 			padding-left: 1rem;
 			font-size: 1.5rem;
-			width:24rem;
+			width: 24rem;
 		}
-		.activegray{
-			color:#1A2833!important;
+		.activegray {
+			color: #1A2833!important;
 		}
 		.right-arrow {
 			width: 2.2rem;
@@ -541,20 +558,20 @@
 				.comfirmBtn {
 					text-align: center;
 					padding-top: 1.4rem;
-					padding-bottom:1.5rem;
+					padding-bottom: 1.5rem;
 				}
 			}
 		}
-		.time{
-			font-size:16px;
-			line-height:4rem;
-			padding-left:5rem;
-			&:first-child{
-				padding-top:2rem;
+		.time {
+			font-size: 16px;
+			line-height: 4rem;
+			padding-left: 5rem;
+			&:first-child {
+				padding-top: 2rem;
 			}
 		}
-		.active-time{
-			color:#1989fa;
+		.active-time {
+			color: #1989fa;
 		}
 	}
 </style>

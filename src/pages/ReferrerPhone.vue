@@ -11,7 +11,7 @@
 		<div class="btn">
 			<button class="next font-18 gray" v-if="grayShow">下一步</button>
 			<button class="next font-18" v-else @click="getNext">下一步</button>
-			<div class="jump-over font-16 color-966 font-weight-400" @click="jumpNext">跳过</div>
+			<div class="jump-over font-16 color-966 font-weight-400" @click="jumpNext(1)">跳过</div>
 		</div>
 		<div class="orderWrapper" v-if="invalidShow">
 			<div class="order-content">
@@ -19,7 +19,7 @@
 				<div style="color:#353535;font-size:1.5rem;">该手机号不是代理哦~</div>
 				<div class="borderStyle"></div>
 				<button class="canle" @click="invalidShow=false">取消</button>
-				<button class="confirm" @click="jumpNext">继续</button>
+				<button class="confirm" @click="jumpNext(2)">继续</button>
 			</div>
 		</div>
 	</div>
@@ -48,7 +48,7 @@
 					if(this.customerPhone == agentPhone){
 						Toast('推荐人手机号不能与登陆手机号为同一个')
 					}else{
-						//sessionStorage.setItem('agentPhone', agentPhone)
+						sessionStorage.setItem('agentPhone', agentPhone)
 						this.getDueryCoupon()
 					}
 				
@@ -90,9 +90,9 @@
 					if(res.code == '000') {
 						console.log('ggggg')
 						if(this.$route.query.itemNo){
-							this.$router.push("/reservation?itemNo="+this.$route.query.itemNo)
+							this.$router.push("/reservation?itemNo="+this.$route.query.itemNo+'&fromReferrerPhone=1')
 						}else{
-							this.$router.push("/reservation")
+							this.$router.push("/reservation?fromReferrerPhone=1")
 						}
 					} else {
 						console.log('hhhhhh')
@@ -100,11 +100,22 @@
 					}
 				}).catch(() => {})
 			},
-			jumpNext() {
+			jumpNext(params) {
 				if(this.$route.query.itemNo){
-					this.$router.push("/reservation?itemNo="+this.$route.query.itemNo)
+					if(params == 1){
+						this.$router.push("/reservation?itemNo="+this.$route.query.itemNo+'&fromReferrerPhone=1&jump=1')
+					}else{
+						this.$router.push("/reservation?itemNo="+this.$route.query.itemNo+'&fromReferrerPhone=1')
+					}
 				}else{
-					this.$router.push("/reservation")
+					if(params == 1){
+						//this.$router.push("/reservation?itemNo="+this.$route.query.itemNo+'&fromReferrerPhone=1&jump=1')
+						this.$router.push("/reservation?fromReferrerPhone=1&jump=1")
+					}else{
+						//this.$router.push("/reservation?itemNo="+this.$route.query.itemNo+'&fromReferrerPhone=1')
+						this.$router.push("/reservation?fromReferrerPhone=1")
+					}
+					
 				}
 			},
 			isHasParentAgent() {

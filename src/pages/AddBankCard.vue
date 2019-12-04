@@ -170,7 +170,7 @@ export default {
             // 去除格式不对的字符并重新插入-的字符串
             const newCardNum = noLine.replace(/\D+/g, '').replace(/(\d{4})/g, '$1 ').replace(/\s*$/, '')
             // 改后字符串中原光标之前-的个数
-            const newLineNumOfCursorLeft = (newCardNum.slice(0, cursorIndex).match(/ /g) || []).length
+            const newLineNumOfCursorLeft = (newCardNum.slice(0, cursorIndex).match(/\s/g) || []).length
             // 光标在改后字符串中应在的位置
             const newCursorIndex = cursorIndex + newLineNumOfCursorLeft - lineNumOfCursorLeft
             // 赋新值，nextTick保证-不能手动输入或删除，只能按照规则自动填入

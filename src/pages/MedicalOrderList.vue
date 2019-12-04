@@ -9,7 +9,7 @@
                         <img class="order-img" src="../assets/images/order_icon.png" />
                         <div class="order-item-info">
                             <p>{{item.title}}</p>
-                            <p class="order-item-amount DINAlternate-Bold"><span>￥</span>{{item.amountShow}}</p>
+                            <p class="order-item-amount DINAlternate-Bold"><span>￥</span>{{$utils.formatMoney(item.amount, 1)}}</p>
                         </div>
                         <img class="order-arrow" src="../assets/images/arrow.png" />
                     </div>
@@ -30,7 +30,8 @@ export default {
     data () {
         return {
             orderList: [],
-            request: false
+            request: false,
+            weekDay: [' 周日', ' 周一', ' 周二', ' 周三', ' 周四', ' 周五', ' 周六']
         }
     },
     mounted () {
@@ -54,7 +55,8 @@ export default {
                         this.orderList = res.content.map(item => {
                             let data = {}
                             data = item
-                            data.amountShow = Math.round(item.amount/100)
+                            data.createTime = item.createTime ? dateFormatter(new Date(item.createTime), 'yyyy/MM/dd') : ''
+                            data.timeShow = data.createTime + this.weekDay[new Date(Date.parse(data.createTime)).getDay()]
                             return data
                         })
                     } else {
@@ -62,38 +64,6 @@ export default {
                     }
                 }
             })
-            let res = {
-                content: []
-            }
-            res.content = [{
-                businessNo: 111,
-                amount: '66600',
-                time: 1575540600563,
-                title: '预付折扣券',
-                type: 'RES'
-            }, {
-                businessNo: 222,
-                amount: '111100',
-                time: 1574990600563,
-                title: '项目收费',
-                type: 'PAY'
-            }, {
-                businessNo: 333,
-                amount: '9900',
-                time: 1574840600563,
-                title: '项目收费-有退费',
-                type: 'PAY'
-            }]
-            const weekDay = [' 周日', ' 周一', ' 周二', ' 周三', ' 周四', ' 周五', ' 周六']
-            this.orderList = res.content.map(item => {
-                let data = {}
-                data = item
-                data.time = item.time ? dateFormatter(new Date(item.time), 'yyyy/MM/dd') : ''
-                data.timeShow = data.time + weekDay[new Date(Date.parse(data.time)).getDay()]
-                data.amountShow = Math.round(item.amount/100)
-                return data
-            })
-            this.request = true
         },
         // 跳转订单详情
         openDetail (item) {

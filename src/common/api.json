@@ -7,7 +7,7 @@
     "bankCard-v3-getVerifyCode": "/bankCard/v3/getVerifyCode",
     "bankCard-v3-bindBankCard": "/bankCard/v3/bindBankCard",
 
-    "customer-myReports": "/customer/myReports",
+    "customer-home-myReports": "/customer/home/myReports",
     "customer-myReportDetail": "/customer/myReportDetail",
     "customer-orderList": "/customer/orderList",
     "customer-orderDetail": "/customer/orderDetail",

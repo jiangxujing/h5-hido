@@ -44,7 +44,7 @@ export default {
     methods: {
         // 获取报告列表
         getReportList () {
-            api.post(api.getUrl('customer-myReports'), {}).then(res => {
+            api.post(api.getUrl('customer-home-myReports'), {}).then(res => {
                 if (!!res && res.code === 0) {
                     this.request = true
                     if (!!res.content && res.content.length > 0) {

@@ -75,8 +75,8 @@
 		</van-popup>
 		<div class="comfirm-reservation-wrapper" @click="comfirmBox=false" v-show="comfirmBox">
 			<div class="comfirm-reservation">
-				<div class="title font-17 font-weight-500">确认预约</div>
-				<div class="project-list">
+				<div class="title-confirm font-17 font-weight-500 DINAlternate-Bold">确认预约</div>
+				<div class="project-list" style="padding-top:2rem">
 					<span class="project-left font-14 color-399">我的项目：</span>
 					<span class="project-right font-16 color-833">{{projectName}}</span>
 				</div>
@@ -467,6 +467,12 @@
 			padding-left: 1rem;
 			line-height: 4rem;
 		}
+		.title-confirm{
+			height: 4rem;
+			padding:2rem;
+			text-align: center;
+			color:#4B464D;
+		}
 		.list-style {
 			height: 6rem;
 			background: #fff;
@@ -543,7 +549,7 @@
 				width: 72%;
 				background: #fff;
 				border-radius: 1.4rem;
-				margin: 22rem auto 0;
+				margin:40% auto 0;
 				.title {
 					color: #4B464D;
 					font-weight: 500;

@@ -120,7 +120,7 @@
 				reserveTime: '请选择',
 				name: '',
 				phone: '',
-				checked: false, //抵扣券是否选中，
+				checked: true, //抵扣券是否选中，
 				consultingList: [],
 				doctorsList: [],
 				projectactive: -1,

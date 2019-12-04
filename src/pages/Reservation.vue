@@ -38,9 +38,11 @@
 					<img src="../assets/images/radio-no.png" class="radioChecked" v-else/>
 				</div>
 			</div>
-			<div style="text-align: center;padding-top:5rem;width: 100%;padding: 8rem 14% 6rem 14%">
-				<button class="reservation-btn opacity-style font-17" v-if="gray">预约</button>
-				<button class="reservation-btn font-17" v-else @click="getReservation">预约</button>
+			<div style="text-align:center;width:70%;padding-top:8rem;padding-bottom:2.5rem;margin: 0 auto;" v-if="gray">
+				<button class="reservation-btn opacity-style font-17">预约</button>
+			</div>
+			<div style="text-align:center;width:70%;padding-top:8rem;padding-bottom:2.5rem;margin: 0 auto;" v-else>
+				<button class="reservation-btn font-17"  @click="getReservation">预约</button>
 			</div>
 		</div>
 		<div class="drop-down" v-if="advisoryShow">
@@ -454,11 +456,11 @@
 		width: 100%;
 		height: 100%;
 		background: #F8F8F8;
-		display: flex;
+		/*display: flex;
 		flex-direction: column;
 		justify-content: space-between;
+		min-height: 50rem;*/
 		height: 100%;
-		min-height: 50rem;
 		.van-cell:not(:last-child)::after {
 			right: 1.5rem;
 		}

@@ -86,30 +86,41 @@
 				this.h5Show = false
 				console.log(this.h5Show)
 			},
+			orderPayH5(){
+				let req = {
+					businessNo: this.orderNo,
+					payType: 'WX_H5'
+				}
+				api.post(api.getUrl('orderPay'), req).then(res => {
+					this.buyed = null
+					if(res.code == '000') {
+						sessionStorage.setItem('h5paysuccess', true)
+						let uri = ''
+						uri = location.origin + '/h5-hido/index.html#/paymentList?h5paysuccess=' + sessionStorage.getItem('h5paysuccess') + '&orderAmount=' + this.salesPrice + '&orderNo=' + this.orderNo
+						let linkUrl = encodeURIComponent(uri)
+						let sceneInfo = JSON.parse(res.content.respExt)
+						this.jumpUrl = sceneInfo.mWebUrl
+						console.log('99999999999999=' + this.jumpUrl)
+						setTimeout(() => {
+							location.href = this.jumpUrl + '&redirect_url=' + linkUrl
+						}, 200)
+
+					}
+				}).catch((e) => {
+
+				})
+			}
 			payH5() {
-				let req = {}
-				if(this.fromOrder) {
-						req = {
-						orderNo: this.orderNo,
-						payType: 'WX_H5'
-					}
-				} else {
-					req = {
-						businessNo:this.businessNo,
-						payType: 'WX_H5'
-					}
+				let req = {
+					businessNo:this.businessNo,
+					payType: 'WX_H5'
 				}
 				api.post(api.getUrl('reservePay'), req).then(res => {
 					this.buyed = null
 					if(res.code == '000') {
 						sessionStorage.setItem('h5paysuccess', true)
 						let uri = ''
-						if(this.fromOrder) {
-							uri = location.origin + '/h5-hido/index.html#/paymentList?h5paysuccess=' + sessionStorage.getItem('h5paysuccess') + '&orderAmount=' + this.salesPrice + '&orderNo=' + this.orderNo
-						}else{
-							uri = location.origin + '/h5-hido/index.html#/paymentList?h5paysuccess=' + sessionStorage.getItem('h5paysuccess') + '&salesPrice=' + this.salesPrice + '&businessNo=' + this.businessNo
-						}
-						
+						uri = location.origin + '/h5-hido/index.html#/paymentList?h5paysuccess=' + sessionStorage.getItem('h5paysuccess') + '&salesPrice=' + this.salesPrice + '&businessNo=' + this.businessNo
 						let linkUrl = encodeURIComponent(uri)
 						let sceneInfo = JSON.parse(res.content.respExt)
 						this.jumpUrl = sceneInfo.mWebUrl
@@ -127,7 +138,12 @@
 				if(this.buyed) {
 					Toast('请勿提交订单过块！')
 				} else {
-					this.payH5()
+					if(this.fromOrder) {
+						this.orderPayH5()
+					}else{
+						this.payH5()
+					}
+					
 				}
 
 			}

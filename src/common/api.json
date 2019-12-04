@@ -44,5 +44,6 @@
     "queryCoupon":"/customer/getCoupon",
     "paymentType":"/customer/paymentType",
     "isHasParentAgent":"/customer/hasParentAgent",
-    "reservePay":"/customer/reservePay"
+    "reservePay":"/customer/reservePay",
+    "orderPay":"/customer/orderPay"
 }

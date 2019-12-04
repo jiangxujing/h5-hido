@@ -164,18 +164,18 @@ export default {
             // 获取当前光标的位置
             const cursorIndex = input.selectionStart
             // 字符串中光标之前-的个数
-            const lineNumOfCursorLeft = (cardNum.slice(0, cursorIndex).match(/-/g) || []).length
+            const lineNumOfCursorLeft = (cardNum.slice(0, cursorIndex).match(/\s/g) || []).length
             // 去掉所有-的字符串
-            const noLine = cardNum.replace(/-/g, '')
+            const noLine = cardNum.replace(/\s/g, '')
             // 去除格式不对的字符并重新插入-的字符串
-            const newCardNum = noLine.replace(/\D+/g, '').replace(/(\d{4})/g, '$1-').replace(/-$/, '')
+            const newCardNum = noLine.replace(/\D+/g, '').replace(/(\d{4})/g, '$1 ').replace(/\s*$/, '')
             // 改后字符串中原光标之前-的个数
-            const newLineNumOfCursorLeft = (newCardNum.slice(0, cursorIndex).match(/-/g) || []).length
+            const newLineNumOfCursorLeft = (newCardNum.slice(0, cursorIndex).match(/ /g) || []).length
             // 光标在改后字符串中应在的位置
             const newCursorIndex = cursorIndex + newLineNumOfCursorLeft - lineNumOfCursorLeft
             // 赋新值，nextTick保证-不能手动输入或删除，只能按照规则自动填入
             this.$nextTick(() => {
-                this.cardNo = newCardNum.replace(/-/g, ' ')
+                this.cardNo = newCardNum
                 // 修正光标位置，nextTick保证在渲染新值后定位光标
                 this.$nextTick(() => {
                     // selectionStart、selectionEnd分别代表选择一段文本时的开头和结尾位置

@@ -109,7 +109,7 @@
 				}).catch((e) => {
 
 				})
-			}
+			},
 			payH5() {
 				let req = {
 					businessNo:this.businessNo,

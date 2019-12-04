@@ -5,24 +5,21 @@
 				<div class="font-12 color-399 title">预约信息</div>
 				<div class="list-style" @click="openAdvisoryList('1')">
 					<div class="list-content">
-						<label for="name" class="font-15 color-833">咨询项目</label>
-						<!--<input type="text" placeholder="请选择" class="advisory-list" v-model="projectName" disabled="true"/>-->
+						<div class="font-15 color-833 namedes">咨询项目</div>
 						<div class="advisory-list" style="padding-left:4rem;color:#BBB" :class="{'activegray':projectName && projectName != '请选择'}">{{projectName}}</div>
 						<img src="../assets/images/arrow.png" class="right-arrow" />
 					</div>
 				</div>
 				<div class="list-style" @click="openAdvisoryList(2)">
 					<div class="list-content">
-						<label for="name" class="font-15 color-833">医师&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-						<!--<input type="text" placeholder="请选择" class="advisory-list" v-model="doctor" disabled="true"/>-->
+						<div class="font-15 color-833 namedes">医师&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 						<div class="advisory-list" style="padding-left:4rem;color:#BBB" :class="{'activegray':doctor && doctor!='请选择'}">{{doctor}}</div>
 						<img src="../assets/images/arrow.png" class="right-arrow" />
 					</div>
 				</div>
 				<div class="list-style" @click="openTime">
 					<div class="list-content">
-						<label for="name" class="font-15 color-833">面诊时间</label>
-						<!--<input type="text" placeholder="请选择" class="advisory-list" v-model="reserveTime" disabled="true"/>-->
+						<div class="font-15 color-833 namedes">面诊时间</div>
 						<div class="advisory-list" style="padding-left:4rem;color:#BBB" :class="{'activegray':reserveTime && reserveTime!= '请选择'}">{{reserveTime}}</div>
 						<img src="../assets/images/arrow.png" class="right-arrow" />
 					</div>
@@ -250,6 +247,8 @@
 						this.projectactive = -1;
 					}
 					this.doctor = '请选择'
+					this.doctoractive = -1;
+					this.doctorNo = ''
 					sessionStorage.removeItem('doctoractive')
 					sessionStorage.removeItem('doctor')
 					sessionStorage.removeItem('doctorNo')
@@ -477,13 +476,16 @@
 				border-bottom: 1px solid #F8F8F8;
 				width: 97%;
 				height: 4rem;
+				.namedes{
+					float:left;
+				}
 			}
 		}
 		.advisory-list {
-			display: inline-block;
 			padding-left: 1rem;
 			font-size: 1.5rem;
-			width: 24rem;
+			width:auto;
+			float:left;
 		}
 		.activegray {
 			color: #1A2833!important;

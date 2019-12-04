@@ -366,7 +366,7 @@
 					console.log(this.appointmentDate)
 					this.doctorNo = sessionStorage.getItem('doctorNo') || null
 					this.doctor = sessionStorage.getItem('doctor') || '请选择'
-					this.checked = sessionStorage.getItem('checked') || false
+					this.checked = sessionStorage.getItem('checked') || true
 					this.projectactive = sessionStorage.getItem('projectactive') || null
 					this.doctoractive = sessionStorage.getItem('doctoractive') || null
 					if(this.projectName && this.projectName != '请选择' && this.doctor != '请选择' && this.doctor && this.reserveTime && this.reserveTime != '请选择' && this.name && this.phone && this.phone.length == 11) {

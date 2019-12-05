@@ -57,7 +57,7 @@
 							<img class="libao" :src="i.headPicture" />
 							<div class="package-price">
 								<div style="color:#FF7B31;max-width: 15rem;overflow: hidden;text-overflow: ellipsis">
-									<span style="font-size:1.6rem;">￥<span style="font-size:2.1rem;font-weight: bold;">{{$utils.formatMoney(i.salesPrice,1)}}</span></span>
+									<span style="font-size:1.6rem;">￥<span class="DINAlternate-Bold" style="font-size:2.1rem;font-weight: bold;">{{$utils.formatMoney(i.salesPrice,1)}}</span></span>
 									<span style="font-size:1.4rem;">会员礼包</span>
 								</div>
 								<div style="color:#8A9399;font-size:1.7rem;font-weight: 400;">原价￥<span>{{$utils.formatMoney(i.originalPrice,1)}}</span></div>
@@ -94,7 +94,7 @@
 					</div>
 				</div>
 			</div>
-			<div style="overflow: hidden;">
+			<div style="overflow: hidden;padding: 1rem 1.1rem 0 1.5rem;display: flex;">
 				<div class="buy" @click="getBuy" v-if="packageDetail && homepageUrl.type==1">￥{{$utils.formatMoney(packageDetail.salesPrice,1)}}成为代理</div>
 				<div class="buy" @click="getBuy" v-else>立即购买</div>
 				<img src="../assets/images/share.png" class="share-now" @click="getShare(packageDetail)" />
@@ -402,7 +402,7 @@
 						padding-left: 2rem;
 						float: left;
 						img {
-							height: 8px;
+							height: .8rem;
 							vertical-align: middle;
 						}
 					}
@@ -459,14 +459,14 @@
 				margin: 0 auto;
 				height: auto;
 				border: 1px solid #EAEAEA;
-				border-radius: 5px;
+				border-radius: .5rem;
 				overflow: hidden;
 				padding: 1rem 1.2rem 1.5rem;
 			}
 			.libao {
-				width: 52px;
-				height: 52px;
-				border-radius: 3px;
+				width: 5.2rem;
+				height: 5.2rem;
+				border-radius: .3rem;
 				float: left;
 			}
 			.buynumber {
@@ -489,8 +489,9 @@
 				float: right;
 				button {
 					padding: 0.8rem 1.8rem;
+					line-height: 1;
 					background: linear-gradient(132deg, rgba(255, 175, 130, 1) 0%, rgba(255, 123, 49, 1) 100%);
-					border-radius: 15px;
+					border-radius: 1.5rem;
 					color: #fff;
 					outline: none;
 					border: none;
@@ -499,24 +500,21 @@
 				}
 			}
 			.buy {
-				margin-left: 1.5rem;
-				margin-top: 1.6rem;
 				text-align: center;
-				width: 74%;
-				height: 46px;
 				background: linear-gradient(132deg, rgba(255, 175, 130, 1) 0%, rgba(255, 123, 49, 1) 100%);
-				border-radius: 29px;
+				border-radius: 2.9rem;
 				font-size: 1.8rem;
 				font-weight: 600;
 				color: #fff;
-				line-height: 46px;
 				float: left;
+    			line-height: 4.6rem;
+				margin: .6rem 0;
+				flex: 1;
 			}
 			.share-now {
 				width: 5.8rem;
 				float: right;
-				padding-right: 1.1rem;
-				padding-top: 1.6rem;
+				margin-left: 1.1rem;
 			}
 		}
 		.shareWraper {

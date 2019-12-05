@@ -19,7 +19,7 @@
 				<img class="weixin" :src="bankPhoto" />
 				<div class="bank-name-no">
 					<div>{{bankName}}</div>
-					<div>{{bankCardNo}}</div>
+					<div>{{'**** **** **** ' + bankCardNo}}</div>
 				</div>
 				<img class="gouxuan" src="../assets/images/arrow.png" />
 			</div>
@@ -42,13 +42,13 @@
 						<img class="bank-logo" :src="b.bankPhoto" />
 						<div class="bank-no">
 							<div style="margin-top:0.2rem">{{b.bankName}}</div>
-							<div style="margin-top:0.8rem">{{b.bankCardNo}}</div>
+							<div style="margin-top:0.8rem">{{'**** **** **** ' + b.bankCardNo}}</div>
 						</div>
-						<img class="gou-xuan" src="../assets/images/gou.png" v-if="b.active" />
+						<img class="gou-xuan" src="../assets/images/gouxuan.png" v-if="b.active" />
 					</div>
 				</div>
 				<div class="bank" @click="addBank">
-					<div style="padding:1.2rem 1.5rem 0;height:4rem;line-height:4rem;">
+					<div style="padding:1.2rem 1.5rem;line-height:4rem;">
 						<img src="../assets/images/add.png" class="bank-add" />
 						<span style="color:#8A9399;font-size:1.4rem;margin-left:1.5rem">添加银行卡</span>
 						<img src="../assets/images/arrow.png" class="banklarrow" />
@@ -378,6 +378,9 @@
 				}
 				.banklarrow {
 					float: right;
+					width: 2.2rem;
+					height: 2.2rem;
+					margin-top: .9rem;
 				}
 			}
 			.active {
@@ -397,6 +400,8 @@
 			.gou-xuan {
 				float: right;
 				margin-top: 1rem;
+				width: 2.2rem;
+    			height: 2.2rem;
 			}
 		}
 		.cancle-btn {

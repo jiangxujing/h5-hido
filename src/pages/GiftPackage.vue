@@ -1,6 +1,6 @@
 <template>
 	<div v-if="loadingEnd">
-		<div v-if="packageList && packageList.length>0">
+		<div v-if="packageList && packageList.length > 0">
 			<div class="gift-package" v-for="(p,index) in packageList" :key="index" @click="goToGiftDetail(p.orderNo)">
 				<div class="time-status">
 					<div class="time">{{p.orderTime?$utils.dateFormatter(p.orderTime, "yyyy-MM-dd HH:mm:ss"):''}}</div>
@@ -27,7 +27,7 @@
 				</div>
 			</div>
 		</div>
-		<div v-else class="nopackage">当前暂无礼包哦！</div>
+		<div v-else class="no-content">暂无礼包</div>
 	</div>
 </template>
 
@@ -49,7 +49,7 @@
 				api.post(api.getUrl('queryPurchasedPackageList', 'collections'), {}).then(res => {
 					if(res.code == '0000') {
 						this.loadingEnd = true
-						this.packageList = res.content
+						// this.packageList = res.content
 					}
 				})
 			},
@@ -151,11 +151,5 @@
 			color: #475966;
 			margin-top: 1.7rem;
 		}
-	}
-	.nopackage {
-		font-size: 2.2rem;
-		text-align: center;
-		padding-top: 8rem;
-		font-weight: 500;
 	}
 </style>

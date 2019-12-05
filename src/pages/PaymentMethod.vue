@@ -28,13 +28,13 @@
 		data() {
 			return {
 				salesPrice: sessionStorage.getItem('salesPrice'),
-				buyed:null
+				buyed: null
 			}
 		},
 		methods: {
 			buyNow() {
 				if(this.buyed){
-					Toast('请勿提交订单过块！')
+					Toast('请勿提交订单过快！')
 				}else{
 					this.getOrderDetail()
 				}

@@ -3,7 +3,7 @@
     <div class="main-content account-balance">
         <div v-if="request">
             <van-dropdown-menu class="account-balance-type" active-color="#FF7B31">
-                <van-dropdown-item v-model="type" :options="typeList" @change="setType"/>
+                <van-dropdown-item v-model="type" :options="typeList" @change="getBillList"/>
             </van-dropdown-menu>
             <div v-if="billList && billList.length > 0">
                 <van-cell v-for="(item, index) in billList" :key="index">
@@ -63,11 +63,6 @@ export default {
 
     },
     methods: {
-        // 更改类型
-        setType () {
-            this.pageNo = 0
-            this.getBillList()
-        },
         // 获取账单
         getBillList () {
             let datas = {

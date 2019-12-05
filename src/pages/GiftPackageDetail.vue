@@ -185,7 +185,7 @@
 			document.title = '礼包详情'
 			let orderNo = this.$route.query.orderNo
 			if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
-				api.setNative('callInit', {interceptBack: false})
+				api.callHandler('callInit', {interceptBack: false})
 				setTimeout(() => {
 						this.getPackageOrder(orderNo)
 				}, 600)

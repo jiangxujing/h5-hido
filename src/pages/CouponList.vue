@@ -55,7 +55,7 @@ export default {
     mounted () {
         document.title = '我的卡券'
         if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
-            api.setNative('callInit', {interceptBack: false})
+            api.callHandler('callInit', {interceptBack: false})
             setTimeout(() => {
                 this.getCoupopList()
             }, 600)

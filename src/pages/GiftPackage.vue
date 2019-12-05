@@ -75,7 +75,7 @@
 			}
 			document.title = '我的礼包'
 			if(navigator.userAgent.toLowerCase().indexOf('hido')  !=  -1) {
-				api.setNative('callInit', {
+				api.callHandler('callInit', {
 					interceptBack: false
 				})
 				setTimeout(() => {

@@ -133,7 +133,7 @@
 //				this.changeTel()
 //			}
 			if(navigator.userAgent.toLowerCase().indexOf('hido')  !=  -1) {
-				api.setNative('callInit', {
+				api.callHandler('callInit', {
 					interceptBack: false
 				})
 				setTimeout(() => {

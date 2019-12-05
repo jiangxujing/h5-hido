@@ -37,7 +37,7 @@ export default {
     mounted () {
         document.title = '订单列表'
         if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
-            api.setNative('callInit', {interceptBack: false})
+            api.callHandler('callInit', {interceptBack: false})
             setTimeout(() => {
                 this.getOrderList()
             }, 600)

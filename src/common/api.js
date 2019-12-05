@@ -30,10 +30,6 @@ const prefixList = [{
 	value: '/collections-web'
 }]
 
-const weixinPrefix = '/sns'
-const weixinPayPrefix = '/pay'
-const h5Prefix = '/mch'
-
 /* 自定义判断元素类型JS */
 function toType(obj) {
 	return({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
@@ -75,21 +71,6 @@ const getUrl = (key, type) => {
 		prefixList.forEach(item => {
 			item.type == type ? url = item.value + ApiList[key] : ''
 		})
-	}
-	return url
-}
-
-const getWeixinUrl = (key, type) => {
-	if(typeof ApiList[key] === 'undefined' || ApiList[key] === '') {
-		return ''
-	}
-	let url = ''
-	if(type == 'weixin') {
-		url = weixinPrefix + ApiList[key]
-	} else if(type == 'weixinPay') {
-		url = weixinPayPrefix + ApiList[key]
-	} else if(type == 'h5Pay') {
-		url = h5Prefix + ApiList[key]
 	}
 	return url
 }
@@ -156,11 +137,11 @@ const setupWebViewJavascriptBridge = function(callback) {
 };
 
 /**
- * setNative 把获取到的入参 赋值到 cookie
+ * callHandler 连接Native提供接口对的方法（把获取到的数据赋值到cookie）
  * type: 定义的接口名
  * params: 入参对象
  **/
-const setNative = function(type, params) {
+const callHandler = function(type, params) {
 	setupWebViewJavascriptBridge(function(webViewCallHandler) {
 		webViewCallHandler.callHandler(type, params, function(data) {
 			if(data.content) {
@@ -254,69 +235,49 @@ const post = (url, data, noBox,noLoading, noToken,formData) => {
 		['timeout'].indexOf(key) === -1 ? postData[key] = val : ''
 	})
 	// header 入参
-	let headers = {}
-	if(getCookie('mmTicket')) {
-		headers = {
-			mmTicket: null,
-			token: null,
-			tokenExpire: null,
-			accessToken: null,
-			isRegister: null,
-			lastLoginTime: null,
-			memberId: null,
-			memberType: null,
-			deviceID: null,
-			phoneBrand: null,
-			phoneVersion: null,
-			appVersion: null,
-			screenHeight: null,
-			screenWidth: null,
-			channel: null
-		}
-	} else {
-		headers = {
-			token: null,
-			tokenExpire: null,
-			accessToken: null,
-			isRegister: null,
-			lastLoginTime: null,
-			memberId: null,
-			memberType: null,
-			deviceID: null,
-			phoneBrand: null,
-			phoneVersion: null,
-			appVersion: null,
-			screenHeight: null,
-			screenWidth: null,
-			channel: null
-		}
+	let headers = {
+		token: null,
+		tokenExpire: null,
+		accessToken: null,
+		isRegister: null,
+		lastLoginTime: null,
+		memberId: null,
+		memberType: null,
+		deviceID: null,
+		phoneBrand: null,
+		phoneVersion: null,
+		appVersion: null,
+		screenHeight: null,
+		screenWidth: null,
+		channel: null
 	}
-	for(let k in headers) {
-		if(getQueryString(k)) {
+	for (let k in headers) {
+		if (getQueryString(k)) {
 			headers[k] = getQueryString(k)
 			setCookie(k, headers[k], 7)
 		} else {
 			headers[k] = getCookie(k)
 		}
 	}
-	headers.accessToken?headers.mmTicket = headers.accessToken:null
 	headers.conection = 'close'
-	headers['mmTicket']?setCookie('mmTicket', headers['mmTicket'], 7):null
+	getCookie('mmTicket') ? headers.mmTicket = getCookie('mmTicket') : null
+	headers.accessToken ? headers.mmTicket = headers.accessToken : null
+	headers['mmTicket'] ? setCookie('mmTicket', headers['mmTicket'], 7) : null
 
 	let timeout = _data['timeout'] || 10 * sec
 	// 请求头
 	let axiosHead = {
-			method: 'post',
-			url: url,
-			data: postData,
-			timeout: timeout,
-			CancelToken: new CancelToken(function executor(c) {
-				cancel = c
-			})
-		}
+		method: 'post',
+		url: url,
+		data: postData,
+		timeout: timeout,
+		CancelToken: new CancelToken(function executor(c) {
+			cancel = c
+		})
+	}
 
-		!noLoading ? Loading.show() : ''
-		!noToken ? axiosHead.headers = headers : ''
+	!noLoading ? Loading.show() : ''
+	!noToken ? axiosHead.headers = headers : ''
 	formData ? axiosHead.data = qs.stringify(postData) : ''
 
 	return axios(axiosHead).then(function(resp) {
@@ -369,12 +330,11 @@ const post = (url, data, noBox,noLoading, noToken,formData) => {
 // 返回在vue模板中的调用接口
 export default {
 	getUrl,
-	getWeixinUrl,
 	get,
 	getWechat,
 	post,
 	setupWebViewJavascriptBridge,
-	setNative,
+	callHandler,
 	registerHandler,
 	cancel: () => {
 		cancel && cancel()

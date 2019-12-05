@@ -63,7 +63,7 @@ export default {
         document.title = '预约详情'
         this.orderForm.businessNo = getQueryString('businessNo') ? getQueryString('businessNo') : null
         if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
-            api.setNative('callInit', {interceptBack: false})
+            api.callHandler('callInit', {interceptBack: false})
             setTimeout(() => {
                 this.getOrderDetail()
             }, 600)

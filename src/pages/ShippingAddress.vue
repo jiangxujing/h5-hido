@@ -183,13 +183,14 @@
 		},
 		mounted() {
 			document.title="添加收货地址"
-			this.getCountryList()
-			let params = {
-				interceptBack: false
+			if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
+				api.callHandler('callInit', {interceptBack: false})
+				setTimeout(() => {
+					this.getCountryList()
+				}, 600)
+			} else {
+				this.getCountryList()
 			}
-			api.setupWebViewJavascriptBridge((bridge) => {
-				bridge.callHandler('callInit', params, (data) => {})
-			})
 		},
 	}
 </script>

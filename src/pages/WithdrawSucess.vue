@@ -22,19 +22,14 @@
 
 			}
 		},
-		methods: {
-			goBack() {
-				api.setupWebViewJavascriptBridge((bridge) => {
-						bridge.callHandler('callFinish', {}, (data) => {
-							console.log(data)
-						})
-					})
-
-			}
-		},
 		mounted() {
 			document.title = '提现成功'
 		},
+		methods: {
+			goBack() {
+				api.callHandler('callFinish', {})
+			}
+		}
 	}
 </script>
 

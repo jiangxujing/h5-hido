@@ -195,12 +195,12 @@
 
 			getBuy(i) {
 				if(navigator.userAgent.toLowerCase().indexOf('hido')  !=  -1) {
-					api.setNative('callInit', {
+					api.callHandler('callInit', {
 						interceptBack: false
 					})
 					setTimeout(() => {
 						if(!_utils.getCookie('accessToken')) {
-							api.setNative('callLogin', {})
+							api.callHandler('callLogin', {})
 						} else {
 							if(i.packageCode) {
 								this.$router.push("/orderDetail?packageCode=" + i.packageCode + '&uid=' + this.uid)
@@ -283,7 +283,7 @@
 			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端
 			let code = this.$route.query.packageCode
 			if(navigator.userAgent.toLowerCase().indexOf('hido')  !=  -1) {
-				api.setNative('callInit', {
+				api.callHandler('callInit', {
 					interceptBack: false
 				})
 				setTimeout(() => {

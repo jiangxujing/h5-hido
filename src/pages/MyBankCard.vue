@@ -32,7 +32,7 @@ export default {
     mounted () {
         document.title = '银行卡'
         if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
-            api.setNative('callInit', {interceptBack: false})
+            api.callHandler('callInit', {interceptBack: false})
             setTimeout(() => {
                 this.getBankCardList()
             }, 600)

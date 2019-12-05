@@ -93,7 +93,7 @@ export default {
         this.businessNo = getQueryString('businessNo') ? getQueryString('businessNo') : null
         document.title = !!this.businessNo ? '订单详情' : '等待支付'
         if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
-            api.setNative('callInit', {interceptBack: false})
+            api.callHandler('callInit', {interceptBack: false})
             setTimeout(() => {
                 this.getOrderDetail()
             }, 600)

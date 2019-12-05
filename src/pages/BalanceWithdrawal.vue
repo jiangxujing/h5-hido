@@ -247,7 +247,7 @@
 		mounted() {
 			document.title = "余额提现"
 			if(navigator.userAgent.toLowerCase().indexOf('hido')  !=  -1) {
-				api.setNative('callInit', {
+				api.callHandler('callInit', {
 					interceptBack: false
 				})
 				setTimeout(() => {

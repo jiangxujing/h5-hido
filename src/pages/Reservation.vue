@@ -436,9 +436,7 @@
 		mounted() {
 			this.itemNo = this.$route.query.itemNo
 			if(navigator.userAgent.toLowerCase().indexOf('hido')  !=  -1) {
-				api.setNative('callInit', {
-					interceptBack: false
-				})
+				api.callHandler('callInit', {interceptBack: false})
 				setTimeout(() => {
 					this.isHasParentAgent()
 				}, 600)
@@ -560,7 +558,6 @@
 				.project-list {
 					line-height: 3rem;
 					padding-left: 1.2rem;
-					.project-left {}
 					.project-right {
 						padding-left: 0.5rem;
 					}

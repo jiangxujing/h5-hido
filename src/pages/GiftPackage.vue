@@ -49,7 +49,7 @@
 				api.post(api.getUrl('queryPurchasedPackageList', 'collections'), {}).then(res => {
 					if(res.code == '0000') {
 						this.loadingEnd = true
-						// this.packageList = res.content
+						this.packageList = res.content
 					}
 				})
 			},

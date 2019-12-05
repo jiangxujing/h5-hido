@@ -382,6 +382,7 @@
 				padding-left: 1.5rem;
 				padding-bottom: 1.4rem;
 				color: #1A2833;
+				font-size: 1.8rem;
 			}
 			.content2-detail {
 				width: 92%;

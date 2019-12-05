@@ -6,7 +6,6 @@
                 <van-dropdown-item v-model="type" :options="typeList" @change="setType"/>
             </van-dropdown-menu>
             <div v-if="billList && billList.length > 0">
-                <!-- <van-list> -->
                 <van-cell v-for="(item, index) in billList" :key="index">
                     <div class="bill-item">
                         <div class="bill-item-left">
@@ -19,7 +18,6 @@
                         </div>
                     </div>
                 </van-cell>
-                <!-- </van-list> -->
             </div>
             <div class="no-content" v-else>暂无账单</div>
         </div>

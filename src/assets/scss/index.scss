@@ -817,11 +817,6 @@ input::-webkit-input-placeholder {
             height: 5.6rem;
         }
     }
-    .van-number-keyboard {
-        .van-key {
-            @include borderHalfPxRound($borderColor, 0);
-        }
-    }
 }
 
 // 我的团队

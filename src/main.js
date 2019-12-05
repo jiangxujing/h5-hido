@@ -6,9 +6,8 @@ import api from './common/api.js'
 import utils from './common/utils.js'
 import 'vant/lib/button/style'
 
-import { NumberKeyboard, Field, Button, Toast, Popup, Cell, CellGroup, Icon, Checkbox, CheckboxGroup, DropdownMenu, DropdownItem, List, Collapse, CollapseItem, ActionSheet, DatetimePicker } from 'vant'
+import { Toast, Popup, Field, Button, Cell, CellGroup, Icon, Checkbox, CheckboxGroup, DropdownMenu, DropdownItem, Collapse, CollapseItem, ActionSheet, DatetimePicker } from 'vant'
 
-Vue.component(NumberKeyboard.name, NumberKeyboard)
 Vue.component(Toast.name, Toast)
 Vue.component(Popup.name, Popup)
 Vue.component(Field.name, Field)
@@ -20,17 +19,16 @@ Vue.component(Checkbox.name, Checkbox)
 Vue.component(CheckboxGroup.name, CheckboxGroup)
 Vue.component(DropdownMenu.name, DropdownMenu)
 Vue.component(DropdownItem.name, DropdownItem)
-Vue.component(List.name, List)
 Vue.component(Collapse.name, Collapse)
 Vue.component(CollapseItem.name, CollapseItem)
 Vue.component(ActionSheet.name, ActionSheet)
 Vue.component(DatetimePicker.name, DatetimePicker)
-Vue.use(NumberKeyboard, Toast, Popup, Field, Button, Icon, Checkbox, CheckboxGroup, DropdownMenu, DropdownItem, List, Collapse, CollapseItem, ActionSheet, DatetimePicker)
+Vue.use(Toast, Popup, Field, Button, Cell, CellGroup, Icon, Checkbox, CheckboxGroup, DropdownMenu, DropdownItem, Collapse, CollapseItem, ActionSheet, DatetimePicker)
 
-// 将工具方法绑定到全局
+// 将方法绑定到全局
 Vue.prototype.$utils = utils
-// 将API方法绑定到全局
 Vue.prototype.$api = api
+
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {

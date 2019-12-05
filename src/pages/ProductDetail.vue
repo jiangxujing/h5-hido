@@ -53,14 +53,14 @@
 			<div class="other-packages" v-for="(i,index) in giftPackageDTOList" style="margin-top:1rem" :key="index">
 				<div v-if="homepageUrl.type==1 || inweixin" @click="goToDetail(i.packageCode)">
 					<div style="overflow:hidden">
-						<div style="float:left">
+						<div class="fl-l">
 							<img class="libao" :src="i.headPicture" />
 							<div class="package-price">
-								<div style="color:#FF7B31;max-width: 15rem;overflow: hidden;text-overflow: ellipsis">
-									<span style="font-size:1.6rem;">￥<span class="DINAlternate-Bold" style="font-size:2.1rem;font-weight: bold;">{{$utils.formatMoney(i.salesPrice,1)}}</span></span>
-									<span style="font-size:1.4rem;">会员礼包</span>
+								<div style="margin-bottom:.2rem;line-height:3rem;font-size:1.4rem;color:#FF7B31;max-width: 15rem;overflow: hidden;text-overflow: ellipsis">
+									<span class="fl-l">￥<span class="DINAlternate-Bold" style="font-size:3rem;font-weight: bold;">{{$utils.formatMoney(i.salesPrice,1)}}</span></span>
+									<span style="margin-left: .4rem;">会员礼包</span>
 								</div>
-								<div style="color:#8A9399;font-size:1.7rem;font-weight: 400;">原价￥<span>{{$utils.formatMoney(i.originalPrice,1)}}</span></div>
+								<div style="color:#8A9399;font-size:1.2rem;line-height: 1.7rem;">{{'原价￥' + $utils.formatMoney(i.originalPrice,1)}}</div>
 							</div>
 						</div>
 						<div class="buynumber">{{i.initSalesCount}}人购买</div>
@@ -74,14 +74,14 @@
 				</div>
 				<div v-else>
 					<div style="overflow:hidden" @click="goToDetail(i.packageCode)">
-						<div style="float:left">
+						<div class="fl-l">
 							<img class="libao" :src="i.headPicture" />
 							<div class="package-price">
-								<div style="color:#FF7B31;max-width: 15rem;overflow: hidden;text-overflow: ellipsis">
-									<span style="font-size:1.6rem;">￥<span style="font-size:2.1rem;font-weight: bold;">{{$utils.formatMoney(i.salesPrice,1)}}</span></span>
-									<span style="font-size:1.4rem;">会员礼包</span>
+								<div style="margin-bottom:.2rem;line-height:3rem;font-size:1.4rem;color:#FF7B31;max-width: 15rem;overflow: hidden;text-overflow: ellipsis">
+									<span class="fl-l">￥<span class="DINAlternate-Bold" style="font-size:3rem;font-weight: bold;">{{$utils.formatMoney(i.salesPrice,1)}}</span></span>
+									<span style="margin-left: .4rem;">会员礼包</span>
 								</div>
-								<div style="color:#8A9399;font-size:1.7rem;font-weight: 400;">原价￥<span>{{$utils.formatMoney(i.originalPrice,1)}}</span></div>
+								<div style="color:#8A9399;font-size:1.2rem;line-height: 1.7rem;">{{'原价￥' +$utils.formatMoney(i.originalPrice,1)}}</div>
 							</div>
 						</div>
 						<div class="buynumber">{{i.initSalesCount}}人购买</div>
@@ -381,6 +381,7 @@
 				padding-top: 2.8rem;
 				padding-left: 1.5rem;
 				padding-bottom: 1.4rem;
+				color: #1A2833;
 			}
 			.content2-detail {
 				width: 92%;
@@ -471,7 +472,7 @@
 			}
 			.buynumber {
 				color: #8A9399;
-				font-size: 1.7rem;
+				font-size: 1.2rem;
 				float: right;
 			}
 			.package-price {

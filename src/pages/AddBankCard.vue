@@ -18,8 +18,7 @@
                     type="tel"
                     label="银行卡号"
                     placeholder="请输入银行卡号"
-                    ref="cardInput"
-                    @input="showCardNo"
+                    @input="(value) => {cardNo = cardNo.replace(/\D/g,'').replace(/(\S{4})/g, '$1 ').replace(/\s*$/, '')}"
                     @clear="clearVerifyCode" />
                 <van-field
                     v-model="bankBranch"
@@ -157,33 +156,6 @@ export default {
         }
     },
     methods: {
-        // 银行卡四位一空
-        showCardNo (cardNum) {
-            // 获取input的dom对象，这里因为用的是element ui的input，所以需要这样拿到
-            const input = this.$refs.cardInput.$el.getElementsByTagName('input')[0]
-            // 获取当前光标的位置
-            const cursorIndex = input.selectionStart
-            // 字符串中光标之前-的个数
-            const lineNumOfCursorLeft = (cardNum.slice(0, cursorIndex).match(/\s/g) || []).length
-            // 去掉所有-的字符串
-            const noLine = cardNum.replace(/\s/g, '')
-            // 去除格式不对的字符并重新插入-的字符串
-            const newCardNum = noLine.replace(/\D+/g, '').replace(/(\d{4})/g, '$1 ').replace(/\s*$/, '')
-            // 改后字符串中原光标之前-的个数
-            const newLineNumOfCursorLeft = (newCardNum.slice(0, cursorIndex).match(/\s/g) || []).length
-            // 光标在改后字符串中应在的位置
-            const newCursorIndex = cursorIndex + newLineNumOfCursorLeft - lineNumOfCursorLeft
-            // 赋新值，nextTick保证-不能手动输入或删除，只能按照规则自动填入
-            this.$nextTick(() => {
-                this.cardNo = newCardNum
-                // 修正光标位置，nextTick保证在渲染新值后定位光标
-                this.$nextTick(() => {
-                    // selectionStart、selectionEnd分别代表选择一段文本时的开头和结尾位置
-                    input.selectionStart = newCursorIndex
-                    input.selectionEnd = newCursorIndex
-                })
-            })
-        },
         // 获取银行卡列表
         getQueryBankLimit () {
             api.post(api.getUrl('agent-queryBankLimit'), {}).then(resp => {

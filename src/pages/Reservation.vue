@@ -52,7 +52,7 @@
 			<ul>
 				<li class="font-15 color-833" v-for="(i,index) in consultingList" :key="index" @click="selectadvisory(index,1,i,consultingList)">
 					{{i.itemName}}
-					<img src="../assets/images/gouxuan@2x.png" class="gouxuan" v-if="projectactive == index" />
+					<img src="../assets/images/gouxuan.png" class="gouxuan" v-if="projectactive == index" />
 				</li>
 			</ul>
 		</div>
@@ -63,7 +63,7 @@
 			<ul>
 				<li class="font-15 color-833" v-for="(d,index) in doctorsList" :key="index" @click="selectadvisory(index,2,d,doctorsList)">
 					{{d.doctorName}}
-					<img src="../assets/images/gouxuan@2x.png" class="gouxuan" v-if="doctoractive == index" />
+					<img src="../assets/images/gouxuan.png" class="gouxuan" v-if="doctoractive == index" />
 				</li>
 			</ul>
 		</div>

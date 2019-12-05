@@ -9,9 +9,9 @@
 			</div>
 			<div class="payment-method-list">
 				<div>
-					<img class="weixin" src="../assets/images/weixin-pay.png" />
+					<img class="weixin" src="../assets/images/wechat.png" />
 					<span>微信支付</span>
-					<img class="gouxuan" src="../assets/images/gouxuan@2x.png" />
+					<img class="gouxuan" src="../assets/images/gouxuan.png" />
 				</div>
 			</div>
 			<div style="text-align: center;">

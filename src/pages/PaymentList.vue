@@ -11,7 +11,7 @@
 			<div v-for="(p,index) in payTypeList" :key="index">
 				<img class="weixin" :src="p.icon" />
 				<span>{{p.payTypeDesc}}</span>
-				<img class="gouxuan" src="../assets/images/gouxuan@2x.png"/>
+				<img class="gouxuan" src="../assets/images/gouxuan.png"/>
 			</div>
 		</div>
 		<div style="text-align: center;">
@@ -34,20 +34,20 @@
 		data() {
 			return {
 				payTypeList: [{
-					"icon": require('../assets/images/weixin-pay.png'),
+					"icon": require('../assets/images/wechat.png'),
 					"payTypeCode": "1111",
 					"payTypeDesc": "微信"
 				}],
 //				payTypeList: [{
-//					"icon": require('../assets/images/weixin-pay.png'),
+//					"icon": require('../assets/images/wechat.png'),
 //					"payTypeCode": "1111",
 //					"payTypeDesc": "微信"
 //				}, {
-//					"icon": require('../assets/images/weixin-pay.png'),
+//					"icon": require('../assets/images/wechat.png'),
 //					"payTypeCode": "2222",
 //					"payTypeDesc": "银行卡支付"
 //				}, {
-//					"icon": require('../assets/images/weixin-pay.png'),
+//					"icon": require('../assets/images/wechat.png'),
 //					"payTypeCode": "3333",
 //					"payTypeDesc": "么么钱包"
 //				}],

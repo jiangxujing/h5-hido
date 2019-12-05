@@ -25,7 +25,7 @@
 			</div>
 			<div class="bank" @click="addBank" v-else style="height:6.5rem">
 				<div style="padding: 2rem 1rem 0 1.8rem;height:2.4rem;line-height:2.4rem;">
-					<img src="../assets/images/addbank.png" class="bank-add" style="width:2.4rem;" />
+					<img src="../assets/images/add.png" class="bank-add" style="width:2.4rem;" />
 					<span style="color:#8A9399;font-size:1.4rem;margin-left:1.5rem">添加银行卡</span>
 					<img src="../assets/images/arrowbank.png" class="banklarrow" style="width:2.2rem;float:right" />
 				</div>
@@ -49,7 +49,7 @@
 				</div>
 				<div class="bank" @click="addBank">
 					<div style="padding:1.2rem 1.5rem 0;height:4rem;line-height:4rem;">
-						<img src="../assets/images/addbank.png" class="bank-add" />
+						<img src="../assets/images/add.png" class="bank-add" />
 						<span style="color:#8A9399;font-size:1.4rem;margin-left:1.5rem">添加银行卡</span>
 						<img src="../assets/images/arrowbank.png" class="banklarrow" />
 					</div>

@@ -77,7 +77,7 @@
                     <img class="popup-img" :src="item.bankPhoto" v-if="item.bankPhoto" />
                     <span class="popup-img-bg" v-else></span>
                     <div class="popup-content">{{item.bankName}}</div>
-                    <img class="popup-success" src="../assets/images/gouxuan@2x.png" v-if="bankName === item.bankName" />
+                    <img class="popup-success" src="../assets/images/gouxuan.png" v-if="bankName === item.bankName" />
                 </div>
             </div>
             <div class="close-button">

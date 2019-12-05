@@ -105,7 +105,7 @@
 				<div class="title"><span style="font-size:2rem">-</span>&nbsp;分享至&nbsp;<span style="font-size:2rem">-</span></div>
 				<div class="weixin-friend">
 					<div class="weixin" @click="shareWeixin">
-						<img src="../assets/images/weixin.png" />
+						<img src="../assets/images/wechat.png" />
 						<div>微信</div>
 					</div>
 					<div class="friend" @click="shareFriend">

@@ -3,7 +3,7 @@
     <div class="main-content coupon-list">
         <div v-if="request">
             <div class="coupon-add" @click="$router.push({name: 'addCoupon'})">
-                <img class="coupon-add-img" src="../assets/images/addbank.png" />创建卡券
+                <img class="coupon-add-img" src="../assets/images/add.png" />创建卡券
             </div>
             <div v-if="!!couponList && couponList.length > 0" >
                 <div v-for="(item, index) in couponList" :key="index" :class="item.status == '00' || item.status == '01' ? 'coupon-item' : 'coupon-item coupon-item-over'">

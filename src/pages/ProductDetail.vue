@@ -52,7 +52,7 @@
 			<h2>其他礼包</h2>
 			<div class="other-packages" v-for="(i,index) in giftPackageDTOList" style="margin-top:1rem" :key="index">
 				<div style="overflow:hidden;position: relative;" v-if="homepageUrl.type==1 || inweixin" @click="goToDetail(i.packageCode)">
-					<div>
+					<div style="height: 5.2rem;">
 						<img class="libao" :src="i.headPicture" />
 						<div class="package-price">
 							<div style="margin-bottom:.2rem;line-height:3rem;font-size:1.4rem;color:#FF7B31;max-width: 15rem;overflow: hidden;text-overflow: ellipsis">
@@ -63,13 +63,15 @@
 						</div>
 					</div>
 					<div class="buynumber">{{i.initSalesCount}}人购买</div>
-					<div class="description">{{i.name}}</div>
-					<div class="share">
-						<button>立即购买</button>
-					</div>
+					<!-- <div> -->
+						<div class="description">{{i.name}}</div>
+						<div class="share">
+							<button>立即购买</button>
+						</div>
+					<!-- </div> -->
 				</div>
 				<div v-else style="overflow:hidden;position: relative;" @click="goToDetail(i.packageCode)">
-					<div>
+					<div style="height: 5.2rem;">
 						<img class="libao" :src="i.headPicture" />
 						<div class="package-price">
 							<div style="margin-bottom:.2rem;line-height:3rem;font-size:1.4rem;color:#FF7B31;max-width: 15rem;overflow: hidden;text-overflow: ellipsis">
@@ -80,10 +82,12 @@
 						</div>
 					</div>
 					<div class="buynumber">{{i.initSalesCount}}人购买</div>
-					<div class="description">{{i.name}}</div>
-					<div class="share" @click="getShare(i)">
-						<button>立即分享</button>
-					</div>
+					<!-- <div> -->
+						<div class="description">{{i.name}}</div>
+						<div class="share" @click="getShare(i)">
+							<button>立即分享</button>
+						</div>
+					<!-- </div> -->
 				</div>
 			</div>
 			<div style="overflow: hidden;padding: 1rem 1.1rem 0 1.5rem;display: flex;">
@@ -476,11 +480,12 @@
 				padding-left: 1.2rem;
 			}
 			.description {
-				float: left;
 				font-size: 1.2rem;
 				color: #475966;
 				margin-top: 1.7rem;
 				font-weight: 400;
+				height: 1.2rem;
+				line-height: 1;
 			}
 			.share {
 				position: absolute;

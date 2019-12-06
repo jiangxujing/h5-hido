@@ -245,7 +245,7 @@
 			.gouxuan {
 				width: 1.9rem;
 				vertical-align: middle;
-				margin-top: 0.8rem;
+				margin-top: 1rem;
 				float: right;
 				margin-right: 1.5rem;
 			}

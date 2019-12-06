@@ -323,7 +323,7 @@
 						//this.couponDetail?sessionStorage.setItem('reservationMoney', this.couponDetail.payAmount):''
 						if(!this.couponDetailShow) {
 							this.$router.push("/reservationStatus?reservation=" + 1 + '&businessNo=' + res.content.businessNo)
-						} else if(this.couponDetailShow){
+						} else if(this.couponDetailShow && this.checked){
 							this.$router.push("/paymentList?salesPrice=" + this.couponDetail.payAmount + '&businessNo=' + res.content.businessNo)
 						}
 

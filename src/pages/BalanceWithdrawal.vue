@@ -364,7 +364,7 @@
 			background: #fff;
 			position: fixed;
 			bottom: 9rem;
-			border-radius: 14px;
+			border-radius: 1.4rem;
 			left: 50%;
 			margin-left: -48%;
 			.bank {
@@ -387,7 +387,7 @@
 				width: 100%;
 				height: 100%;
 				background: #FAFAFA;
-				border-radius: 14px;
+				border-radius: 1.4rem;
 			}
 			.bank-logo {
 				float: left;
@@ -447,7 +447,7 @@
 			.send-style {
 				height: 4.5rem;
 				border: 1px solid #EAEAEA;
-				border-radius: 3px;
+				border-radius: .3rem;
 				margin: 0 1.5rem;
 				padding: 1rem 0;
 				input {

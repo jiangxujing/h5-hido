@@ -223,7 +223,7 @@
 			.libao {
 				width: 7.2rem;
 				height: 7.2rem;
-				border-radius: 3px;
+				border-radius: .3rem;
 				float: left;
 			}
 			.package-price {

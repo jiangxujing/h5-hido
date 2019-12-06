@@ -228,7 +228,7 @@
 				width: 26.7rem;
 				height: 4.5rem;
 				background: linear-gradient(132deg, rgba(255, 175, 130, 1) 0%, rgba(255, 123, 49, 1) 100%);
-				border-radius: 23px;
+				border-radius: 2.3rem;
 				outline: none;
 				border: none;
 				color: #fff;

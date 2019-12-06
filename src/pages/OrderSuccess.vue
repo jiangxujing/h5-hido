@@ -67,7 +67,7 @@
 			font-size: 1.8rem;
 			font-weight: 600;
 			color: rgba(26, 40, 51, 1);
-			line-height: 18px;
+			line-height: 1.8rem;
 		}
 	}
 </style>

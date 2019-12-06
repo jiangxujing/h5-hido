@@ -458,7 +458,6 @@
 		flex-direction: column;
 		justify-content: space-between;
 		min-height: 50rem;*/
-		height: 100%;
 		.van-cell:not(:last-child)::after {
 			right: 1.5rem;
 		}

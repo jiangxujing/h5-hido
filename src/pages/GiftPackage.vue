@@ -3,7 +3,7 @@
 		<div v-if="packageList && packageList.length > 0">
 			<div class="gift-package" v-for="(p,index) in packageList" :key="index" @click="goToGiftDetail(p.orderNo)">
 				<div class="time-status">
-					<div class="time">{{p.orderTime?$utils.dateFormatter(p.orderTime, "yyyy-MM-dd HH:mm:ss"):''}}</div>
+					<div class="time">{{p.orderTime?$utils.dateFormatter(p.orderTime, "yyyy/MM/dd HH:mm:ss"):''}}</div>
 					<div class="status">{{getStatusDesc(p.orderStatus)}}</div>
 				</div>
 				<div class="borderStyle"></div>
@@ -136,9 +136,9 @@
 			margin-bottom: 1.8rem;
 		}
 		.libao {
-			width: 52px;
-			height: 52px;
-			border-radius: 3px;
+			width: 5.2rem;
+			height: 5.2rem;
+			border-radius: .3rem;
 			float: left;
 		}
 		.package-price {

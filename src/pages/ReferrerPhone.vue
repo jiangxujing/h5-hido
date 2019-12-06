@@ -208,7 +208,7 @@
 					font-size: 1.7rem;
 				}
 				.borderStyle {
-					width: 100%d;
+					width: 100%;
 					height: 1px;
 					background: #E0E0E0;
 					margin-top: 2rem;

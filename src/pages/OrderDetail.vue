@@ -339,9 +339,9 @@
 			margin-top: 1rem;
 			padding: 1.8rem 1.5rem;
 			.libao {
-				width: 52px;
-				height: 52px;
-				border-radius: 3px;
+				width: 5.2rem;
+				height: 5.2rem;
+				border-radius: .3rem;
 				float: left;
 			}
 			.buynumber {
@@ -374,7 +374,7 @@
 				font-size: 1.4rem;
 				outline: none;
 				border: none;
-				border-radius: 15px;
+				border-radius: 1.5rem;
 				background: linear-gradient(132deg, #FFAF82 0%, #FF7B31 100%);
 				width: 8.2rem;
 				height: 3rem;
@@ -383,7 +383,6 @@
 			.submit-gray {
 				opacity: 0.5;
 			}
-			.submit-active {}
 		}
 		.paymentMethod {
 			.payment-header {

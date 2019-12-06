@@ -27,10 +27,11 @@ import paymentList from '@/pages/PaymentList'
 import confirmedReserve from '@/pages/ConfirmedReserve'
 import medicalOrderStatus from '@/pages/MedicalOrderStatus'
 
+import helpCenter from '@/agreement/HelpCenter'
 import commonProblem from '@/agreement/CommonProblem'
 import privacyPolicy from '@/agreement/PrivacyPolicy'
 import registerProtocol from '@/agreement/RegisterProtocol'
-import helpCenter from '@/agreement/HelpCenter'
+import paymenProtocol from '@/agreement/PaymenProtocol'
 
 
 const originalPush = Router.prototype.push
@@ -154,6 +155,10 @@ export default new Router({
         	path: '/registerProtocol',
             component: registerProtocol,
             name:'registerProtocol'
+        },{
+        	path: '/paymenProtocol',
+            component: paymenProtocol,
+            name:'paymenProtocol'
         },{
         	path: '/helpCenter',
             component: helpCenter,

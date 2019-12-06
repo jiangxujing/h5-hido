@@ -1,7 +1,7 @@
 <template>
-	<div class="agreement help-center">
+	<div class="agreement paymen-protocol">
 		<div class="agreement-content">
-			<h5 class="agreement-title">帮助中心</h5>
+			<h5 class="agreement-title">银行卡快捷支付协议</h5>
 			<div class="agreement-main"></div>
 		</div>
 	</div>
@@ -9,14 +9,14 @@
 
 <script>
 export default {
-	name: 'help-center',
+	name: 'paymen-protocol',
 	data() {
 		return {
 
 		}
 	},
 	mounted() {
-		document.title = '帮助中心'
+		document.title = '银行卡快捷支付协议'
 	},
 	methods: {
 		
@@ -27,13 +27,13 @@ export default {
 <style lang="scss" scope>
 	.agreement {
 		background-color: #F5F5F5;
-		padding-top: 1rem;
-		height: 100%;
+        padding-top: 1rem;
+        height: 100%;    
 		.agreement-content {
-			width: 100%;
-			height: 100%;
+            width: 100%;
+            height: 100%;
 			background-color:#fff;
-			padding: 8px 20px 28px;
+            padding: 8px 20px 28px;
 		}
 		p {
 			margin-bottom: 6px;

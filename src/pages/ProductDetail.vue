@@ -509,12 +509,14 @@
 				font-weight: 600;
 				color: #fff;
 				float: left;
+    			height: 4.6rem;
     			line-height: 4.6rem;
 				margin: .6rem 0;
 				flex: 1;
 			}
 			.share-now {
 				width: 5.8rem;
+				height: 5.8rem;
 				float: right;
 				margin-left: 1.1rem;
 			}

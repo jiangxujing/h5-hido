@@ -62,7 +62,7 @@
 						</div>
 						<div class="buynumber">{{i.initSalesCount}}人购买</div>
 					</div>
-					<div class="description"><span v-for="(d, dd) in i.giftPackageDetailList" :key="dd">{{d.goodsName}}x{{d.goodsCount}}</span></div>
+					<div class="description" v-for="(d, dd) in i.giftPackageDetailList" :key="dd">{{d.goodsName}}x{{d.goodsCount}}</div>
 					<div class="share">
 						<button>立即购买</button>
 					</div>
@@ -78,7 +78,7 @@
 						</div>
 						<div class="buynumber">{{i.initSalesCount}}人购买</div>
 					</div>
-					<div class="description"><span v-for="(d, dd) in i.giftPackageDetailList" :key="dd">&nbsp;&nbsp;{{d.goodsName}}x{{d.goodsCount}}</span></div>
+					<div class="description" v-for="(d, dd) in i.giftPackageDetailList" :key="dd">{{d.goodsName}}x{{d.goodsCount}}</div>
 					<div class="share" @click="getShare(i)">
 						<button>立即分享</button>
 					</div>
@@ -484,7 +484,7 @@
 			.description {
 				font-size: 1.2rem;
 				color: #475966;
-				margin-top: 1.7rem;
+				margin-top: 1rem;
 				font-weight: 400;
 				height: 1.2rem;
 				line-height: 1;

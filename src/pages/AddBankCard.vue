@@ -63,7 +63,7 @@
             <div class="page-protocol">
                 <van-checkbox v-model="checked" checked-color="#FF7B31">
                     <span class="protocol-title">点击提交即表示我已阅读并同意</span>
-                    <span class="protocol-title protocol-a" @click="openPage('https://www.baidu.com')">《银行卡快捷支付协议》</span>
+                    <span class="protocol-title protocol-a" @click="$router.push({name: 'paymenProtocol'})">《银行卡快捷支付协议》</span>
                 </van-checkbox>
             </div>
         </div>
@@ -168,10 +168,6 @@ export default {
                     }
                 }
             })
-        },
-        // 跳转协议
-        openPage (url) {
-            window.location.href = url
         },
         // 清空四要素 都需重新获取验证码
         clearVerifyCode () {

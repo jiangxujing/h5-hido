@@ -113,12 +113,14 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scope>
 	.agreement {
 		background-color: #F5F5F5;
 		padding-top: 1rem;
+		height: 100%;
 		.agreement-content {
 			width: 100%;
+			height: 100%;
 			background-color:#fff;
 			padding: 8px 20px 28px;
 		}

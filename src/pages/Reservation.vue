@@ -90,7 +90,7 @@
 					<span class="project-left font-14 color-399">预约时间：</span>
 					<span class="project-right font-16 color-833">{{reserveTime}}</span>
 				</div>
-				<div class="project-list" v-if="couponDetail && checked">
+				<div class="project-list" v-if="couponDetailShow && checked">
 					<span class="project-left font-14 color-399">预付金：</span>
 					<span class="project-right font-16 color-833">{{couponDetail.payAmount/100}}元</span><span class="color-B31 font-12" v-if="checked">（实际付款抵扣{{couponDetail.deductionAmount/100}}元）</span>
 				</div>
@@ -293,7 +293,7 @@
 			comfirmReservation() {
 				sessionStorage.setItem('visitName', this.name)
 				let req = {}
-				if(!this.checked) {
+				if(!this.checked || !this.couponDetailShow) {
 					req = {
 						agentPhone: sessionStorage.getItem('agentPhone') || this.agentPhone, //推荐人手机号,
 						doctorName: this.doctor || null,
@@ -321,9 +321,9 @@
 					if(res.code == 0) {
 						//sessionStorage.setItem('businessNo', res.content.businessNo)
 						//this.couponDetail?sessionStorage.setItem('reservationMoney', this.couponDetail.payAmount):''
-						if(!this.checked) {
+						if(!this.couponDetailShow) {
 							this.$router.push("/reservationStatus?reservation=" + 1 + '&businessNo=' + res.content.businessNo)
-						} else {
+						} else if(this.couponDetailShow){
 							this.$router.push("/paymentList?salesPrice=" + this.couponDetail.payAmount + '&businessNo=' + res.content.businessNo)
 						}
 

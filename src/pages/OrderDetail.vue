@@ -1,5 +1,5 @@
 <template>
-	<div class="orderDetail" :class="{ 'active': blurstyle }">
+	<div class="orderDetail" :class="{ 'active-order': blurstyle }">
 		<div v-if="orderShow">
 			<div v-if="orderDetailShow">
 				<div class="receipt-address">
@@ -251,7 +251,7 @@
 
 <style lang="scss">
 	@import '../assets/scss/common.scss';
-	.active{
+	.active-order{
 		height:70rem!important;
 	}
 	.orderDetail {

@@ -51,46 +51,38 @@
 		<div class="content1 content2 content3 content4">
 			<h2>其他礼包</h2>
 			<div class="other-packages" v-for="(i,index) in giftPackageDTOList" style="margin-top:1rem" :key="index">
-				<div v-if="homepageUrl.type==1 || inweixin" @click="goToDetail(i.packageCode)">
-					<div style="overflow:hidden">
-						<div class="fl-l">
-							<img class="libao" :src="i.headPicture" />
-							<div class="package-price">
-								<div style="margin-bottom:.2rem;line-height:3rem;font-size:1.4rem;color:#FF7B31;max-width: 15rem;overflow: hidden;text-overflow: ellipsis">
-									<span class="fl-l">￥<span class="DINAlternate-Bold" style="font-size:3rem;font-weight: bold;">{{$utils.formatMoney(i.salesPrice,1)}}</span></span>
-									<span style="margin-left: .4rem;">会员礼包</span>
-								</div>
-								<div style="color:#8A9399;font-size:1.2rem;line-height: 1.7rem;">{{'原价￥' + $utils.formatMoney(i.originalPrice,1)}}</div>
-							</div>
-						</div>
-						<div class="buynumber">{{i.initSalesCount}}人购买</div>
-					</div>
+				<div style="overflow:hidden;position: relative;" v-if="homepageUrl.type==1 || inweixin" @click="goToDetail(i.packageCode)">
 					<div>
-						<div class="description">{{i.name}}</div>
-						<div class="share">
-							<button>立即购买</button>
+						<img class="libao" :src="i.headPicture" />
+						<div class="package-price">
+							<div style="margin-bottom:.2rem;line-height:3rem;font-size:1.4rem;color:#FF7B31;max-width: 15rem;overflow: hidden;text-overflow: ellipsis">
+								<span class="fl-l">￥<span class="DINAlternate-Bold" style="font-size:3rem;font-weight: bold;">{{$utils.formatMoney(i.salesPrice,1)}}</span></span>
+								<span style="margin-left: .4rem;">会员礼包</span>
+							</div>
+							<div style="color:#8A9399;font-size:1.2rem;line-height: 1.7rem;">{{'原价￥' + $utils.formatMoney(i.originalPrice,1)}}</div>
 						</div>
+					</div>
+					<div class="buynumber">{{i.initSalesCount}}人购买</div>
+					<div class="description">{{i.name}}</div>
+					<div class="share">
+						<button>立即购买</button>
 					</div>
 				</div>
-				<div v-else>
-					<div style="overflow:hidden" @click="goToDetail(i.packageCode)">
-						<div class="fl-l">
-							<img class="libao" :src="i.headPicture" />
-							<div class="package-price">
-								<div style="margin-bottom:.2rem;line-height:3rem;font-size:1.4rem;color:#FF7B31;max-width: 15rem;overflow: hidden;text-overflow: ellipsis">
-									<span class="fl-l">￥<span class="DINAlternate-Bold" style="font-size:3rem;font-weight: bold;">{{$utils.formatMoney(i.salesPrice,1)}}</span></span>
-									<span style="margin-left: .4rem;">会员礼包</span>
-								</div>
-								<div style="color:#8A9399;font-size:1.2rem;line-height: 1.7rem;">{{'原价￥' +$utils.formatMoney(i.originalPrice,1)}}</div>
-							</div>
-						</div>
-						<div class="buynumber">{{i.initSalesCount}}人购买</div>
-					</div>
+				<div v-else style="overflow:hidden;position: relative;" @click="goToDetail(i.packageCode)">
 					<div>
-						<div class="description">{{i.name}}</div>
-						<div class="share" @click="getShare(i)">
-							<button>立即分享</button>
+						<img class="libao" :src="i.headPicture" />
+						<div class="package-price">
+							<div style="margin-bottom:.2rem;line-height:3rem;font-size:1.4rem;color:#FF7B31;max-width: 15rem;overflow: hidden;text-overflow: ellipsis">
+								<span class="fl-l">￥<span class="DINAlternate-Bold" style="font-size:3rem;font-weight: bold;">{{$utils.formatMoney(i.salesPrice,1)}}</span></span>
+								<span style="margin-left: .4rem;">会员礼包</span>
+							</div>
+							<div style="color:#8A9399;font-size:1.2rem;line-height: 1.7rem;">{{'原价￥' +$utils.formatMoney(i.originalPrice,1)}}</div>
 						</div>
+					</div>
+					<div class="buynumber">{{i.initSalesCount}}人购买</div>
+					<div class="description">{{i.name}}</div>
+					<div class="share" @click="getShare(i)">
+						<button>立即分享</button>
 					</div>
 				</div>
 			</div>
@@ -474,7 +466,10 @@
 			.buynumber {
 				color: #8A9399;
 				font-size: 1.2rem;
-				float: right;
+				// float: right;
+				position: absolute;
+				right: 0;
+				top: 0;
 			}
 			.package-price {
 				float: left;
@@ -488,7 +483,9 @@
 				font-weight: 400;
 			}
 			.share {
-				float: right;
+				position: absolute;
+				right: 0;
+				bottom: 0;
 				button {
 					padding: 0.8rem 1.8rem;
 					line-height: 1;

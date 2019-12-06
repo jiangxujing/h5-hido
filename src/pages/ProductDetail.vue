@@ -52,35 +52,33 @@
 			<h2>其他礼包</h2>
 			<div class="other-packages" v-for="(i,index) in giftPackageDTOList" style="margin-top:1rem" :key="index">
 				<div style="overflow:hidden;position: relative;" v-if="homepageUrl.type==1 || inweixin" @click="goToDetail(i.packageCode)">
-					<div style="height: 5.2rem;">
+					<div style="height: 5.2rem;display: flex;">
 						<img class="libao" :src="i.headPicture" />
 						<div class="package-price">
-							<div style="margin-bottom:.2rem;line-height:3rem;font-size:1.4rem;color:#FF7B31;max-width: 15rem;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
-								<span class="fl-l">￥<span class="DINAlternate-Bold" style="font-size:3rem;font-weight: bold;">{{$utils.formatMoney(i.salesPrice,1)}}</span></span>
-								<span style="margin-left: .4rem;">会员礼包</span>
+							<div class="package-price-num">
+								￥<span class="DINAlternate-Bold" style="font-size:3rem;font-weight: bold;margin-right: .4rem;">{{$utils.formatMoney(i.salesPrice,1)}}</span>会员礼包
 							</div>
 							<div style="color:#8A9399;font-size:1.2rem;line-height: 1.7rem;">{{'原价￥' + $utils.formatMoney(i.originalPrice,1)}}</div>
 						</div>
+						<div class="buynumber">{{i.initSalesCount}}人购买</div>
 					</div>
-					<div class="buynumber">{{i.initSalesCount}}人购买</div>
-					<div class="description"><span v-for="d in i.giftPackageDetailList">{{d.goodsName}}x{{d.goodsCount}}</span></div>
+					<div class="description"><span v-for="(d, dd) in i.giftPackageDetailList" :key="dd">{{d.goodsName}}x{{d.goodsCount}}</span></div>
 					<div class="share">
 						<button>立即购买</button>
 					</div>
 				</div>
 				<div v-else style="overflow:hidden;position: relative;" @click="goToDetail(i.packageCode)">
-					<div style="height: 5.2rem;">
+					<div style="height: 5.2rem;display: flex;">
 						<img class="libao" :src="i.headPicture" />
 						<div class="package-price">
-							<div style="margin-bottom:.2rem;line-height:3rem;font-size:1.4rem;color:#FF7B31;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;max-width: 15rem;">
-								<span class="fl-l">￥<span class="DINAlternate-Bold" style="font-size:3rem;font-weight: bold;">{{$utils.formatMoney(i.salesPrice,1)}}</span></span>
-								<span style="margin-left: .4rem;">会员礼包</span>
+							<div class="package-price-num">
+								￥<span class="DINAlternate-Bold" style="font-size:3rem;font-weight: bold;margin-right: .4rem;">{{$utils.formatMoney(i.salesPrice,1)}}</span>会员礼包
 							</div>
 							<div style="color:#8A9399;font-size:1.2rem;line-height: 1.7rem;">{{'原价￥' +$utils.formatMoney(i.originalPrice,1)}}</div>
 						</div>
+						<div class="buynumber">{{i.initSalesCount}}人购买</div>
 					</div>
-					<div class="buynumber">{{i.initSalesCount}}人购买</div>
-					<div class="description"><span v-for="d in i.giftPackageDetailList">&nbsp;&nbsp;{{d.goodsName}}x{{d.goodsCount}}</span></div>
+					<div class="description"><span v-for="(d, dd) in i.giftPackageDetailList" :key="dd">&nbsp;&nbsp;{{d.goodsName}}x{{d.goodsCount}}</span></div>
 					<div class="share" @click="getShare(i)">
 						<button>立即分享</button>
 					</div>
@@ -466,14 +464,22 @@
 			.buynumber {
 				color: #8A9399;
 				font-size: 1.2rem;
-				// float: right;
-				position: absolute;
-				right: 0;
-				top: 0;
 			}
 			.package-price {
-				float: left;
 				padding-left: 1.2rem;
+				flex: 1;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space:nowrap;
+				.package-price-num {
+					margin-bottom: 0.2rem;	
+					line-height: 3rem;
+					font-size: 1.4rem;
+					color: #FF7B31;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space:nowrap;
+				}
 			}
 			.description {
 				font-size: 1.2rem;

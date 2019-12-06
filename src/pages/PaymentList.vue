@@ -4,7 +4,7 @@
 			<div class="title">需支付</div>
 			<div class="money">
 				<span>￥</span>
-				<span>{{$utils.formatMoney(salesPrice,1)}}</span>
+				<span class="DINAlternate-Bold">{{$utils.formatMoney(salesPrice,1)}}</span>
 			</div>
 		</div>
 		<div class="payment-method-list">
@@ -179,11 +179,11 @@
 <style lang="scss">
 	@import '../assets/scss/common.scss';
 	.paymentMethod {
+		padding-top: 1rem;
 		.payment-header {
 			width: 100%;
 			height: auto;
 			background: #fff;
-			margin-top: 1rem;
 			text-align: center;
 			.title {
 				color: #1A2833;
@@ -192,6 +192,7 @@
 			}
 			.money {
 				color: #FF7B31;
+				padding-bottom:2.2rem;
 				span:first-child {
 					font-weight: 600;
 					font-size: 2.8rem;
@@ -199,20 +200,16 @@
 				span:last-child {
 					font-weight: bold;
 					font-size: 4.8rem;
+					line-height: 0;
 				}
 			}
 		}
 		.payment-method-list {
 			width: 100%;
-			height: auto;
+			height: 6.5rem;
 			margin-top: 1rem;
 			background: #fff;
 			padding: 1.3rem 0 0 1.5rem;
-			div {
-				height: 6.5rem;
-				border-bottom: 1px solid #EAEAEA;
-				padding-top: 1rem;
-			}
 			.weixin {
 				width: 4rem;
 			}
@@ -225,7 +222,7 @@
 			.gouxuan {
 				width: 1.9rem;
 				vertical-align: middle;
-				margin-top: 0.8rem;
+				margin-top:1rem;
 				float: right;
 				margin-right: 1.5rem;
 			}

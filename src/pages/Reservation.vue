@@ -321,7 +321,7 @@
 					if(res.code == 0) {
 						//sessionStorage.setItem('businessNo', res.content.businessNo)
 						//this.couponDetail?sessionStorage.setItem('reservationMoney', this.couponDetail.payAmount):''
-						if(!this.couponDetailShow) {
+						if(!this.couponDetailShow || !this.checked) {
 							this.$router.push("/reservationStatus?reservation=" + 1 + '&businessNo=' + res.content.businessNo)
 						} else if(this.couponDetailShow && this.checked){
 							this.$router.push("/paymentList?salesPrice=" + this.couponDetail.payAmount + '&businessNo=' + res.content.businessNo)

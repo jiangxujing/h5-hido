@@ -63,12 +63,10 @@
 						</div>
 					</div>
 					<div class="buynumber">{{i.initSalesCount}}人购买</div>
-					<!-- <div> -->
-						<div class="description">{{i.name}}</div>
-						<div class="share">
-							<button>立即购买</button>
-						</div>
-					<!-- </div> -->
+					<div class="description">{{i.name}}</div>
+					<div class="share">
+						<button>立即购买</button>
+					</div>
 				</div>
 				<div v-else style="overflow:hidden;position: relative;" @click="goToDetail(i.packageCode)">
 					<div style="height: 5.2rem;">
@@ -82,12 +80,10 @@
 						</div>
 					</div>
 					<div class="buynumber">{{i.initSalesCount}}人购买</div>
-					<!-- <div> -->
-						<div class="description">{{i.name}}</div>
-						<div class="share" @click="getShare(i)">
-							<button>立即分享</button>
-						</div>
-					<!-- </div> -->
+					<div class="description">{{i.name}}</div>
+					<div class="share" @click="getShare(i)">
+						<button>立即分享</button>
+					</div>
 				</div>
 			</div>
 			<div style="overflow: hidden;padding: 1rem 1.1rem 0 1.5rem;display: flex;">

@@ -1,28 +1,29 @@
 <template>
-	<div class="paymentMethod" >
-			<div class="payment-header">
-				<div class="title">需支付</div>
-				<div class="money">
-					<span>￥</span>
-					<span>{{$utils.formatMoney(salesPrice,1)}}</span>
-				</div>
+	<div class="paymentMethod">
+		<div class="payment-header">
+			<div class="title">需支付</div>
+			<div class="money">
+				<span>￥</span>
+				<span class="DINAlternate-Bold">{{$utils.formatMoney(salesPrice,1)}}</span>
 			</div>
-			<div class="payment-method-list">
-				<div>
-					<img class="weixin" src="../assets/images/wechat.png" />
-					<span>微信支付</span>
-					<img class="gouxuan" src="../assets/images/gouxuan.png" />
-				</div>
+		</div>
+		<div class="payment-method-list">
+			<div>
+				<img class="weixin" src="../assets/images/wechat.png" />
+				<span>微信支付</span>
+				<img class="gouxuan" src="../assets/images/gouxuan.png" />
 			</div>
-			<div style="text-align: center;">
-				<button class="buy-now" @click="buyNow">立即支付</button>
-			</div>
-	
+		</div>
+		<div style="text-align: center;">
+			<button class="buy-now" @click="buyNow">立即支付</button>
+		</div>
+
 	</div>
 </template>
 
 <script>
 	import api from '../common/api.js'
+	import { Toast } from 'vant'
 	export default {
 		name: 'paymentMethod',
 		data() {
@@ -33,9 +34,9 @@
 		},
 		methods: {
 			buyNow() {
-				if(this.buyed){
+				if(this.buyed) {
 					Toast('请勿提交订单过快！')
-				}else{
+				} else {
 					this.getOrderDetail()
 				}
 			},
@@ -47,17 +48,17 @@
 				api.post(api.getUrl('pay', 'collections'), req).then(res => {
 					this.buyed = null
 					if(res.code == 0) {
-						sessionStorage.setItem('h5paysuccess',true)
-						let uri = location.origin + '/h5-hido/index.html#/orderDetail?packageCode='+sessionStorage.getItem('packageCode')+'&h5paysuccess='+sessionStorage.getItem('h5paysuccess')
+						sessionStorage.setItem('h5paysuccess', true)
+						let uri = location.origin + '/h5-hido/index.html#/orderDetail?packageCode=' + sessionStorage.getItem('packageCode') + '&h5paysuccess=' + sessionStorage.getItem('h5paysuccess')
 						let linkUrl = encodeURIComponent(uri)
 						let sceneInfo = JSON.parse(res.content.sceneInfo)
 						console.log(uri)
 						this.jumpUrl = sceneInfo.mWebUrl
 						console.log(this.jumpUrl + '&redirect_url=' + linkUrl)
 						setTimeout(() => {
-							location.href = this.jumpUrl+'&redirect_url=' + linkUrl
+							location.href = this.jumpUrl + '&redirect_url=' + linkUrl
 						}, 200)
-						
+
 					}
 				}).catch((e) => {
 
@@ -73,6 +74,7 @@
 					if(res.code == 0) {
 						let sceneInfo = JSON.parse(res.content.sceneInfo)
 						let _this = this
+
 						function onBridgeReady() {
 							WeixinJSBridge.invoke(
 								'getBrandWCPayRequest', {
@@ -200,11 +202,11 @@
 <style lang="scss">
 	@import '../assets/scss/common.scss';
 	.paymentMethod {
+		padding-top: 1rem;
 		.payment-header {
 			width: 100%;
 			height: auto;
 			background: #fff;
-			margin-top: 1rem;
 			text-align: center;
 			.title {
 				color: #1A2833;
@@ -213,6 +215,7 @@
 			}
 			.money {
 				color: #FF7B31;
+				padding-bottom: 2.2rem;
 				span:first-child {
 					font-weight: 600;
 					font-size: 2.8rem;
@@ -220,15 +223,16 @@
 				span:last-child {
 					font-weight: bold;
 					font-size: 4.8rem;
+					line-height: 0;
 				}
 			}
 		}
 		.payment-method-list {
 			width: 100%;
-			height: auto;
+			height: 6.5rem;
 			margin-top: 1rem;
 			background: #fff;
-			padding: 1.3rem 0 1.3rem 1.5rem;
+			padding: 1.3rem 0 0 1.5rem;
 			.weixin {
 				width: 4rem;
 			}

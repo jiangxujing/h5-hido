@@ -29,6 +29,7 @@
 
 <script>
 	import api from '../common/api.js'
+	import { Toast } from 'vant'
 	export default {
 		name: 'paymentList',
 		data() {
@@ -92,7 +93,10 @@
 					payType: 'WX_H5'
 				}
 				api.post(api.getUrl('orderPay'), req).then(res => {
-					this.buyed = null
+					this.buyed = true
+					setTimeout(() => {
+						this.buyed = false
+					}, 3000)
 					if(res.code == '000') {
 						sessionStorage.setItem('h5paysuccess', true)
 						let uri = ''
@@ -116,7 +120,10 @@
 					payType: 'WX_H5'
 				}
 				api.post(api.getUrl('reservePay'), req).then(res => {
-					this.buyed = null
+					this.buyed = true
+					setTimeout(() => {
+						this.buyed = false
+					}, 3000)
 					if(res.code == '000') {
 						sessionStorage.setItem('h5paysuccess', true)
 						let uri = ''

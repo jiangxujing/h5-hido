@@ -84,7 +84,8 @@ export default {
                         let content = res.content
                         for (let key in content) {
                             if (key == 'deductionAmount' || key == 'payAmount') {
-                                this.orderForm[key] = Math.round(content[key]/100)
+                                // this.orderForm[key] = Math.round(content[key]/100)
+                                this.orderForm[key] = content[key]/100
                             } else if (key == 'createTime') {
                                 this.orderForm[key] = content[key] ? dateFormatter(new Date(content[key]), 'yyyy-MM-dd HH:mm:ss') : ''
                             } else if (key == 'appointmentDate') {

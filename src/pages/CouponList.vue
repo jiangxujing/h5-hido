@@ -73,8 +73,10 @@ export default {
                         this.couponList = res.content.couponCodeBaseInfo.map(item => {
                             let data = {}
                             data = item
-                            data.amountShow = Math.round(item.amount/100)
-                            data.deductionAmountShow = Math.round(item.deductionAmount/100)
+                            // data.amountShow = Math.round(item.amount/100)
+                            // data.deductionAmountShow = Math.round(item.deductionAmount/100)
+                            data.amountShow = item.amount/100
+                            data.deductionAmountShow = item.deductionAmount/100
                             data.expiryTime = item.expiryTime ? dateFormatter(item.expiryTime,  'yyyy-MM-dd') : ''
                             if (item.status !== '') {
                                 this.statusList.forEach(status => {

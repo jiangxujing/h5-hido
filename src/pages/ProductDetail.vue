@@ -55,7 +55,7 @@
 					<div style="height: 5.2rem;">
 						<img class="libao" :src="i.headPicture" />
 						<div class="package-price">
-							<div style="margin-bottom:.2rem;line-height:3rem;font-size:1.4rem;color:#FF7B31;max-width: 15rem;overflow: hidden;text-overflow: ellipsis">
+							<div style="margin-bottom:.2rem;line-height:3rem;font-size:1.4rem;color:#FF7B31;max-width: 15rem;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
 								<span class="fl-l">￥<span class="DINAlternate-Bold" style="font-size:3rem;font-weight: bold;">{{$utils.formatMoney(i.salesPrice,1)}}</span></span>
 								<span style="margin-left: .4rem;">会员礼包</span>
 							</div>
@@ -63,7 +63,7 @@
 						</div>
 					</div>
 					<div class="buynumber">{{i.initSalesCount}}人购买</div>
-					<div class="description">{{i.name}}</div>
+					<div class="description"><span v-for="d in i.giftPackageDetailList">{{d.goodsName}}x{{d.goodsCount}}</span></div>
 					<div class="share">
 						<button>立即购买</button>
 					</div>
@@ -72,7 +72,7 @@
 					<div style="height: 5.2rem;">
 						<img class="libao" :src="i.headPicture" />
 						<div class="package-price">
-							<div style="margin-bottom:.2rem;line-height:3rem;font-size:1.4rem;color:#FF7B31;max-width: 15rem;overflow: hidden;text-overflow: ellipsis">
+							<div style="margin-bottom:.2rem;line-height:3rem;font-size:1.4rem;color:#FF7B31;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;max-width: 15rem;">
 								<span class="fl-l">￥<span class="DINAlternate-Bold" style="font-size:3rem;font-weight: bold;">{{$utils.formatMoney(i.salesPrice,1)}}</span></span>
 								<span style="margin-left: .4rem;">会员礼包</span>
 							</div>
@@ -80,7 +80,7 @@
 						</div>
 					</div>
 					<div class="buynumber">{{i.initSalesCount}}人购买</div>
-					<div class="description">{{i.name}}</div>
+					<div class="description"><span v-for="d in i.giftPackageDetailList">&nbsp;&nbsp;{{d.goodsName}}x{{d.goodsCount}}</span></div>
 					<div class="share" @click="getShare(i)">
 						<button>立即分享</button>
 					</div>
@@ -482,6 +482,10 @@
 				font-weight: 400;
 				height: 1.2rem;
 				line-height: 1;
+				overflow: hidden;
+			    text-overflow: ellipsis;
+			    width: 65%;
+			    white-space: nowrap;
 			}
 			.share {
 				position: absolute;

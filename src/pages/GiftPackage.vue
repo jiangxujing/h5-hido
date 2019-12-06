@@ -1,5 +1,5 @@
 <template>
-	<div v-if="loadingEnd">
+	<div v-if="loadingEnd" style="padding-top:1rem">
 		<div v-if="packageList && packageList.length > 0">
 			<div class="gift-package" v-for="(p,index) in packageList" :key="index" @click="goToGiftDetail(p.orderNo)">
 				<div class="time-status">
@@ -9,21 +9,22 @@
 				<div class="borderStyle"></div>
 				<div style="overflow:hidden">
 					<img class="libao" :src="p.headPicture" />
-					<div style="overflow:hidden;padding-right: 1.5rem;">
+					<div style="overflow:hidden;padding-right: 1.5rem;position: relative;">
 						<div style="float:left">
 							<div class="package-price">
 								<div class="van-multi-ellipsis--l2" style="color:#1A2833;font-size:1.5rem">
 									{{p.productName}}
 								</div>
-								<div v-for="(l,index) in p.goodsList" :key="index">
+								<div v-for="(l,index) in p.goodsList" :key="index" style="padding-top:0.7rem">
 									<span style="font-size:1.4rem;color:#8A9399">{{l.goodsDesc}}*{{l.goodsCount}}</span>
 								</div>
 							</div>
+							<span style="color:#1A2833;font-weight:bold;font-size:1.6rem;position: absolute;right:1.5rem;bottom:0;" class="DINAlternate-Bold">￥<span>{{$utils.formatMoney(p.oderAmount,1)}}</span></span>
 						</div>
 					</div>
-					<div style="overflow:hidden;padding-left:1.2rem">
-						<span style="color:#1A2833;font-weight:bold;font-size:1.6rem;float:right;padding-right: 1.5rem;">￥<span>{{$utils.formatMoney(p.oderAmount,1)}}</span></span>
-					</div>
+					<!--<div style="overflow:hidden;padding-left:1.2rem">
+						<span style="color:#1A2833;font-weight:bold;font-size:1.6rem;float:right;padding-right: 1.5rem;" class="DINAlternate-Bold">￥<span>{{$utils.formatMoney(p.oderAmount,1)}}</span></span>
+					</div>-->
 				</div>
 			</div>
 		</div>
@@ -114,11 +115,12 @@
 		width: 100%;
 		background: #fff;
 		height: auto;
-		margin-top: 1rem;
-		padding: 1.8rem 0 1.8rem 1.5rem;
+		margin-bottom: 1rem;
+		padding: 0 0 1.8rem 1.5rem;
 		.time-status {
 			overflow: hidden;
 			height: 3.6rem;
+			line-height:3.6rem;
 			font-size: 1.2rem;
 			.time {
 				float: left;
@@ -136,8 +138,8 @@
 			margin-bottom: 1.8rem;
 		}
 		.libao {
-			width: 5.2rem;
-			height: 5.2rem;
+			width: 6.5rem;
+			height: 6.5rem;
 			border-radius: .3rem;
 			float: left;
 		}

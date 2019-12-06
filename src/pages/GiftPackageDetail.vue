@@ -63,7 +63,7 @@
 					<div style="line-height: 2rem;">{{giftDetail.area}}{{giftDetail.detailAddr}}</div>
 				</div>
 				<div class="borderStyle" style="margin-top:1.4rem"></div>
-				<div class="logistics">
+				<div class="logistics" v-if="giftDetail.expressNo">
 					<div>
 						<span>{{giftDetail.expressCompany}}:</span>
 						<span>{{giftDetail.expressNo}}</span>

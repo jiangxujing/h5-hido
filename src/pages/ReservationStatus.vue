@@ -8,7 +8,6 @@
 		</div>
 		<div v-else>
 			<div class="title1 color-833 font-18 font-weight-600">支付成功</div>
-			<div class="title2 color-833 font-16 font-weight-400">支付成功</div>
 			<button class="font-17 font-weight-500" @click="goOrderDetail">查看详情</button>
 		</div>
 	</div>

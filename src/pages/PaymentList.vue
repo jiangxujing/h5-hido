@@ -11,7 +11,7 @@
 			<div v-for="(p,index) in payTypeList" :key="index">
 				<img class="weixin" :src="p.icon" />
 				<span>{{p.payTypeDesc}}</span>
-				<img class="gouxuan" src="../assets/images/gouxuan.png"/>
+				<img class="gouxuan" src="../assets/images/gouxuan.png" />
 			</div>
 		</div>
 		<div style="text-align: center;">
@@ -39,19 +39,19 @@
 					"payTypeCode": "1111",
 					"payTypeDesc": "微信"
 				}],
-//				payTypeList: [{
-//					"icon": require('../assets/images/wechat.png'),
-//					"payTypeCode": "1111",
-//					"payTypeDesc": "微信"
-//				}, {
-//					"icon": require('../assets/images/wechat.png'),
-//					"payTypeCode": "2222",
-//					"payTypeDesc": "银行卡支付"
-//				}, {
-//					"icon": require('../assets/images/wechat.png'),
-//					"payTypeCode": "3333",
-//					"payTypeDesc": "么么钱包"
-//				}],
+				//				payTypeList: [{
+				//					"icon": require('../assets/images/wechat.png'),
+				//					"payTypeCode": "1111",
+				//					"payTypeDesc": "微信"
+				//				}, {
+				//					"icon": require('../assets/images/wechat.png'),
+				//					"payTypeCode": "2222",
+				//					"payTypeDesc": "银行卡支付"
+				//				}, {
+				//					"icon": require('../assets/images/wechat.png'),
+				//					"payTypeCode": "3333",
+				//					"payTypeDesc": "么么钱包"
+				//				}],
 				salesPrice: '',
 				h5Show: false,
 				buyed: null
@@ -78,16 +78,16 @@
 			getSuccess() {
 				if(this.fromOrder) {
 					this.$router.push("/reservationStatus?orderNo=" + this.orderNo)
-				}else{
+				} else {
 					this.$router.push("/reservationStatus?businessNo=" + this.businessNo + '&reservation=' + 1)
 				}
-				
+
 			},
 			getError() {
 				this.h5Show = false
 				console.log(this.h5Show)
 			},
-			orderPayH5(){
+			orderPayH5() {
 				let req = {
 					businessNo: this.orderNo,
 					payType: 'WX_H5'
@@ -100,7 +100,7 @@
 					if(res.code == '000') {
 						sessionStorage.setItem('h5paysuccess', true)
 						let uri = ''
-						uri = location.origin + '/h5-hido/index.html#/paymentList?h5paysuccess=' + sessionStorage.getItem('h5paysuccess') + '&orderAmount=' + this.salesPrice + '&orderNo=' + this.orderNo+'&fromOrder='+this.fromOrder
+						uri = location.origin + '/h5-hido/index.html#/paymentList?h5paysuccess=' + sessionStorage.getItem('h5paysuccess') + '&orderAmount=' + this.salesPrice + '&orderNo=' + this.orderNo + '&fromOrder=' + this.fromOrder
 						let linkUrl = encodeURIComponent(uri)
 						let sceneInfo = JSON.parse(res.content.respExt)
 						this.jumpUrl = sceneInfo.mWebUrl
@@ -116,7 +116,7 @@
 			},
 			payH5() {
 				let req = {
-					businessNo:this.businessNo,
+					businessNo: this.businessNo,
 					payType: 'WX_H5'
 				}
 				api.post(api.getUrl('reservePay'), req).then(res => {
@@ -147,10 +147,10 @@
 				} else {
 					if(this.fromOrder) {
 						this.orderPayH5()
-					}else{
+					} else {
 						this.payH5()
 					}
-					
+
 				}
 
 			}
@@ -160,19 +160,58 @@
 			this.h5paysuccess = this.$route.query.h5paysuccess
 			this.fromOrder = this.$route.query.fromOrder
 			this.orderNo = this.$route.query.orderNo
-			if(this.fromOrder){
+			if(this.fromOrder) {
 				//订单来的
-				 this.salesPrice = this.$route.query.orderAmount
-				 this.orderNo = this.$route.query.orderNo
-			}else{
+				this.salesPrice = this.$route.query.orderAmount
+				this.orderNo = this.$route.query.orderNo
+			} else {
 				//预约来的
 				this.salesPrice = this.$route.query.salesPrice
-				 this.businessNo = this.$route.query.businessNo 
+				this.businessNo = this.$route.query.businessNo
 			}
-			
-		
+
 			if(sessionStorage.getItem('h5paysuccess') || this.h5paysuccess) {
 				this.h5Show = true
+			}
+			let params = {
+				interceptBack: true
+			}
+			let _this = this
+			if(this.$route.query.fromOrder) {
+				api.setupWebViewJavascriptBridge((bridge) => {
+					bridge.callHandler('callInit', params, (data) => {
+						api.setupWebViewJavascriptBridge((bridge) => {
+							bridge.registerHandler('invokeBackPress', (data) => {
+								_this.$router.push("/medicalOrderDetail?businessNo=" + this.$route.query.orderNo)
+							})
+						})
+					})
+				})
+				api.setupWebViewJavascriptBridge((bridge) => {
+					bridge.registerHandler('invokeBackPress', (data) => {
+						api.setupWebViewJavascriptBridge((bridge) => {
+							_this.$router.push("/medicalOrderDetail?businessNo=" + this.$route.query.orderNo)
+						})
+					})
+				})
+			} else {
+				let url = sessionStorage.getItem('reservationUrl')
+				api.setupWebViewJavascriptBridge((bridge) => {
+					bridge.callHandler('callInit', params, (data) => {
+						api.setupWebViewJavascriptBridge((bridge) => {
+							bridge.registerHandler('invokeBackPress', (data) => {
+								_this.$router.push(url)
+							})
+						})
+					})
+				})
+				api.setupWebViewJavascriptBridge((bridge) => {
+					bridge.registerHandler('invokeBackPress', (data) => {
+						api.setupWebViewJavascriptBridge((bridge) => {
+							_this.$router.push(url)
+						})
+					})
+				})
 			}
 			//				this.withdrawalDetail.cardList.forEach((i) => {
 			//					this.$set(i, "active", false);
@@ -199,7 +238,7 @@
 			}
 			.money {
 				color: #FF7B31;
-				padding-bottom:2.2rem;
+				padding-bottom: 2.2rem;
 				span:first-child {
 					font-weight: 600;
 					font-size: 2.8rem;
@@ -229,7 +268,7 @@
 			.gouxuan {
 				width: 1.9rem;
 				vertical-align: middle;
-				margin-top:1rem;
+				margin-top: 1rem;
 				float: right;
 				margin-right: 1.5rem;
 			}

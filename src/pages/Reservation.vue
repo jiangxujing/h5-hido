@@ -444,6 +444,7 @@
 				this.isHasParentAgent()
 			}
 			document.title = "预约"
+			sessionStorage.setItem('reservationUrl',window.location.hash.split('#')[1])
 		},
 	}
 </script>

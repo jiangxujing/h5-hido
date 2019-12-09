@@ -156,7 +156,8 @@ export default {
                                 totalFees = totalFees - content[key]
                                 totalOffer += content[key]
                                 this.orderForm['orderItemList'].push(data)
-                            } else if ((key == 'meiyaOrderOpenTime' || key == 'payTime') && !!this.businessNo) {
+                            // } else if ((key == 'meiyaOrderOpenTime' || key == 'payTime') && !!this.businessNo) {
+                            } else if ((key == 'meiyaOrderOpenTime') && !!this.businessNo) {
                                 this.orderForm[key] = content[key] ? dateFormatter(new Date(content[key]), 'yyyy-MM-dd HH:mm:ss') : ''
                             } else {
                                 this.orderForm[key] = content[key]

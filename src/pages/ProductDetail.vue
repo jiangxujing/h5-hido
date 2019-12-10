@@ -81,7 +81,7 @@
 						<div class="buynumber">{{i.initSalesCount}}人购买</div>
 					</div>
 					<div class="description" v-for="(d, dd) in i.giftPackageDetailList" :key="dd">{{d.goodsName}}x{{d.goodsCount}}</div>
-					<div class="share" @click="getShare(i)">
+					<div class="share" @click.stop @click="getShare(i)">
 						<button>立即分享</button>
 					</div>
 				</div>

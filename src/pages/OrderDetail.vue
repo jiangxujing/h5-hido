@@ -25,13 +25,13 @@
 					<div style="overflow:hidden">
 						<img class="libao" v-if="orderDetail.headPicture" :src="orderDetail.headPicture" />
 						<div style="overflow:hidden">
-							<div style="float:left">
+							<div style="float:left;width:70%">
 								<div class="package-price">
 									<div class="van-multi-ellipsis--l2" style="color:#1A2833;font-size:1.5rem">
 										{{orderDetail.name}}
 									</div>
-									<div v-for="(i,index) in orderDetail.giftPackageDetailList" :key="index">
-										<span style="font-size:1.4rem;color:#8A9399">{{i.goodsName}}*{{i.goodsCount}}</span>
+									<div v-for="(i,index) in orderDetail.giftPackageDetailList" :key="index" style="">
+										<span style="font-size:1.4rem;color:#8A9399;">{{i.goodsName}}*{{i.goodsCount}}</span>
 									</div>
 								</div>
 							</div>

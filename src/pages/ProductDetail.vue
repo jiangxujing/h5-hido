@@ -86,7 +86,7 @@
 					</div>
 				</div>
 			</div>
-			<div style="overflow: hidden;padding: 1rem 1.1rem 0 1.5rem;display: flex;">
+			<div class="fixBtn">
 				<div class="buy" @click="getBuy" v-if="packageDetail && homepageUrl.type==1">￥{{$utils.formatMoney(packageDetail.salesPrice,1)}}成为代理</div>
 				<div class="buy" @click="getBuy" v-else>立即购买</div>
 				<img src="../assets/images/share.png" class="share-now" @click="getShare(packageDetail)" />
@@ -392,6 +392,7 @@
 				background: #FAFAFA;
 				overflow: hidden;
 				padding-bottom: 2.4rem;
+				border-radius:0.5rem;
 				h3 {
 					font-size: 1.6rem;
 					padding-top: 2.4rem;
@@ -520,6 +521,14 @@
 					font-weight: 600;
 				}
 			}
+			.fixBtn{
+				overflow: hidden;
+				padding: 1rem 1.1rem 0 1.5rem;
+				position: fixed;
+			    bottom: 0;
+			    width: 100%;
+			    background: #fff;
+			}
 			.buy {
 				text-align: center;
 				background: linear-gradient(132deg, rgba(255, 175, 130, 1) 0%, rgba(255, 123, 49, 1) 100%);
@@ -531,7 +540,7 @@
     			height: 4.6rem;
     			line-height: 4.6rem;
 				margin: .6rem 0;
-				flex: 1;
+				width:74%;
 			}
 			.share-now {
 				width: 5.8rem;
@@ -561,7 +570,6 @@
 					color: #1A2833;
 					font-size: 1.6rem;
 					padding-top: 2rem;
-					font-weight: 600;
 				}
 				.weixin-friend {
 					display: flex;

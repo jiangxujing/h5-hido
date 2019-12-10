@@ -1053,8 +1053,8 @@ input::-webkit-input-placeholder {
     }
     .close-btn {
         font-size: 1.4rem;
-        padding: .6rem 1.2rem;
-        line-height: 1;
+        padding: 0 1.2rem;
+        line-height: 2.4rem;
         color: $themeColor;
         @include borderHalfPxRound(#ff7b31, 1.2rem);
         position: absolute;
@@ -1065,6 +1065,9 @@ input::-webkit-input-placeholder {
         -moz-transform: translateY(-50%);
         -webkit-transform: translateY(-50%);
         -o-transform: translateY(-50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     .coupon-item-over {
         .coupon-item-left {
@@ -1164,6 +1167,7 @@ input::-webkit-input-placeholder {
         margin: 1.5rem 1.5rem 1.5rem 0;
         background: $bgColor;
         padding: .75rem 1.2rem;
+        border-radius: .3rem;
     }
     .item-info {
         display: flex;

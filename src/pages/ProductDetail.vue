@@ -52,7 +52,7 @@
 		</div>
 		<div class="content1 content2 content3 content4">
 			<h2>其他礼包</h2>
-			<div class="other-packages" v-for="(i,index) in giftPackageDTOList" style="margin-top:1rem" :key="index">
+			<div class="other-packages" v-for="(i,index) in giftPackageDTOList" style="margin-top:1rem" :key="index" :class="{ 'other-packages-last': index==giftPackageDTOList.length-1 }">
 				<div style="overflow:hidden;position: relative;" v-if="homepageUrl.type==1 || inweixin" @click="goToDetail(i.packageCode)">
 					<div style="height: 5.2rem;display: flex;">
 						<img class="libao" :src="i.listPicture" />
@@ -466,6 +466,9 @@
 				border-radius: .5rem;
 				overflow: hidden;
 				padding: 1rem 1.2rem 1.5rem;
+			}
+			.other-packages-last{
+				margin-bottom:6rem;
 			}
 			.libao {
 				width: 5.2rem;

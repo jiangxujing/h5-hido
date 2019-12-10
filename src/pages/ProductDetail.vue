@@ -23,7 +23,7 @@
 				<div class="package" v-for="(g,index) in packageDetail.giftPackageDetailList" :key="index">
 					<div class="package-l">
 						<img src="../assets/images/double.png" />
-						<span>{{g.goodsDesc}}</span>
+						<span style="padding-left:3px;">{{g.goodsDesc}}</span>
 					</div>
 					<div class="package-r">
 						<span>{{g.goodsCount}}{{g.goodsUnit}}</span>
@@ -405,6 +405,10 @@
 					.package-l {
 						padding-left: 2rem;
 						float: left;
+						vertical-align: middle;
+					    display: flex;
+					    align-items: center;
+					    width:70%;
 						img {
 							height: .8rem;
 							vertical-align: middle;

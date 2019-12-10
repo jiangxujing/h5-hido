@@ -484,6 +484,7 @@
 			.buynumber {
 				color: #8A9399;
 				font-size: 1.2rem;
+				padding-top:1.2rem;
 			}
 			.package-price {
 				padding-left: 1.2rem;

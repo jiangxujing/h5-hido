@@ -289,6 +289,7 @@
 				color: #8A9399;
 				line-height:normal;
 				vertical-align: middle;
+				padding-top:3rem;
 				height:6rem;
 			}
 			width: 100%;

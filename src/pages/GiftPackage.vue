@@ -6,7 +6,7 @@
 					<div class="time">{{p.orderTime?$utils.dateFormatter(p.orderTime, "yyyy/MM/dd HH:mm:ss"):''}}</div>
 					<div class="status">{{getStatusDesc(p.orderStatus)}}</div>
 				</div>
-				<div class="borderStyle"></div>
+				<div class="borderStyle1"></div>
 				<div style="overflow:hidden">
 					<img class="libao" :src="p.headPicture" />
 					<div style="overflow:hidden;padding-right: 1.5rem;position: relative;">
@@ -19,7 +19,7 @@
 									<span style="font-size:1.4rem;color:#8A9399">{{l.goodsDesc}}*{{l.goodsCount}}</span>
 								</div>
 							</div>
-							<span style="color:#1A2833;font-weight:bold;font-size:1.6rem;position: absolute;right:1.5rem;bottom:0;" class="DINAlternate-Bold">￥<span>{{$utils.formatMoney(p.oderAmount,1)}}</span></span>
+							<span style="color:#1A2833;font-weight:bold;font-size:1.6rem;position: absolute;right:1.5rem;bottom:-1px;" class="DINAlternate-Bold">￥<span>{{$utils.formatMoney(p.oderAmount,1)}}</span></span>
 						</div>
 					</div>
 					<!--<div style="overflow:hidden;padding-left:1.2rem">
@@ -131,7 +131,7 @@
 				padding-right: 1.5rem;
 			}
 		}
-		.borderStyle {
+		.borderStyle1 {
 			width: 100%;
 			height: 1px;
 			background: #F0F0F0;

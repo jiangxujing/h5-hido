@@ -23,7 +23,7 @@
 				<div class="package" v-for="(g,index) in packageDetail.giftPackageDetailList" :key="index">
 					<div class="package-l">
 						<img src="../assets/images/double.png" />
-						<span>{{g.goodsName}}</span>
+						<span>{{g.goodsDesc}}</span>
 					</div>
 					<div class="package-r">
 						<span>{{g.goodsCount}}{{g.goodsUnit}}</span>
@@ -40,20 +40,22 @@
 					</div>
 				</div>
 			</div>
-			<div class="advantage" v-for="(i,index) in detailsPicture" :key="index">
-				<img :src="i" />
+			<div class="advantage">
+				<img :src="giftpackagedescription" />
 			</div>
 		</div>
 		<div class="content1 content2 content3" v-if="packageDetail">
 			<h2>产品使用规则</h2>
-			<img :src="packageDetail.listPicture" />
+			<div class="advantage" v-for="(i,index) in rulepic" :key="index">
+				<img :src="i" />
+			</div>
 		</div>
 		<div class="content1 content2 content3 content4">
 			<h2>其他礼包</h2>
 			<div class="other-packages" v-for="(i,index) in giftPackageDTOList" style="margin-top:1rem" :key="index">
 				<div style="overflow:hidden;position: relative;" v-if="homepageUrl.type==1 || inweixin" @click="goToDetail(i.packageCode)">
 					<div style="height: 5.2rem;display: flex;">
-						<img class="libao" :src="i.headPicture" />
+						<img class="libao" :src="i.listPicture" />
 						<div class="package-price">
 							<div class="package-price-num">
 								￥<span class="DINAlternate-Bold" style="font-size:3rem;font-weight: bold;margin-right: .4rem;">{{$utils.formatMoney(i.salesPrice,1)}}</span>会员礼包
@@ -69,7 +71,7 @@
 				</div>
 				<div v-else style="overflow:hidden;position: relative;" @click="goToDetail(i.packageCode)">
 					<div style="height: 5.2rem;display: flex;">
-						<img class="libao" :src="i.headPicture" />
+						<img class="libao" :src="i.listPicture" />
 						<div class="package-price">
 							<div class="package-price-num">
 								￥<span class="DINAlternate-Bold" style="font-size:3rem;font-weight: bold;margin-right: .4rem;">{{$utils.formatMoney(i.salesPrice,1)}}</span>会员礼包
@@ -124,7 +126,9 @@
 				giftPackageDTOList: [],
 				homepageUrl: '',
 				detailsPicture: [],
-				inweixin: false
+				inweixin: false,
+				giftpackagedescription:'',
+				rulepic:[]
 			}
 		},
 		methods: {
@@ -256,6 +260,12 @@
 						}
 						if(res.content.giftPackageDTODetails.detailsPicture) {
 							this.detailsPicture = res.content.giftPackageDTODetails.detailsPicture.split(',')
+							this.giftpackagedescription = this.detailsPicture[0]
+							for(var i=1;i<this.detailsPicture.length;i++){
+								console.log(this.rulepic)
+								this.rulepic.push(this.detailsPicture[i])
+							}
+							
 						}
 						this.homepageUrl = res.content.homepageUrl
 						if(!!res.content.homepageUrl) {
@@ -450,7 +460,7 @@
 				width: 92%;
 				margin: 0 auto;
 				height: auto;
-				border: 1px solid #EAEAEA;
+				border: 0.5px solid #EAEAEA;
 				border-radius: .5rem;
 				overflow: hidden;
 				padding: 1rem 1.2rem 1.5rem;

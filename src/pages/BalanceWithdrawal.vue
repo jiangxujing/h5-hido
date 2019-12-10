@@ -280,16 +280,19 @@
 		justify-content: space-between;
 		height: 100%;
 		min-height: 50rem;
+		padding-top: 1rem;
 		.balanceWithdrawal-content {
 			input::-webkit-input-placeholder {
 				color: #aab2bd;
 				font-size: 2.8rem;
 				font-weight: 300;
 				color: #8A9399;
+				line-height: normal;
+				vertical-align: middle;
+				height:6rem;
 			}
 			width: 100%;
 			height: auto;
-			margin-top: 1rem;
 			background: #fff;
 			.van-field__control {
 				color: #FF7B31!important;

@@ -18,7 +18,7 @@
 			</div>
 		</div>
 		<div class="project-detail">
-			<h2>核销券号</h2>
+			<div class="hexiao-title">核销券号</div>
 			<div class="borderStyle1"></div>
 			<div class="project" v-for="(g,index) in giftDetail.virtualGoods" :key="index">
 				<div class="project-content">
@@ -46,9 +46,9 @@
 				<div>{{status}}</div>
 			</div>
 			<div class="borderStyle1"></div>
-			<div class="goods-title" v-for="(i,index) in giftDetail.shipGoods" :key="index">
+			<span class="goods-title" v-for="(i,index) in giftDetail.shipGoods" :key="index">
 				{{i.goodsDesc}}*{{i.goodsCount}}
-			</div>
+			</span>
 			<div class="good-user-detail">
 				<div class="good-user">
 					<div>收件人</div>
@@ -75,7 +75,7 @@
 		<div class="order-detail">
 			<div class="order-title">订单信息</div>
 			<div class="borderStyle1" style="margin-bottom:0"></div>
-			<div class="good-user-detail" style="background: #fff;">
+			<div class="good-user-detail" style="background: #fff;padding:1rem 0 1.9rem">
 				<div class="good-user order-d">
 					<div>订单编号：</div>
 					<div>{{giftDetail.orderNo}}</div>
@@ -243,10 +243,11 @@
 			background: #fff;
 			margin-top: 1rem;
 			padding-bottom: 1.8rem;
-			h2 {
+			.hexiao-title {
 				padding: 1.55rem 1.5rem;
 				color: #8A9399;
 				font-size: 1.5rem;
+				font-weight:500;
 			}
 			.project {
 				padding: 0 1.5rem;
@@ -317,6 +318,7 @@
 				div:first-child {
 					float: left;
 					color: #8A9399;
+					font-weight: 500;
 				}
 				div:last-child {
 					float: right;
@@ -328,6 +330,7 @@
 				font-size: 1.4rem;
 				font-weight: 500;
 				padding: 0 0 1.2rem 1.5rem;
+				display: inline-block;
 			}
 		}
 		.good-user-detail {
@@ -336,22 +339,27 @@
 			background: #FAFAFA;
 			padding: 1.2rem 1.4rem;
 			font-size: 1.3rem;
+			border-radius:3px;
 			.good-user {
 				overflow: hidden;
 				padding-top: 1.2rem;
 				div:first-child {
 					float: left;
 					color: #8A9399;
+					width:6rem;
 				}
 				div:last-child {
-					float: right;
+					float: left;
 					color: #1A2833;
-					width: 70%;
+					padding-left:1rem;
 				}
 			}
 			.order-d {
+				div:first-child {
+					width:8rem;
+				}
 				div:last-child {
-					float: left;
+					float: right;
 				}
 			}
 			.logistics {

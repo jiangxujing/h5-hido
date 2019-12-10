@@ -284,13 +284,12 @@
 		.balanceWithdrawal-content {
 			input::-webkit-input-placeholder {
 				color: #aab2bd;
-				font-size: 2.8rem;
+				font-size: 3.2rem;
 				font-weight: 300;
 				color: #8A9399;
 				line-height:normal;
 				vertical-align: middle;
-				padding-top:3rem;
-				height:6rem;
+				padding-top:1rem;
 			}
 			width: 100%;
 			height: auto;

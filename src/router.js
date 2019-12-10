@@ -26,7 +26,6 @@ import reservationStatus from '@/pages/ReservationStatus'
 import paymentList from '@/pages/PaymentList'
 import confirmedReserve from '@/pages/ConfirmedReserve'
 import medicalOrderStatus from '@/pages/MedicalOrderStatus'
-import repayment from '@/pages/Repayment'
 
 import helpCenter from '@/agreement/HelpCenter'
 import commonProblem from '@/agreement/CommonProblem'
@@ -152,10 +151,6 @@ export default new Router({
         	path: '/medicalOrderStatus',
             component: medicalOrderStatus,
             name:'medicalOrderStatus'
-        },{
-        	path: '/repayment',
-            component: repayment,
-            name:'repayment'
         },{
         	path: '/privacyPolicy',
             component: privacyPolicy,

@@ -65,7 +65,7 @@
 
 <script>
 import { Toast } from 'vant'
-import { dateFormatter, getQueryString, formatMoney, getpPayType } from '../common/utils.js'
+import { dateFormatter, getQueryString, formatMoney } from '../common/utils.js'
 import api from '../common/api.js'
 
 export default {

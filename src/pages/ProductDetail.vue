@@ -44,7 +44,7 @@
 				<img :src="giftpackagedescription" />
 			</div>
 		</div>
-		<div class="content1 content2 content3" v-if="packageDetail">
+		<div class="content1 content2 content3" v-if="rulepic && rulepic.length>0">
 			<h2>产品使用规则</h2>
 			<div class="advantage" v-for="(i,index) in rulepic" :key="index">
 				<img :src="i" />
@@ -255,6 +255,7 @@
 						console.log('jinl ')
 						this.packageDetail = res.content.giftPackageDTODetails
 						this.giftPackageDTOList = res.content.giftPackageDTOList
+						console.log('hhhhhhhhhhhhhhhhh')
 						if(this.device.version.MicroMessenger) {
 							this.getWechat()
 						}

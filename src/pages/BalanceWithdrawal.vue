@@ -287,7 +287,7 @@
 				font-size: 2.8rem;
 				font-weight: 300;
 				color: #8A9399;
-				line-height:normal
+				line-height:normal;
 				vertical-align: middle;
 				height:6rem;
 			}

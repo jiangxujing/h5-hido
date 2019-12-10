@@ -16,7 +16,7 @@
 									{{p.productName}}
 								</div>
 								<div v-for="(l,index) in p.goodsList" :key="index" style="padding-top:0.7rem">
-									<span style="font-size:1.4rem;color:#8A9399">{{l.goodsDesc}}*{{l.goodsCount}}</span>
+									<span style="font-size:1.4rem;color:#8A9399" class="gift-pachage-des-first" :class="{ 'gift-pachage-des': index==p.goodsList.length-1 }">{{l.goodsDesc}}*{{l.goodsCount}}</span>
 								</div>
 							</div>
 							<span style="color:#1A2833;font-weight:bold;font-size:1.6rem;position: absolute;right:1.5rem;bottom:-1px;" class="DINAlternate-Bold">￥<span>{{$utils.formatMoney(p.oderAmount,1)}}</span></span>
@@ -152,6 +152,16 @@
 			font-size: 1.2rem;
 			color: #475966;
 			margin-top: 1.7rem;
+		}
+		.gift-pachage-des-first{
+			  width: 95%;
+		    display: block;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    white-space: nowrap;
+		}
+		.gift-pachage-des{
+		    width: 75%!important;
 		}
 	}
 </style>

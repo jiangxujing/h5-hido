@@ -207,6 +207,8 @@
 
 <style lang="scss">
 	.gift-package-detail {
+		padding-top: 1rem;
+		overflow-x:hidden;
 		.borderStyle1 {
 			width: 100%;
 			height: 1px;
@@ -218,7 +220,6 @@
 			width: 100%;
 			background: #fff;
 			height: auto;
-			margin-top: 1rem;
 			padding: 1.8rem 0 1.8rem 1.5rem;
 			.libao {
 				width: 7.2rem;

@@ -19,7 +19,7 @@
 		</div>
 		<div class="project-detail">
 			<h2>核销券号</h2>
-			<div class="borderStyle"></div>
+			<div class="borderStyle1"></div>
 			<div class="project" v-for="(g,index) in giftDetail.virtualGoods" :key="index">
 				<div class="project-content">
 					<div class="project-name">{{g.goodsDesc}}</div>
@@ -45,7 +45,7 @@
 				<div>配送商品</div>
 				<div>{{status}}</div>
 			</div>
-			<div class="borderStyle"></div>
+			<div class="borderStyle1"></div>
 			<div class="goods-title" v-for="(i,index) in giftDetail.shipGoods" :key="index">
 				{{i.goodsDesc}}*{{i.goodsCount}}
 			</div>
@@ -62,7 +62,7 @@
 					<div>收货地址</div>
 					<div style="line-height: 2rem;">{{giftDetail.area}}{{giftDetail.detailAddr}}</div>
 				</div>
-				<div class="borderStyle" style="margin-top:1.4rem"></div>
+				<div class="borderStyle1" style="margin-top:1.4rem" v-if="giftDetail.expressNo"></div>
 				<div class="logistics" v-if="giftDetail.expressNo">
 					<div>
 						<span>{{giftDetail.expressCompany}}:</span>
@@ -74,7 +74,7 @@
 		</div>
 		<div class="order-detail">
 			<div class="order-title">订单信息</div>
-			<div class="borderStyle" style="margin-bottom:0"></div>
+			<div class="borderStyle1" style="margin-bottom:0"></div>
 			<div class="good-user-detail" style="background: #fff;">
 				<div class="good-user order-d">
 					<div>订单编号：</div>
@@ -207,7 +207,7 @@
 
 <style lang="scss">
 	.gift-package-detail {
-		.borderStyle {
+		.borderStyle1 {
 			width: 100%;
 			height: 1px;
 			background: #F0F0F0;
@@ -243,7 +243,7 @@
 			margin-top: 1rem;
 			padding-bottom: 1.8rem;
 			h2 {
-				padding: 1.8rem 1.5rem;
+				padding: 1.55rem 1.5rem;
 				color: #8A9399;
 				font-size: 1.5rem;
 			}
@@ -308,9 +308,10 @@
 			background: #fff;
 			margin-top: 1.1rem;
 			padding-bottom: 1.9rem;
+			margin-bottom:1.1rem;
 			.goods-staus {
 				overflow: hidden;
-				padding: 1.7rem 1.5rem;
+				padding: 1.55rem 1.5rem;
 				font-size: 1.5rem;
 				div:first-child {
 					float: left;
@@ -329,7 +330,7 @@
 			}
 		}
 		.good-user-detail {
-			margin: 0 1.5rem 1.9rem 1.5rem;
+			margin: 0 1.5rem 0 1.5rem;
 			height: auto;
 			background: #FAFAFA;
 			padding: 1.2rem 1.4rem;
@@ -369,7 +370,7 @@
 			.order-title {
 				color: #8A9399;
 				font-size: 1.5rem;
-				padding: 1.8rem 1.5rem;
+				padding: 1.55rem 1.5rem;
 			}
 		}
 		.copy {

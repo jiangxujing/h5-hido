@@ -27,11 +27,17 @@
         -webkit-transform-origin: 0 0;
         transform: scale(.5, .5);
         -webkit-transform: scale(.5, .5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }
 
 @mixin borderHalfPxRound($borderColor: #ddd, $borderRadius: 0) {
     @include borderHalfPx($borderColor, $borderRadius, 1px, 1px, 1px, 1px);
+    display: flex;
+        justify-content: center;
+        align-items: center;
 }
 
 @mixin borderTopHalfPx($borderColor: #ddd, $borderRadius: 0) {
@@ -1053,8 +1059,8 @@ input::-webkit-input-placeholder {
     }
     .close-btn {
         font-size: 1.4rem;
-        padding: 0 1.2rem;
-        height: 2.4rem;
+        padding: .6rem 1.1rem .5rem 1.2rem;;
+        line-height: 1;
         color: $themeColor;
         @include borderHalfPxRound(#ff7b31, 1.2rem);
         position: absolute;
@@ -1065,9 +1071,6 @@ input::-webkit-input-placeholder {
         -moz-transform: translateY(-50%);
         -webkit-transform: translateY(-50%);
         -o-transform: translateY(-50%);
-        display: flex;
-        justify-content: center;
-        align-items: center;
     }
     .coupon-item-over {
         .coupon-item-left {

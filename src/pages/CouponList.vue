@@ -18,7 +18,7 @@
                         <p class="coupon-item-info">{{'使用人:' + item.mobile}}</p>
                         <p class="coupon-item-info">{{'有效期至' + item.expiryTime}}</p>
                     </div>
-                    <div class="close-btn" @click="closeCoupon(item)" v-if="item.status == '00' || item.status == '01'">取消</div>
+                    <!-- <div class="close-btn" @click="closeCoupon(item)" v-if="item.status == '00' || item.status == '01'">取消</div> -->
                 </div>
             </div>
             <div class="no-content" v-else>暂无卡券</div>

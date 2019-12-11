@@ -33,7 +33,7 @@ import privacyPolicy from '@/agreement/PrivacyPolicy'
 import registerProtocol from '@/agreement/RegisterProtocol'
 import paymenProtocol from '@/agreement/PaymenProtocol'
 import incomeRule from '@/agreement/IncomeRule'
-
+import mmDownload from '@/agreement/MMDownload'
 
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
@@ -172,6 +172,10 @@ export default new Router({
         	path: '/incomeRule',
             component: incomeRule,
             name:'incomeRule'
+        },{
+        	path: '/mmDownload',
+            component: mmDownload,
+            name:'mmDownload'
         }
     ],
     scrollBehavior (to, from, savedPosition) {

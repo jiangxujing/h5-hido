@@ -4,10 +4,11 @@
             <div class="watchData">{{watchData}}</div>
             <div class="page-field">
                 <van-field
-                    class="bank-name-input"
+                    :class="!!bankName ? 'bank-name-input' : ''"
                     v-model="bankName"
                     type="tel"
                     right-icon="arrow"
+                    label="开户行"
                     placeholder="请选择开户行"
                     disabled
                     @click="popupShow=true" />

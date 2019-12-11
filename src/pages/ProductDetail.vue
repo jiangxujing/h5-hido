@@ -86,7 +86,11 @@
 					</div>
 				</div>
 			</div>
-			<div class="fixBtn">
+			<div class="fixBtn" v-if="inweixin">
+				<div class="buy inweixin-style" @click="getBuy" v-if="packageDetail && homepageUrl.type==1">￥{{$utils.formatMoney(packageDetail.salesPrice,1)}}成为代理</div>
+				<div class="buy inweixin-style" @click="getBuy" v-else>立即购买</div>
+			</div>
+			<div class="fixBtn" v-else>
 				<div class="buy" @click="getBuy" v-if="packageDetail && homepageUrl.type==1">￥{{$utils.formatMoney(packageDetail.salesPrice,1)}}成为代理</div>
 				<div class="buy" @click="getBuy" v-else>立即购买</div>
 				<img src="../assets/images/share.png" class="share-now" @click="getShare(packageDetail)" />
@@ -128,7 +132,7 @@
 				detailsPicture: [],
 				inweixin: false,
 				giftpackagedescription:'',
-				rulepic:[]
+				rulepic:[],
 			}
 		},
 		methods: {
@@ -550,6 +554,10 @@
     			line-height: 4.6rem;
 				margin: .6rem 0;
 				width:74%;
+			}
+			.inweixin-style{
+				float:none!important;
+				margin:0 auto!important;
 			}
 			.share-now {
 				width: 5.8rem;

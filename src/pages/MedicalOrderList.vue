@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import { Toast } from 'vant'
 import { dateFormatter } from '../common/utils.js'
 import api from '../common/api.js'
 

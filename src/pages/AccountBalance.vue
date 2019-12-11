@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import { Toast, DropdownMenu, DropdownItem } from 'vant'
 import { formatMoney } from '../common/utils.js'
 import api from '../common/api.js'
 

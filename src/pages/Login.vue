@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { Toast, Field, Button, Popup } from 'vant'
+import { Toast } from 'vant'
 import { setCookie, getQueryString, checkRules } from '../common/utils.js'
 import api from '../common/api.js'
 

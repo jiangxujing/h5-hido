@@ -1,5 +1,5 @@
 <template>
-	<div class="agreement income-rule">
+	<div class="agreement mm-download">
 		<div class="agreement-content">
 			<h5 class="agreement-title">下载着陆页</h5>
 			<div class="agreement-main"></div>
@@ -9,7 +9,7 @@
 
 <script>
 export default {
-	name: 'income-rule',
+	name: 'mm-download',
 	data() {
 		return {
 

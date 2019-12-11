@@ -95,7 +95,7 @@
 						this.tipShow = false
 					} else {
 						this.tipShow = true
-						this.tipstext = '姓名格式有误，只能输入中英文,位数在2-15位之间！'
+						this.tipstext = '姓名格式有误，只能输入中英文！'
 					}
 				} else if(param == 'detail') {
 					console.log('detail')
@@ -103,7 +103,7 @@
 						this.tipShow = false
 					}else{
 						this.tipShow = true
-						this.tipstext = '不能包含非法字符，请重新输入，位数在2-30位之间!'
+						this.tipstext = '不能包含非法字符，请重新输入！'
 					}
 				} else if(param == 'tel') {
 					console.log('tel')

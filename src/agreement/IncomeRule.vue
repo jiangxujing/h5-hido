@@ -1,7 +1,7 @@
 <template>
-	<div class="agreement common-problem">
+	<div class="agreement income-rule">
 		<div class="agreement-content">
-			<h5 class="agreement-title">常见问题</h5>
+			<h5 class="agreement-title">收益规则</h5>
 			<div class="agreement-main"></div>
 		</div>
 	</div>
@@ -9,14 +9,14 @@
 
 <script>
 export default {
-	name: 'common-problem',
+	name: 'income-rule',
 	data() {
 		return {
 
 		}
 	},
 	mounted() {
-		document.title = '常见问题'
+		document.title = '收益规则'
 	},
 	methods: {
 		

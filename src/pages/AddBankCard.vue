@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import { Toast, Field, Button, Popup, Checkbox, CheckboxGroup } from 'vant'
+import { Toast, Popup, Checkbox, CheckboxGroup } from 'vant'
 import api from '../common/api.js'
 import { checkRules } from '../common/utils.js'
 

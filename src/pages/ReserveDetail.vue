@@ -31,7 +31,6 @@
 </template>
 
 <script>
-import { Toast } from 'vant'
 import { getQueryString, formatMoney, dateFormatter } from '../common/utils.js'
 import api from '../common/api.js'
 

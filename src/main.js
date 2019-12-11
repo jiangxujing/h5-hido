@@ -32,7 +32,6 @@ Vue.prototype.$api = api
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
-    document.title = 'hido'
     next()
 })
 

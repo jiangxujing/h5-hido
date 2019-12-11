@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import { Toast } from 'vant'
 import { formatMoney } from '../common/utils.js'
 import api from '../common/api.js'
 

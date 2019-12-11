@@ -13,7 +13,7 @@
                             placeholder="请输入手机号"
                             v-model="phone"
                             maxlength="11"
-                            @focus="() => {phone = phone.replace(/\D/g,''), mobileFocus = true}"
+                            @focus="() => {phone=phone.replace(/\D/g,''), mobileFocus=true}"
                             @blur="setTimeout('mobileFocus')"/>
                         <i class="van-cell-group-inputTitle" v-if="phone">手机号</i>
                         <van-icon class="verify-input-code" v-if="phone && mobileFocus" name="close" @click="phone=''"/>
@@ -25,10 +25,10 @@
                             type="tel"
                             v-model="verifyCode"
                             maxlength="6"
-                            @focus="() => {phone = phone.replace(/\D/g,''), verifyCodeFocus = true}"
+                            @focus="() => {phone=phone.replace(/\D/g,''), verifyCodeFocus=true}"
                             @blur="setTimeout('verifyCodeFocus')"/>
                         <i class="van-cell-group-inputTitle" v-if="verifyCode">验证码</i>
-                        <van-icon v-if="verifyCode && verifyCodeFocus" name="close"  @click="verifyCode = ''"/>
+                        <van-icon v-if="verifyCode && verifyCodeFocus" name="close"  @click="verifyCode=''"/>
                     </van-cell-group>
                     <van-button class="page-verify" @click="getVerify" :disabled="verifyBtn">{{ verifyTitle }}</van-button>
                 </div>
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { Toast, Field, Button, Popup } from 'vant'
+import { Toast } from 'vant'
 import { setCookie, getQueryString, checkRules } from '../common/utils.js'
 import api from '../common/api.js'
 
@@ -76,6 +76,7 @@ export default {
         }
     },
     mounted () {
+        document.title = 'HIDO'
         this.verifyTitle = '获取验证码'
         let ua = navigator.userAgent;
 			this.device = {

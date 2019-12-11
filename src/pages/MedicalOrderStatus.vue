@@ -21,6 +21,7 @@
 		},
 		methods: {},
 		mounted() {
+			document.title = '订单提交'
 			if(sessionStorage.getItem('h5paysuccess')) {
 				sessionStorage.removeItem('h5paysuccess')
 			}

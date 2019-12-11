@@ -38,7 +38,6 @@
 </template>
 
 <script>
-import { Toast, Collapse, CollapseItem } from 'vant'
 import api from '../common/api.js'
 import { formatMoney } from '../common/utils.js'
 

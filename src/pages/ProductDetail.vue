@@ -281,6 +281,13 @@
 				}).catch((e) => {})
 			}
 		},
+		watch: {
+        	'$route' (to, from) { // 监听路由是否变化
+				if (to.query.packageCode !== from.query.packageCode) {
+					this.getPackageDetail(this.$route.query.packageCode)
+				}
+			}
+		},
 		mounted() {
 			document.title = "礼包详情"
 			let ua = navigator.userAgent;

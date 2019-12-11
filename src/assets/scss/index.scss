@@ -935,6 +935,9 @@ input::-webkit-input-placeholder {
         border: none;
         border-radius: 3px;
     }
+    .van-cell__title {
+        flex: 1!important;
+    }
     .second-no {
         height: 2.4rem;
         line-height: 2.4rem;

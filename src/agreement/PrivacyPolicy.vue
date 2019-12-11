@@ -198,7 +198,7 @@ export default {
 	.agreement {
 		background-color: #F5F5F5;
 		padding-top: 1rem;
-		height: 100%;
+		min-height: 100%;
 		.agreement-content {
 			width: 100%;
 			height: 100%;

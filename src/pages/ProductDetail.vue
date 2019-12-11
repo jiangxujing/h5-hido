@@ -58,7 +58,7 @@
 						<img class="libao" :src="i.listPicture" />
 						<div class="package-price">
 							<div class="package-price-num">
-								￥<span class="DINAlternate-Bold" style="font-size:3rem;font-weight: bold;margin-right: .4rem;">{{$utils.formatMoney(i.salesPrice,1)}}</span>会员礼包
+								￥<span class="DINAlternate-Bold" style="font-size:3rem;font-weight: bold;margin-right: .4rem;">{{i.salesPrice%100==0?$utils.formatMoney(i.salesPrice):$utils.formatMoney(i.salesPrice,1)}}</span>会员礼包
 							</div>
 							<div style="color:#8A9399;font-size:1.2rem;line-height: 1.7rem;">{{'原价￥' + $utils.formatMoney(i.originalPrice,1)}}</div>
 						</div>
@@ -139,8 +139,8 @@
 			goToDetail(p) {
 				console.log(p)
 				this.$router.push("/productDetail?packageCode=" + p+'&uid='+this.uid)
-				window.location.reload(true)
-				//				this.$router.go(0)
+				//window.location.reload(true)
+				this.$router.go(0)
 			},
 			cancleBtn() {
 				this.shareWrapperShow = false

@@ -877,6 +877,7 @@ input::-webkit-input-placeholder {
         }
         .van-collapse {
             border-top: 1px solid $borderColor;
+            width: 100%;
         }
     }
     .team-first, .second-child {
@@ -934,9 +935,11 @@ input::-webkit-input-placeholder {
         padding: 0;
         border: none;
         border-radius: 3px;
+        width: 100%;
     }
     .second-no {
         height: 2.4rem;
+        width: 100%;
         line-height: 2.4rem;
         font-size: 1.5rem;
         color: #2B3842;

@@ -44,7 +44,7 @@
 				</div>
 				<div class="recommend" v-if="!firstMobile">
 					<van-cell-group>
-						<van-field v-model="recommendPhone" label="推荐人手机号" @blur="blurFun" @focus="focusFun" placeholder="请输入推荐人手机号" :readonly="isDisAble" clearable type='tel' maxlength='11' @input="checkTel" />
+						<van-field v-model="recommendPhone" id="recommendPhone" label="推荐人手机号" @blur="blurFun" @focus="focusFun" placeholder="请输入推荐人手机号" :readonly="isDisAble" clearable type='tel' maxlength='11' @input="checkTel" />
 					</van-cell-group>
 				</div>
 				<div class="submitTxt">
@@ -136,7 +136,7 @@
 				if(tel == this.loginMobile){
 					Toast('推荐人手机号不能是登陆手机号')
 					this.gray = true
-				}else if(strTemp.test(tel)) {
+				}else if(strTemp.test(tel) || !tel) {
 					this.gray = false
 				}else{
 					this.gray = true
@@ -177,7 +177,7 @@
 						if(this.recommendPhone == this.loginMobile){
 							Toast('推荐人手机号不能是登陆手机号')
 							this.gray = true
-						}else if(strTemp.test(this.recommendPhone)) {
+						}else if(strTemp.test(this.recommendPhone) || !this.recommendPhone) {
 							this.gray = false
 						}else{
 							this.gray = true
@@ -237,14 +237,19 @@
 				bridge.callHandler('callInit', params, (data) => {
 					api.setupWebViewJavascriptBridge((bridge) => {
 						bridge.registerHandler('invokeBackPress', (data) => {
+							var input = document.getElementById("recommendPhone");
+							input.blur();
 							_this.dropOutShow = true
 						})
 					})
 				})
 			})
+			
 			api.setupWebViewJavascriptBridge((bridge) => {
 						bridge.registerHandler('invokeBackPress', (data) => {
 							api.setupWebViewJavascriptBridge((bridge) => {
+								var input = document.getElementById("recommendPhone");
+									input.blur();
 								_this.dropOutShow = true
 							})
 						})

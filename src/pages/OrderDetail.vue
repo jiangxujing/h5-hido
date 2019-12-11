@@ -94,7 +94,7 @@
 				phone: '',
 				detailAddress: '',
 				gray: true,
-				dropOutShow: true,
+				dropOutShow: false,
 				jumpUrl: '',
 				orderDetail: {},
 				type:'',

@@ -92,7 +92,7 @@
 				}else if(this.detailAddress.length < 2){
 						this.tipstext = '详细地址不能少于两位！'
 				}else{
-					this.$router.push("/orderDetail?packageCode=" + packageCode)
+					this.$router.push("/orderDetail?packageCode=" + packageCode+'&uid=' + this.$route.query.uid)
 				}
 			},
 			checkEmpty(param) {

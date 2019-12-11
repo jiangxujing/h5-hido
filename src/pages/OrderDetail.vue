@@ -120,7 +120,7 @@
 				console.log(this.h5Show)
 			},
 			setAddress() {
-				this.$router.push("/shippingAddress")
+				this.$router.push("/shippingAddress?uid="+this.$route.query.uid)
 			},
 			focusFun(){
 				this.blurstyle = 'blurstyle'

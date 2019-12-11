@@ -11,7 +11,7 @@
                     placeholder="请选择开户行"
                     disabled
                     @click="popupShow=true" />
-                <van-field
+                <!-- <van-field
                     v-model="cardNo"
                     clearable
                     maxlength="23"
@@ -19,6 +19,16 @@
                     label="银行卡号"
                     placeholder="请输入银行卡号"
                     @input="(value) => {cardNo = cardNo.replace(/\D/g,'').replace(/(\S{4})/g, '$1 ').replace(/\s*$/, '')}"
+                    @clear="clearVerifyCode" /> -->
+                <van-field
+                    v-model="cardNo"
+                    clearable
+                    maxlength="19"
+                    type="tel"
+                    label="银行卡号"
+                    placeholder="请输入银行卡号"
+                    @focus="(value) => {cardNo = cardNo.replace(/\s/g, '')}"
+                    @blur="(value) => {cardNo = cardNo.replace(/\D/g,'').replace(/(\S{4})/g, '$1 ').replace(/\s*$/, '')}"
                     @clear="clearVerifyCode" />
                 <van-field
                     v-model="bankBranch"

@@ -737,11 +737,11 @@ input::-webkit-input-placeholder {
     flex-direction: column;
     justify-content: space-between;
     .page-protocol {
-        margin: .7rem 0 8rem 1.5rem;
+        margin: .7rem 0 0 1.5rem;
     }
     .page-button {
         width: 100%;
-        padding: 0 14.4% 6rem 14.4%;
+        padding: 8rem 14.4% 6rem 14.4%;
     }
     .bank-name-input {
         .van-field__control:disabled {

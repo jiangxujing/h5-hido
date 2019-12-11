@@ -46,9 +46,9 @@
 				<div>{{status}}</div>
 			</div>
 			<div class="borderStyle1"></div>
-			<span class="goods-title" v-for="(i,index) in giftDetail.shipGoods" :key="index">
+			<div class="goods-title" v-for="(i,index) in giftDetail.shipGoods" :key="index" style="display: block;">
 				{{i.goodsDesc}}*{{i.goodsCount}}
-			</span>
+			</div>
 			<div class="good-user-detail">
 				<div class="good-user">
 					<div>收件人</div>

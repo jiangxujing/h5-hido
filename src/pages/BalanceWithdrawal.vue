@@ -175,9 +175,11 @@
 					this.normal = false
 					this.tips = '单笔最高可提现10000.00元'
 					this.grayShow = true
-				} else if(parseFloat(this.money) < 100) {
+				} else if(parseFloat(this.money) < 1) {
 					this.normal = false
-					this.tips = '单笔最低可提现100.00元'
+					this.tips = '单笔最低可提现1.00元'
+					this.grayShow = true
+				}else if(!this.money){
 					this.grayShow = true
 				} else {
 					this.normal = true
@@ -281,6 +283,9 @@
 		height: 100%;
 		min-height: 50rem;
 		padding-top: 1rem;
+		.van-field__control{
+			width:90%;
+		}
 		.balanceWithdrawal-content {
 			input::-webkit-input-placeholder {
 				color: #aab2bd;

@@ -58,8 +58,8 @@
 			</div>
 			<div class="orderWrapper" v-if="dropOutShow">
 				<div class="order-content">
-					<div class="title">提示</div>
-					<div style="color:#353535;font-size:1.5rem;">是否确认取消订单</div>
+				<!--	<div class="title">提示</div>-->
+					<div style="color:#353535;font-size:1.5rem;padding-top:2rem;">是否确认取消订单</div>
 					<div class="borderStyle"></div>
 					<button class="canle" @click="dropOutShow=false">取消</button>
 					<button class="confirm" @click="goBack">确认</button>
@@ -94,7 +94,7 @@
 				phone: '',
 				detailAddress: '',
 				gray: true,
-				dropOutShow: false,
+				dropOutShow: true,
 				jumpUrl: '',
 				orderDetail: {},
 				type:'',
@@ -276,6 +276,7 @@
 			position: fixed;
 			left: 0;
 			top: 0;
+			z-index:11111;
 			.order-content {
 				width: 72%;
 				margin: 50% auto 0;

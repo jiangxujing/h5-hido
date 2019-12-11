@@ -32,6 +32,7 @@ import commonProblem from '@/agreement/CommonProblem'
 import privacyPolicy from '@/agreement/PrivacyPolicy'
 import registerProtocol from '@/agreement/RegisterProtocol'
 import paymenProtocol from '@/agreement/PaymenProtocol'
+import incomeRule from '@/agreement/IncomeRule'
 
 
 const originalPush = Router.prototype.push
@@ -167,6 +168,10 @@ export default new Router({
         	path: '/helpCenter',
             component: helpCenter,
             name:'helpCenter'
+        },{
+        	path: '/incomeRule',
+            component: incomeRule,
+            name:'incomeRule'
         }
     ],
     scrollBehavior (to, from, savedPosition) {

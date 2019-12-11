@@ -354,6 +354,7 @@
 		width: 100%;
 		height: 100%;
 		background: #F5F5F5;
+		-webkit-overflow-scroll:touch;
 		.content1 {
 			width: 100%;
 			height: auto;
@@ -388,6 +389,11 @@
 				}
 			}
 		}
+		@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+			.content2{
+					padding-bottom: 4rem!important;
+				}
+			}
 		.content2 {
 			padding-bottom: 1.8rem;
 			h2 {
@@ -543,11 +549,21 @@
 			}
 			.fixBtn{
 				overflow: hidden;
-				padding: 1rem 1.1rem 0 1.5rem;
+				padding: 1rem 1.1rem 1rem 1.5rem;
 				position: fixed;
 			    bottom: 0;
 			    width: 100%;
 			    background: #fff;
+			}
+			@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+				.fixBtn{
+						overflow: hidden;
+						padding: 1rem 1.1rem 3rem 1.5rem;
+						position: fixed;
+					    bottom: 0;
+					    width: 100%;
+					    background: #fff;
+					}
 			}
 			.buy {
 				text-align: center;

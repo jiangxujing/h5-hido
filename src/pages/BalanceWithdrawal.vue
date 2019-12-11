@@ -104,39 +104,43 @@
 			}
 		},
 		methods: {
-			clearData(){
+			clearData() {
 				this.grayShow = true
 			},
 			sendCode() {
 				this.getWithdraw()
 			},
 			confirmCode() {
-				let amount = this.money * 100
-				let req = {
-					amount: amount,
-					bankBranch: this.bankBranch,
-					bankCardNo: this.bankCardNo,
-					bankName: this.bankName,
-					serialNo: this.serialNo,
-					verificationCode: this.smsCode,
-					mobile: this.moblie,
-					name: this.name,
-					cardId: this.cardId
-				}
-				api.post(api.getUrl('withdrawalAuthSendSms'), req).then(res => {
-					if(res.code == 0) {
-						this.sendCodeShow = false
-						this.$router.push("/withdrawSucess")
-					} else {
-
+				if(!this.smsCode) {
+					Toast('请输入验证码')
+				} else {
+					let amount = this.money * 100
+					let req = {
+						amount: amount,
+						bankBranch: this.bankBranch,
+						bankCardNo: this.bankCardNo,
+						bankName: this.bankName,
+						serialNo: this.serialNo,
+						verificationCode: this.smsCode,
+						mobile: this.moblie,
+						name: this.name,
+						cardId: this.cardId
 					}
-				}).catch((e) => {
+					api.post(api.getUrl('withdrawalAuthSendSms'), req).then(res => {
+						if(res.code == 0) {
+							this.sendCodeShow = false
+							this.$router.push("/withdrawSucess")
+						} else {
 
-				})
+						}
+					}).catch((e) => {
+
+					})
+				}
 			},
 			getWithdraw() {
-			if( /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$/.test(this.money) ){
-                   let req = {
+				if(/^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$/.test(this.money)) {
+					let req = {
 						mobile: this.moblie,
 						amount: this.money * 100
 					}
@@ -162,9 +166,9 @@
 							}
 						}
 					}).catch((e) => {})
-                }else{
-                	Toast('提现金额输入不正确！', '提示')
-                }
+				} else {
+					Toast('提现金额输入不正确！', '提示')
+				}
 			},
 			changeMoney() {
 				if((parseFloat(this.money) > parseFloat(this.withdrawalDetail.freeAmount / 100)) && parseFloat(this.money) <= 10000) {
@@ -180,7 +184,7 @@
 					this.normal = false
 					this.tips = '单笔最低可提现1.00元'
 					this.grayShow = true
-				}else if(!this.money){
+				} else if(!this.money) {
 					this.grayShow = true
 				} else {
 					this.normal = true
@@ -284,8 +288,8 @@
 		height: 100%;
 		min-height: 50rem;
 		padding-top: 1rem;
-		.van-field__control{
-			width:90%;
+		.van-field__control {
+			width: 90%;
 		}
 		.balanceWithdrawal-content {
 			input::-webkit-input-placeholder {
@@ -293,9 +297,9 @@
 				font-size: 3.2rem;
 				font-weight: 300;
 				color: #8A9399;
-				line-height:normal;
+				line-height: normal;
 				vertical-align: middle;
-				padding-top:1rem;
+				padding-top: 1rem;
 			}
 			width: 100%;
 			height: auto;
@@ -410,7 +414,7 @@
 				float: right;
 				margin-top: 1rem;
 				width: 2.2rem;
-    			height: 2.2rem;
+				height: 2.2rem;
 			}
 		}
 		.cancle-btn {

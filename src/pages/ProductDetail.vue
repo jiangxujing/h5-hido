@@ -556,8 +556,8 @@
 				width:74%;
 			}
 			.inweixin-style{
-				float:none;
-				margin:0 auto;
+				float:none!important;
+				margin:0 auto!important;
 			}
 			.share-now {
 				width: 5.8rem;

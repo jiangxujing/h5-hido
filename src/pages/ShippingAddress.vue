@@ -278,7 +278,7 @@
 			}
 		}
 		.active-address {
-			color: red
+			color: #FF7B31;
 		}
 	}
 </style>

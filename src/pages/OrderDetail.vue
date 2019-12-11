@@ -131,14 +131,14 @@
 			checkTel() {
 				let strTemp = _utils.checkTel()
 				let tel = this.recommendPhone
+				console.log(strTemp.test(tel))
 				sessionStorage.setItem('recommendPhone',this.recommendPhone)
-				console.log(tel)
-				console.log(sessionStorage.getItem('phone'))
 				if(tel == this.loginMobile){
 					Toast('推荐人手机号不能是登陆手机号')
-				}else if(strTemp.test(tel) || !tel) {
+					this.gray = true
+				}else if(strTemp.test(tel)) {
 					this.gray = false
-				} else{
+				}else{
 					this.gray = true
 				}
 			},
@@ -173,6 +173,15 @@
 				api.post(api.getUrl('queryAgent'),req).then(res => {
 					if(res.code == 0) {
 						this.loginMobile = res.content.loginMobile
+						let strTemp = _utils.checkTel()
+						if(this.recommendPhone == this.loginMobile){
+							Toast('推荐人手机号不能是登陆手机号')
+							this.gray = true
+						}else if(strTemp.test(this.recommendPhone)) {
+							this.gray = false
+						}else{
+							this.gray = true
+						}
 						this.firstMobile = res.content.firstMobile
 						if(this.device.version.MicroMessenger) {						
 							 if(!res.content.firstMobile){
@@ -191,6 +200,7 @@
 		},
 		mounted() {
 			document.title="订单提交"
+			
 			this.h5paysuccess = this.$route.query.h5paysuccess
 			console.log(this.h5paysuccess)
 			if(sessionStorage.getItem('h5paysuccess') || this.h5paysuccess){

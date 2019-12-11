@@ -4,7 +4,7 @@
 			<div class="title">提现余额（元）</div>
 			<div>
 				<van-cell-group>
-					<van-field @input="changeMoney" @clear="clearData" type="tel" class="money" v-model="money" placeholder="请输入提现金额" clearable onkeyup="value=value.replace(/[^\d.]/g,'');value=value.replace(/^\./g,'');value=value.replace(/\.{2,}/g,'.');value=value.replace('.','$#$').replace(/\./g,'').replace('$#$','.');value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3')" />
+					<van-field @input="changeMoney" @clear="clearData" type="number" class="money" v-model="money" placeholder="请输入提现金额" clearable/>
 				</van-cell-group>
 			</div>
 			<div class="borderStyle" style=" margin-left: 1.5rem;margin-top:0"></div>
@@ -79,6 +79,7 @@
 <script>
 	import api from '../common/api.js'
 	import _utils from '../common/utils.js'
+	import { Toast } from 'vant'
 	export default {
 		name: 'balanceWithdrawal',
 		data() {
@@ -134,10 +135,8 @@
 				})
 			},
 			getWithdraw() {
-				if(parseFloat(this.money) <= 0) {
-					Toast('提现金额不能为0', '提示')
-				} else {
-					let req = {
+			if( /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$/.test(this.money) ){
+                   let req = {
 						mobile: this.moblie,
 						amount: this.money * 100
 					}
@@ -163,7 +162,9 @@
 							}
 						}
 					}).catch((e) => {})
-				}
+                }else{
+                	Toast('提现金额输入不正确！', '提示')
+                }
 			},
 			changeMoney() {
 				if((parseFloat(this.money) > parseFloat(this.withdrawalDetail.freeAmount / 100)) && parseFloat(this.money) <= 10000) {

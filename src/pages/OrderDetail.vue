@@ -134,7 +134,7 @@
 				sessionStorage.setItem('recommendPhone',this.recommendPhone)
 				console.log(tel)
 				console.log(sessionStorage.getItem('phone'))
-				if(tel == sessionStorage.getItem('phone')){
+				if(tel == this.loginMobile){
 					Toast('推荐人手机号不能是登陆手机号')
 				}else if(strTemp.test(tel) || !tel) {
 					this.gray = false
@@ -172,6 +172,7 @@
 				}
 				api.post(api.getUrl('queryAgent'),req).then(res => {
 					if(res.code == 0) {
+						this.loginMobile = res.content.loginMobile
 						this.firstMobile = res.content.firstMobile
 						if(this.device.version.MicroMessenger) {						
 							 if(!res.content.firstMobile){

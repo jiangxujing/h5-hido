@@ -38,7 +38,15 @@
 		<van-cell-group>
 			<van-field class="big" type="text" v-model="detailAddress" placeholder="详细地址：如道路；门牌号；小区等" @input="checkEmpty('detail')" maxLength="30" minLength="2" clearable/>
 		</van-cell-group>
-		<div v-if="tipShow" style="color:#FF0000;font-size:1.2rem;font-weight:400;padding-top:1.3rem;padding-left:1.5rem">{{tipstext}}</div>
+		<div v-if="ShowName">
+			<div v-if="tipShowName" style="color:#FF0000;font-size:1.2rem;font-weight:400;padding-top:1.3rem;padding-left:1.5rem">{{tipstextName}}</div>
+		</div>
+		<div v-if="ShowTel">
+			<div v-if="tipShowTel" style="color:#FF0000;font-size:1.2rem;font-weight:400;padding-top:1.3rem;padding-left:1.5rem">{{tipstextTel}}</div>
+		</div>
+		<div v-if="ShowDetail">
+			<div v-if="tipShowDetail" style="color:#FF0000;font-size:1.2rem;font-weight:400;padding-top:1.3rem;padding-left:1.5rem">{{tipstextDetail}}</div>
+		</div>
 		<div class="save">
 			<button class="savebtn gray" v-if="gray">保存</button>
 			<button class="savebtn" v-else @click="saveAddress">保存</button>
@@ -64,8 +72,16 @@
 				cityList: [],
 				districtList: [],
 				gray: true,
-				tipShow: false,
-				tipstext: '不能包含非法字符，请重新输入'
+				tipShowName: false,
+				tipShowTel:false,
+				tipShowDetail:false,
+				tipShow:false,
+				tipstextName: '不能包含非法字符，请重新输入',
+				ShowName:true,
+				ShowTel:true,
+				ShowDetail:true,
+				tipstextDetail:'',
+				tipstextTel:''
 			}
 		},
 		methods: {
@@ -80,11 +96,6 @@
 				}
 			},
 			checkEmpty(param) {
-				if(this.username && this.phone && this.detailAddress && this.province && this.city && this.county) {
-					this.gray = false
-				} else {
-					this.gray = true
-				}
 				sessionStorage.setItem('username', this.username)
 				sessionStorage.setItem('phone', this.phone)
 				sessionStorage.setItem('detailAddress', this.detailAddress)
@@ -92,30 +103,43 @@
 					var regu = /^[a-zA-Z\u4e00-\u9fa5]{2,15}$/;
 					var re = new RegExp(regu);
 					if(this.username.search(re) != -1 || !this.username) {
-						this.tipShow = false
+						this.tipShowName = false
 					} else {
-						this.tipShow = true
-						this.tipstext = '姓名格式有误，只能输入中英文！'
+						this.tipShowName = true
+						this.tipstextName = '姓名格式有误，只能输入中英文！'
 					}
+					this.ShowName = true
+					this.ShowTel = false
+					this.ShowDetail = false
 				} else if(param == 'detail') {
 					console.log('detail')
 					if(!!this.detailAddress.match(/^[\u4E00-\u9FA5a-zA-Z0-9_]{2,30}$/) || !this.detailAddress ) {
-						this.tipShow = false
+						this.tipShowDetail = false
 					}else{
-						this.tipShow = true
-						this.tipstext = '不能包含非法字符，请重新输入！'
+						this.tipShowDetail = true
+						this.tipstextDetail = '不能包含非法字符，请重新输入！'
 					}
+					this.ShowDetail = true
+					this.ShowTel = false
+					this.ShowName = false
 				} else if(param == 'tel') {
 					console.log('tel')
 					const  mobileReg  =  /^(1)+\d{10}$/
 					if(mobileReg.test(this.phone) || !this.phone) {
-						this.tipShow = false
+						this.tipShowTel = false
 					}else{
-						this.tipShow = true
-						this.tipstext = '手机号格式有误！'
+						this.tipShowTel = true
+						this.tipstextTel = '手机号格式有误！'
 					}
+					this.ShowTel = true
+					this.ShowDetail = false
+					this.ShowName = false
 				}
-
+				if(this.username && this.phone && this.detailAddress && this.province && this.city && this.county && !this.tipShowName && !this.tipShowDetail && !this.tipShowTel) {
+					this.gray = false
+				} else {
+					this.gray = true
+				}
 			},
 			showPopup() {
 				this.show = true;
@@ -158,25 +182,15 @@
 				sessionStorage.setItem('county', this.county)
 				console.log(this.county)
 				this.show = false
-				console.log(this.username)
-				console.log(this.phone)
-				console.log(this.phone)
-				console.log(this.detailAddress)
-				console.log(this.province)
-				console.log(this.city)
-				console.log(this.county)
-				if(this.username && this.phone && this.detailAddress && this.province && this.city && this.county) {
-					console.log('在着吗')
+				if(this.username && this.phone && this.detailAddress && this.province && this.city && this.county && !this.tipShowName && !this.tipShowDetail && !this.tipShowTel) {
 					this.gray = false
 				} else {
-					console.log('还是在这')
 					this.gray = true
 				}
 				let _this = this
 				this.districtList.find(function(item) {
 					if(item.code == _this.district) {
 						_this.districtName = item.name
-						console.log(_this.districtName)
 					}
 				});
 			}

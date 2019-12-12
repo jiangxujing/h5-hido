@@ -183,13 +183,7 @@
 							// this.$router.go(-1) // 哪来回哪去
 							if(this.device.version.MicroMessenger) {
 								if(this.$route.query.redirect.indexOf('productDetail') != -1) {
-									if(location.origin == 'https://bf-uat.memedai.cn'){
-										console.log('15555555555')
-										location.href = location.origin + "/h5-hido/index.html#/productDetail?packageCode=" + sessionStorage.getItem('packageCode') + '&uid=' + sessionStorage.getItem('uid')
-									}else{
-										console.log('666666666666')
-										location.href = location.origin + "/index.html#/productDetail?packageCode=" + sessionStorage.getItem('packageCode') + '&uid=' + sessionStorage.getItem('uid')
-									}
+									location.href = location.origin +  location.pathname+"#/productDetail?packageCode=" + sessionStorage.getItem('packageCode') + '&uid=' + sessionStorage.getItem('uid')
 								}else{
 									this.$router.push(this.$route.query.redirect || '/')
 								}

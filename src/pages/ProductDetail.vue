@@ -230,7 +230,7 @@
 				let reqUrl = {
 					url: encodeURIComponent(url)
 				}
-				console.log(encodeURIComponent(url))
+				console.log(url)
 				api.get(api.getUrl('share'), reqUrl).then(res => {
 					if(res.code == '000') {
 						var timestamp = res.content.timestamp;

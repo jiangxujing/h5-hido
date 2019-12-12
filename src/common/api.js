@@ -183,12 +183,12 @@ const registerHandler = function(type, responseCallback) {
 
 // 微信
 export const getWechat = (title, desc, linkUrl, imgUrl) => {
-	wx.checkJsApi({
-		jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline'], // 需要检测的JS接口列表
-		success: function(res) {
-			console.log(res);
-		}
-	});
+//	wx.checkJsApi({
+//		jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline'], // 需要检测的JS接口列表
+//		success: function(res) {
+//			console.log(res);
+//		}
+//	});
 	wx.ready(function() {
 		wx.onMenuShareAppMessage({
 			title: title,

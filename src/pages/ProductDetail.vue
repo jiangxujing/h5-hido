@@ -222,14 +222,15 @@
 			},
 			getWechat() {
 				let packageDetail = this.packageDetail
-				let originUrl = (location.href.split('#/')[0]).split('?')[0] + '#/' + location.href.split('#/')[1]
-				let url = originUrl.replace("#", "&");
+				//let originUrl = (location.href.split('#/')[0]).split('?')[0] + '#/' + location.href.split('#/')[1]
+				let url = location.href.replace("#", "&");
 				let linkUrl = url.split('#')[0]
 				url = linkUrl.replace("&", "#")
 				console.log(url)
 				let reqUrl = {
 					url: encodeURIComponent(url)
 				}
+				console.log(url)
 				api.get(api.getUrl('share'), reqUrl).then(res => {
 					if(res.code == '000') {
 						var timestamp = res.content.timestamp;

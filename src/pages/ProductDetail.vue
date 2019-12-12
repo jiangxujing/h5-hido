@@ -289,6 +289,11 @@
 			}
 		},
 		mounted() {
+			let href = window.location.href;
+			if(href.indexOf('isappinstalled') > -1 ){
+			    href = href.replace(/\?from=(isappinstalled)(\S*)#/, '#');
+			    window.location.href = (location.href.split('#/')[0]).split('?')[0] + '#/' + location.href.split('#/')[1]
+			}
 			document.title = "礼包详情"
 			let ua = navigator.userAgent;
 			this.ios = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端

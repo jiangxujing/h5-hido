@@ -194,9 +194,13 @@ export default {
                         setCookie('channel', 'hido_h5', 7)
                         // this.$router.go(-1) // 哪来回哪去
                         console.log(this.$route.query.redirect)
-                        if(this.$route.query.redirect.indexOf('/productDetail')!=-1){
-                        	this.$router.push("/productDetail?packageCode=" + sessionStorage.getItem('packageCode')+'&uid='+sessionStorage.getItem('uid'))
+                        ///this.$router.push(this.$route.query.redirect || '/')
+                        if(this.$route.query.redirect.indexOf('productDetail')!=-1){
+                        	console.log('15555555555')
+                        	location.href = location.origin+"/#/productDetail?packageCode=" + sessionStorage.getItem('packageCode')+'&uid='+sessionStorage.getItem('uid')
+                        	//this.$router.push("/productDetail?packageCode=" + sessionStorage.getItem('packageCode')+'&uid='+sessionStorage.getItem('uid'))
                         }else{
+                        	console.log('2111111111111')
                         	this.$router.push(this.$route.query.redirect || '/')
                         }
                     }

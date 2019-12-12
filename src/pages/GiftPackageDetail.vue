@@ -2,7 +2,7 @@
 	<div class="gift-package-detail">
 		<div class="gift-package">
 			<div style="overflow:hidden">
-				<img class="libao" :src="giftDetail.headPicture" />
+				<img class="libao" :src="giftDetail.listPicture" />
 				<div style="overflow:hidden;padding-right: 1.5rem;">
 					<div style="float:left">
 						<div class="package-price">

@@ -8,7 +8,7 @@
 				</div>
 				<div class="borderStyle1"></div>
 				<div style="overflow:hidden">
-					<img class="libao" :src="p.headPicture" />
+					<img class="libao" :src="p.listPicture" />
 					<div style="overflow:hidden;padding-right: 1.5rem;position: relative;">
 						<div style="float:left">
 							<div class="package-price">

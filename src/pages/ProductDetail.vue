@@ -295,6 +295,13 @@
 			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端
 			let code = this.$route.query.packageCode
 			this.uid = this.$route.query.uid
+			this.device = {
+				version: function() {
+					return {
+						MicroMessenger: /micromessenger/i.test(ua),
+					}
+				}()
+			};
 			if(navigator.userAgent.toLowerCase().indexOf('hido')  !=  -1) {
 				api.callHandler('callInit', {
 					interceptBack: false
@@ -305,14 +312,6 @@
 			} else {
 				this.getPackageDetail(code)
 			}
-
-			this.device = {
-				version: function() {
-					return {
-						MicroMessenger: /micromessenger/i.test(ua),
-					}
-				}()
-			};
 			let url = location.href
 			if(this.device.version.MicroMessenger) {
 				this.inweixin = true
@@ -323,7 +322,6 @@
 				this.uid = this.$route.query.uid
 				sessionStorage.setItem('uid', this.$route.query.uid)
 			}
-
 			let params = {
 				interceptBack: true
 			}

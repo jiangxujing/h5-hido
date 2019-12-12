@@ -186,6 +186,8 @@
 									console.log('15555555555')
 									location.href = location.origin + "/h5-hido/index.html#/productDetail?packageCode=" + sessionStorage.getItem('packageCode') + '&uid=' + sessionStorage.getItem('uid')
 									//this.$router.push("/productDetail?packageCode=" + sessionStorage.getItem('packageCode')+'&uid='+sessionStorage.getItem('uid'))
+								}else{
+									this.$router.push(this.$route.query.redirect || '/')
 								}
 							} else {
 								this.$router.push(this.$route.query.redirect || '/')

@@ -161,6 +161,8 @@
 				this.districtList = []
 				this.$set(i, "active", true);
 				this.province = i.provinceName
+				this.county = ''
+				this.city = ''
 				sessionStorage.setItem('province', this.province)
 			},
 			selectCity(i) {
@@ -171,6 +173,7 @@
 				});
 				this.$set(i, "active", true);
 				this.city = i.cityName
+				this.county = ''
 				sessionStorage.setItem('city', this.city)
 			},
 			selectDistric(i) {

@@ -222,7 +222,7 @@
 			},
 			getWechat() {
 				let packageDetail = this.packageDetail
-				//let linkUrl = location.href.split('#')[0]
+				//let originUrl = (location.href.split('#/')[0]).split('?')[0] + '#/' + location.href.split('#/')[1]
 				let url = location.href.replace("#", "&");
 				let linkUrl = url.split('#')[0]
 				url = linkUrl.replace("&", "#")

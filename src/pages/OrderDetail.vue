@@ -23,7 +23,7 @@
 				</div>
 				<div class="gift-package">
 					<div style="overflow:hidden">
-						<img class="libao" v-if="orderDetail.headPicture" :src="orderDetail.headPicture" />
+						<img class="libao" v-if="orderDetail.headPicture" :src="orderDetail.listPicture" />
 						<div style="overflow:hidden">
 							<div style="float:left;width:70%">
 								<div class="package-price">

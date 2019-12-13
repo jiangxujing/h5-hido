@@ -10,7 +10,7 @@
 					</div>
 					<div style="padding:1.5rem" v-else @click="setAddress">
 						<div>
-							<span>{{username}}{{phone}}</span>
+							<span>{{username}}&nbsp;&nbsp;&nbsp;{{phone}}</span>
 							<img class="arrow" src="../assets/images/arrow.png" />
 						</div>
 						<div class="adress adress1">

@@ -100,7 +100,7 @@
 					if(res.code == '000') {
 						sessionStorage.setItem('h5paysuccess', true)
 						let uri = ''
-						uri = location.origin + '/h5-hido/index.html#/paymentList?h5paysuccess=' + sessionStorage.getItem('h5paysuccess') + '&orderAmount=' + this.salesPrice + '&orderNo=' + this.orderNo + '&fromOrder=' + this.fromOrder
+						uri = location.origin + location.pathname+'#/paymentList?h5paysuccess=' + sessionStorage.getItem('h5paysuccess') + '&orderAmount=' + this.salesPrice + '&orderNo=' + this.orderNo + '&fromOrder=' + this.fromOrder
 						let linkUrl = encodeURIComponent(uri)
 						let sceneInfo = JSON.parse(res.content.respExt)
 						this.jumpUrl = sceneInfo.mWebUrl
@@ -127,7 +127,7 @@
 					if(res.code == '000') {
 						sessionStorage.setItem('h5paysuccess', true)
 						let uri = ''
-						uri = location.origin + '/h5-hido/index.html#/paymentList?h5paysuccess=' + sessionStorage.getItem('h5paysuccess') + '&salesPrice=' + this.salesPrice + '&businessNo=' + this.businessNo
+						uri = location.origin + location.pathname+'#/paymentList?h5paysuccess=' + sessionStorage.getItem('h5paysuccess') + '&salesPrice=' + this.salesPrice + '&businessNo=' + this.businessNo
 						let linkUrl = encodeURIComponent(uri)
 						let sceneInfo = JSON.parse(res.content.respExt)
 						this.jumpUrl = sceneInfo.mWebUrl

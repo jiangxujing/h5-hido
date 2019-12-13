@@ -19,7 +19,7 @@
                     </div>
                 </van-cell>
             </div>
-            <div class="no-content" v-else>暂无账单</div>
+            <div class="no-content" v-else>暂无奖励金</div>
         </div>
     </div>
 </template>
@@ -35,7 +35,7 @@ export default {
             type: '00',
             typeList: [{
                 value: '00',
-                text: '全部账单'
+                text: '全部奖励'
             }, {
                 value: '01',
                 text: '奖励金收益'
@@ -48,7 +48,7 @@ export default {
         }
     },
     mounted () {
-        document.title = '账单'
+        document.title = '我的奖励金'
         if (navigator.userAgent.toLowerCase().indexOf('hido') != -1) {
             api.callHandler('callInit', {interceptBack: false})
             setTimeout(() => {

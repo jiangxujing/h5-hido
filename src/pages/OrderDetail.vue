@@ -136,7 +136,7 @@
 				if(tel == this.loginMobile){
 					Toast('推荐人手机号不能是登陆手机号')
 					this.gray = true
-				}else if(strTemp.test(tel) || !tel) {
+				}else if((strTemp.test(tel) || !tel) && !this.hasNoAdress) {
 					this.gray = false
 				}else{
 					this.gray = true

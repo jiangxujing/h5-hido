@@ -274,6 +274,7 @@
 		width: 100%;
 		height: 100%;
 		background: #F5F5F5;
+		padding-top:1rem;
 		.orderWrapper {
 			width: 100%;
 			height: 100%;
@@ -324,7 +325,6 @@
 			width: 100%;
 			height: auto;
 			background: #fff;
-			margin-top: 1rem;
 			.adress {
 				color: #8A9399;
 				font-size: 1.4rem;

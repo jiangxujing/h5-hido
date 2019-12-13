@@ -177,7 +177,7 @@
 						if(this.recommendPhone == this.loginMobile){
 							Toast('推荐人手机号不能是登陆手机号')
 							this.gray = true
-						}else if(strTemp.test(this.recommendPhone) || !this.recommendPhone) {
+						}else if((strTemp.test(this.recommendPhone) || !this.recommendPhone) && !this.hasNoAdress) {
 							this.gray = false
 						}else{
 							this.gray = true
@@ -200,13 +200,11 @@
 		},
 		mounted() {
 			document.title="订单提交"
-			
 			this.h5paysuccess = this.$route.query.h5paysuccess
 			console.log(this.h5paysuccess)
 			if(sessionStorage.getItem('h5paysuccess') || this.h5paysuccess){
 				this.h5Show = true
 			}
-			
 			this.packageCode = this.$route.query.packageCode
 			this.uid = this.$route.query.uid
 			let ua = navigator.userAgent;
@@ -257,10 +255,12 @@
 			if(this.province && this.city && this.county && this.username && this.phone && this.detailAddress) {
 				this.hasNoAdress = false
 				console.log(this.hasNoAdress)
+			}
 				if(!this.hasNoAdress) {
 					this.gray = false
+				}else{
+					this.gray = true
 				}
-			}
 		},
 	}
 </script>

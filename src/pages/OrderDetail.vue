@@ -231,13 +231,13 @@
 				interceptBack: true
 			}
 			let _this = this
+			let input = document.getElementById("recommendPhone");
 			api.setupWebViewJavascriptBridge((bridge) => {
 				bridge.callHandler('callInit', params, (data) => {
 					api.setupWebViewJavascriptBridge((bridge) => {
 						bridge.registerHandler('invokeBackPress', (data) => {
-							var input = document.getElementById("recommendPhone");
-							input.blur();
 							_this.dropOutShow = true
+							input.blur();
 						})
 					})
 				})
@@ -246,9 +246,8 @@
 			api.setupWebViewJavascriptBridge((bridge) => {
 						bridge.registerHandler('invokeBackPress', (data) => {
 							api.setupWebViewJavascriptBridge((bridge) => {
-								var input = document.getElementById("recommendPhone");
-									input.blur();
 								_this.dropOutShow = true
+								input.blur();
 							})
 						})
 					})

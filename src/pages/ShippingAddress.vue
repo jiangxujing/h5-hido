@@ -87,10 +87,14 @@
 		methods: {
 			saveAddress() {
 				let packageCode = sessionStorage.getItem('packageCode')
-				if(this.username.length<2){
+				if(this.tipShowName){
+					Toast('请输入2位以上中英文姓名')
 					this.tipstext = '姓名不能少于两位！'
-				}else if(this.detailAddress.length < 2){
+				}else if(this.tipShowTel){
+					Toast('请输入11位有效手机号')
 						this.tipstext = '详细地址不能少于两位！'
+				}else if(this.tipShowDetail){
+					Toast('请输入准确地址信息')
 				}else{
 					this.$router.push("/orderDetail?packageCode=" + packageCode+'&uid=' + this.$route.query.uid)
 				}
@@ -106,7 +110,7 @@
 						this.tipShowName = false
 					} else {
 						this.tipShowName = true
-						this.tipstextName = '姓名格式有误，只能输入中英文！'
+						this.tipstextName = '请输入2位以上中英文姓名'
 					}
 					this.ShowName = true
 					this.ShowTel = false
@@ -117,7 +121,7 @@
 						this.tipShowDetail = false
 					}else{
 						this.tipShowDetail = true
-						this.tipstextDetail = '不能包含非法字符，请重新输入！'
+						this.tipstextDetail = '请输入准确地址信息'
 					}
 					this.ShowDetail = true
 					this.ShowTel = false
@@ -129,13 +133,13 @@
 						this.tipShowTel = false
 					}else{
 						this.tipShowTel = true
-						this.tipstextTel = '手机号格式有误！'
+						this.tipstextTel = '请输入11位有效手机号'
 					}
 					this.ShowTel = true
 					this.ShowDetail = false
 					this.ShowName = false
 				}
-				if(this.username && this.phone && this.detailAddress && this.province && this.city && this.county && !this.tipShowName && !this.tipShowDetail && !this.tipShowTel) {
+				if(this.username && this.phone && this.detailAddress && this.province && this.city && this.county) {
 					this.gray = false
 				} else {
 					this.gray = true
@@ -185,7 +189,7 @@
 				sessionStorage.setItem('county', this.county)
 				console.log(this.county)
 				this.show = false
-				if(this.username && this.phone && this.detailAddress && this.province && this.city && this.county && !this.tipShowName && !this.tipShowDetail && !this.tipShowTel) {
+				if(this.username && this.phone && this.detailAddress && this.province && this.city && this.county) {
 					this.gray = false
 				} else {
 					this.gray = true

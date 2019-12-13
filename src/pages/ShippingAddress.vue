@@ -96,13 +96,13 @@
 				}else if(this.tipShowDetail){
 					Toast('请输入准确地址信息')
 				}else{
+					sessionStorage.setItem('username', this.username)
+					sessionStorage.setItem('phone', this.phone)
+					sessionStorage.setItem('detailAddress', this.detailAddress)
 					this.$router.push("/orderDetail?packageCode=" + packageCode+'&uid=' + this.$route.query.uid)
 				}
 			},
 			checkEmpty(param) {
-				sessionStorage.setItem('username', this.username)
-				sessionStorage.setItem('phone', this.phone)
-				sessionStorage.setItem('detailAddress', this.detailAddress)
 				if(param == 'name') {
 					var regu = /^[a-zA-Z\u4e00-\u9fa5]{2,15}$/;
 					var re = new RegExp(regu);

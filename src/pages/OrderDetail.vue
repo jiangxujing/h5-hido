@@ -68,9 +68,13 @@
 		</div>
 		<div class="orderH5Wrapper" v-show="h5Show">
 			<div class="content">
-				<div class="title">请确认微信支付是否完成</div>
-				<div class="success" @click="getSuccess">已完成支付</div>
-				<div class="error" @click="getError">支付遇到问题，重新支付</div>
+				<div class="title">提示</div>
+				<div style="color:#1A2833;font-size:1.5rem;">请确认微信支付是否成功</div>
+				<div class="border-style"></div>
+				<div style="height:4.5rem">
+					<div class="error" @click="getError">支付失败</div>
+					<div class="success" @click="getSuccess">支付成功</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -456,27 +460,39 @@
 			left:0;
 			top:0;
 			.content{
-				width:70%;
-				height:20rem;
+				width:72%;
 				background: #fff;
 				border-radius:1.5rem;
 				margin: 40% auto;
+				text-align:center;
 				.title{
 					color:#1A2833;
-					font-size:1.6rem;
-					font-weight: bold;
+					font-size:1.7rem;
+					font-weight:500;
 					padding: 2rem 0;
     				text-align: center;
 				}
 				.success{
-					color:#FE3750;
+					color:#FF7B31;
+				}
+				.error{
+					color:#929292;
+					border-right:1px solid #E0E0E0;
+				}
+				.border-style{
+					width: 100%;
+				    height: 1px;
+				    border-bottom: 1px solid #E0E0E0;
+				    margin-top:2.5rem;
 				}
 				.success,.error{
 					font-size:1.4rem;
 					text-align: center;
-					border-bottom: 1px solid #eee;
-					padding: 1rem;
+					height:100%;
+					width:49%;
+					line-height: 4.5rem;;
 					font-weight: 400;
+					display: inline-block;
 				}
 			}
 		}

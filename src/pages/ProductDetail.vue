@@ -150,11 +150,12 @@
 				this.shareWrapperShow = true
 			},
 			shareWeixin() {
+				let url = location.origin +  location.pathname+"#/productDetail?packageCode=" + this.shareContent.packageCode + '&uid=' + this.$route.query.uid
 				api.setupWebViewJavascriptBridge((bridge) => {
 					let params = {
 						"sharePlatform": "WechatSession",
 						"shareParams": {
-							"shareUrl": location.href,
+							"shareUrl": url,
 							"title": this.shareContent.shareTitle,
 							"shareContent": this.shareContent.shareDesc,
 							"sharePic": this.shareContent.sharePicture
@@ -166,11 +167,12 @@
 				})
 			},
 			shareFriend() {
+				let url = location.origin +  location.pathname+"#/productDetail?packageCode=" + this.shareContent.packageCode + '&uid=' + this.$route.query.uid
 				api.setupWebViewJavascriptBridge((bridge) => {
 					let params = {
 						"sharePlatform": "WechatTimeline",
 						"shareParams": {
-							"shareUrl": location.href,
+							"shareUrl": url,
 							"title": this.shareContent.shareTitle,
 							"shareContent": this.shareContent.shareDesc,
 							"sharePic": this.shareContent.sharePicture

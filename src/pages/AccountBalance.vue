@@ -1,5 +1,5 @@
 <template>
-    <!-- 账单 -->
+    <!-- 奖励金 -->
     <div class="main-content account-balance">
         <div v-if="request">
             <van-dropdown-menu class="account-balance-type" active-color="#FF7B31">

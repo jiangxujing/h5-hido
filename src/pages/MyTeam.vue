@@ -15,7 +15,7 @@
                     <van-collapse v-model="activeNames">
                         <van-collapse-item :name="index + '-' + idx" v-for="(child, idx) in item.list" :key="idx" class="team-second">
                             <div slot="title" class="second-no">
-                                <span>二级代理</span>
+                                <span>TA的团队</span>
                                 <span class="second-no-right fl-r">{{item.firstAgentTeamSum + '人'}}</span>
                             </div>
                             <div class="second-list" v-if="activeNames.indexOf(index + '-' + idx) > -1 && item.list[0].length > 0">

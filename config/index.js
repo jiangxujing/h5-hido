@@ -20,27 +20,11 @@ module.exports = {
         secure: false,
         changeOrigin: false,
       },
-       '/collections-web/**': {
+      '/collections-web/**': {
         target: 'http://192.168.199.65:8080',
         secure: false,
         changeOrigin: false,
-      },
-       '/sns/**': {
-        target: 'https://api.weixin.qq.com', // 通过code换取网页授权openId的域名测试用
-        secure: false,
-        changeOrigin: false,
-      }, 
-      '/pay/**': { 
-
-        target: 'https://api.mch.weixin.qq.com', // 服务端调取微信API统一下单接口测试用
-        secure: false,
-        changeOrigin: false,
-      }, 
-      '/mch/**': { 
-        target: 'https://wxpay.wxutil.com', // 获取到后台返回的h5支付链接测试用h5支付
-        secure: false,
-        changeOrigin: false,
-      }, 
+      }
     },
 
     // Various Dev Server settings

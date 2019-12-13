@@ -74,7 +74,8 @@
             <div class="page-protocol">
                 <van-checkbox v-model="checked" checked-color="#FF7B31">
                     <span class="protocol-title">点击提交即表示我已阅读并同意</span>
-                    <span class="protocol-title protocol-a" @click="$router.push({name: 'paymenProtocol'})">《银行卡快捷支付协议》</span>
+                    <!-- <span class="protocol-title protocol-a" @click="$router.push({name: 'paymenProtocol'})">《银行卡快捷支付协议》</span> -->
+                    <span class="protocol-title protocol-a" @click="openPaymenProtocol">《银行卡快捷支付协议》</span>
                 </van-checkbox>
             </div>
         </div>
@@ -145,6 +146,35 @@ export default {
         } else {
             this.getQueryBankLimit()
         }
+        let storageObj = {
+            bankName: '',
+            cardNo: '',
+            bankBranch: '',
+            name: '',
+            idNo: '',
+            phone: '',
+            serialNo: '',
+            verifyCode: '',
+            loginVerify: '',
+            verifyTitle: '',
+            checkedCardNo: '',
+            checkedName: '',
+            checkedIdNo: '',
+            checkedPhone: '',
+            checkedBankBranch: '',
+            checkedBankName: '',
+        }
+        for (let key in storageObj) {
+            if (key == 'loginVerify' && sessionStorage.getItem('loginVerify') && ( sessionStorage.getItem('verifyTitle') !== '获取验证码' && sessionStorage.getItem('verifyTitle') !== '重新发送')) {
+                if (sessionStorage.getItem('loginVerify') - 0 > 0 ) {
+                    this[key] = sessionStorage.getItem(key) - 0
+                    this.clock = setInterval(this.doLoop, 1000)
+                }
+            } else {
+                sessionStorage.getItem(key) ? this[key] = sessionStorage.getItem(key) : ''
+            }
+            sessionStorage.removeItem(key)
+        }
     },
     computed: {
         // 监听页面数据
@@ -186,6 +216,33 @@ export default {
             this.serialNo = ''
             this.verifyBtn = false
             this.verifyTitle = '获取验证码'
+        },
+        // 查看协议缓存当前已填写信息
+        openPaymenProtocol() {
+            // sessionStorage.setItem('token', res.accessToken)
+            let storageObj = {
+                bankName: this.bankName,
+                cardNo: this.cardNo,
+                bankBranch: this.bankBranch,
+                name: this.name,
+                idNo: this.idNo,
+                phone: this.phone,
+                serialNo: this.serialNo,
+                verifyCode: this.verifyCode,
+                loginVerify: this.loginVerify,
+                verifyTitle: this.verifyTitle,
+                checkedCardNo: this.checkedCardNo,
+                checkedName: this.checkedName,
+                checkedIdNo: this.checkedIdNo,
+                checkedPhone: this.checkedPhone,
+                checkedBankBranch: this.checkedBankBranch,
+                checkedBankName: this.checkedBankName
+            }
+            for (let key in storageObj) {
+                storageObj[key] ? sessionStorage.setItem(key, storageObj[key]) : ''
+            }
+            clearInterval(this.clock)
+            this.$router.push({name: 'paymenProtocol'})
         },
         // 表单校验
         checkForm () {

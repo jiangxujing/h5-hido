@@ -23,9 +23,9 @@ if(/iphone|ipad|ipod/.test(ua)) {
 
 const origin = window.location.origin == 'https://h5-hido.h-ido.com' ?
 	'proIp' :
-	// (window.location.origin == 'https://bf-uat.memedai.cn' ? 'uatIp' : 'value')
-	(window.location.origin == 'https://bf-uat.memedai.cn' ?
-	'uatIp' : (window.location.origin == 'http://localhost:8080' ? 'devIp' : 'value'))
+	(window.location.origin == 'https://bf-uat.memedai.cn' ? 'uatIp' : 'value')
+	// (window.location.origin == 'https://bf-uat.memedai.cn' ?
+	// 'uatIp' : (window.location.origin == 'http://localhost:8080' ? 'devIp' : 'value'))
 
 const prefixList = [{
 	type: 'user',
@@ -83,10 +83,8 @@ const getUrl = (key, type) => {
 	if(typeof ApiList[key] === 'undefined' || ApiList[key] === '') {
 		return ''
 	}
-	// let url = prefix + ApiList[key]
 	let url = ''
 	let newType = type ? type : 'core'
-	console.log(origin)
 	prefixList.forEach(item => {
 		item.type == newType ? url = item[origin] + ApiList[key] : ''
 	})

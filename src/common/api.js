@@ -21,13 +21,30 @@ if(/iphone|ipad|ipod/.test(ua)) {
 	sysPlatform = '';
 }
 
-const prefix = '/hido-core'
+const origin = window.location.origin == 'https://h5-hido.h-ido.com' ?
+	'proIp' :
+	// (window.location.origin == 'https://bf-uat.memedai.cn' ? 'uatIp' : 'value')
+	(window.location.origin == 'https://bf-uat.memedai.cn' ?
+	'uatIp' : (window.location.origin == 'http://localhost:8080' ? 'devIp' : 'value'))
+
 const prefixList = [{
 	type: 'user',
-	value: '/user'
+	value: '/user',
+	proIp: 'https://user.h-ido.com/user',
+	uatIp: 'https://bf-uat.memedai.cn/user',
+	devIp: 'http://192.168.199.60:8080/user'
 }, {
 	type: 'collections',
-	value: '/collections-web'
+	value: '/collections-web',
+	proIp: 'https://collections-web.h-ido.com/collections-web',
+	uatIp: 'https://bf-uat.memedai.cn/collections-web',
+	devIp: 'http://192.168.199.65:8080/collections-web'
+}, {
+	type: 'core',
+	value: '/hido-core',
+	proIp: 'https://hido-core.h-ido.com/hido-core',
+	uatIp: 'https://bf-uat.memedai.cn/hido-core',
+	devIp: 'http://192.168.199.66:8080/hido-core'
 }]
 
 /* 自定义判断元素类型JS */
@@ -66,12 +83,13 @@ const getUrl = (key, type) => {
 	if(typeof ApiList[key] === 'undefined' || ApiList[key] === '') {
 		return ''
 	}
-	let url = prefix + ApiList[key]
-	if(type) {
-		prefixList.forEach(item => {
-			item.type == type ? url = item.value + ApiList[key] : ''
-		})
-	}
+	// let url = prefix + ApiList[key]
+	let url = ''
+	let newType = type ? type : 'core'
+	console.log(origin)
+	prefixList.forEach(item => {
+		item.type == newType ? url = item[origin] + ApiList[key] : ''
+	})
 	return url
 }
 
@@ -286,7 +304,7 @@ const post = (url, data, noBox,noLoading, noToken,formData) => {
 			let respData = _parseJSON(resp.data)
 			respData['code'] = ~~(respData['code'])
 			respData['content'] = _parseJSON(respData['content'])
-			if(respData['code'] === 9999 || respData['code'] === 1210 || respData['code'] === 1211 || respData['code'] === 111) {
+			if ([111, 1210, 1211, 9000].indexOf(respData['code']) !== -1) {
 				for(let k in headers) {
 					delCookie(k)
 				}

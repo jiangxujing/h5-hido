@@ -21,30 +21,26 @@ if(/iphone|ipad|ipod/.test(ua)) {
 	sysPlatform = '';
 }
 
+// const origin = 'otherOrigin'
 const origin = window.location.origin == 'https://h5-hido.h-ido.com' ?
-	'proIp' :
-	(window.location.origin == 'https://bf-uat.memedai.cn' ? 'uatIp' : 'value')
-	// (window.location.origin == 'https://bf-uat.memedai.cn' ?
-	// 'uatIp' : (window.location.origin == 'http://localhost:8080' ? 'devIp' : 'value'))
+	'proOrigin' :
+	(window.location.origin == 'https://bf-uat.memedai.cn' ? 'uatOrigin' : 'otherOrigin')
 
 const prefixList = [{
 	type: 'user',
-	value: '/user',
-	proIp: 'https://user.h-ido.com/user',
-	uatIp: 'https://bf-uat.memedai.cn/user',
-	devIp: 'http://192.168.199.60:8080/user'
+	otherOrigin: '/user',
+	proOrigin: 'https://user.h-ido.com/user',
+	uatOrigin: 'https://bf-uat.memedai.cn/user'
 }, {
 	type: 'collections',
-	value: '/collections-web',
-	proIp: 'https://collections-web.h-ido.com/collections-web',
-	uatIp: 'https://bf-uat.memedai.cn/collections-web',
-	devIp: 'http://192.168.199.65:8080/collections-web'
+	otherOrigin: '/collections-web',
+	proOrigin: 'https://collections-web.h-ido.com/collections-web',
+	uatOrigin: 'https://bf-uat.memedai.cn/collections-web'
 }, {
 	type: 'core',
-	value: '/hido-core',
-	proIp: 'https://hido-core.h-ido.com/hido-core',
-	uatIp: 'https://bf-uat.memedai.cn/hido-core',
-	devIp: 'http://192.168.199.66:8080/hido-core'
+	otherOrigin: '/hido-core',
+	proOrigin: 'https://hido-core.h-ido.com/hido-core',
+	uatOrigin: 'https://bf-uat.memedai.cn/hido-core'
 }]
 
 /* 自定义判断元素类型JS */

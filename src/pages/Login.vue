@@ -171,16 +171,8 @@
 							this.verifyBtn = false
 							this.verifyTitle = '获取验证码'
 							this.serialNo = ''
-							setCookie('isRegister', content.isRegister, 7)
-							setCookie('lastLoginTime', content.lastLoginTime, 7)
-							setCookie('memberId', content.memberId, 7)
-							setCookie('memberType', content.memberType, 7)
-							setCookie('token', content.token, 7)
-							setCookie('tokenExpire', content.tokenExpire, 7)
 							setCookie('accessToken', res.accessToken, 7)
-							setCookie('mmTicket', res.accessToken, 7)
 							setCookie('channel', 'hido_h5', 7)
-							// this.$router.go(-1) // 哪来回哪去
 							if(this.device.version.MicroMessenger) {
 								if(this.$route.query.redirect.indexOf('productDetail') != -1) {
 									location.href = location.origin +  location.pathname+"#/productDetail?packageCode=" + sessionStorage.getItem('packageCode') + '&uid=' + sessionStorage.getItem('uid')

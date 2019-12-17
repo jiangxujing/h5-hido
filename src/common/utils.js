@@ -511,7 +511,7 @@ export const emptyFormat = (row, column) => {
  * 获取过滤掉指定参数的url
  **/
 export const getUrlSearch = () => {
-	let appHeaders = ['toolType', 'token', 'mmDeviceId', 'versionNo', 'phoneBrand', 'phoneType', 'ipAddress', 'positionLongitude', 'positionLatitude'],
+	let appHeaders = ['accessToken', 'deviceID', 'phoneBrand', 'channel', 'phoneVersion', 'appVersion', 'screenHeight', 'screenWidth'],
 		arr = [],
 		tempAll = [],
 		newUrl = window.location.href.split('?')[0],

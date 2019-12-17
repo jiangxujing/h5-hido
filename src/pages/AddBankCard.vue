@@ -219,7 +219,6 @@ export default {
         },
         // 查看协议缓存当前已填写信息
         openPaymenProtocol() {
-            // sessionStorage.setItem('token', res.accessToken)
             let storageObj = {
                 bankName: this.bankName,
                 cardNo: this.cardNo,

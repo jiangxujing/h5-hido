@@ -236,7 +236,7 @@ export const getWechat = (title, desc, linkUrl, imgUrl) => {
  * noToken: 不需要校验token
  * formData: 传参方式为 formData
  **/
-const post = (url, data, noBox,noLoading, noToken,formData) => {
+const post = (url, data, noBox, noLoading, noToken, formData) => {
 	// 超时
 	const sec = 6000
 	// body 入参
@@ -248,13 +248,7 @@ const post = (url, data, noBox,noLoading, noToken,formData) => {
 	})
 	// header 入参
 	let headers = {
-		token: null,
-		tokenExpire: null,
 		accessToken: null,
-		isRegister: null,
-		lastLoginTime: null,
-		memberId: null,
-		memberType: null,
 		deviceID: null,
 		phoneBrand: null,
 		phoneVersion: null,
@@ -271,10 +265,9 @@ const post = (url, data, noBox,noLoading, noToken,formData) => {
 			headers[k] = getCookie(k)
 		}
 	}
-	headers.conection = 'close'
-	getCookie('mmTicket') ? headers.mmTicket = getCookie('mmTicket') : null
+	
+	// headers.conection = 'close'
 	headers.accessToken ? headers.mmTicket = headers.accessToken : null
-	headers['mmTicket'] ? setCookie('mmTicket', headers['mmTicket'], 7) : null
 
 	let timeout = _data['timeout'] || 10 * sec
 	// 请求头
@@ -298,7 +291,7 @@ const post = (url, data, noBox,noLoading, noToken,formData) => {
 			let respData = _parseJSON(resp.data)
 			respData['code'] = ~~(respData['code'])
 			respData['content'] = _parseJSON(respData['content'])
-			if ([111, 1210, 1211, 9000].indexOf(respData['code']) !== -1) {
+			if ([111, 1210, 1211, 9999].indexOf(respData['code']) !== -1) {
 				for(let k in headers) {
 					delCookie(k)
 				}
@@ -333,7 +326,6 @@ const post = (url, data, noBox,noLoading, noToken,formData) => {
 		console.log(err)
 		Loading.hide()
 		// alert(JSON.stringify(err))
-		// Toast(err)
 		let desc = '网络异常，请稍后再试'
 		Toast(desc)
 	})

@@ -21,30 +21,26 @@ if(/iphone|ipad|ipod/.test(ua)) {
 	sysPlatform = '';
 }
 
+// const origin = 'otherOrigin'
 const origin = window.location.origin == 'https://h5-hido.h-ido.com' ?
-	'proIp' :
-	// (window.location.origin == 'https://bf-uat.memedai.cn' ? 'uatIp' : 'value')
-	(window.location.origin == 'https://bf-uat.memedai.cn' ?
-	'uatIp' : (window.location.origin == 'http://localhost:8080' ? 'devIp' : 'value'))
+	'proOrigin' :
+	(window.location.origin == 'https://bf-uat.memedai.cn' ? 'uatOrigin' : 'otherOrigin')
 
 const prefixList = [{
 	type: 'user',
-	value: '/user',
-	proIp: 'https://user.h-ido.com/user',
-	uatIp: 'https://bf-uat.memedai.cn/user',
-	devIp: 'http://192.168.199.60:8080/user'
+	otherOrigin: '/user',
+	proOrigin: 'https://user.h-ido.com/user',
+	uatOrigin: 'https://bf-uat.memedai.cn/user'
 }, {
 	type: 'collections',
-	value: '/collections-web',
-	proIp: 'https://collections-web.h-ido.com/collections-web',
-	uatIp: 'https://bf-uat.memedai.cn/collections-web',
-	devIp: 'http://192.168.199.65:8080/collections-web'
+	otherOrigin: '/collections-web',
+	proOrigin: 'https://collections-web.h-ido.com/collections-web',
+	uatOrigin: 'https://bf-uat.memedai.cn/collections-web'
 }, {
 	type: 'core',
-	value: '/hido-core',
-	proIp: 'https://hido-core.h-ido.com/hido-core',
-	uatIp: 'https://bf-uat.memedai.cn/hido-core',
-	devIp: 'http://192.168.199.66:8080/hido-core'
+	otherOrigin: '/hido-core',
+	proOrigin: 'https://hido-core.h-ido.com/hido-core',
+	uatOrigin: 'https://bf-uat.memedai.cn/hido-core'
 }]
 
 /* 自定义判断元素类型JS */
@@ -83,10 +79,8 @@ const getUrl = (key, type) => {
 	if(typeof ApiList[key] === 'undefined' || ApiList[key] === '') {
 		return ''
 	}
-	// let url = prefix + ApiList[key]
 	let url = ''
 	let newType = type ? type : 'core'
-	console.log(origin)
 	prefixList.forEach(item => {
 		item.type == newType ? url = item[origin] + ApiList[key] : ''
 	})
@@ -236,11 +230,11 @@ export const getWechat = (title, desc, linkUrl, imgUrl) => {
 }
 /**
  * 一般post请求
- * url： 请求地址
- * data： 入参对象
- * noToast: 不需要弹出异常
- * noLoading: 无加载动画
- * formData: 传参方式为 formData
+ * url： 		请求地址
+ * data： 		入参对象
+ * noToast:		不需要异常提示
+ * noLoading: 	无加载动画
+ * formData: 	传参方式为 formData
  **/
 const post = (url, data, noToast, noLoading, formData) => {
 	// 超时
@@ -252,6 +246,7 @@ const post = (url, data, noToast, noLoading, formData) => {
 	_.forEach(_data, (val, key) => {
 		['timeout'].indexOf(key) === -1 ? postData[key] = val : ''
 	})
+
 	// header 入参
 	let headers = {
 		accessToken: null,
@@ -273,6 +268,7 @@ const post = (url, data, noToast, noLoading, formData) => {
 		// }
 		!!getCookie(k) ? newHeaders[k] = getCookie(k) : ''
 	}
+	
 	// newHeaders.conection = 'close'
 	!!newHeaders.accessToken ? newHeaders.mmTicket = newHeaders.accessToken : ''
 
@@ -282,13 +278,12 @@ const post = (url, data, noToast, noLoading, formData) => {
 		method: 'post',
 		url: url,
 		data: postData,
-		headers: newHeaders,
 		timeout: timeout,
+		headers: newHeaders,
 		CancelToken: new CancelToken(function executor(c) {
 			cancel = c
 		})
 	}
-
 	!noLoading ? Loading.show() : ''
 	formData ? axiosHead.data = qs.stringify(postData) : ''
 
@@ -321,7 +316,7 @@ const post = (url, data, noToast, noLoading, formData) => {
 				      }
 				}
 			} else if(respData['code'] !== 0) {
-				if (!noToast) {
+				if(!noToast){
 					let desc = respData['desc'] ? respData['desc'] : '网络异常，请稍后再试'
 					Toast(desc)
 				}
@@ -333,6 +328,7 @@ const post = (url, data, noToast, noLoading, formData) => {
 	}).catch(function(err) {
 		console.log(err)
 		Loading.hide()
+		// alert(JSON.stringify(err))
 		let desc = '网络异常，请稍后再试'
 		Toast(desc)
 	})

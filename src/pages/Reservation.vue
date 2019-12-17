@@ -394,7 +394,7 @@
 					}
 				}
 				api.post(api.getUrl('queryCoupon'), req).then(res => {
-					if(res.code == '000') {
+					if(res.code === 0) {
 						this.couponDetail = res.content
 						if(this.couponDetail.couponNo) {
 							console.log('ggggggg')
@@ -408,7 +408,7 @@
 			},
 			isHasParentAgent() {
 				api.post(api.getUrl('isHasParentAgent'), {}, true).then(res => {
-					if(res.code == '000') {
+					if(res.code === 0) {
 						this.phone = res.content.customerPhone
 						this.agentPhone = res.content.agentPhone
 						//代表从推荐列表过来的

@@ -97,7 +97,7 @@
 					setTimeout(() => {
 						this.buyed = false
 					}, 3000)
-					if(res.code == '000') {
+					if(res.code === 0) {
 						sessionStorage.setItem('h5paysuccess', true)
 						let uri = ''
 						uri = location.origin + location.pathname+'#/paymentList?h5paysuccess=' + sessionStorage.getItem('h5paysuccess') + '&orderAmount=' + this.salesPrice + '&orderNo=' + this.orderNo + '&fromOrder=' + this.fromOrder
@@ -124,7 +124,7 @@
 					setTimeout(() => {
 						this.buyed = false
 					}, 3000)
-					if(res.code == '000') {
+					if(res.code === 0) {
 						sessionStorage.setItem('h5paysuccess', true)
 						let uri = ''
 						uri = location.origin + location.pathname+'#/paymentList?h5paysuccess=' + sessionStorage.getItem('h5paysuccess') + '&salesPrice=' + this.salesPrice + '&businessNo=' + this.businessNo

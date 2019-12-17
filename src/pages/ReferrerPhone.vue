@@ -87,7 +87,7 @@
 				}
 				api.post(api.getUrl('queryCoupon'), req, true).then(res => {
 					sessionStorage.removeItem('checked')
-					if(res.code == '000') {
+					if(res.code === 0) {
 						console.log('ggggg')
 						if(this.$route.query.itemNo){
 							this.$router.push("/reservation?itemNo="+this.$route.query.itemNo+'&fromReferrerPhone=1')
@@ -120,7 +120,7 @@
 			},
 			isHasParentAgent() {
 				api.post(api.getUrl('isHasParentAgent'), {}, true).then(res => {
-					if(res.code == '000') {
+					if(res.code === 0) {
 						this.customerPhone = res.content.customerPhone
 					}
 				}).catch(() => {})

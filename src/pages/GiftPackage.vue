@@ -48,7 +48,7 @@
 		methods: {
 			getGiftList() {
 				api.post(api.getUrl('queryPurchasedPackageList', 'collections'), {}).then(res => {
-					if(res.code == '0000') {
+					if(res.code === 0) {
 						this.loadingEnd = true
 						this.packageList = res.content
 					}

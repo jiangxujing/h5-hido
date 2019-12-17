@@ -21,26 +21,30 @@ if(/iphone|ipad|ipod/.test(ua)) {
 	sysPlatform = '';
 }
 
-// const origin = 'otherOrigin'
 const origin = window.location.origin == 'https://h5-hido.h-ido.com' ?
-	'proOrigin' :
-	(window.location.origin == 'https://bf-uat.memedai.cn' ? 'uatOrigin' : 'otherOrigin')
+	'proIp' :
+	// (window.location.origin == 'https://bf-uat.memedai.cn' ? 'uatIp' : 'value')
+	(window.location.origin == 'https://bf-uat.memedai.cn' ?
+	'uatIp' : (window.location.origin == 'http://localhost:8080' ? 'devIp' : 'value'))
 
 const prefixList = [{
 	type: 'user',
-	otherOrigin: '/user',
-	proOrigin: 'https://user.h-ido.com/user',
-	uatOrigin: 'https://bf-uat.memedai.cn/user'
+	value: '/user',
+	proIp: 'https://user.h-ido.com/user',
+	uatIp: 'https://bf-uat.memedai.cn/user',
+	devIp: 'http://192.168.199.60:8080/user'
 }, {
 	type: 'collections',
-	otherOrigin: '/collections-web',
-	proOrigin: 'https://collections-web.h-ido.com/collections-web',
-	uatOrigin: 'https://bf-uat.memedai.cn/collections-web'
+	value: '/collections-web',
+	proIp: 'https://collections-web.h-ido.com/collections-web',
+	uatIp: 'https://bf-uat.memedai.cn/collections-web',
+	devIp: 'http://192.168.199.65:8080/collections-web'
 }, {
 	type: 'core',
-	otherOrigin: '/hido-core',
-	proOrigin: 'https://hido-core.h-ido.com/hido-core',
-	uatOrigin: 'https://bf-uat.memedai.cn/hido-core'
+	value: '/hido-core',
+	proIp: 'https://hido-core.h-ido.com/hido-core',
+	uatIp: 'https://bf-uat.memedai.cn/hido-core',
+	devIp: 'http://192.168.199.66:8080/hido-core'
 }]
 
 /* 自定义判断元素类型JS */
@@ -79,8 +83,10 @@ const getUrl = (key, type) => {
 	if(typeof ApiList[key] === 'undefined' || ApiList[key] === '') {
 		return ''
 	}
+	// let url = prefix + ApiList[key]
 	let url = ''
 	let newType = type ? type : 'core'
+	console.log(origin)
 	prefixList.forEach(item => {
 		item.type == newType ? url = item[origin] + ApiList[key] : ''
 	})
@@ -232,11 +238,11 @@ export const getWechat = (title, desc, linkUrl, imgUrl) => {
  * 一般post请求
  * url： 请求地址
  * data： 入参对象
- * Loading: 无加载动画
- * noToken: 不需要校验token
+ * noToast: 不需要弹出异常
+ * noLoading: 无加载动画
  * formData: 传参方式为 formData
  **/
-const post = (url, data, noBox, noLoading, noToken, formData) => {
+const post = (url, data, noToast, noLoading, formData) => {
 	// 超时
 	const sec = 6000
 	// body 入参
@@ -257,17 +263,18 @@ const post = (url, data, noBox, noLoading, noToken, formData) => {
 		screenWidth: null,
 		channel: null
 	}
+	let newHeaders = {}
 	for (let k in headers) {
-		if (getQueryString(k)) {
-			headers[k] = getQueryString(k)
-			setCookie(k, headers[k], 7)
-		} else {
-			headers[k] = getCookie(k)
-		}
+		// if (getQueryString(k)) {
+		// 	newHeaders[k] = getQueryString(k)
+		// 	setCookie(k, newHeaders[k], 7)
+		// } else {
+		// 	newHeaders[k] = getCookie(k)
+		// }
+		!!getCookie(k) ? newHeaders[k] = getCookie(k) : ''
 	}
-	
-	// headers.conection = 'close'
-	headers.accessToken ? headers.mmTicket = headers.accessToken : null
+	// newHeaders.conection = 'close'
+	!!newHeaders.accessToken ? newHeaders.mmTicket = newHeaders.accessToken : ''
 
 	let timeout = _data['timeout'] || 10 * sec
 	// 请求头
@@ -275,6 +282,7 @@ const post = (url, data, noBox, noLoading, noToken, formData) => {
 		method: 'post',
 		url: url,
 		data: postData,
+		headers: newHeaders,
 		timeout: timeout,
 		CancelToken: new CancelToken(function executor(c) {
 			cancel = c
@@ -282,7 +290,6 @@ const post = (url, data, noBox, noLoading, noToken, formData) => {
 	}
 
 	!noLoading ? Loading.show() : ''
-	!noToken ? axiosHead.headers = headers : ''
 	formData ? axiosHead.data = qs.stringify(postData) : ''
 
 	return axios(axiosHead).then(function(resp) {
@@ -291,7 +298,8 @@ const post = (url, data, noBox, noLoading, noToken, formData) => {
 			let respData = _parseJSON(resp.data)
 			respData['code'] = ~~(respData['code'])
 			respData['content'] = _parseJSON(respData['content'])
-			if ([111, 1210, 1211, 9999].indexOf(respData['code']) !== -1) {
+			// if ([111, 1210, 1211, 9999].indexOf(respData['code']) !== -1) {
+			if ([111, 1210, 1211, 9000].indexOf(respData['code']) !== -1) {
 				for(let k in headers) {
 					delCookie(k)
 				}
@@ -313,7 +321,7 @@ const post = (url, data, noBox, noLoading, noToken, formData) => {
 				      }
 				}
 			} else if(respData['code'] !== 0) {
-				if(!noBox){
+				if (!noToast) {
 					let desc = respData['desc'] ? respData['desc'] : '网络异常，请稍后再试'
 					Toast(desc)
 				}
@@ -325,7 +333,6 @@ const post = (url, data, noBox, noLoading, noToken, formData) => {
 	}).catch(function(err) {
 		console.log(err)
 		Loading.hide()
-		// alert(JSON.stringify(err))
 		let desc = '网络异常，请稍后再试'
 		Toast(desc)
 	})

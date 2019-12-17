@@ -234,7 +234,7 @@
 				}
 				console.log(url)
 				api.get(api.getUrl('share'), reqUrl).then(res => {
-					if(res.code == '000') {
+					if(res.code === 0) {
 						var timestamp = res.content.timestamp;
 						var nonceStr = res.content.nonceStr;
 						var signature = res.content.signature;

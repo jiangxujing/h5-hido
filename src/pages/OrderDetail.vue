@@ -156,7 +156,7 @@
 				let req = {
 					packageCode: this.packageCode
 				}
-				api.post(api.getUrl('queryPackage', 'collections'), req, false, false, false).then(res => {
+				api.post(api.getUrl('queryPackage', 'collections'), req).then(res => {
 					if(res.code == 0) {
 						this.orderDetail = res.content.giftPackageDTODetails
 						sessionStorage.setItem('salesPrice', res.content.giftPackageDTODetails.salesPrice)
@@ -174,7 +174,7 @@
 				let req = {
 					agentCode: this.uid || null
 				}
-				api.post(api.getUrl('queryAgent'),req).then(res => {
+				api.post(api.getUrl('queryAgent'), req).then(res => {
 					if(res.code == 0) {
 						this.loginMobile = res.content.loginMobile
 						let strTemp = _utils.checkTel()

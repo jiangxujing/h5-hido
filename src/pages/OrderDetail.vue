@@ -157,7 +157,7 @@
 					packageCode: this.packageCode
 				}
 				api.post(api.getUrl('queryPackage', 'collections'), req).then(res => {
-					if(res.code == 0) {
+					if (res.code == 0) {
 						this.orderDetail = res.content.giftPackageDTODetails
 						sessionStorage.setItem('salesPrice', res.content.giftPackageDTODetails.salesPrice)
 						this.type = res.content.homepageUrl.type
@@ -166,8 +166,6 @@
 						sessionStorage.setItem('firstCommissionRatio',res.content.giftPackageDTODetails.firstCommissionRatio)
 						sessionStorage.setItem('secondCommissionRatio',res.content.giftPackageDTODetails.secondCommissionRatio)
 					}
-				}).catch((e) => {
-
 				})
 			},
 			queryAgent(){
@@ -175,7 +173,7 @@
 					agentCode: this.uid || null
 				}
 				api.post(api.getUrl('queryAgent'), req).then(res => {
-					if(res.code == 0) {
+					if (res.code == 0) {
 						this.loginMobile = res.content.loginMobile
 						let strTemp = _utils.checkTel()
 						if(this.recommendPhone == this.loginMobile){
@@ -196,9 +194,8 @@
 								}
 							}
 						}
+						this.getPackageDetail()
 					}
-				}).catch((e) => {
-
 				})
 			}
 		},
@@ -210,6 +207,7 @@
 				this.h5Show = true
 			}
 			this.packageCode = this.$route.query.packageCode
+			sessionStorage.setItem('packageCode',this.$route.query.packageCode)
 			this.uid = this.$route.query.uid
 			let ua = navigator.userAgent;
 			this.device = {
@@ -220,10 +218,7 @@
 				}()
 			};
 			this.queryAgent()
-			this.ios = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-			this.android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端
-			sessionStorage.setItem('packageCode',this.$route.query.packageCode)
-			this.getPackageDetail()
+			// this.getPackageDetail()
 			this.province = sessionStorage.getItem('province')
 			this.county = sessionStorage.getItem('county')
 			this.city = sessionStorage.getItem('city')
@@ -246,24 +241,23 @@
 					})
 				})
 			})
-			
 			api.setupWebViewJavascriptBridge((bridge) => {
-						bridge.registerHandler('invokeBackPress', (data) => {
-							api.setupWebViewJavascriptBridge((bridge) => {
-								_this.dropOutShow = true
-								input.blur();
-							})
-						})
+				bridge.registerHandler('invokeBackPress', (data) => {
+					api.setupWebViewJavascriptBridge((bridge) => {
+						_this.dropOutShow = true
+						input.blur();
 					})
+				})
+			})
 			if(this.province && this.city && this.county && this.username && this.phone && this.detailAddress) {
 				this.hasNoAdress = false
 				console.log(this.hasNoAdress)
 			}
-				if(!this.hasNoAdress) {
-					this.gray = false
-				}else{
-					this.gray = true
-				}
+			if(!this.hasNoAdress) {
+				this.gray = false
+			}else{
+				this.gray = true
+			}
 		},
 	}
 </script>

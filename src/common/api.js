@@ -293,8 +293,7 @@ const post = (url, data, noToast, noLoading, formData) => {
 			let respData = _parseJSON(resp.data)
 			respData['code'] = ~~(respData['code'])
 			respData['content'] = _parseJSON(respData['content'])
-			// if ([111, 1210, 1211, 9999].indexOf(respData['code']) !== -1) {
-			if ([111, 1210, 1211, 9000].indexOf(respData['code']) !== -1) {
+			if ([111, 1210, 1211, 9999].indexOf(respData['code']) !== -1) {
 				for(let k in headers) {
 					delCookie(k)
 				}

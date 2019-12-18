@@ -71,119 +71,12 @@ let date = null,
 		}
 	};
 
-if(/iphone|ipad|ipod/.test(ua)) { //调用设备对象的test方法判断设备类型
+if (/iphone|ipad|ipod/.test(ua)) { //调用设备对象的test方法判断设备类型
 	sysPlatform = 'IOS'
-} else if(/android/.test(ua)) {
+} else if (/android/.test(ua)) {
 	sysPlatform = 'ANDROID'
 } else {
 	sysPlatform = ''
-}
-
-// 控制页面字体大小
-export const htmlFontSize = () => {
-	var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-	var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-	var width = w > h ? h : w;
-	width = width > 720 ? 720 : width;
-	var fz = ~~(width * 100000 / 36) / 10000;
-	fz = 10;
-	document.getElementsByTagName('html')[0].style.cssText = 'font-size: ' + fz + 'px';
-	var realfz = ~~(+window.getComputedStyle(document.getElementsByTagName('html')[0]).fontSize.replace('px', '') * 10000) / 10000;
-	if(fz !== realfz) {
-		document.getElementsByTagName('html')[0].style.cssText = 'font-size: ' + fz * (fz / realfz) + 'px';
-	}
-	document.getElementsByTagName('html')[0].style.cssText = 'font-size: 10px'
-}
-
-export const resetFontSize = (doc, win) => {
-	let docEle = doc.documentElement,
-		// evt = 'orientationchange' in window ? 'orientationchange' : 'resize,
-		fn = function() {
-			setTimeout(function() {
-				let width = docEle.clientWidth
-				width && (docEle.style.fontSize = 10 * (width / 375) + 'px')
-			}, 1000 / 60)
-		}
-	'orientationchange' in win ? win.addEventListener('orientationchange', fn, false) : ''
-	win.addEventListener('resize', fn, false)
-	doc.addEventListener('DOMContentLoaded', fn, false)
-	fn()
-}
-
-export const resetWindow = () => {
-	// 重设 viewport 的 height ，防止在 ios 低版本下高度的bug
-	const resetViewHeight = (h) => {
-		let vpList = document.getElementsByName('viewport')
-		_.forEach(vpList, vp => {
-			let content = vp.getAttribute('content')
-			vp.setAttribute('content', content.replace(/height=.+?,/gi, 'height=' + h + ','))
-		})
-	}
-
-	const resetWidth = () => {
-		let winW = window.innerWidth || document.documentElement.clientWidth
-		// console.log(winW)
-		document.documentElement.style.width = winW + 'px'
-		document.body.style.width = winW + 'px'
-		document.body.style.overflowX = 'hidden'
-		localStorage.setItem('width', winW)
-	}
-
-	const resetHeight = () => {
-		let winH = window.innerHeight || document.documentElement.clientHeight
-		// console.log(winH)
-		document.documentElement.style.height = winH + 'px'
-		document.body.style.height = winH + 'px'
-		let pageContainers = document.querySelectorAll('.page-container')
-		_.forEach(pageContainers, pc => {
-			pc.style.minHeight = winH + 'px'
-			pc.style.height = winH + 'px'
-		})
-		sysPlatform === 'IOS' ? resetViewHeight(winH) : ''
-		// console.log('window height:' + winH)
-	}
-
-	resetWidth()
-	resetHeight()
-	window.addEventListener('resize', () => {
-		resetWidth()
-		resetHeight()
-	})
-	window.addEventListener('orientationchange', () => {
-		resetWidth()
-		resetHeight()
-	})
-	document.addEventListener('focusout', () => {
-		window.scrollTo(0, 0)
-	})
-
-	// ios下解决点出去不失焦的问题
-	const objBlur = (item, time) => {
-		time = time || 300
-		let obj = item,
-			docTouchend = event => {
-				if(event.target !== obj) {
-					setTimeout(() => {
-						obj.blur()
-						document.removeEventListener('touchend', docTouchend, false)
-					}, time)
-				}
-			}
-		if(obj) {
-			obj.addEventListener('focus', () => {
-				document.addEventListener('touchend', docTouchend, false)
-			}, false)
-		}
-	}
-
-	if(sysPlatform === 'IOS') {
-		let ipts = document.querySelectorAll('input')
-		_.forEach(ipts, item => {
-			// eslint-disable-next-line
-			let input = new objBlur(item)
-			input = null
-		})
-	}
 }
 
 export const dispatchEvent = (target, evt) => {
@@ -243,13 +136,105 @@ export const filterVal = (name, val) => {
 	return(typeof _filters[name] === 'function') ? _filters[name].call(this) : val
 }
 
+/*
+ * 控制页面字体大小
+ */
+export const resetFontSize = (doc, win) => {
+	let docEle = doc.documentElement,
+		// evt = 'orientationchange' in window ? 'orientationchange' : 'resize,
+		fn = function() {
+			setTimeout(function() {
+				let width = docEle.clientWidth
+				width && (docEle.style.fontSize = 10 * (width / 375) + 'px')
+			}, 1000 / 60)
+		}
+	'orientationchange' in win ? win.addEventListener('orientationchange', fn, false) : ''
+	win.addEventListener('resize', fn, false)
+	doc.addEventListener('DOMContentLoaded', fn, false)
+	fn()
+}
+
+/*
+ * 移动端重绘
+ */
+export const resetWindow = () => {
+	// 重设 viewport 的 height ，防止在 ios 低版本下高度的bug
+	const resetViewHeight = (h) => {
+		let vpList = document.getElementsByName('viewport')
+		_.forEach(vpList, vp => {
+			let content = vp.getAttribute('content')
+			vp.setAttribute('content', content.replace(/height=.+?,/gi, 'height=' + h + ','))
+		})
+	}
+	const resetWidth = () => {
+		let winW = window.innerWidth || document.documentElement.clientWidth
+		// console.log(winW)
+		document.documentElement.style.width = winW + 'px'
+		document.body.style.width = winW + 'px'
+		document.body.style.overflowX = 'hidden'
+		localStorage.setItem('width', winW)
+	}
+	const resetHeight = () => {
+		let winH = window.innerHeight || document.documentElement.clientHeight
+		// console.log(winH)
+		document.documentElement.style.height = winH + 'px'
+		document.body.style.height = winH + 'px'
+		let pageContainers = document.querySelectorAll('.page-container')
+		_.forEach(pageContainers, pc => {
+			pc.style.minHeight = winH + 'px'
+			pc.style.height = winH + 'px'
+		})
+		sysPlatform === 'IOS' ? resetViewHeight(winH) : ''
+		// console.log('window height:' + winH)
+	}
+	resetWidth()
+	resetHeight()
+	window.addEventListener('resize', () => {
+		resetWidth()
+		resetHeight()
+	})
+	window.addEventListener('orientationchange', () => {
+		resetWidth()
+		resetHeight()
+	})
+	document.addEventListener('focusout', () => {
+		window.scrollTo(0, 0)
+	})
+	// ios下解决点出去不失焦的问题
+	const objBlur = (item, time) => {
+		time = time || 300
+		let obj = item,
+			docTouchend = event => {
+				if(event.target !== obj) {
+					setTimeout(() => {
+						obj.blur()
+						document.removeEventListener('touchend', docTouchend, false)
+					}, time)
+				}
+			}
+		if(obj) {
+			obj.addEventListener('focus', () => {
+				document.addEventListener('touchend', docTouchend, false)
+			}, false)
+		}
+	}
+	if(sysPlatform === 'IOS') {
+		let ipts = document.querySelectorAll('input')
+		_.forEach(ipts, item => {
+			// eslint-disable-next-line
+			let input = new objBlur(item)
+			input = null
+		})
+	}
+}
+
 /**
  * 格式校验
  **/
 export const validator = (val, type) => {
-	if(type === 'idNum') {
+	if (type === 'idNum') {
 		return regFunc.idNum(val)
-	} else if(typeof type === typeof 'a' && !!regObj[type]) {
+	} else if (typeof type === typeof 'a' && !!regObj[type]) {
 		return regObj[type].test(val)
 	} else {
 		return false
@@ -260,16 +245,16 @@ export const validator = (val, type) => {
  * 时间差
  **/
 export const timeInterval = (endDate, startDate) => {
-	let diff = endDate.getTime() - startDate.getTime() // 时间差的毫秒数  
-	let days = Math.floor(diff / (24 * 3600 * 1000)) // 计算出相差天数  
+	let diff = endDate.getTime() - startDate.getTime() 		// 时间差的毫秒数  
+	let days = Math.floor(diff / (24 * 3600 * 1000)) 		// 计算出相差天数  
 	//计算出小时数  
-	let leave1 = diff % (24 * 3600 * 1000) // 计算天数后剩余的毫秒数  
+	let leave1 = diff % (24 * 3600 * 1000) 					// 计算天数后剩余的毫秒数  
 	let hours = Math.floor(leave1 / (3600 * 1000))
 	//计算相差分钟数  
-	let leave2 = leave1 % (3600 * 1000) // 计算小时数后剩余的毫秒数  
+	let leave2 = leave1 % (3600 * 1000) 					// 计算小时数后剩余的毫秒数  
 	let minutes = Math.floor(leave2 / (60 * 1000))
 	//计算相差秒数  
-	let leave3 = leave2 % (60 * 1000) // 计算分钟数后剩余的毫秒数  
+	let leave3 = leave2 % (60 * 1000) 						// 计算分钟数后剩余的毫秒数  
 	let seconds = Math.round(leave3 / 1000)
 
 	let returnStr = seconds + "秒"
@@ -297,13 +282,13 @@ export const dateFormatter = (datetime, fmt, fix) => {
 		'q+': Math.floor((date.getMonth() + 3) / 3), // 季度
 		'S': date.getMilliseconds() // 毫秒
 	}
-	if(/(y+)/.test(fmt)) {
+	if (/(y+)/.test(fmt)) {
 		fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
 	}
-	if(/(E+)/.test(fmt)) {
+	if (/(E+)/.test(fmt)) {
 		fmt = fmt.replace(RegExp.$1, ((RegExp.$1.length > 1) ? (RegExp.$1.length > 2 ? '星期' : '周') : '') + week[date.getDay() + ''])
 	}
-	for(let k in o) {
+	for (let k in o) {
 		if(new RegExp('(' + k + ')').test(fmt)) {
 			fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)))
 		}
@@ -707,7 +692,6 @@ export const checkRules = (value, type) => {
 }
 
 export default {
-	htmlFontSize,
 	validator,
 	dateFormatter,
 	setCookie,
